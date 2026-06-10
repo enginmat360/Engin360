@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ENGİN360 - 9 ile Bölünebilme Akış Şeması</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,'DejaVu Sans',sans-serif;background:radial-gradient(circle at top,#1d2470,#090b1f 55%,#050612);color:#fff;min-height:100vh;padding:22px}.wrap{max-width:1000px;margin:auto}.hero{border:1px solid rgba(126,104,255,.45);background:linear-gradient(135deg,rgba(86,64,255,.35),rgba(0,222,255,.15));border-radius:26px;padding:22px 24px;box-shadow:0 0 30px rgba(92,75,255,.25);text-align:center}.logo{font-size:18px;letter-spacing:3px;color:#9feaff;font-weight:800}.hero h1{margin:10px 0 6px;font-size:34px}.hero p{margin:0;color:#d8dcff;font-size:16px}.grid{display:grid;grid-template-columns:1.05fr .95fr;gap:22px;margin-top:22px}@media(max-width:850px){.grid{grid-template-columns:1fr}.hero h1{font-size:27px}}.card{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:24px;padding:18px;box-shadow:0 15px 35px rgba(0,0,0,.28);backdrop-filter:blur(8px)}.flow{display:flex;flex-direction:column;align-items:center;gap:12px}.node{width:min(360px,100%);text-align:center;padding:13px 16px;font-weight:800;color:#061025;box-shadow:0 8px 18px rgba(0,0,0,.28)}.start{border-radius:999px;background:linear-gradient(135deg,#ff4778,#ff8ab1);color:white}.io{background:linear-gradient(135deg,#bfeaff,#75c8ff);clip-path:polygon(8% 0,100% 0,92% 100%,0 100%)}.process{background:linear-gradient(135deg,#b6ffcc,#65e58a);border-radius:9px}.decision{width:245px;height:118px;background:linear-gradient(135deg,#ffe27a,#ffb43f);transform:rotate(45deg);display:flex;align-items:center;justify-content:center;margin:16px 0}.decision span{transform:rotate(-45deg);display:block;color:#17100a;font-weight:900}.output{background:linear-gradient(135deg,#e8c1ff,#b178ff);clip-path:polygon(8% 0,100% 0,92% 100%,0 100%)}.end{border-radius:999px;background:linear-gradient(135deg,#ff4fa0,#ff77d1);color:white}.arrow{font-size:30px;color:#7ee8ff;line-height:1}.rule{background:linear-gradient(135deg,rgba(60,255,166,.16),rgba(94,255,229,.08));border-color:rgba(95,255,187,.42)}.rule h2,.try h2{margin:0 0 12px;color:#9fffd0}.formula{font-size:25px;font-weight:900;background:#07112e;border:1px solid rgba(126,232,255,.35);border-radius:14px;padding:14px;text-align:center;color:#9feaff;margin:12px 0}.small{color:#d7dcff;line-height:1.55}.try{margin-top:16px}.inputRow{display:flex;gap:10px;margin:12px 0}.inputRow input{flex:1;border:1px solid rgba(159,234,255,.35);background:#07112e;color:#fff;border-radius:14px;padding:14px;font-size:18px;outline:none}.inputRow button{border:0;border-radius:14px;padding:0 18px;background:linear-gradient(135deg,#7c5cff,#00d5ff);color:white;font-weight:900;cursor:pointer}.result{background:rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:14px;min-height:90px;line-height:1.55}.pill{display:inline-block;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.16);border-radius:999px;padding:6px 10px;margin:4px;font-weight:700}.yes{color:#77ffab}.no{color:#ff8bac}.footer{text-align:center;margin-top:18px;color:#9aa5ff;font-size:13px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <section class="hero">
+    <div class="logo">ENGİN360 MATEMATİK LABORATUVARI</div>
+    <h1>9 ile Bölünebilme Akış Şeması</h1>
+    <p>Bir sayının rakamları toplamı 9'un katıysa sayı 9 ile tam bölünür.</p>
+  </section>
+
+  <div class="grid">
+    <section class="card">
+      <div class="flow">
+        <div class="node start">BAŞLA</div><div class="arrow">↓</div>
+        <div class="node io">Sayıyı oku<br><b>n</b></div><div class="arrow">↓</div>
+        <div class="node process">Rakamları topla<br><b>t = rakamlar toplamı</b></div><div class="arrow">↓</div>
+        <div class="decision"><span>t % 9 = 0<br>mı?</span></div>
+        <div style="display:flex;gap:14px;align-items:center;justify-content:center;flex-wrap:wrap;width:100%">
+          <div class="node output" style="max-width:260px">Evet → 9 ile bölünür</div>
+          <div class="node output" style="max-width:260px">Hayır → 9 ile bölünmez</div>
+        </div>
+        <div class="arrow">↓</div><div class="node end">BİTİR</div>
+      </div>
+    </section>
+
+    <section>
+      <div class="card rule">
+        <h2>Kural</h2>
+        <p class="small">Bir sayının <b>rakamları toplamı</b> 9'un katı ise bu sayı 9 ile tam bölünür.</p>
+        <div class="formula">t % 9 = 0</div>
+        <p class="small">Burada <b>%</b> işareti bölümünden kalanı verir. Kalan 0 ise sayı tam bölünür.</p>
+      </div>
+
+      <div class="card try">
+        <h2>Deneyelim</h2>
+        <div class="inputRow">
+          <input id="num" type="number" placeholder="Örn: 4671" value="4671">
+          <button onclick="kontrolEt()">ÇALIŞTIR</button>
+        </div>
+        <div id="result" class="result"></div>
+      </div>
+    </section>
+  </div>
+  <div class="footer">ENGİN360 tarafından oluşturulmuştur.</div>
+</div>
+
+<script>
+function rakamTopla(str){
+  return str.replace('-','').split('').filter(ch=>/\d/.test(ch)).reduce((a,b)=>a+Number(b),0);
+}
+function kontrolEt(){
+  const raw=document.getElementById('num').value.trim();
+  const res=document.getElementById('result');
+  if(raw===''){res.innerHTML='Lütfen bir sayı gir.';return;}
+  const t=rakamTopla(raw);
+  const kalan=t%9;
+  const bolunur=kalan===0;
+  const rakamlar=raw.replace('-','').split('').filter(ch=>/\d/.test(ch)).join(' + ');
+  res.innerHTML=`
+    <div class="pill">n = ${raw}</div>
+    <div class="pill">Rakamlar: ${rakamlar}</div>
+    <div class="pill">t = ${t}</div>
+    <div class="pill">t % 9 = ${kalan}</div>
+    <p><b>Sonuç:</b> <span class="${bolunur?'yes':'no'}">${bolunur ? 'Bu sayı 9 ile tam bölünür.' : 'Bu sayı 9 ile tam bölünmez.'}</span></p>
+  `;
+}
+kontrolEt();
+</script>
+</body>
+</html>

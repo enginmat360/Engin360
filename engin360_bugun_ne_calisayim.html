@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ENGİN360 Bugün Ne Çalışayım?</title>
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:radial-gradient(circle at top,#5b21ff 0,#160032 38%,#050510 100%);
+  color:white;
+  padding:16px;
+}
+.app{
+  max-width:560px;
+  margin:auto;
+  background:rgba(255,255,255,.085);
+  border:1px solid rgba(255,255,255,.17);
+  border-radius:28px;
+  padding:20px;
+  box-shadow:0 0 38px rgba(107,55,255,.42);
+}
+.logo{text-align:center;font-size:32px;font-weight:900;letter-spacing:1px}
+.logo span{color:#00eaff}
+.sub{text-align:center;color:#ded8ff;font-size:13px;line-height:1.4;margin:6px 0 18px}
+.card{
+  background:rgba(0,0,0,.27);
+  border:1px solid rgba(255,255,255,.11);
+  border-radius:21px;
+  padding:15px;
+  margin-bottom:14px;
+}
+h3{margin:0 0 10px;font-size:16px}
+label{display:block;margin:9px 0 5px;font-size:13px;color:#eeeaff;font-weight:bold}
+input,select{
+  width:100%;
+  padding:12px;
+  border:0;
+  outline:0;
+  border-radius:13px;
+  font-size:16px;
+  background:#fff;
+  color:#111;
+}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+button{
+  width:100%;
+  border:0;
+  border-radius:18px;
+  padding:15px;
+  margin-top:8px;
+  background:linear-gradient(90deg,#8a2cff,#00cfff);
+  color:white;
+  font-size:17px;
+  font-weight:900;
+  box-shadow:0 0 22px rgba(0,207,255,.27);
+}
+.result{
+  display:none;
+  margin-top:15px;
+  padding:16px;
+  border-radius:23px;
+  background:linear-gradient(160deg,rgba(0,234,255,.16),rgba(138,44,255,.22));
+  border:1px solid rgba(255,255,255,.22);
+}
+.big{text-align:center;font-size:28px;font-weight:900;color:#7df9ff;margin:7px 0 13px}
+.row{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  border-bottom:1px solid rgba(255,255,255,.13);
+  padding:8px 0;
+  font-size:14px;
+}
+.row:last-child{border-bottom:0}
+.analysis{
+  margin-top:12px;
+  background:rgba(0,0,0,.22);
+  border-radius:16px;
+  padding:12px;
+  font-size:13px;
+  line-height:1.55;
+}
+.badge{
+  display:inline-block;
+  background:rgba(255,255,255,.14);
+  padding:6px 10px;
+  border-radius:999px;
+  font-size:12px;
+  margin:4px 3px;
+}
+.footer{
+  margin-top:14px;
+  text-align:center;
+  font-size:12px;
+  color:#cfc8ff;
+  letter-spacing:.2px;
+}
+.planItem{
+  margin:8px 0;
+  padding:10px;
+  border-radius:14px;
+  background:rgba(255,255,255,.09);
+  border:1px solid rgba(255,255,255,.10);
+}
+.planItem b{color:#7df9ff}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="logo">ENGİN<span>360</span></div>
+  <div class="sub">Bugün Ne Çalışayım?<br>Süre, enerji ve eksik durumuna göre günlük mini çalışma planı oluşturur.</div>
+
+  <div class="card">
+    <h3>Bugünkü Durum</h3>
+
+    <label>Bugün Kaç Dakikan Var?</label>
+    <select id="sure">
+      <option value="45">45 dakika</option>
+      <option value="60">60 dakika</option>
+      <option value="90" selected>90 dakika</option>
+      <option value="120">120 dakika</option>
+      <option value="150">150 dakika</option>
+    </select>
+
+    <label>Bugünkü Enerjin Nasıl?</label>
+    <select id="enerji">
+      <option value="dusuk">Düşük</option>
+      <option value="orta" selected>Orta</option>
+      <option value="yuksek">Yüksek</option>
+    </select>
+
+    <label>Bugün Öncelik Ne?</label>
+    <select id="oncelik">
+      <option value="konu">Konu eksiği kapatmak</option>
+      <option value="test">Test çözmek</option>
+      <option value="yanlis">Yanlış analizi yapmak</option>
+      <option value="tekrar">Tekrar yapmak</option>
+      <option value="deneme">Deneme/branş denemesi çözmek</option>
+    </select>
+
+    <label>Ders</label>
+    <select id="ders">
+      <option>Matematik</option>
+      <option>Geometri</option>
+      <option>Fizik</option>
+      <option>Kimya</option>
+      <option>Biyoloji</option>
+      <option>Türkçe</option>
+      <option>Edebiyat</option>
+      <option>Sosyal</option>
+    </select>
+
+    <div>
+      <span class="badge">Günlük plan</span>
+      <span class="badge">Kısa strateji</span>
+      <span class="badge">Dağılmayı önler</span>
+    </div>
+  </div>
+
+  <button onclick="planOlustur()">Bugünkü Planı Oluştur</button>
+
+  <div class="result" id="sonuc">
+    <div style="text-align:center">Bugünün Çalışma Reçetesi</div>
+    <div class="big" id="baslik">-</div>
+
+    <div class="row"><span>Plan Türü</span><b id="tur">-</b></div>
+    <div class="row"><span>Tempo</span><b id="tempo">-</b></div>
+    <div class="row"><span>Ana Hedef</span><b id="anaHedef">-</b></div>
+
+    <div class="analysis" id="plan"></div>
+    <div class="analysis" id="yorum"></div>
+
+    <div class="footer">ENGİN360 Öğrenci Koçluk Sistemi tarafından oluşturulmuştur.</div>
+  </div>
+</div>
+
+<script>
+function planOlustur(){
+  const sure=Number(document.getElementById("sure").value);
+  const enerji=document.getElementById("enerji").value;
+  const oncelik=document.getElementById("oncelik").value;
+  const ders=document.getElementById("ders").value;
+
+  let tempo="Normal";
+  if(enerji==="dusuk") tempo="Hafif ama düzenli";
+  if(enerji==="yuksek") tempo="Yoğun ve verimli";
+
+  let tur="", anaHedef="", plan="", yorum="";
+
+  let konuDak=0, testDak=0, analizDak=0, tekrarDak=0;
+
+  if(oncelik==="konu"){
+    tur="Konu Tamamlama Planı";
+    anaHedef=ders+" konu eksiğini kapatmak";
+    konuDak=Math.round(sure*0.40);
+    testDak=Math.round(sure*0.40);
+    analizDak=sure-konuDak-testDak;
+    plan=`
+      <div class="planItem"><b>${konuDak} dk</b> kısa konu özeti / video / not inceleme</div>
+      <div class="planItem"><b>${testDak} dk</b> kolay-orta seviye test çözümü</div>
+      <div class="planItem"><b>${analizDak} dk</b> yanlış ve boşların sebebini yazma</div>
+    `;
+    yorum="Bugün amaç konuyu tamamen bitirmek değil, çalışmaya başlanabilir hale getirmek. Zor sorulara hemen girme.";
+  }
+
+  if(oncelik==="test"){
+    tur="Net Artırma Test Planı";
+    anaHedef=ders+" test pratiği";
+    testDak=Math.round(sure*0.65);
+    analizDak=Math.round(sure*0.25);
+    tekrarDak=sure-testDak-analizDak;
+    plan=`
+      <div class="planItem"><b>${testDak} dk</b> süreli test çözümü</div>
+      <div class="planItem"><b>${analizDak} dk</b> yanlış analizi</div>
+      <div class="planItem"><b>${tekrarDak} dk</b> çıkmış hata tiplerini tekrar etme</div>
+    `;
+    yorum="Test çözmek tek başına yeterli değil. Neti artıran kısım testten sonra yaptığın analizdir.";
+  }
+
+  if(oncelik==="yanlis"){
+    tur="Yanlış Kapama Planı";
+    anaHedef=ders+" yanlışlarını nete çevirmek";
+    analizDak=Math.round(sure*0.45);
+    konuDak=Math.round(sure*0.25);
+    testDak=sure-analizDak-konuDak;
+    plan=`
+      <div class="planItem"><b>${analizDak} dk</b> eski yanlışları yeniden çözme</div>
+      <div class="planItem"><b>${konuDak} dk</b> yanlış çıkan küçük konuyu tekrar etme</div>
+      <div class="planItem"><b>${testDak} dk</b> aynı konudan benzer soru çözme</div>
+    `;
+    yorum="Bugün yeni konu değil, eski hatayı kapatma günü. Bu çalışma kısa vadede en hızlı net kazandıran çalışmadır.";
+  }
+
+  if(oncelik==="tekrar"){
+    tur="Unutmayı Önleme Planı";
+    anaHedef=ders+" tekrarını sağlamlaştırmak";
+    tekrarDak=Math.round(sure*0.45);
+    testDak=Math.round(sure*0.35);
+    analizDak=sure-tekrarDak-testDak;
+    plan=`
+      <div class="planItem"><b>${tekrarDak} dk</b> özet-not / formül / kavram tekrarı</div>
+      <div class="planItem"><b>${testDak} dk</b> kısa tekrar testi</div>
+      <div class="planItem"><b>${analizDak} dk</b> unutulan yerleri işaretleme</div>
+    `;
+    yorum="Tekrar çalışması uzun ve sıkıcı olmak zorunda değil. Kısa tekrar + küçük test en etkili yöntemdir.";
+  }
+
+  if(oncelik==="deneme"){
+    tur="Deneme Günü Planı";
+    anaHedef=ders+" branş denemesi veya mini deneme";
+    testDak=Math.round(sure*0.70);
+    analizDak=sure-testDak;
+    plan=`
+      <div class="planItem"><b>${testDak} dk</b> süreli branş denemesi / mini deneme</div>
+      <div class="planItem"><b>${analizDak} dk</b> yanlış, boş ve süre kaybı analizi</div>
+    `;
+    yorum="Deneme çözüyorsan sonucu sadece net olarak bırakma. En az 3 yanlışın sebebini yazmadan çalışma bitmiş sayılmaz.";
+  }
+
+  if(enerji==="dusuk"){
+    yorum += " Enerjin düşük olduğu için bugün büyük hedef değil, çalışmayı bozmadan sürdürme hedefi daha doğru.";
+  }
+
+  if(enerji==="yuksek"){
+    yorum += " Enerjin yüksek olduğu için planın sonuna ekstra 10-15 soru ekleyebilirsin.";
+  }
+
+  if(sure<=45){
+    yorum += " Süren kısa; tek ders ve tek hedef dışında bir şeye geçme.";
+  }
+
+  if(sure>=120){
+    yorum += " Süren uzun; araya 5-10 dakika mola koymazsan verim düşer.";
+  }
+
+  document.getElementById("baslik").innerText=ders+" Planı";
+  document.getElementById("tur").innerText=tur;
+  document.getElementById("tempo").innerText=tempo;
+  document.getElementById("anaHedef").innerText=anaHedef;
+  document.getElementById("plan").innerHTML=plan;
+  document.getElementById("yorum").innerText=yorum;
+  document.getElementById("sonuc").style.display="block";
+}
+</script>
+</body>
+</html>

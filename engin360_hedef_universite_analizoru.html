@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ENGİN360 Hedef Üniversite Analizörü</title>
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:radial-gradient(circle at top,#5b21ff 0,#160032 38%,#050510 100%);
+  color:white;
+  padding:16px;
+}
+.app{
+  max-width:590px;
+  margin:auto;
+  background:rgba(255,255,255,.085);
+  border:1px solid rgba(255,255,255,.17);
+  border-radius:28px;
+  padding:20px;
+  box-shadow:0 0 38px rgba(107,55,255,.42);
+}
+.logo{text-align:center;font-size:32px;font-weight:900;letter-spacing:1px}
+.logo span{color:#00eaff}
+.sub{text-align:center;color:#ded8ff;font-size:13px;line-height:1.4;margin:6px 0 18px}
+.card{
+  background:rgba(0,0,0,.27);
+  border:1px solid rgba(255,255,255,.11);
+  border-radius:21px;
+  padding:15px;
+  margin-bottom:14px;
+}
+h3{margin:0 0 10px;font-size:16px}
+label{display:block;margin:9px 0 5px;font-size:13px;color:#eeeaff;font-weight:bold}
+input,select{
+  width:100%;
+  padding:12px;
+  border:0;
+  outline:0;
+  border-radius:13px;
+  font-size:16px;
+  background:#fff;
+  color:#111;
+}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+button{
+  width:100%;
+  border:0;
+  border-radius:18px;
+  padding:15px;
+  margin-top:8px;
+  background:linear-gradient(90deg,#8a2cff,#00cfff);
+  color:white;
+  font-size:17px;
+  font-weight:900;
+  box-shadow:0 0 22px rgba(0,207,255,.27);
+}
+.result{
+  display:none;
+  margin-top:15px;
+  padding:16px;
+  border-radius:23px;
+  background:linear-gradient(160deg,rgba(0,234,255,.16),rgba(138,44,255,.22));
+  border:1px solid rgba(255,255,255,.22);
+}
+.big{text-align:center;font-size:27px;font-weight:900;color:#7df9ff;margin:7px 0 13px}
+.row{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  border-bottom:1px solid rgba(255,255,255,.13);
+  padding:8px 0;
+  font-size:14px;
+}
+.row:last-child{border-bottom:0}
+.analysis{
+  margin-top:12px;
+  background:rgba(0,0,0,.22);
+  border-radius:16px;
+  padding:12px;
+  font-size:13px;
+  line-height:1.58;
+}
+.plan{
+  margin:9px 0;
+  padding:12px;
+  border-radius:16px;
+  background:rgba(255,255,255,.09);
+  border:1px solid rgba(255,255,255,.10);
+}
+.plan b{color:#7df9ff}
+.badge{
+  display:inline-block;
+  background:rgba(255,255,255,.14);
+  padding:6px 10px;
+  border-radius:999px;
+  font-size:12px;
+  margin:4px 3px;
+}
+.footer{
+  margin-top:14px;
+  text-align:center;
+  font-size:12px;
+  color:#cfc8ff;
+  letter-spacing:.2px;
+}
+.warning{
+  margin-top:10px;
+  padding:11px;
+  border-radius:15px;
+  background:rgba(255,211,107,.10);
+  border:1px solid rgba(255,211,107,.25);
+  font-size:12px;
+  line-height:1.45;
+  color:#ffe7a6;
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="logo">ENGİN<span>360</span></div>
+  <div class="sub">Hedef Üniversite Analizörü<br>Hedef bölüm sıralamasını, mevcut sıralamanla karşılaştırır ve gerçekçi yol haritası verir.</div>
+
+  <div class="card">
+    <h3>Hedef Bilgisi</h3>
+
+    <label>Üniversite</label>
+    <input id="universite" type="text" placeholder="Örn: Bursa Uludağ Üniversitesi">
+
+    <label>Bölüm</label>
+    <input id="bolum" type="text" placeholder="Örn: Tıp, Hukuk, Bilgisayar Mühendisliği">
+
+    <div class="grid">
+      <div>
+        <label>Puan Türü</label>
+        <select id="puanTuru">
+          <option value="say">SAY</option>
+          <option value="ea">EA</option>
+          <option value="soz">SÖZ</option>
+          <option value="dil">DİL</option>
+          <option value="tyt">TYT</option>
+        </select>
+      </div>
+      <div>
+        <label>Hedef Ciddiyeti</label>
+        <select id="ciddiyet">
+          <option value="normal">Normal</option>
+          <option value="guvenli">Güvenli tercih istiyorum</option>
+          <option value="iddiali">İddialı hedef istiyorum</option>
+        </select>
+      </div>
+    </div>
+
+    <div>
+      <span class="badge">YÖK Atlas verisi gir</span>
+      <span class="badge">Son 3 yıl analizi</span>
+      <span class="badge">Hedef uzaklığı</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Hedef Bölüm Başarı Sırası</h3>
+    <div class="grid">
+      <div><label>2025 Sıralama</label><input id="s2025" type="number" placeholder="Örn: 45000"></div>
+      <div><label>2024 Sıralama</label><input id="s2024" type="number" placeholder="Varsa"></div>
+      <div><label>2023 Sıralama</label><input id="s2023" type="number" placeholder="Varsa"></div>
+      <div><label>Kontenjan Değişimi</label>
+        <select id="kontenjan">
+          <option value="ayni">Benzer / bilmiyorum</option>
+          <option value="azaldi">Azaldı</option>
+          <option value="artti">Arttı</option>
+        </select>
+      </div>
+    </div>
+    <div class="warning">En doğru kullanım: Bu sıralamaları YÖK Atlas veya ÖSYM yerleştirme tablolarından al. Puan değil, başarı sırası daha önemlidir.</div>
+  </div>
+
+  <div class="card">
+    <h3>Öğrenci Durumu</h3>
+    <div class="grid">
+      <div><label>Mevcut Tahmini Sıralama</label><input id="mevcut" type="number" placeholder="Örn: 72000"></div>
+      <div><label>Diploma Notu</label><input id="diploma" type="number" placeholder="Örn: 92"></div>
+      <div><label>TYT Net</label><input id="tyt" type="number" step="0.25" placeholder="Örn: 88"></div>
+      <div><label>AYT / Alan Net</label><input id="ayt" type="number" step="0.25" placeholder="Örn: 55"></div>
+    </div>
+  </div>
+
+  <button onclick="analizEt()">Hedef Analizi Yap</button>
+
+  <div class="result" id="sonuc">
+    <div style="text-align:center">Hedef Durumu</div>
+    <div class="big" id="durum">-</div>
+
+    <div class="row"><span>Hedef Program</span><b id="program">-</b></div>
+    <div class="row"><span>Analiz Sıralaması</span><b id="analizSirasi">-</b></div>
+    <div class="row"><span>Güvenli Hedef Bandı</span><b id="guvenliBand">-</b></div>
+    <div class="row"><span>Mevcut Sıralama</span><b id="mevcutYazi">-</b></div>
+    <div class="row"><span>Risk Seviyesi</span><b id="risk">-</b></div>
+    <div class="row"><span>Yaklaşık Net İhtiyacı</span><b id="netIhtiyaci">-</b></div>
+
+    <div class="analysis" id="yorum"></div>
+    <div class="analysis" id="plan"></div>
+    <div class="footer">ENGİN360 Öğrenci Koçluk Sistemi tarafından oluşturulmuştur.</div>
+  </div>
+</div>
+
+<script>
+function n(id){return Number(document.getElementById(id).value)||0}
+function txt(id){return document.getElementById(id).value.trim()}
+function fmt(x){return Math.round(x).toLocaleString("tr-TR")}
+
+function agirlikliHedef(){
+  const a=n("s2025"), b=n("s2024"), c=n("s2023");
+  let toplam=0, agirlik=0;
+
+  if(a){toplam += a*0.55; agirlik += 0.55;}
+  if(b){toplam += b*0.30; agirlik += 0.30;}
+  if(c){toplam += c*0.15; agirlik += 0.15;}
+
+  if(agirlik===0) return 0;
+  return toplam/agirlik;
+}
+
+function trendAnalizi(){
+  const a=n("s2025"), b=n("s2024"), c=n("s2023");
+  if(!a || !c) return "Belirsiz";
+
+  if(a < c*0.85) return "Bölüm belirgin şekilde zorlaşmış";
+  if(a > c*1.15) return "Bölüm biraz rahatlamış";
+  return "Bölüm dengeli ilerlemiş";
+}
+
+function guvenliCarpan(){
+  const ciddiyet=document.getElementById("ciddiyet").value;
+  const kont=document.getElementById("kontenjan").value;
+
+  let carpan=0.88;
+  if(ciddiyet==="guvenli") carpan=0.80;
+  if(ciddiyet==="iddiali") carpan=0.95;
+
+  if(kont==="azaldi") carpan -= 0.05;
+  if(kont==="artti") carpan += 0.04;
+
+  if(carpan<0.70) carpan=0.70;
+  if(carpan>1.00) carpan=1.00;
+  return carpan;
+}
+
+function netTahmin(mevcut, hedef, puanTuru){
+  if(!mevcut || !hedef) return "-";
+  if(mevcut<=hedef) return "Hedef bandındasın";
+
+  const oran=mevcut/hedef;
+  let katsayi=5;
+
+  if(puanTuru==="say") katsayi=6.5;
+  if(puanTuru==="ea") katsayi=5.5;
+  if(puanTuru==="soz") katsayi=4.5;
+  if(puanTuru==="dil") katsayi=4.0;
+  if(puanTuru==="tyt") katsayi=5.0;
+
+  let ihtiyac=Math.ceil(Math.log(oran)*katsayi*4);
+
+  if(hedef<=10000) ihtiyac += 4;
+  else if(hedef<=50000) ihtiyac += 2;
+
+  if(ihtiyac<2) ihtiyac=2;
+  if(ihtiyac>30) ihtiyac=30;
+
+  return "+"+ihtiyac+" net civarı";
+}
+
+function analizEt(){
+  const universite=txt("universite") || "Hedef Üniversite";
+  const bolum=txt("bolum") || "Hedef Bölüm";
+  const puanTuru=document.getElementById("puanTuru").value.toUpperCase();
+  const mevcut=n("mevcut");
+  const tyt=n("tyt");
+  const ayt=n("ayt");
+  const hedef=agirlikliHedef();
+
+  if(!hedef || !mevcut){
+    document.getElementById("durum").innerText="Veri Eksik";
+    document.getElementById("program").innerText=universite+" / "+bolum;
+    document.getElementById("analizSirasi").innerText=hedef ? fmt(hedef) : "-";
+    document.getElementById("guvenliBand").innerText="-";
+    document.getElementById("mevcutYazi").innerText=mevcut ? fmt(mevcut) : "-";
+    document.getElementById("risk").innerText="-";
+    document.getElementById("netIhtiyaci").innerText="-";
+    document.getElementById("yorum").innerText="Analiz için en az hedef bölümün başarı sırası ve öğrencinin mevcut tahmini sıralaması girilmeli.";
+    document.getElementById("plan").innerHTML="";
+    document.getElementById("sonuc").style.display="block";
+    return;
+  }
+
+  const guvenli=hedef*guvenliCarpan();
+  const trend=trendAnalizi();
+  const oran=mevcut/hedef;
+
+  let durum="", risk="", yorum="", plan="";
+  if(mevcut<=guvenli){
+    durum="🟢 Güçlü Hedef";
+    risk="Düşük";
+    yorum="Mevcut sıralama, hedef bölümün güvenli bandından daha iyi görünüyor. Bu hedef tercih listesinde güçlü seçenek olabilir. Yine de kontenjan ve yıl içi talep değişimi kontrol edilmeli.";
+  }else if(mevcut<=hedef){
+    durum="🟢 Gerçekçi Hedef";
+    risk="Düşük-Orta";
+    yorum="Mevcut sıralama hedef bölümün geçmiş yerleşme bandına yakın veya daha iyi. Bu hedef gerçekçi görünüyor; tercih döneminde benzer birkaç bölümle desteklenmeli.";
+  }else if(mevcut<=hedef*1.25){
+    durum="🟡 Sınırda Ama Mümkün";
+    risk="Orta";
+    yorum="Hedefe yakınsın ama güvenli değilsin. Birkaç netlik artış veya yılın sıralama hareketi sonucu değiştirebilir. Bu hedef listede bulunabilir ama yanına denk ve güvenli tercihler eklenmeli.";
+  }else if(mevcut<=hedef*1.75){
+    durum="🟠 Zor Hedef";
+    risk="Yüksek";
+    yorum="Hedef şu an zor görünüyor. Ulaşılmaz değil, fakat kalan sürede alan netlerinde ciddi artış gerekir. Bu hedef motivasyon hedefi olabilir; tercih listesinde tek başına güvenilmemeli.";
+  }else{
+    durum="🔴 Uzak Hedef";
+    risk="Çok yüksek";
+    yorum="Mevcut durum ile hedef arasında ciddi fark var. Bu hedef tamamen silinmek zorunda değil ama ana plan ara hedefler üzerinden kurulmalı. Önce daha yakın bir sıralama bandı hedeflenmeli.";
+  }
+
+  let netIhtiyaci=netTahmin(mevcut, hedef, puanTuru.toLowerCase());
+
+  let dersVurgu="";
+  if(puanTuru==="SAY") dersVurgu="Sayısalda sıçramayı çoğunlukla AYT Matematik ve Fen netleri getirir. TYT iyi olsa bile asıl fark alan netlerinde oluşur.";
+  if(puanTuru==="EA") dersVurgu="Eşit ağırlıkta AYT Matematik ile Edebiyat-Sosyal dengesi hedefe yaklaşmada belirleyicidir.";
+  if(puanTuru==="SÖZ") dersVurgu="Sözelde alan bilgisi ve düzenli tekrar sıralamayı ciddi etkiler.";
+  if(puanTuru==="DİL") dersVurgu="Dil puanında YDT neti çok belirleyicidir; TYT destekleyici ama ana fark dil testindedir.";
+  if(puanTuru==="TYT") dersVurgu="TYT programlarında Türkçe-Matematik dengesi ve genel hız belirleyicidir.";
+
+  const enerjiPlan = `
+    <div class="plan"><b>1. Adım:</b> Hedef bölümün YÖK Atlas verisini tekrar kontrol et: son yıl sıralaması, kontenjan ve doluluk.</div>
+    <div class="plan"><b>2. Adım:</b> Mevcut sıralamayı son deneme ortalamasına göre güncelle. Tek deneme sonucu ile karar verme.</div>
+    <div class="plan"><b>3. Adım:</b> ${netIhtiyaci==="Hedef bandındasın" ? "Hedefi korumak için haftalık deneme ve yanlış analizi sürdür." : netIhtiyaci+" artış için en hızlı net getirecek 2 dersi seç."}</div>
+  `;
+
+  let ek="";
+  if(trend==="Bölüm belirgin şekilde zorlaşmış"){
+    ek=" Bu bölüm son yıllarda daha çok talep görmüş olabilir; güvenli olmak için hedef sıralamanı daha öne çekmelisin.";
+  }else if(trend==="Bölüm biraz rahatlamış"){
+    ek=" Bölüm son yıllarda biraz rahatlamış görünüyor; yine de sadece buna güvenilmemeli.";
+  }else{
+    ek=" Bölüm geçmiş yıllarda dengeli görünüyorsa sıralama verisi daha güvenilir yorumlanabilir.";
+  }
+
+  if(tyt || ayt){
+    ek += " Girilen netlere göre takipte özellikle TYT="+tyt+" ve alan neti="+ayt+" düzenli izlenmeli.";
+  }
+
+  document.getElementById("durum").innerText=durum;
+  document.getElementById("program").innerText=universite+" / "+bolum;
+  document.getElementById("analizSirasi").innerText=fmt(hedef);
+  document.getElementById("guvenliBand").innerText=fmt(guvenli)+" ve daha iyi";
+  document.getElementById("mevcutYazi").innerText=fmt(mevcut);
+  document.getElementById("risk").innerText=risk;
+  document.getElementById("netIhtiyaci").innerText=netIhtiyaci;
+  document.getElementById("yorum").innerText=yorum+" "+dersVurgu+" "+trend+"."+ek;
+  document.getElementById("plan").innerHTML=enerjiPlan;
+  document.getElementById("sonuc").style.display="block";
+}
+</script>
+</body>
+</html>

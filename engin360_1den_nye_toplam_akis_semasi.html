@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ENGİN360 | 1'den n'ye Kadar Toplam</title>
+<style>
+:root{
+  --bg1:#070515;
+  --bg2:#171044;
+  --cyan:#21d4fd;
+  --purple:#7c3cff;
+  --pink:#ff4ecd;
+  --green:#2cff9a;
+  --red:#ff4f6d;
+  --yellow:#ffd166;
+  --text:#ffffff;
+  --muted:#c9c8ed;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  min-height:100vh;
+  padding:16px;
+  font-family:Arial,"DejaVu Sans",sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(circle at 10% 10%, rgba(124,60,255,.35), transparent 32%),
+    radial-gradient(circle at 90% 20%, rgba(255,78,205,.18), transparent 30%),
+    radial-gradient(circle at 85% 85%, rgba(33,212,253,.22), transparent 30%),
+    linear-gradient(135deg,var(--bg1),var(--bg2));
+}
+.wrap{max-width:1100px;margin:auto}
+.header{text-align:center;padding:14px 8px 18px}
+.logo{
+  display:inline-block;
+  padding:8px 18px;
+  border-radius:999px;
+  background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.18);
+  box-shadow:0 0 24px rgba(124,60,255,.42);
+  font-weight:900;
+}
+h1{
+  margin:16px 0 8px;
+  font-size:clamp(26px,5vw,44px);
+  background:linear-gradient(90deg,#fff,var(--cyan),var(--pink));
+  -webkit-background-clip:text;
+  color:transparent;
+}
+.sub{max-width:760px;margin:0 auto;color:var(--muted);line-height:1.5}
+.grid{
+  display:grid;
+  grid-template-columns:360px 1fr;
+  gap:18px;
+}
+.panel{
+  background:linear-gradient(180deg,rgba(255,255,255,.085),rgba(255,255,255,.035));
+  border:1px solid rgba(255,255,255,.16);
+  border-radius:24px;
+  padding:18px;
+  box-shadow:0 16px 45px rgba(0,0,0,.35);
+}
+h2{margin:0 0 12px;font-size:20px}
+.inputrow{display:flex;gap:10px;margin:14px 0}
+input{
+  flex:1;
+  min-width:0;
+  border:none;
+  outline:none;
+  color:white;
+  font-size:20px;
+  padding:15px 14px;
+  border-radius:16px;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.16);
+}
+button{
+  border:none;
+  border-radius:16px;
+  padding:14px 16px;
+  color:white;
+  font-weight:900;
+  cursor:pointer;
+  background:linear-gradient(135deg,var(--purple),var(--cyan));
+  box-shadow:0 0 20px rgba(33,212,253,.28);
+}
+.info{color:var(--muted);line-height:1.55;font-size:15px}
+.result{
+  margin-top:15px;
+  padding:17px;
+  border-radius:20px;
+  background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.14);
+  text-align:center;
+  font-weight:900;
+  font-size:22px;
+  color:var(--green);
+}
+.steps{
+  margin-top:12px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+.chip{
+  padding:8px 10px;
+  border-radius:999px;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.14);
+  font-size:14px;
+}
+.pseudoTitle{margin:18px 0 8px;color:var(--yellow);font-weight:900}
+.pseudo{
+  background:#080914;
+  color:#e8fbff;
+  border-radius:18px;
+  padding:15px;
+  border:1px solid rgba(255,255,255,.13);
+  font-family:Consolas,Monaco,monospace;
+  font-size:14px;
+  line-height:1.6;
+}
+.flowWrap{
+  width:100%;
+  overflow:auto;
+  border-radius:20px;
+  background:rgba(0,0,0,.15);
+  border:1px solid rgba(255,255,255,.11);
+  padding:10px;
+}
+svg{min-width:640px;width:100%;height:auto}
+.node rect,.node ellipse,.node polygon{
+  fill:rgba(255,255,255,.08);
+  stroke:rgba(255,255,255,.28);
+  stroke-width:2.5;
+}
+.node text{
+  fill:white;
+  font-size:16px;
+  font-weight:800;
+  text-anchor:middle;
+  dominant-baseline:middle;
+}
+.line{
+  stroke:#21d4fd;
+  stroke-width:3.2;
+  fill:none;
+  marker-end:url(#arrow);
+}
+.line.loop{
+  stroke:#ffd166;
+}
+.node.active rect,.node.active ellipse,.node.active polygon{
+  stroke:var(--green);
+  stroke-width:4;
+  filter:url(#glow);
+}
+.label{
+  fill:var(--yellow);
+  font-size:14px;
+  font-weight:900;
+}
+.footer{text-align:center;margin:18px 0 4px;color:#aaa9d9;font-size:13px}
+@media(max-width:880px){.grid{grid-template-columns:1fr}}
+@media(max-width:540px){.inputrow{flex-direction:column}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="header">
+    <div class="logo">ENGİN360 MATEMATİK LABORATUVARI</div>
+    <h1>1'den n'ye Kadar Toplam</h1>
+    <p class="sub">Öğrenci n değerini girer. Algoritma 1’den n’ye kadar sayıları tek tek toplar ve akış şemasıyla mantığı gösterir.</p>
+  </div>
+
+  <div class="grid">
+    <div class="panel">
+      <h2>🧮 Toplamı Hesapla</h2>
+      <div class="inputrow">
+        <input id="n" type="number" inputmode="numeric" placeholder="Örn: 10">
+        <button onclick="hesapla()">Çalıştır</button>
+      </div>
+      <p class="info">
+        Bu etkinlikte döngü mantığı kullanılır: <b>i = 1</b> ile başlanır, her adımda toplamın üzerine i eklenir.
+      </p>
+
+      <div id="result" class="result">Sonuç burada görünecek.</div>
+      <div id="steps" class="steps"></div>
+
+      <div class="pseudoTitle">Sözde Kod / Algoritma Dili</div>
+      <div class="pseudo">
+ALGORİTMA BirdenNeToplam<br>
+BAŞLA<br>
+&nbsp;&nbsp;n sayısını oku<br>
+&nbsp;&nbsp;toplam ← 0<br>
+&nbsp;&nbsp;i ← 1<br><br>
+&nbsp;&nbsp;TEKRARLA i ≤ n OLDUĞU SÜRECE<br>
+&nbsp;&nbsp;&nbsp;&nbsp;toplam ← toplam + i<br>
+&nbsp;&nbsp;&nbsp;&nbsp;i ← i + 1<br>
+&nbsp;&nbsp;TEKRAR SONU<br><br>
+&nbsp;&nbsp;toplam değerini yaz<br>
+BİTİR
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>📌 Oklarla Akış Şeması</h2>
+      <div class="flowWrap">
+<svg viewBox="0 0 700 940" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#21d4fd"/>
+    </marker>
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- OKLAR -->
+  <path class="line" d="M350 78 L350 125"/>
+  <path class="line" d="M350 185 L350 235"/>
+  <path class="line" d="M350 295 L350 345"/>
+  <path class="line" d="M350 405 L350 455"/>
+  <path class="line" d="M350 545 L350 595"/>
+  <path class="line" d="M350 655 L350 705"/>
+  <path class="line" d="M350 765 L350 815"/>
+
+  <!-- EVET KOLU -->
+  <path class="line" d="M350 545 L525 545 L525 595"/>
+  <text x="455" y="530" class="label">Evet</text>
+
+  <!-- HAYIR KOLU -->
+  <path class="line" d="M350 545 L175 545 L175 705 L280 705"/>
+  <text x="245" y="530" class="label">Hayır</text>
+
+  <!-- DÖNGÜ GERİ OKU -->
+  <path class="line loop" d="M525 655 L525 860 L350 860 L350 765"/>
+  <text x="540" y="755" class="label">Döngüye dön</text>
+
+  <!-- ŞEKİLLER -->
+  <g id="a1" class="node">
+    <ellipse cx="350" cy="45" rx="100" ry="34"/>
+    <text x="350" y="45">BAŞLA</text>
+  </g>
+
+  <g id="a2" class="node">
+    <rect x="245" y="125" width="210" height="60" rx="14"/>
+    <text x="350" y="155">n sayısını oku</text>
+  </g>
+
+  <g id="a3" class="node">
+    <rect x="235" y="235" width="230" height="60" rx="14"/>
+    <text x="350" y="265">toplam ← 0</text>
+  </g>
+
+  <g id="a4" class="node">
+    <rect x="250" y="345" width="200" height="60" rx="14"/>
+    <text x="350" y="375">i ← 1</text>
+  </g>
+
+  <g id="a5" class="node">
+    <polygon points="350,455 450,545 350,635 250,545"/>
+    <text x="350" y="545">i ≤ n mi?</text>
+  </g>
+
+  <g id="a6" class="node">
+    <rect x="420" y="595" width="210" height="60" rx="14"/>
+    <text x="525" y="625">toplam ← toplam + i</text>
+  </g>
+
+  <g id="a7" class="node">
+    <rect x="425" y="705" width="200" height="60" rx="14"/>
+    <text x="525" y="735">i ← i + 1</text>
+  </g>
+
+  <g id="a8" class="node">
+    <rect x="230" y="705" width="240" height="60" rx="14"/>
+    <text x="350" y="735">toplam değerini yaz</text>
+  </g>
+
+  <g id="a9" class="node">
+    <ellipse cx="350" cy="850" rx="100" ry="34"/>
+    <text x="350" y="850">BİTİR</text>
+  </g>
+</svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">Engin360 tarafından oluşturulmuştur.</div>
+</div>
+
+<script>
+function temizle(){
+  document.querySelectorAll(".node").forEach(n=>n.classList.remove("active"));
+  document.getElementById("steps").innerHTML="";
+}
+function aktif(id){
+  const el=document.getElementById(id);
+  if(el) el.classList.add("active");
+}
+function hesapla(){
+  temizle();
+  const n = Number(document.getElementById("n").value);
+  const result = document.getElementById("result");
+  const steps = document.getElementById("steps");
+
+  if(!Number.isInteger(n) || n < 1){
+    result.style.color = "#ff4f6d";
+    result.innerHTML = "Lütfen 1 veya daha büyük bir tam sayı gir.";
+    aktif("a1"); aktif("a2");
+    return;
+  }
+
+  let toplam = 0;
+  let html = "";
+  aktif("a1"); aktif("a2"); aktif("a3"); aktif("a4"); aktif("a5");
+
+  for(let i=1; i<=n; i++){
+    toplam += i;
+    if(i <= 30){
+      html += `<span class="chip">${i}. adım: toplam = ${toplam}</span>`;
+    }
+  }
+
+  aktif("a6"); aktif("a7"); aktif("a8"); aktif("a9");
+
+  result.style.color = "#2cff9a";
+  result.innerHTML = `1'den ${n} sayısına kadar toplam: ${toplam}`;
+  steps.innerHTML = html + (n > 30 ? `<span class="chip">İlk 30 adım gösterildi. Sonuç doğru hesaplandı.</span>` : "");
+}
+document.getElementById("n").addEventListener("keydown", function(e){
+  if(e.key === "Enter") hesapla();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ENGİN360 Konu Bitirme Planlayıcısı</title>
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:radial-gradient(circle at top,#5b21ff 0,#160032 38%,#050510 100%);
+  color:white;
+  padding:16px;
+}
+.app{
+  max-width:560px;
+  margin:auto;
+  background:rgba(255,255,255,.085);
+  border:1px solid rgba(255,255,255,.17);
+  border-radius:28px;
+  padding:20px;
+  box-shadow:0 0 38px rgba(107,55,255,.42);
+}
+.logo{text-align:center;font-size:32px;font-weight:900;letter-spacing:1px}
+.logo span{color:#00eaff}
+.sub{text-align:center;color:#ded8ff;font-size:13px;line-height:1.4;margin:6px 0 18px}
+.card{
+  background:rgba(0,0,0,.27);
+  border:1px solid rgba(255,255,255,.11);
+  border-radius:21px;
+  padding:15px;
+  margin-bottom:14px;
+}
+h3{margin:0 0 10px;font-size:16px}
+label{display:block;margin:9px 0 5px;font-size:13px;color:#eeeaff;font-weight:bold}
+input,select{
+  width:100%;
+  padding:12px;
+  border:0;
+  outline:0;
+  border-radius:13px;
+  font-size:16px;
+  background:#fff;
+  color:#111;
+}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+button{
+  width:100%;
+  border:0;
+  border-radius:18px;
+  padding:15px;
+  margin-top:8px;
+  background:linear-gradient(90deg,#8a2cff,#00cfff);
+  color:white;
+  font-size:17px;
+  font-weight:900;
+  box-shadow:0 0 22px rgba(0,207,255,.27);
+}
+.result{
+  display:none;
+  margin-top:15px;
+  padding:16px;
+  border-radius:23px;
+  background:linear-gradient(160deg,rgba(0,234,255,.16),rgba(138,44,255,.22));
+  border:1px solid rgba(255,255,255,.22);
+}
+.big{text-align:center;font-size:28px;font-weight:900;color:#7df9ff;margin:7px 0 13px}
+.row{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  border-bottom:1px solid rgba(255,255,255,.13);
+  padding:8px 0;
+  font-size:14px;
+}
+.row:last-child{border-bottom:0}
+.analysis{
+  margin-top:12px;
+  background:rgba(0,0,0,.22);
+  border-radius:16px;
+  padding:12px;
+  font-size:13px;
+  line-height:1.55;
+}
+.day{
+  margin:9px 0;
+  padding:12px;
+  border-radius:16px;
+  background:rgba(255,255,255,.09);
+  border:1px solid rgba(255,255,255,.10);
+}
+.day b{color:#7df9ff}
+.badge{
+  display:inline-block;
+  background:rgba(255,255,255,.14);
+  padding:6px 10px;
+  border-radius:999px;
+  font-size:12px;
+  margin:4px 3px;
+}
+.footer{
+  margin-top:14px;
+  text-align:center;
+  font-size:12px;
+  color:#cfc8ff;
+  letter-spacing:.2px;
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="logo">ENGİN<span>360</span></div>
+  <div class="sub">Konu Bitirme Planlayıcısı<br>Bir konuyu kaç günde, hangi sırayla bitireceğini planlar.</div>
+
+  <div class="card">
+    <h3>Konu Bilgileri</h3>
+
+    <label>Ders</label>
+    <select id="ders" onchange="konulariYukle()">
+      <option value="aytmat">AYT Matematik</option>
+      <option value="tytmat">TYT Matematik</option>
+      <option value="geo">Geometri</option>
+      <option value="fizik">Fizik</option>
+      <option value="kimya">Kimya</option>
+      <option value="biyoloji">Biyoloji</option>
+      <option value="turkce">Türkçe</option>
+      <option value="edebiyat">Edebiyat</option>
+    </select>
+
+    <label>Konu</label>
+    <select id="konu"></select>
+
+    <div class="grid">
+      <div>
+        <label>Seviye</label>
+        <select id="seviye">
+          <option value="baslangic">Başlangıç</option>
+          <option value="orta" selected>Orta</option>
+          <option value="iyi">İyi</option>
+        </select>
+      </div>
+      <div>
+        <label>Kaç Gün?</label>
+        <select id="gun">
+          <option value="2">2 gün</option>
+          <option value="3" selected>3 gün</option>
+          <option value="4">4 gün</option>
+          <option value="5">5 gün</option>
+        </select>
+      </div>
+    </div>
+
+    <label>Günlük Süre</label>
+    <select id="sure">
+      <option value="45">45 dk</option>
+      <option value="60" selected>60 dk</option>
+      <option value="90">90 dk</option>
+      <option value="120">120 dk</option>
+    </select>
+
+    <div>
+      <span class="badge">Konu</span>
+      <span class="badge">Test</span>
+      <span class="badge">Yanlış analizi</span>
+      <span class="badge">Mini tekrar</span>
+    </div>
+  </div>
+
+  <button onclick="planla()">Konu Planını Oluştur</button>
+
+  <div class="result" id="sonuc">
+    <div style="text-align:center">Konu Bitirme Planın</div>
+    <div class="big" id="baslik">-</div>
+
+    <div class="row"><span>Plan Tipi</span><b id="tip">-</b></div>
+    <div class="row"><span>Toplam Soru Hedefi</span><b id="soru">-</b></div>
+    <div class="row"><span>Kontrol Kuralı</span><b id="kural">-</b></div>
+
+    <div class="analysis" id="plan"></div>
+    <div class="analysis" id="yorum"></div>
+    <div class="footer">ENGİN360 Öğrenci Koçluk Sistemi tarafından oluşturulmuştur.</div>
+  </div>
+</div>
+
+<script>
+const konuListeleri = {
+  aytmat:["Fonksiyon","Parabol","2. Dereceden Denklem","Eşitsizlik","Trigonometri","Logaritma","Diziler","Limit","Türev","İntegral"],
+  tytmat:["Sayılar","Bölme-Bölünebilme","Rasyonel Sayılar","Üslü-Köklü Sayılar","Mutlak Değer","Denklem-Eşitsizlik","Problemler","Fonksiyon"],
+  geo:["Doğruda Açılar","Üçgende Açılar","Benzerlik","Dörtgenler","Çember-Daire","Analitik Geometri","Katı Cisimler"],
+  fizik:["Kuvvet-Hareket","İş-Enerji","Elektrik","Manyetizma","Dalgalar","Optik","Modern Fizik"],
+  kimya:["Atom-Periyodik","Kimyasal Türler","Mol-Kimyasal Hesap","Gazlar","Çözeltiler","Tepkime Hızı-Denge","Organik Kimya"],
+  biyoloji:["Hücre","Kalıtım","Ekoloji","Sistemler","Bitki Biyolojisi","Fotosentez-Solunum","Protein Sentezi"],
+  turkce:["Paragraf Ana Düşünce","Paragraf Yapı","Sözcükte Anlam","Cümlede Anlam","Dil Bilgisi","Yazım-Noktalama"],
+  edebiyat:["Şiir Bilgisi","Edebi Akımlar","Tanzimat","Servetifünun","Milli Edebiyat","Cumhuriyet Dönemi","Yazar-Eser"]
+};
+
+function konulariYukle(){
+  const ders=document.getElementById("ders").value;
+  const konu=document.getElementById("konu");
+  konu.innerHTML="";
+  konuListeleri[ders].forEach(k=>{
+    konu.innerHTML += `<option value="${k}">${k}</option>`;
+  });
+}
+
+function planla(){
+  const ders=document.getElementById("ders").value;
+  const konu=document.getElementById("konu").value;
+  const seviye=document.getElementById("seviye").value;
+  const gun=Number(document.getElementById("gun").value);
+  const sure=Number(document.getElementById("sure").value);
+
+  let tip="", soru=0, kural="", yorum="", planHTML="";
+
+  if(seviye==="baslangic"){
+    tip="Temelden Kurulum";
+    soru=gun * Math.round(sure/2);
+    kural="Zor soruya erken girme";
+    yorum="Bu seviyede amaç konuyu hemen bitirmek değil, soruya başlayabilir hale gelmek. İlk günlerde kolay-orta sorular daha değerlidir.";
+  }else if(seviye==="orta"){
+    tip="Net Artırma Planı";
+    soru=gun * Math.round(sure*0.75);
+    kural="Yanlışları benzer soruyla kapat";
+    yorum="Orta seviyede konu biliniyor ama nete tam dönüşmüyor. En önemli aşama yanlış analizi ve benzer soru çözümüdür.";
+  }else{
+    tip="Seçici Güçlendirme";
+    soru=gun * Math.round(sure);
+    kural="Zor ve karma sorulara geç";
+    yorum="İyi seviyede uzun konu anlatımı verimsiz olur. Deneme, karma test ve hata tipi analizi daha çok kazandırır.";
+  }
+
+  for(let i=1;i<=gun;i++){
+    let icerik="";
+    if(gun===2){
+      if(i===1) icerik="Kısa konu özeti + temel/orta test + işaretli yanlışlar";
+      if(i===2) icerik="Benzer soru çözümü + mini tarama testi + yanlış kapama";
+    }
+    if(gun===3){
+      if(i===1) icerik="Konu haritası çıkar + temel örnekler + kolay test";
+      if(i===2) icerik="Orta seviye test + yanlış analizi + benzer soru";
+      if(i===3) icerik="Karma test / mini deneme + son tekrar + eksik listesi";
+    }
+    if(gun===4){
+      if(i===1) icerik="Konu öğrenme + kısa not";
+      if(i===2) icerik="Kolay-orta test + yanlış işaretleme";
+      if(i===3) icerik="Orta-zor test + benzer soru";
+      if(i===4) icerik="Karma tarama + mini deneme + son kontrol";
+    }
+    if(gun===5){
+      if(i===1) icerik="Konu anlatımı + temel örnek";
+      if(i===2) icerik="Kolay test + kısa tekrar";
+      if(i===3) icerik="Orta test + yanlış kapama";
+      if(i===4) icerik="Zor/karma test + süreli çözüm";
+      if(i===5) icerik="Mini deneme + eksik listesi + tekrar";
+    }
+
+    if(seviye==="baslangic" && i===1) icerik += " | Zor soru yok.";
+    if(seviye==="iyi" && i===gun) icerik += " | Süreli çöz.";
+
+    planHTML += `<div class="day"><b>Gün ${i}:</b> ${icerik}</div>`;
+  }
+
+  let sureNotu="";
+  if(sure<=45) sureNotu="Süren kısa olduğu için aynı gün birden fazla konuya geçme.";
+  else if(sure>=90) sureNotu="Süren yeterli; planın sonuna 10 dakikalık yanlış analizi ekle.";
+  else sureNotu="Süre dengeli; konu-test-analiz üçlüsünü bölmeden uygula.";
+
+  let dersNotu="";
+  if(ders==="aytmat" || ders==="tytmat") dersNotu="Matematikte planın en kritik noktası benzer soru çözümüdür.";
+  if(ders==="geo") dersNotu="Geometride her soruda şekli yeniden çizmek yerine verilenleri temiz yerleştir.";
+  if(ders==="fizik") dersNotu="Fizikte kavramı anlamadan formüle geçme.";
+  if(ders==="kimya") dersNotu="Kimyada küçük bilgi eksikleri tüm soruyu düşürebilir.";
+  if(ders==="biyoloji") dersNotu="Biyolojide kısa ama sık tekrar neti korur.";
+  if(ders==="turkce") dersNotu="Türkçede soru kökü kontrolü şarttır.";
+  if(ders==="edebiyat") dersNotu="Edebiyatta yazar-eser-dönem bağlantısı kurmadan test çözme.";
+
+  document.getElementById("baslik").innerText=konu;
+  document.getElementById("tip").innerText=tip;
+  document.getElementById("soru").innerText="Yaklaşık " + soru + " soru";
+  document.getElementById("kural").innerText=kural;
+  document.getElementById("plan").innerHTML=planHTML;
+  document.getElementById("yorum").innerText=yorum + " " + sureNotu + " " + dersNotu;
+  document.getElementById("sonuc").style.display="block";
+}
+
+konulariYukle();
+</script>
+</body>
+</html>

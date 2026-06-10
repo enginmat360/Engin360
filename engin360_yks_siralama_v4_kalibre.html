@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ENGİN360 YKS Sıralama V4 Kalibre</title>
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:radial-gradient(circle at top,#5b21ff 0,#160032 38%,#050510 100%);
+  color:white;
+  padding:16px;
+}
+.app{
+  max-width:540px;
+  margin:auto;
+  background:rgba(255,255,255,.085);
+  border:1px solid rgba(255,255,255,.17);
+  border-radius:28px;
+  padding:20px;
+  box-shadow:0 0 38px rgba(107,55,255,.42);
+}
+.logo{text-align:center;font-size:32px;font-weight:900;letter-spacing:1px}
+.logo span{color:#00eaff}
+.sub{text-align:center;color:#ded8ff;font-size:13px;line-height:1.4;margin:6px 0 18px}
+.card{
+  background:rgba(0,0,0,.27);
+  border:1px solid rgba(255,255,255,.11);
+  border-radius:21px;
+  padding:15px;
+  margin-bottom:14px;
+}
+h3{margin:0 0 10px;font-size:16px}
+label{display:block;margin:9px 0 5px;font-size:13px;color:#eeeaff;font-weight:bold}
+input,select{
+  width:100%;
+  padding:12px;
+  border:0;
+  outline:0;
+  border-radius:13px;
+  font-size:16px;
+  background:#fff;
+  color:#111;
+}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+button{
+  width:100%;
+  border:0;
+  border-radius:18px;
+  padding:15px;
+  margin-top:8px;
+  background:linear-gradient(90deg,#8a2cff,#00cfff);
+  color:white;
+  font-size:17px;
+  font-weight:900;
+  box-shadow:0 0 22px rgba(0,207,255,.27);
+}
+.result{
+  display:none;
+  margin-top:15px;
+  padding:16px;
+  border-radius:23px;
+  background:linear-gradient(160deg,rgba(0,234,255,.16),rgba(138,44,255,.22));
+  border:1px solid rgba(255,255,255,.22);
+}
+.big{text-align:center;font-size:30px;font-weight:900;color:#7df9ff;margin:7px 0 13px}
+.row{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  border-bottom:1px solid rgba(255,255,255,.13);
+  padding:8px 0;
+  font-size:14px;
+}
+.row:last-child{border-bottom:0}
+.note{margin-top:12px;font-size:12px;line-height:1.45;color:#d8d8d8;text-align:center}
+.pill{display:inline-block;background:rgba(255,255,255,.14);border-radius:999px;padding:6px 10px;font-size:12px;margin:5px 3px}
+.analysis{
+  margin-top:12px;
+  background:rgba(0,0,0,.22);
+  border-radius:16px;
+  padding:12px;
+  font-size:13px;
+  line-height:1.5;
+}
+.warn{
+  color:#ffd36b;
+  font-size:12px;
+  line-height:1.45;
+  margin-top:8px;
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="logo">ENGİN<span>360</span></div>
+  <div class="sub">YKS Sıralama Tahmini V4 · Kalibre Sürüm<br>OGM örnekleri + 2025 ÖSYM yığınsal dağılım tablosu</div>
+
+  <div class="card">
+    <h3>Genel Bilgiler</h3>
+    <label>Hedef Puan Türü</label>
+    <select id="tur">
+      <option value="say">Sayısal</option>
+      <option value="ea">Eşit Ağırlık</option>
+      <option value="tyt">TYT</option>
+      <option value="soz">Sözel</option>
+    </select>
+
+    <label>Diploma Notu</label>
+    <input id="diploma" type="number" step="0.01" placeholder="Örn: 98">
+
+    <label>OBP Durumu</label>
+    <select id="obpDurumu">
+      <option value="tam">OBP tam</option>
+      <option value="kirik">Kırık OBP</option>
+    </select>
+    <div>
+      <span class="pill">Net girilir</span>
+      <span class="pill">Diploma 50-100</span>
+      <span class="pill">OBP dahil</span>
+    </div>
+    <div class="warn">Not: OGM sitesinde doğru/yanlış giriliyor. Burada doğrudan NET giriyorsun. Örneğin 22 doğru 6 yanlış matematik = 20,50 nettir.</div>
+  </div>
+
+  <div class="card">
+    <h3>TYT Netleri</h3>
+    <div class="grid">
+      <div><label>Türkçe</label><input id="tytTurkce" type="number" step="0.25" placeholder="0"></div>
+      <div><label>Sosyal</label><input id="tytSosyal" type="number" step="0.25" placeholder="0"></div>
+      <div><label>Matematik</label><input id="tytMat" type="number" step="0.25" placeholder="0"></div>
+      <div><label>Fen</label><input id="tytFen" type="number" step="0.25" placeholder="0"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>AYT Netleri</h3>
+    <div class="grid">
+      <div><label>AYT Matematik</label><input id="aytMat" type="number" step="0.25" placeholder="0"></div>
+      <div><label>Fizik</label><input id="aytFizik" type="number" step="0.25" placeholder="0"></div>
+      <div><label>Kimya</label><input id="aytKimya" type="number" step="0.25" placeholder="0"></div>
+      <div><label>Biyoloji</label><input id="aytBiyoloji" type="number" step="0.25" placeholder="0"></div>
+      <div><label>Edebiyat</label><input id="aytEdebiyat" type="number" step="0.25" placeholder="0"></div>
+      <div><label>Tarih-1</label><input id="aytTarih1" type="number" step="0.25" placeholder="0"></div>
+      <div><label>Coğrafya-1</label><input id="aytCografya1" type="number" step="0.25" placeholder="0"></div>
+      <div><label>Sosyal-2</label><input id="aytSosyal2" type="number" step="0.25" placeholder="0"></div>
+    </div>
+  </div>
+
+  <button onclick="hesapla()">Sıralama Tahmini Yap</button>
+
+  <div class="result" id="sonuc">
+    <div style="text-align:center">Tahmini Sıralama</div>
+    <div class="big" id="siraAna">-</div>
+
+    <div class="row"><span>TYT Toplam Net</span><b id="tytToplam">0</b></div>
+    <div class="row"><span>AYT Alan Neti</span><b id="aytToplam">0</b></div>
+    <div class="row"><span>Tahmini Ham Puan</span><b id="hamPuan">0</b></div>
+    <div class="row"><span>OBP Katkısı</span><b id="obpKatki">0</b></div>
+    <div class="row"><span>Tahmini Yerleştirme Puanı</span><b id="puan">0</b></div>
+    <div class="row"><span>Performans Bandı</span><b id="band">-</b></div>
+    <div class="row"><span>Hedefe En Yakın</span><b id="hedef">-</b></div>
+
+    <div class="analysis" id="analiz"></div>
+
+    <div class="note">
+      Bu araç resmi ÖSYM sonucu değildir. 2025 ÖSYM yığınsal dağılım tablosu ve OGM ekranlarından alınan referanslarla kalibre edilmiş yaklaşık ENGİN360 aracıdır.
+    </div>
+  </div>
+</div>
+
+<script>
+function v(id){return Number(document.getElementById(id).value)||0}
+function fmt(x){return Math.round(x).toLocaleString("tr-TR")}
+
+function obpKatki(){
+  let d=v("diploma");
+  if(!d)return 0;
+  if(d<50)d=50;
+  if(d>100)d=100;
+  let obp=d*5;
+  return obp*(document.getElementById("obpDurumu").value==="kirik" ? 0.06 : 0.12);
+}
+
+/*
+  Katsayılar doğrudan resmi formül iddiası değildir.
+  Bu V4, kullanıcının OGM ekranlarından gönderdiği çoklu örneklerle kalibre edilmiştir.
+*/
+function hamPuan(tur,tyt,aytSay,aytEa,aytSoz){
+  if(tur==="tyt"){
+    return 144.7968377
+      + tyt.turkce*2.93042635
+      + tyt.sosyal*3.01923810
+      + tyt.mat*2.93039518
+      + tyt.fen*3.01928265;
+  }
+
+  if(tur==="say"){
+    return 133.24248588
+      + tyt.turkce*1.21031769
+      + tyt.sosyal*1.24704232
+      + tyt.mat*1.21025303
+      + tyt.fen*1.24699045
+      + aytSay.mat*2.75069549
+      + aytSay.fizik*2.61977327
+      + aytSay.kimya*2.82129273
+      + aytSay.biyoloji*2.82100342;
+  }
+
+  if(tur==="ea"){
+    return 130.25706877
+      + tyt.turkce*1.24231381
+      + tyt.sosyal*1.27977575
+      + tyt.mat*1.24218112
+      + tyt.fen*1.27975774
+      + aytEa.mat*2.82310941
+      + aytEa.edebiyat*2.82331455
+      + aytEa.tarih1*2.63531548
+      + aytEa.cografya1*3.13541052;
+  }
+
+  return 128
+    + tyt.turkce*1.20
+    + tyt.sosyal*1.25
+    + tyt.mat*1.20
+    + tyt.fen*1.25
+    + aytSoz.edebiyat*2.79
+    + aytSoz.tarih1*2.39
+    + aytSoz.cografya1*2.70
+    + aytSoz.sosyal2*3.35;
+}
+
+/*
+  2025 ÖSYM yerleştirme puanlarının yığınsal dağılımından türetilmiş
+  puan -> aday sayısı tablosu. Puan üstü aday sayısı yaklaşık sıralama gibi kullanılır.
+*/
+const resmiDagilim={
+  tyt:[
+    [550,14],[530,601],[510,3648],[490,11733],[470,27141],[450,52500],[430,88915],
+    [410,137133],[390,201126],[370,286158],[350,397823],[330,545280],[310,737144],
+    [290,976188],[270,1251236],[250,1542701],[230,1835041],[210,2099883],
+    [190,2270224],[170,2308495],[150,2310553],[130,2310579]
+  ],
+  say:[
+    [550,57],[530,1930],[510,7081],[490,16140],[470,29410],[450,46142],[430,65449],
+    [410,87117],[390,111498],[370,139619],[350,174355],[330,217778],[310,274252],
+    [290,348397],[270,449880],[250,596635],[230,811201],[210,1052783],
+    [190,1228141],[170,1287192],[150,1291491],[130,1291531]
+  ],
+  ea:[
+    [550,4],[530,58],[510,261],[490,742],[470,1629],[450,3422],[430,8145],
+    [410,20244],[390,42590],[370,76959],[350,125389],[330,192949],[310,287630],
+    [290,418975],[270,592803],[250,806796],[230,1042314],[210,1262545],
+    [190,1425544],[170,1489209],[150,1494521],[130,1494611]
+  ],
+  soz:[
+    [550,1],[530,7],[510,26],[490,77],[470,254],[450,721],[430,1926],
+    [410,5036],[390,12522],[370,28233],[350,57848],[330,108894],[310,190203],
+    [290,309551],[270,468930],[250,658973],[230,849410],[210,1010174],
+    [190,1121933],[170,1168866],[150,1173955],[130,1174046]
+  ]
+};
+
+function siraBul(tur, puan){
+  const tablo=resmiDagilim[tur];
+  if(puan>=tablo[0][0]) return tablo[0][1];
+  if(puan<=tablo[tablo.length-1][0]) return tablo[tablo.length-1][1];
+
+  for(let i=0;i<tablo.length-1;i++){
+    const p1=tablo[i][0], s1=tablo[i][1];
+    const p2=tablo[i+1][0], s2=tablo[i+1][1];
+    if(puan<=p1 && puan>=p2){
+      const oran=(p1-puan)/(p1-p2);
+      return s1 + oran*(s2-s1);
+    }
+  }
+  return tablo[tablo.length-1][1];
+}
+
+function hedefYorum(tur,sira){
+  const hedefler=[1000,5000,10000,20000,30000,50000,100000,150000,250000];
+  const yakin=hedefler.reduce((a,b)=>Math.abs(b-sira)<Math.abs(a-sira)?b:a,hedefler[0]);
+
+  let kalan="";
+  if(tur==="say"){
+    if(sira<=10000) kalan="Üst banttasın. Bu seviyede özellikle AYT Matematik ve Fen tarafındaki 1-2 net bile ciddi fark oluşturur.";
+    else if(sira<=50000) kalan="50 bin altı için AYT belirleyici. TYT iyi olsa bile ana sıçrama AYT Matematik ve Fen netlerinden gelir.";
+    else if(sira<=100000) kalan="100 bin bandından 50 bine yaklaşmak için öncelik AYT alan netini artırmak olmalı.";
+    else kalan="Önce TYT temel güvenceye alınmalı, ardından AYT Matematik/Fen düzenli yükseltilmeli.";
+  }else if(tur==="ea"){
+    if(sira<=10000) kalan="EA üst bantta AYT Matematik ve Edebiyat-Sosyal netleri çok sert fark yaratır.";
+    else if(sira<=50000) kalan="EA'da 50 bin altına inmek için AYT Matematik artışı kritik görünür.";
+    else kalan="EA için önce TYT Matematik-Türkçe dengesi, sonra AYT alan netleri güçlendirilmeli.";
+  }else if(tur==="tyt"){
+    kalan="TYT sıralamasında Matematik ve Türkçe netleri ana belirleyicidir. Sosyal ve Fen toplamı destekleyici fark oluşturur.";
+  }else{
+    kalan="Sözelde AYT alan netleri belirleyici, TYT ise sıralamayı destekleyen ana tabandır.";
+  }
+
+  return {yakin:yakin.toLocaleString("tr-TR"), kalan};
+}
+
+function hesapla(){
+  const tur=document.getElementById("tur").value;
+
+  const tyt={
+    turkce:v("tytTurkce"),
+    sosyal:v("tytSosyal"),
+    mat:v("tytMat"),
+    fen:v("tytFen")
+  };
+
+  const aytSay={
+    mat:v("aytMat"),
+    fizik:v("aytFizik"),
+    kimya:v("aytKimya"),
+    biyoloji:v("aytBiyoloji")
+  };
+
+  const aytEa={
+    mat:v("aytMat"),
+    edebiyat:v("aytEdebiyat"),
+    tarih1:v("aytTarih1"),
+    cografya1:v("aytCografya1")
+  };
+
+  const aytSoz={
+    edebiyat:v("aytEdebiyat"),
+    tarih1:v("aytTarih1"),
+    cografya1:v("aytCografya1"),
+    sosyal2:v("aytSosyal2")
+  };
+
+  const tytToplam=tyt.turkce+tyt.sosyal+tyt.mat+tyt.fen;
+
+  let aytToplam=0;
+  if(tur==="say") aytToplam=aytSay.mat+aytSay.fizik+aytSay.kimya+aytSay.biyoloji;
+  else if(tur==="ea") aytToplam=aytEa.mat+aytEa.edebiyat+aytEa.tarih1+aytEa.cografya1;
+  else if(tur==="soz") aytToplam=aytSoz.edebiyat+aytSoz.tarih1+aytSoz.cografya1+aytSoz.sosyal2;
+
+  const obp=obpKatki();
+  const ham=hamPuan(tur,tyt,aytSay,aytEa,aytSoz);
+  const yer=ham+obp;
+  const sira=siraBul(tur,yer);
+
+  const alt=sira*0.95;
+  const ust=sira*1.05;
+
+  let band="Gelişim bandı";
+  if(sira<=1000) band="İlk 1000 bandı";
+  else if(sira<=5000) band="İlk 5000 bandı";
+  else if(sira<=10000) band="İlk 10000 bandı";
+  else if(sira<=30000) band="30 bin bandı";
+  else if(sira<=50000) band="50 bin bandı";
+  else if(sira<=100000) band="100 bin bandı";
+  else if(sira<=150000) band="150 bin bandı";
+  else band="150 bin üzeri";
+
+  const h=hedefYorum(tur,sira);
+
+  document.getElementById("siraAna").innerText=fmt(alt)+" - "+fmt(ust);
+  document.getElementById("tytToplam").innerText=tytToplam.toFixed(2);
+  document.getElementById("aytToplam").innerText=aytToplam.toFixed(2);
+  document.getElementById("hamPuan").innerText=ham.toFixed(3);
+  document.getElementById("obpKatki").innerText=obp.toFixed(3);
+  document.getElementById("puan").innerText=yer.toFixed(3);
+  document.getElementById("band").innerText=band;
+  document.getElementById("hedef").innerText="İlk " + h.yakin;
+  document.getElementById("analiz").innerText=h.kalan;
+  document.getElementById("sonuc").style.display="block";
+}
+</script>
+</body>
+</html>

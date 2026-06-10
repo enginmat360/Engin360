@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ENGİN360 | Asal Sayı Dedektifi</title>
+<style>
+  :root{
+    --bg1:#09071a;
+    --bg2:#16103a;
+    --card:#14142f;
+    --card2:#1d1b46;
+    --neon:#7c3cff;
+    --cyan:#21d4fd;
+    --pink:#ff4ecd;
+    --green:#2cff9a;
+    --red:#ff4f6d;
+    --yellow:#ffd166;
+    --text:#ffffff;
+    --muted:#c8c8e8;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:Arial, "DejaVu Sans", sans-serif;
+    background:
+      radial-gradient(circle at top left, rgba(124,60,255,.35), transparent 35%),
+      radial-gradient(circle at bottom right, rgba(33,212,253,.22), transparent 35%),
+      linear-gradient(135deg,var(--bg1),var(--bg2));
+    color:var(--text);
+    min-height:100vh;
+    padding:18px;
+  }
+  .wrap{max-width:980px;margin:auto}
+  .header{
+    text-align:center;
+    padding:18px 12px 10px;
+  }
+  .logo{
+    display:inline-block;
+    padding:8px 18px;
+    border:1px solid rgba(255,255,255,.18);
+    border-radius:999px;
+    background:rgba(255,255,255,.06);
+    box-shadow:0 0 22px rgba(124,60,255,.45);
+    font-weight:800;
+    letter-spacing:.5px;
+  }
+  h1{
+    margin:18px 0 8px;
+    font-size:clamp(28px,5vw,46px);
+    line-height:1.05;
+    background:linear-gradient(90deg,#fff,var(--cyan),var(--pink));
+    -webkit-background-clip:text;
+    color:transparent;
+  }
+  .sub{
+    color:var(--muted);
+    font-size:16px;
+    max-width:720px;
+    margin:0 auto;
+  }
+  .grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+    margin-top:22px;
+  }
+  .panel{
+    background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.035));
+    border:1px solid rgba(255,255,255,.16);
+    border-radius:24px;
+    padding:18px;
+    box-shadow:0 16px 45px rgba(0,0,0,.35);
+  }
+  .panel h2{
+    margin:0 0 12px;
+    font-size:20px;
+  }
+  .inputrow{
+    display:flex;
+    gap:10px;
+    margin:14px 0;
+  }
+  input{
+    flex:1;
+    border:none;
+    outline:none;
+    border-radius:16px;
+    padding:15px 14px;
+    font-size:20px;
+    color:#fff;
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.16);
+  }
+  button{
+    border:none;
+    border-radius:16px;
+    padding:14px 18px;
+    color:#fff;
+    font-size:16px;
+    font-weight:800;
+    cursor:pointer;
+    background:linear-gradient(135deg,var(--neon),var(--cyan));
+    box-shadow:0 0 20px rgba(33,212,253,.28);
+  }
+  button:active{transform:scale(.98)}
+  .hint{
+    color:var(--muted);
+    line-height:1.55;
+    font-size:15px;
+  }
+  .formula{
+    background:rgba(0,0,0,.23);
+    border:1px solid rgba(255,255,255,.12);
+    padding:14px;
+    border-radius:18px;
+    margin-top:12px;
+    color:#f0edff;
+    line-height:1.65;
+  }
+  .flow{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  .step{
+    padding:13px 14px;
+    border-radius:16px;
+    background:rgba(255,255,255,.07);
+    border:1px solid rgba(255,255,255,.13);
+    color:#eee;
+    line-height:1.4;
+  }
+  .step.active{
+    border-color:var(--cyan);
+    box-shadow:0 0 18px rgba(33,212,253,.32);
+  }
+  .step.good{border-color:var(--green);color:#ddffed}
+  .step.bad{border-color:var(--red);color:#ffe1e7}
+  .result{
+    margin-top:16px;
+    padding:18px;
+    border-radius:22px;
+    font-size:22px;
+    font-weight:900;
+    text-align:center;
+    background:rgba(255,255,255,.07);
+    border:1px solid rgba(255,255,255,.14);
+  }
+  .result.prime{
+    color:var(--green);
+    box-shadow:0 0 24px rgba(44,255,154,.22);
+  }
+  .result.notprime{
+    color:var(--red);
+    box-shadow:0 0 24px rgba(255,79,109,.22);
+  }
+  .trialbox{
+    margin-top:14px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .chip{
+    padding:9px 11px;
+    border-radius:999px;
+    font-size:14px;
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.14);
+  }
+  .chip.ok{border-color:var(--green); color:#dfffef}
+  .chip.no{border-color:var(--red); color:#ffdce3}
+  .miniTitle{
+    margin-top:16px;
+    color:var(--yellow);
+    font-weight:800;
+  }
+  .code{
+    margin-top:18px;
+    background:#080914;
+    color:#dff7ff;
+    border-radius:18px;
+    padding:16px;
+    overflow:auto;
+    border:1px solid rgba(255,255,255,.13);
+    font-family:Consolas, Monaco, monospace;
+    font-size:14px;
+    line-height:1.55;
+  }
+  .footer{
+    text-align:center;
+    margin:22px 0 6px;
+    color:#aaa9d9;
+    font-size:13px;
+  }
+  @media(max-width:760px){
+    .grid{grid-template-columns:1fr}
+    .inputrow{flex-direction:column}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="header">
+    <div class="logo">ENGİN360 MATEMATİK LABORATUVARI</div>
+    <h1>Asal Sayı Dedektifi</h1>
+    <p class="sub">Bir sayı gir. Sistem, bilgisayar gibi düşünerek bölenleri tek tek kontrol etsin ve sayının asal olup olmadığını açıklasın.</p>
+  </div>
+
+  <div class="grid">
+    <div class="panel">
+      <h2>🔎 Sayıyı Kontrol Et</h2>
+      <div class="inputrow">
+        <input id="num" type="number" inputmode="numeric" placeholder="Örn: 37">
+        <button onclick="kontrolEt()">Kontrol Et</button>
+      </div>
+      <p class="hint">
+        Asal sayı; 1'den büyük olup yalnızca <b>1'e</b> ve <b>kendisine</b> tam bölünen sayıdır.
+      </p>
+      <div class="formula">
+        <b>Akıllı kontrol:</b><br>
+        Bir sayının asal olup olmadığını anlamak için tüm sayıları denemeye gerek yoktur.<br>
+        Sadece <b>2'den √n'e kadar</b> olan bölenleri kontrol etmek yeterlidir.
+      </div>
+
+      <div id="result" class="result">Sonuç burada görünecek.</div>
+      <div id="trials" class="trialbox"></div>
+    </div>
+
+    <div class="panel">
+      <h2>🧠 Algoritma Akış Şeması</h2>
+      <div id="flow" class="flow">
+        <div class="step" id="s1">1. Sayı al: n</div>
+        <div class="step" id="s2">2. n ≤ 1 ise asal değildir.</div>
+        <div class="step" id="s3">3. n = 2 ise asaldır.</div>
+        <div class="step" id="s4">4. n çift ise asal değildir.</div>
+        <div class="step" id="s5">5. 3'ten √n'e kadar tek bölenleri dene.</div>
+        <div class="step" id="s6">6. Tam bölen bulunursa asal değildir.</div>
+        <div class="step" id="s7">7. Hiç bölen bulunmazsa asaldır.</div>
+      </div>
+
+      <div class="miniTitle">Kodlama mantığı</div>
+      <div class="code">
+function asalMi(n) {<br>
+&nbsp;&nbsp;if (n &lt;= 1) return false;<br>
+&nbsp;&nbsp;if (n === 2) return true;<br>
+&nbsp;&nbsp;if (n % 2 === 0) return false;<br>
+&nbsp;&nbsp;for (let i = 3; i &lt;= Math.sqrt(n); i += 2) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if (n % i === 0) return false;<br>
+&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;return true;<br>
+}
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">Engin360 tarafından oluşturulmuştur.</div>
+</div>
+
+<script>
+function temizle(){
+  document.querySelectorAll(".step").forEach(s=>{
+    s.className="step";
+  });
+  document.getElementById("trials").innerHTML="";
+}
+function aktif(id, cls="active"){
+  document.getElementById(id).classList.add(cls);
+}
+function kontrolEt(){
+  temizle();
+  const n = Number(document.getElementById("num").value);
+  const result = document.getElementById("result");
+  const trials = document.getElementById("trials");
+
+  if(!Number.isInteger(n)){
+    result.className="result notprime";
+    result.innerHTML="Lütfen tam sayı gir.";
+    return;
+  }
+
+  aktif("s1");
+
+  if(n <= 1){
+    aktif("s2","bad");
+    result.className="result notprime";
+    result.innerHTML=n + " asal değildir. Çünkü asal sayılar 1'den büyük olmalıdır.";
+    return;
+  }
+
+  aktif("s2","good");
+
+  if(n === 2){
+    aktif("s3","good");
+    result.className="result prime";
+    result.innerHTML="2 asaldır. Çünkü yalnızca 1'e ve 2'ye bölünür.";
+    return;
+  }
+
+  aktif("s3","active");
+
+  if(n % 2 === 0){
+    aktif("s4","bad");
+    result.className="result notprime";
+    result.innerHTML=n + " asal değildir. Çünkü 2'ye tam bölünür.";
+    trials.innerHTML = '<span class="chip no">' + n + ' % 2 = 0</span>';
+    return;
+  }
+
+  aktif("s4","good");
+  aktif("s5","active");
+
+  let bulundu = false;
+  let bulunan = null;
+  let html = "";
+
+  for(let i=3; i<=Math.sqrt(n); i+=2){
+    let kalan = n % i;
+    if(kalan === 0){
+      html += '<span class="chip no">' + n + ' % ' + i + ' = 0</span>';
+      bulundu = true;
+      bulunan = i;
+      break;
+    } else {
+      html += '<span class="chip ok">' + n + ' % ' + i + ' = ' + kalan + '</span>';
+    }
+  }
+
+  trials.innerHTML = html || '<span class="chip ok">√' + n + ' küçük olduğu için ek bölen denemeye gerek yok.</span>';
+
+  if(bulundu){
+    aktif("s6","bad");
+    result.className="result notprime";
+    result.innerHTML=n + " asal değildir. Çünkü " + bulunan + " sayısına tam bölünür.";
+  } else {
+    aktif("s7","good");
+    result.className="result prime";
+    result.innerHTML=n + " asaldır. Çünkü √" + n.toFixed(0) + " değerine kadar tam bölen bulunmadı.";
+  }
+}
+
+document.getElementById("num").addEventListener("keydown", function(e){
+  if(e.key === "Enter") kontrolEt();
+});
+</script>
+</body>
+</html>

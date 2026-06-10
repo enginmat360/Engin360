@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ENGİN360 | Mod 10 Akış Şeması</title>
+<style>
+  *{box-sizing:border-box} body{margin:0;font-family:Arial,'DejaVu Sans',sans-serif;background:radial-gradient(circle at top,#18205a,#090912 65%);color:white;min-height:100vh;padding:18px}
+  .wrap{max-width:980px;margin:auto;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:24px;padding:22px;box-shadow:0 20px 60px rgba(0,0,0,.35)}
+  .top{display:flex;justify-content:space-between;gap:16px;align-items:center;margin-bottom:18px}.logo{font-weight:900;font-size:28px;letter-spacing:.5px;color:#fff}.tag{font-size:13px;color:#bfc6ff}
+  h1{font-size:28px;text-align:center;margin:8px 0 6px}.sub{text-align:center;color:#d8dcff;margin-bottom:20px}
+  .grid{display:grid;grid-template-columns:1fr 330px;gap:20px}@media(max-width:800px){.grid{grid-template-columns:1fr}.top{display:block;text-align:center}}
+  .flow{display:flex;flex-direction:column;align-items:center;gap:12px;padding:10px}.box{min-width:250px;text-align:center;padding:14px 18px;font-weight:800;border-radius:14px;position:relative}.start,.end{background:linear-gradient(135deg,#ff3d7f,#ff7aa8);border:2px solid #ff9abc;border-radius:999px}.input{background:linear-gradient(135deg,#59b8ff,#c8edff);color:#061633;border:2px solid #9ce2ff;transform:skew(-10deg)}.input span{display:block;transform:skew(10deg)}.process{background:linear-gradient(135deg,#58ffb1,#d5ffe9);color:#062d1e;border:2px solid #7affc0}.output{background:linear-gradient(135deg,#b682ff,#f0dcff);color:#261142;border:2px solid #d4b0ff;transform:skew(-10deg)}.output span{display:block;transform:skew(10deg)}
+  .diamond{width:210px;height:210px;background:linear-gradient(135deg,#ffe46a,#ff9d2e);color:#241000;border:3px solid #ffbd42;transform:rotate(45deg);display:flex;align-items:center;justify-content:center;text-align:center;font-weight:900;margin:14px}.diamond span{transform:rotate(-45deg);line-height:1.35}.arrow{font-size:28px;color:#8fe9ff;line-height:1}.panel{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.16);border-radius:20px;padding:18px}.rule{background:rgba(0,255,170,.08);border-color:rgba(0,255,170,.35);margin-bottom:16px}.try{background:rgba(125,90,255,.12)}
+  label{display:block;margin:12px 0 6px;color:#dfe4ff;font-weight:700}input{width:100%;padding:14px;border-radius:12px;border:1px solid #7f8cff;background:#0d1230;color:white;font-size:20px;text-align:center}button{width:100%;margin-top:12px;padding:14px;border:0;border-radius:14px;font-weight:900;font-size:16px;color:white;background:linear-gradient(135deg,#7b4dff,#00c2ff);cursor:pointer;box-shadow:0 10px 24px rgba(0,194,255,.25)}.result{margin-top:14px;padding:16px;border-radius:16px;background:#0b102b;border:1px solid #3945a8;font-size:18px;line-height:1.5}.code{font-family:Consolas,monospace;background:#080b1e;padding:2px 8px;border-radius:8px;color:#8fffd2}.small{font-size:13px;color:#c5caf5;margin-top:12px}.step{opacity:.35;transition:.25s}.active{opacity:1;filter:drop-shadow(0 0 14px rgba(80,210,255,.8));transform:scale(1.03)}.input.active{transform:skew(-10deg) scale(1.03)}.output.active{transform:skew(-10deg) scale(1.03)}.diamond.active{transform:rotate(45deg) scale(1.03)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><div class="logo">ENGİN360</div><div class="tag">Matematik Laboratuvarı • Algoritma ve Akış Şeması</div></div>
+  <h1>Bir Sayının 10 ile Bölümünden Kalanı</h1>
+  <div class="sub">Kural: Bir sayının 10 ile bölümünden kalan, o sayının son basamağıdır.</div>
+  <div class="grid">
+    <div class="flow">
+      <div id="s1" class="box start step">BAŞLA</div><div class="arrow">↓</div>
+      <div id="s2" class="box input step"><span>Sayıyı oku<br><b>n</b></span></div><div class="arrow">↓</div>
+      <div id="s3" class="box process step">r ← n % 10</div><div class="arrow">↓</div>
+      <div id="s4" class="diamond step"><span>r, kalan değeridir mi?</span></div><div class="arrow">↓</div>
+      <div id="s5" class="box output step"><span>Kalanı ekrana yazdır</span></div><div class="arrow">↓</div>
+      <div id="s6" class="box end step">BİTİR</div>
+    </div>
+    <div>
+      <div class="panel rule"><b>Matematiksel ifade:</b><br><br><span class="code">r = n % 10</span><br><br>% işareti, bölümden kalanı bulur.</div>
+      <div class="panel try">
+        <b>Şimdi dene</b>
+        <label>Bir sayı gir:</label><input id="num" type="number" value="4678" />
+        <button onclick="runFlow()">Akışı Çalıştır</button>
+        <div id="out" class="result">Hazır. Butona basınca akış sırayla çalışacak.</div>
+        <div class="small">Örnek: 4678 % 10 = 8. Çünkü 4678'in son basamağı 8'dir.</div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+function sleep(ms){return new Promise(r=>setTimeout(r,ms))}
+async function runFlow(){
+  const steps=['s1','s2','s3','s4','s5','s6'];
+  steps.forEach(id=>document.getElementById(id).classList.remove('active'));
+  const n = Number(document.getElementById('num').value || 0);
+  const r = ((n % 10) + 10) % 10;
+  const out=document.getElementById('out');
+  const messages=[
+    'Akış başladı.',
+    'Sayı okundu: n = '+n,
+    'İşlem yapıldı: r = '+n+' % 10 = '+r,
+    'Karar: r artık bölümden kalan değerdir.',
+    'Ekrana yazdırılan kalan: '+r,
+    'Akış bitti. Sonuç: '+n+' sayısının 10 ile bölümünden kalan '+r+'.'
+  ];
+  for(let i=0;i<steps.length;i++){
+    document.getElementById(steps[i]).classList.add('active');
+    out.innerHTML=messages[i];
+    await sleep(750);
+  }
+}
+</script>
+</body>
+</html>

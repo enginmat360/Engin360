@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ENGİN360 Gerçeklik Paneli</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:radial-gradient(circle at top,#5b21ff 0,#160032 38%,#050510 100%);color:white;padding:16px}
+.app{max-width:540px;margin:auto;background:rgba(255,255,255,.085);border:1px solid rgba(255,255,255,.17);border-radius:28px;padding:20px;box-shadow:0 0 38px rgba(107,55,255,.42)}
+.logo{text-align:center;font-size:32px;font-weight:900}.logo span{color:#00eaff}
+.sub{text-align:center;color:#ded8ff;font-size:13px;margin:6px 0 18px;line-height:1.4}
+.card{background:rgba(0,0,0,.27);border:1px solid rgba(255,255,255,.11);border-radius:21px;padding:15px;margin-bottom:14px}
+label{display:block;margin:9px 0 5px;font-size:13px;font-weight:bold}
+input,select{width:100%;padding:12px;border:0;border-radius:13px;font-size:16px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+button{width:100%;border:0;border-radius:18px;padding:15px;background:linear-gradient(90deg,#8a2cff,#00cfff);color:white;font-size:17px;font-weight:900}
+.result{display:none;margin-top:15px;padding:16px;border-radius:23px;background:linear-gradient(160deg,rgba(0,234,255,.16),rgba(138,44,255,.22))}
+.big{text-align:center;font-size:30px;font-weight:900;margin:10px 0;color:#7df9ff}
+.row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.15)}
+.analysis{margin-top:12px;background:rgba(0,0,0,.22);padding:12px;border-radius:16px;line-height:1.6}
+.badge{display:inline-block;padding:8px 12px;border-radius:999px;margin:4px;font-size:12px;background:rgba(255,255,255,.15)}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="logo">ENGİN<span>360</span></div>
+<div class="sub">Gerçeklik Paneli<br>Motivasyon değil, mevcut veriye göre dürüst durum analizi.</div>
+
+<div class="card">
+<label>Puan Türü</label>
+<select id="tur">
+<option value="say">Sayısal</option>
+<option value="ea">Eşit Ağırlık</option>
+</select>
+
+<label>Hedef Sıralama</label>
+<select id="hedef">
+<option value="1000">İlk 1.000</option>
+<option value="5000">İlk 5.000</option>
+<option value="10000">İlk 10.000</option>
+<option value="20000">İlk 20.000</option>
+<option value="50000">İlk 50.000</option>
+<option value="100000">İlk 100.000</option>
+</select>
+</div>
+
+<div class="card">
+<div class="grid">
+<div><label>TYT Neti</label><input id="tyt" type="number"></div>
+<div><label>AYT Neti</label><input id="ayt" type="number"></div>
+</div>
+</div>
+
+<button onclick="hesapla()">Gerçeklik Analizi Yap</button>
+
+<div class="result" id="sonuc">
+<div class="big" id="durum">-</div>
+
+<div class="row"><span>Tahmini Mevcut Seviye</span><b id="mevcut">-</b></div>
+<div class="row"><span>Hedef</span><b id="hedefyazi">-</b></div>
+<div class="row"><span>Tahmini Eksik Net</span><b id="eksik">-</b></div>
+
+<div class="analysis" id="yorum"></div>
+</div>
+</div>
+
+<script>
+function hesapla(){
+
+let tyt=Number(document.getElementById("tyt").value)||0;
+let ayt=Number(document.getElementById("ayt").value)||0;
+let hedef=Number(document.getElementById("hedef").value);
+
+let skor=(tyt*0.9)+(ayt*1.8);
+
+let mevcut=150000;
+
+if(skor>=240) mevcut=1000;
+else if(skor>=220) mevcut=5000;
+else if(skor>=205) mevcut=10000;
+else if(skor>=190) mevcut=20000;
+else if(skor>=175) mevcut=30000;
+else if(skor>=160) mevcut=50000;
+else if(skor>=145) mevcut=70000;
+else if(skor>=130) mevcut=100000;
+else if(skor>=115) mevcut=150000;
+else mevcut=250000;
+
+let durum="";
+let yorum="";
+let eksikNet=0;
+
+if(mevcut<=hedef){
+durum="🟢 Hedef Gerçekçi";
+yorum="Mevcut seviyen hedef bandına yakın görünüyor. Büyük sıçramadan çok düzenli net artışı gerekli.";
+}
+else if(mevcut<=hedef*2){
+durum="🟡 Hedef Zor Ama Mümkün";
+eksikNet=Math.round((mevcut-hedef)/5000);
+yorum="Bu hedef ulaşılabilir ancak özellikle AYT tarafında istikrarlı net artışı gerekiyor.";
+}
+else{
+durum="🔴 Hedef Şu An İçin Uzak";
+eksikNet=Math.round((mevcut-hedef)/3000);
+yorum="Bu kötü durumda olduğun anlamına gelmez. Ancak mevcut performans ile hedef arasında ciddi mesafe var. Önce ara hedef belirlemek daha mantıklı.";
+}
+
+document.getElementById("durum").innerText=durum;
+document.getElementById("mevcut").innerText=mevcut.toLocaleString("tr-TR");
+document.getElementById("hedefyazi").innerText=hedef.toLocaleString("tr-TR");
+document.getElementById("eksik").innerText=eksikNet>0 ? "+"+eksikNet+" net" : "Hedef bandında";
+document.getElementById("yorum").innerText=yorum;
+document.getElementById("sonuc").style.display="block";
+}
+</script>
+</body>
+</html>

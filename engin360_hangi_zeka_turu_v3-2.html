@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ENGİN360 Hangi Zeka Türüne Sahibim? V3</title>
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:radial-gradient(circle at top,#ffffff 0,#eef4ff 46%,#dfe9ff 100%);
+  color:#0b2470;
+  padding:14px;
+}
+.app{
+  max-width:760px;
+  margin:auto;
+  background:white;
+  border-radius:28px;
+  padding:18px;
+  box-shadow:0 12px 40px rgba(0,41,120,.16);
+  border:1px solid #d8e2ff;
+  overflow:hidden;
+  position:relative;
+}
+.app:before{
+  content:"";
+  position:absolute;
+  width:260px;height:260px;
+  background:#0648b8;
+  border-radius:50%;
+  top:-160px;left:-110px;
+}
+.app:after{
+  content:"";
+  position:absolute;
+  width:220px;height:220px;
+  background:#ff8500;
+  border-radius:50%;
+  right:-130px;bottom:-150px;
+}
+.content{position:relative;z-index:2}
+.header{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:12px;
+}
+.logo{
+  font-size:30px;
+  font-weight:900;
+  color:#003b96;
+  line-height:1;
+}
+.logo span{color:#ff8500}
+.motto{font-size:11px;font-weight:800;color:#003b96;margin-top:3px}
+.pageTag{
+  background:#063b9d;
+  color:#fff;
+  padding:7px 13px;
+  border-radius:12px;
+  font-weight:900;
+}
+.title{
+  text-align:center;
+  margin:18px 0 8px;
+  font-size:28px;
+  font-weight:900;
+  color:#063b9d;
+  letter-spacing:.5px;
+}
+.title span{color:#ff8500;display:block;font-size:34px}
+.sub{text-align:center;color:#263f85;font-size:13px;line-height:1.45;margin-bottom:14px}
+.infoBox{
+  border:2px solid #d7def8;
+  border-radius:17px;
+  padding:12px;
+  margin:12px 0;
+  background:#f9fbff;
+}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+label{display:block;font-size:13px;font-weight:900;color:#153581;margin:8px 0 5px}
+input,select{
+  width:100%;
+  padding:11px;
+  border:1px solid #cbd8ff;
+  border-radius:12px;
+  font-size:15px;
+  background:white;
+}
+.instructions{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin:12px 0;
+}
+.panel{
+  border:1.5px solid #d9e2ff;
+  background:#fbfcff;
+  border-radius:18px;
+  padding:13px;
+}
+.panel h3{margin:0 0 8px;color:#063b9d;font-size:17px}
+.panel p,.panel li{font-size:12px;line-height:1.45;color:#243c82}
+.scale span{
+  display:block;
+  font-size:13px;
+  font-weight:900;
+  margin:5px 0;
+}
+.s5{color:#27983a}.s4{color:#116bd3}.s3{color:#ff8a00}.s2{color:#7c3db6}.s1{color:#ec3d68}
+.typeBlock{
+  border:1.5px solid #dce4ff;
+  border-radius:18px;
+  margin:14px 0;
+  overflow:hidden;
+}
+.typeHead{
+  padding:12px;
+  font-weight:900;
+  color:white;
+  font-size:16px;
+}
+.typeDesc{
+  padding:0 12px 10px;
+  font-size:12px;
+  color:#2b4280;
+  background:#f9fbff;
+}
+.question{
+  display:grid;
+  grid-template-columns:1fr 112px;
+  gap:8px;
+  align-items:center;
+  padding:9px 11px;
+  border-top:1px solid #edf1ff;
+  background:white;
+}
+.qtext{font-size:12.5px;line-height:1.35;color:#122c75;font-weight:700}
+.qnum{
+  display:inline-block;
+  background:#673ab7;
+  color:white;
+  min-width:24px;
+  text-align:center;
+  border-radius:7px;
+  padding:4px;
+  margin-right:6px;
+  font-weight:900;
+}
+.question select{font-size:13px;padding:8px}
+button{
+  width:100%;
+  border:0;
+  border-radius:18px;
+  padding:15px;
+  margin:14px 0;
+  background:linear-gradient(90deg,#063b9d,#1689ff,#ff8500);
+  color:white;
+  font-size:17px;
+  font-weight:900;
+  box-shadow:0 9px 24px rgba(0,91,200,.22);
+}
+.result{
+  display:none;
+  margin-top:18px;
+  padding:15px;
+  border-radius:22px;
+  border:2px solid #d7def8;
+  background:#fbfcff;
+}
+.big{
+  text-align:center;
+  color:#ff8500;
+  font-size:27px;
+  font-weight:900;
+  margin:8px 0 12px;
+}
+.row{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  padding:8px 0;
+  border-bottom:1px solid #e6ebff;
+  font-size:13px;
+}
+.row b{color:#063b9d}
+.analysis{
+  margin-top:12px;
+  border-radius:16px;
+  padding:12px;
+  background:white;
+  border:1px solid #dfe6ff;
+  color:#1d367d;
+  font-size:13px;
+  line-height:1.55;
+}
+.barWrap{
+  height:22px;
+  border-radius:999px;
+  background:#e8eeff;
+  overflow:hidden;
+  margin:7px 0 12px;
+}
+.bar{
+  height:22px;
+  width:0%;
+  background:linear-gradient(90deg,#5f3dc4,#178bff,#ff8500);
+  color:white;
+  font-size:12px;
+  font-weight:900;
+  text-align:right;
+  padding-right:8px;
+  line-height:22px;
+}
+.cards{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-top:10px;
+}
+.mini{
+  border:1px solid #dfe6ff;
+  border-radius:15px;
+  padding:10px;
+  background:white;
+  font-size:12px;
+  line-height:1.42;
+}
+.mini b{color:#063b9d}
+.footer{
+  margin-top:14px;
+  text-align:center;
+  color:#4c5f99;
+  font-size:12px;
+  font-weight:800;
+}
+@media(max-width:650px){
+  .instructions,.grid2,.cards{grid-template-columns:1fr}
+  .question{grid-template-columns:1fr}
+  .title{font-size:22px}.title span{font-size:28px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="content">
+  <div class="header">
+    <div><div class="logo">ENGİN<span>360</span></div><div class="motto">PLANLA • ÇALIŞ • BAŞAR</div></div>
+    <div class="pageTag">V3</div>
+  </div>
+
+  <div class="title">HANGİ ZEKA TÜRÜNE <span>SAHİBİM?</span></div>
+  <div class="sub">Bu test, baskın öğrenme ve düşünme tarzını keşfetmene yardımcı olur. Sonuç kesin etiket değil, kendini tanıma aracıdır.</div>
+
+  <div class="infoBox">
+    <div class="grid2">
+      <div><label>Ad Soyad</label><input id="ad" placeholder="Ad Soyad"></div>
+      <div><label>Sınıf</label><input id="sinif" placeholder="Sınıf"></div>
+    </div>
+  </div>
+
+  <div class="instructions">
+    <div class="panel">
+      <h3>Nasıl Uygulanır?</h3>
+      <p>Her ifadeyi dikkatlice oku. Sana en uygun seçeneği işaretle. Doğru ya da yanlış cevap yoktur.</p>
+      <p>İçgüdülerine güven; fazla düşünmeden kendine en yakın cevabı seç.</p>
+    </div>
+    <div class="panel scale">
+      <h3>Puanlama</h3>
+      <span class="s5">5 = Kesinlikle Bana Uygun</span>
+      <span class="s4">4 = Bana Uygun</span>
+      <span class="s3">3 = Kararsızım</span>
+      <span class="s2">2 = Bana Uygun Değil</span>
+      <span class="s1">1 = Kesinlikle Bana Uygun Değil</span>
+    </div>
+  </div>
+
+  <div id="testAlani"></div>
+  <button onclick="hesapla()">Sonuç Analizi ve Yorumlama</button>
+
+  <div class="result" id="sonuc">
+    <div style="text-align:center;color:#063b9d;font-weight:900">BASKIN ZEKA TÜRÜN</div>
+    <div class="big" id="ana">-</div>
+
+    <div class="row"><span>1. Alan</span><b id="r1">-</b></div>
+    <div class="row"><span>2. Alan</span><b id="r2">-</b></div>
+    <div class="row"><span>3. Alan</span><b id="r3">-</b></div>
+
+    <div class="analysis" id="yorum"></div>
+    <div class="analysis" id="calisma"></div>
+    <div class="analysis" id="meslek"></div>
+    <div class="analysis" id="grafik"></div>
+
+    <div class="cards" id="kartlar"></div>
+    <div class="footer">ENGİN360 Öğrenci Koçluk Sistemi tarafından oluşturulmuştur.</div>
+  </div>
+</div>
+</div>
+
+<script>
+const veri={
+gorsel:{ad:"Görsel – Uzamsal",renk:"#7c3db6",kisa:"Görseller, şekiller ve mekânla düşünme",yorum:"Görsel hafızan güçlüdür. Harita, tablo, grafik, renkli not, çizim ve şemalarla daha kalıcı öğrenirsin.",calisma:"Konuları şema, zihin haritası, renkli not ve görsel özetlerle çalış. Matematikte şekil çiz, fen derslerinde tablo kullan.",meslek:"Mimarlık, tasarım, mühendislik, grafik tasarım, şehir planlama, animasyon, harita, görsel iletişim."},
+isitsel:{ad:"İşitsel – Müziksel",renk:"#1474d4",kisa:"Sesleri, ritimleri ve müziği algılama",yorum:"Dinleyerek, ritimle ve sesli tekrar ederek daha iyi öğrenirsin. Anlatılanları hatırlama gücün yüksektir.",calisma:"Konuları sesli tekrar et, kendine anlat, kısa ses kayıtları oluştur. Yabancı dil ve sözel derslerde dinleme çalışmalarını artır.",meslek:"Müzik, dil, sunuculuk, öğretmenlik, iletişim, ses teknolojileri, psikolojik danışmanlık."},
+bedensel:{ad:"Bedensel – Kinestetik",renk:"#249a3d",kisa:"Hareket ederek ve yaparak öğrenme",yorum:"Hareket, uygulama ve deneyim senin için önemlidir. Sadece okuyarak değil, yaparak daha iyi öğrenirsin.",calisma:"Uzun süre oturma yerine kısa bloklarla çalış. Model yap, deney uygula, yürüyerek tekrar et, uygulamalı örnek çöz.",meslek:"Spor, fizyoterapi, sağlık, sahne sanatları, teknik alanlar, uygulamalı mühendislik, beden eğitimi."},
+mantiksal:{ad:"Mantıksal – Matematiksel",renk:"#ff8a00",kisa:"Problem çözme ve akıl yürütme",yorum:"Analiz yapma, problem çözme, sayılarla düşünme ve sistem kurma becerin güçlüdür.",calisma:"Konuları neden-sonuç ilişkisiyle öğren. Formül ezberlemek yerine mantığını kur. Bol problem ve analiz sorusu çöz.",meslek:"Matematik, mühendislik, yazılım, tıp, veri bilimi, ekonomi, finans, aktüerya, yapay zekâ."},
+sozel:{ad:"Sözel – Dilsel",renk:"#1aa3a8",kisa:"Kelime, okuma, yazma ve anlatma",yorum:"Kelimeleri etkili kullanma, okuma, yazma ve anlatma becerin gelişmiştir.",calisma:"Okuyarak özet çıkar, kavramları kendi cümlelerinle yaz, edebiyat ve sosyal derslerde hikâyeleştirme kullan.",meslek:"Hukuk, öğretmenlik, edebiyat, gazetecilik, psikoloji, iletişim, reklamcılık, editörlük."},
+sosyal:{ad:"Sosyal – Kişilerarası",renk:"#ef4b75",kisa:"İnsanlarla iletişim ve iş birliği",yorum:"Empati, iletişim, ekip çalışması ve insanları anlama yönün güçlüdür.",calisma:"Birine anlatarak öğren. Grup çalışması, soru-cevap, tartışma ve öğretme tekniği sana iyi gelir.",meslek:"PDR, psikoloji, öğretmenlik, hukuk, sosyal hizmet, insan kaynakları, yönetim, sağlık alanları."},
+dogaci:{ad:"Doğacı",renk:"#4cae3f",kisa:"Doğayı ve canlıları tanıma",yorum:"Doğa, canlılar, çevre ve gözlem gerektiren konular ilgini çeker. Sınıflandırma ve ilişki kurma becerin güçlüdür.",calisma:"Biyoloji, coğrafya ve fen konularında tablo-sınıflandırma yap. Örnekleri gerçek yaşamla ilişkilendir.",meslek:"Biyoloji, veterinerlik, ziraat, çevre mühendisliği, tıp, coğrafya, ekoloji, gıda mühendisliği."},
+icsel:{ad:"İçsel – Özkişisel",renk:"#7750be",kisa:"Kendini tanıma ve hedef belirleme",yorum:"Kendini analiz etme, duygularını fark etme ve bağımsız çalışma becerin güçlüdür.",calisma:"Kendi hedeflerini yaz. Günlük plan, öz değerlendirme ve bireysel çalışma sistemi kullan.",meslek:"Psikoloji, felsefe, yazarlık, akademi, koçluk, araştırma, girişimcilik, danışmanlık."}
+};
+
+const sorular=[
+["Resim, şekil, tablo ve grafiklerle çalışmaktan hoşlanırım.","gorsel"],["Yönergeleri dinlemektense görsel olarak görmek beni daha iyi anlamamı sağlar.","gorsel"],["Harita, diyagram veya şemalara bakarak kolayca yön bulurum.","gorsel"],["Olayları zihnimde canlandırabilir, hayal gücümü kullanırım.","gorsel"],["Renkleri, şekilleri ve desenleri fark etmekten keyif alırım.","gorsel"],
+["Müzik dinlemek beni rahatlatır ve motive eder.","isitsel"],["Şarkı sözlerini, melodileri veya ritimleri kolayca hatırlarım.","isitsel"],["Bir şarkıyı birkaç kez dinledikten sonra ezberleyebilirim.","isitsel"],["Ses tonlarındaki değişiklikleri kolayca ayırt ederim.","isitsel"],["Duyduğum sesleri taklit etmek benim için kolaydır.","isitsel"],
+["Spor yapmak, hareket etmek ve aktif olmak hoşuma gider.","bedensel"],["Yeni bir hareketi kolayca öğrenirim.","bedensel"],["El becerisi gerektiren şeyler hoşuma gider.","bedensel"],["Bir şeyi yaparak öğrenmek benim için daha kalıcı olur.","bedensel"],["Dokunarak, hissederek öğrenmek benim için daha etkilidir.","bedensel"],
+["Matematiksel problemleri çözmekten hoşlanırım.","mantiksal"],["Olaylar arasında neden-sonuç ilişkisi kurarım.","mantiksal"],["Sayısal verileri ve tabloları yorumlamayı severim.","mantiksal"],["Bir sorunu adım adım çözmek bana uygundur.","mantiksal"],["Mantık oyunları ve strateji gerektiren işler ilgimi çeker.","mantiksal"],
+["Okumak ve yazmak benim için keyiflidir.","sozel"],["Düşüncelerimi konuşarak veya yazarak iyi ifade ederim.","sozel"],["Yeni kelimeler öğrenmek hoşuma gider.","sozel"],["Hikâye, şiir veya metin yazmak ilgimi çeker.","sozel"],["Bir konuyu sözlü anlatmakta iyiyimdir.","sozel"],
+["İnsanlarla iletişim kurmayı severim.","sosyal"],["Arkadaşlarım sorun yaşadığında beni dinleyici olarak görür.","sosyal"],["Grup çalışmalarında aktif olurum.","sosyal"],["İnsanların duygularını anlamaya çalışırım.","sosyal"],["Birine yardım etmek beni mutlu eder.","sosyal"],
+["Doğa, hayvanlar ve bitkiler ilgimi çeker.","dogaci"],["Çevremdeki canlıları gözlemlemekten hoşlanırım.","dogaci"],["Doğal olayları merak ederim.","dogaci"],["Canlıları sınıflandırmak veya karşılaştırmak ilgimi çeker.","dogaci"],["Çevreyi koruma konularına duyarlıyımdır.","dogaci"],
+["Kendimi ve duygularımı analiz ederim.","icsel"],["Kendi başıma çalışmayı severim.","icsel"],["Hedef belirlemek ve plan yapmak bana uygundur.","icsel"],["Güçlü ve zayıf yönlerimi fark ederim.","icsel"],["Karar verirken kendi iç sesimi dinlerim.","icsel"]
+];
+
+function yukle(){
+  const alan=document.getElementById("testAlani");
+  alan.innerHTML="";
+  let aktif="";
+  sorular.forEach((s,i)=>{
+    if(s[1]!==aktif){
+      if(aktif!=="") alan.innerHTML+="</div>";
+      aktif=s[1];
+      alan.innerHTML+=`<div class="typeBlock"><div class="typeHead" style="background:${veri[aktif].renk}">${veri[aktif].ad}</div><div class="typeDesc">${veri[aktif].kisa}</div>`;
+    }
+    alan.innerHTML+=`<div class="question"><div class="qtext"><span class="qnum">${i+1}</span>${s[0]}</div><select id="q_${i}"><option value="5">5 - Kesinlikle Bana Uygun</option><option value="4">4 - Bana Uygun</option><option value="3" selected>3 - Kararsızım</option><option value="2">2 - Bana Uygun Değil</option><option value="1">1 - Kesinlikle Bana Uygun Değil</option></select></div>`;
+  });
+  alan.innerHTML+="</div>";
+}
+
+function hesapla(){
+  const puan={gorsel:0,isitsel:0,bedensel:0,mantiksal:0,sozel:0,sosyal:0,dogaci:0,icsel:0};
+  sorular.forEach((s,i)=>{puan[s[1]]+=Number(document.getElementById("q_"+i).value)});
+  const sirali=Object.keys(puan).map(k=>({kod:k,puan:puan[k],...veri[k]})).sort((a,b)=>b.puan-a.puan);
+  const ad=document.getElementById("ad").value.trim();
+
+  document.getElementById("ana").innerText=sirali[0].ad;
+  document.getElementById("r1").innerText=sirali[0].ad+" / "+sirali[0].puan+" puan";
+  document.getElementById("r2").innerText=sirali[1].ad+" / "+sirali[1].puan+" puan";
+  document.getElementById("r3").innerText=sirali[2].ad+" / "+sirali[2].puan+" puan";
+
+  let hitap=ad?ad+" için ":"";
+  document.getElementById("yorum").innerText=hitap+"en baskın zeka türü "+sirali[0].ad+" olarak görünüyor. Bu, tek bir alana sıkıştığın anlamına gelmez. Puanların birbirine yakınsa birden fazla güçlü öğrenme kanalın var demektir. En yüksek üç alan birlikte düşünülmelidir.";
+  document.getElementById("calisma").innerText="Ders çalışma stratejisi: "+sirali[0].calisma+" İkinci güçlü yön için ek öneri: "+sirali[1].calisma;
+  document.getElementById("meslek").innerText="Uygun olabilecek alanlar: "+sirali[0].meslek+" İkinci alanla birlikte değerlendirildiğinde: "+sirali[1].meslek;
+
+  let g="<b>Sonuç Grafiği</b>";
+  sirali.forEach(x=>{
+    let yuzde=Math.round((x.puan/25)*100);
+    let duzey=x.puan>=20?"Çok güçlü":x.puan>=15?"Güçlü":x.puan>=10?"Orta":"Geliştirilebilir";
+    g+=`<div style="margin-top:10px"><b>${x.ad}</b> - ${x.puan}/25 (${duzey})</div><div class="barWrap"><div class="bar" style="width:${yuzde}%">${x.puan}</div></div>`;
+  });
+  document.getElementById("grafik").innerHTML=g;
+
+  let kart="";
+  sirali.forEach(x=>{
+    kart+=`<div class="mini"><b>${x.ad}</b><br>${x.yorum}<br><br><b>Güçlü yön:</b> ${x.kisa}</div>`;
+  });
+  document.getElementById("kartlar").innerHTML=kart;
+
+  document.getElementById("sonuc").style.display="block";
+  document.getElementById("sonuc").scrollIntoView({behavior:"smooth"});
+}
+yukle();
+</script>
+</body>
+</html>

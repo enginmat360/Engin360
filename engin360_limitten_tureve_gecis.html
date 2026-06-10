@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ENGİN360 Limitten Türeve Geçiş</title>
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:radial-gradient(circle at top,#5b21ff 0,#160032 38%,#050510 100%);
+  color:white;
+  padding:16px;
+}
+.app{
+  max-width:620px;
+  margin:auto;
+  background:rgba(255,255,255,.085);
+  border:1px solid rgba(255,255,255,.17);
+  border-radius:28px;
+  padding:20px;
+  box-shadow:0 0 38px rgba(107,55,255,.42);
+}
+.logo{text-align:center;font-size:32px;font-weight:900;letter-spacing:1px}
+.logo span{color:#00eaff}
+.sub{text-align:center;color:#ded8ff;font-size:13px;line-height:1.4;margin:6px 0 18px}
+.card{
+  background:rgba(0,0,0,.27);
+  border:1px solid rgba(255,255,255,.11);
+  border-radius:21px;
+  padding:15px;
+  margin-bottom:14px;
+}
+h3{margin:0 0 10px;font-size:16px}
+label{display:block;margin:9px 0 5px;font-size:13px;color:#eeeaff;font-weight:bold}
+input,select{
+  width:100%;
+  padding:12px;
+  border:0;
+  outline:0;
+  border-radius:13px;
+  font-size:16px;
+  background:#fff;
+  color:#111;
+}
+button{
+  width:100%;
+  border:0;
+  border-radius:18px;
+  padding:15px;
+  margin-top:8px;
+  background:linear-gradient(90deg,#8a2cff,#00cfff);
+  color:white;
+  font-size:17px;
+  font-weight:900;
+  box-shadow:0 0 22px rgba(0,207,255,.27);
+}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+canvas{
+  width:100%;
+  height:320px;
+  background:#071024;
+  border-radius:18px;
+  border:1px solid rgba(255,255,255,.15);
+}
+.result{
+  margin-top:12px;
+  padding:14px;
+  border-radius:18px;
+  background:linear-gradient(160deg,rgba(0,234,255,.14),rgba(138,44,255,.20));
+  border:1px solid rgba(255,255,255,.20);
+}
+.big{text-align:center;font-size:24px;font-weight:900;color:#7df9ff;margin:7px 0 10px}
+.row{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  border-bottom:1px solid rgba(255,255,255,.13);
+  padding:8px 0;
+  font-size:14px;
+}
+.row:last-child{border-bottom:0}
+.analysis{
+  margin-top:12px;
+  background:rgba(0,0,0,.22);
+  border-radius:16px;
+  padding:12px;
+  font-size:13px;
+  line-height:1.58;
+}
+.badge{
+  display:inline-block;
+  background:rgba(255,255,255,.14);
+  padding:6px 10px;
+  border-radius:999px;
+  font-size:12px;
+  margin:4px 3px;
+}
+input[type=range]{padding:0}
+.footer{
+  margin-top:14px;
+  text-align:center;
+  font-size:12px;
+  color:#cfc8ff;
+}
+.formula{
+  text-align:center;
+  font-size:15px;
+  color:#fff;
+  line-height:1.6;
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="logo">ENGİN<span>360</span></div>
+  <div class="sub">Limitten Türeve Geçiş<br>İki nokta arasındaki sekant doğrusunun teğete dönüşmesini gör.</div>
+
+  <div class="card">
+    <h3>Fonksiyon ve Nokta</h3>
+    <div class="grid">
+      <div>
+        <label>Fonksiyon</label>
+        <select id="fonk" onchange="ciz()">
+          <option value="x2">f(x)=x²</option>
+          <option value="x3">f(x)=x³</option>
+          <option value="sin">f(x)=sin(x)</option>
+          <option value="kok">f(x)=√x</option>
+        </select>
+      </div>
+      <div>
+        <label>x noktası: <span id="x0Yazi">1</span></label>
+        <input id="x0" type="range" min="-2" max="3" step="0.1" value="1" oninput="ciz()">
+      </div>
+    </div>
+
+    <label>h değeri: <span id="hYazi">1.00</span></label>
+    <input id="h" type="range" min="0.05" max="2" step="0.05" value="1" oninput="ciz()">
+
+    <div>
+      <span class="badge">h küçülür</span>
+      <span class="badge">Sekant teğete yaklaşır</span>
+      <span class="badge">Limit türev olur</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <canvas id="grafik" width="900" height="520"></canvas>
+
+    <div class="result">
+      <div class="big" id="sonucBaslik">Sekant Eğimi</div>
+      <div class="row"><span>Birinci nokta</span><b id="p1">-</b></div>
+      <div class="row"><span>İkinci nokta</span><b id="p2">-</b></div>
+      <div class="row"><span>Ortalama değişim oranı</span><b id="sekant">-</b></div>
+      <div class="row"><span>Türev değeri</span><b id="turev">-</b></div>
+    </div>
+
+    <div class="analysis">
+      <div class="formula">
+        Ortalama değişim oranı:<br>
+        <b>[f(x+h)-f(x)] / h</b><br><br>
+        Türev:<br>
+        <b>lim h→0 [f(x+h)-f(x)] / h</b>
+      </div>
+    </div>
+
+    <div class="analysis" id="yorum"></div>
+    <div class="footer">ENGİN360 Matematik Laboratuvarı tarafından oluşturulmuştur.</div>
+  </div>
+</div>
+
+<script>
+const canvas=document.getElementById("grafik");
+const ctx=canvas.getContext("2d");
+
+function f(x){
+  const tip=document.getElementById("fonk").value;
+  if(tip==="x2") return x*x;
+  if(tip==="x3") return x*x*x/2;
+  if(tip==="sin") return Math.sin(x);
+  if(tip==="kok") return x>=0 ? Math.sqrt(x) : NaN;
+}
+
+function fp(x){
+  const tip=document.getElementById("fonk").value;
+  if(tip==="x2") return 2*x;
+  if(tip==="x3") return 1.5*x*x;
+  if(tip==="sin") return Math.cos(x);
+  if(tip==="kok") return x>0 ? 1/(2*Math.sqrt(x)) : NaN;
+}
+
+function sx(x){return 80 + (x+3)*120}
+function sy(y){return 440 - (y+2)*80}
+
+function line(x1,y1,x2,y2,color,w=3){
+  ctx.strokeStyle=color;
+  ctx.lineWidth=w;
+  ctx.beginPath();
+  ctx.moveTo(sx(x1),sy(y1));
+  ctx.lineTo(sx(x2),sy(y2));
+  ctx.stroke();
+}
+
+function circle(x,y,color,r=8){
+  ctx.fillStyle=color;
+  ctx.beginPath();
+  ctx.arc(sx(x),sy(y),r,0,Math.PI*2);
+  ctx.fill();
+}
+
+function text(t,x,y,color="#fff"){
+  ctx.fillStyle=color;
+  ctx.font="18px Arial";
+  ctx.fillText(t,sx(x)+8,sy(y)-8);
+}
+
+function axes(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+
+  ctx.strokeStyle="rgba(255,255,255,.18)";
+  ctx.lineWidth=1;
+
+  for(let x=-3;x<=4;x++){
+    ctx.beginPath();ctx.moveTo(sx(x),40);ctx.lineTo(sx(x),480);ctx.stroke();
+  }
+  for(let y=-2;y<=4;y++){
+    ctx.beginPath();ctx.moveTo(40,sy(y));ctx.lineTo(860,sy(y));ctx.stroke();
+  }
+
+  ctx.strokeStyle="rgba(255,255,255,.55)";
+  ctx.lineWidth=2;
+  ctx.beginPath();ctx.moveTo(40,sy(0));ctx.lineTo(860,sy(0));ctx.stroke();
+  ctx.beginPath();ctx.moveTo(sx(0),40);ctx.lineTo(sx(0),480);ctx.stroke();
+
+  ctx.fillStyle="rgba(255,255,255,.75)";
+  ctx.font="16px Arial";
+  ctx.fillText("x",850,sy(0)-8);
+  ctx.fillText("y",sx(0)+8,50);
+}
+
+function ciz(){
+  let x0=Number(document.getElementById("x0").value);
+  let h=Number(document.getElementById("h").value);
+
+  const tip=document.getElementById("fonk").value;
+  if(tip==="kok" && x0<0.1){
+    x0=0.1;
+    document.getElementById("x0").value=x0;
+  }
+
+  document.getElementById("x0Yazi").innerText=x0.toFixed(1);
+  document.getElementById("hYazi").innerText=h.toFixed(2);
+
+  axes();
+
+  ctx.strokeStyle="#7df9ff";
+  ctx.lineWidth=4;
+  ctx.beginPath();
+  let first=true;
+  for(let x=-3;x<=4;x+=0.02){
+    let y=f(x);
+    if(isNaN(y)) {first=true; continue;}
+    if(first){ctx.moveTo(sx(x),sy(y)); first=false;}
+    else ctx.lineTo(sx(x),sy(y));
+  }
+  ctx.stroke();
+
+  const x1=x0;
+  const x2=x0+h;
+  const y1=f(x1);
+  const y2=f(x2);
+
+  const m=(y2-y1)/h;
+  const mt=fp(x1);
+
+  line(x1-1,y1+m*(-1),x1+1.5,y1+m*(1.5),"#ffcc4d",4);
+  if(!isNaN(mt)){
+    line(x1-1.2,y1+mt*(-1.2),x1+1.2,y1+mt*(1.2),"#ff4fd8",3);
+  }
+
+  circle(x1,y1,"#00eaff",9);
+  circle(x2,y2,"#ffcc4d",9);
+  text("A",x1,y1,"#00eaff");
+  text("B",x2,y2,"#ffcc4d");
+
+  ctx.fillStyle="#ffcc4d";
+  ctx.font="18px Arial";
+  ctx.fillText("Sekant",620,70);
+  ctx.fillStyle="#ff4fd8";
+  ctx.fillText("Teğet",620,98);
+
+  document.getElementById("p1").innerText=`A(${x1.toFixed(2)}, ${y1.toFixed(2)})`;
+  document.getElementById("p2").innerText=`B(${x2.toFixed(2)}, ${y2.toFixed(2)})`;
+  document.getElementById("sekant").innerText=m.toFixed(4);
+  document.getElementById("turev").innerText=isNaN(mt) ? "Tanımsız" : mt.toFixed(4);
+
+  let fark=Math.abs(m-mt);
+  let yorum="";
+  if(fark<0.05){
+    yorum="h değeri çok küçüldü. Sekant doğrusu artık neredeyse teğet doğrusu gibi davranıyor. İşte limit fikri burada türeve dönüşür.";
+  }else if(fark<0.3){
+    yorum="Sekant eğimi türev değerine yaklaşmaya başladı. h küçüldükçe iki nokta birbirine yaklaşır ve ortalama değişim anlık değişime döner.";
+  }else{
+    yorum="Şu anda iki nokta birbirinden uzak. Bu yüzden gördüğün eğim ortalama değişim oranıdır. h değerini küçültürsen sekant teğete yaklaşır.";
+  }
+
+  document.getElementById("yorum").innerText=yorum;
+}
+
+ciz();
+</script>
+</body>
+</html>

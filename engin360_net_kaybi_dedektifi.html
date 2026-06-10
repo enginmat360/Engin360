@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ENGİN360 Net Kaybı Dedektifi</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:radial-gradient(circle at top,#5528ff 0,#170038 38%,#050510 100%);color:white;padding:16px}
+.app{max-width:540px;margin:auto;background:rgba(255,255,255,.085);border:1px solid rgba(255,255,255,.17);border-radius:28px;padding:20px;box-shadow:0 0 38px rgba(107,55,255,.42)}
+.logo{text-align:center;font-size:32px;font-weight:900;letter-spacing:1px}.logo span{color:#00eaff}
+.sub{text-align:center;color:#ded8ff;font-size:13px;line-height:1.4;margin:6px 0 18px}
+.card{background:rgba(0,0,0,.27);border:1px solid rgba(255,255,255,.11);border-radius:21px;padding:15px;margin-bottom:14px}
+h3{margin:0 0 10px;font-size:16px}
+label{display:block;margin:9px 0 5px;font-size:13px;color:#eeeaff;font-weight:bold}
+input,select{width:100%;padding:12px;border:0;outline:0;border-radius:13px;font-size:16px;background:#fff;color:#111}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+button{width:100%;border:0;border-radius:18px;padding:15px;margin-top:8px;background:linear-gradient(90deg,#8a2cff,#00cfff);color:white;font-size:17px;font-weight:900;box-shadow:0 0 22px rgba(0,207,255,.27)}
+.result{display:none;margin-top:15px;padding:16px;border-radius:23px;background:linear-gradient(160deg,rgba(0,234,255,.16),rgba(138,44,255,.22));border:1px solid rgba(255,255,255,.22)}
+.big{text-align:center;font-size:28px;font-weight:900;color:#7df9ff;margin:7px 0 13px}
+.row{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid rgba(255,255,255,.13);padding:8px 0;font-size:14px}
+.row:last-child{border-bottom:0}
+.note{margin-top:12px;font-size:12px;line-height:1.45;color:#d8d8d8;text-align:center}
+.analysis{margin-top:12px;background:rgba(0,0,0,.22);border-radius:16px;padding:12px;font-size:13px;line-height:1.5}
+.badge{display:inline-block;background:rgba(255,255,255,.14);border-radius:999px;padding:6px 10px;font-size:12px;margin:4px}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="logo">ENGİN<span>360</span></div>
+  <div class="sub">Net Kaybı Dedektifi<br>Yanlışların asıl sebebini bulur, haftalık odak verir.</div>
+
+  <div class="card">
+    <h3>Deneme Bilgileri</h3>
+    <label>Ders / Test</label>
+    <select id="ders">
+      <option>TYT Matematik</option><option>AYT Matematik</option><option>Geometri</option>
+      <option>Türkçe</option><option>Fen</option><option>Sosyal</option>
+    </select>
+    <div class="grid">
+      <div><label>Toplam Yanlış</label><input id="yanlis" type="number" placeholder="Örn: 12"></div>
+      <div><label>Boş</label><input id="bos" type="number" placeholder="Örn: 5"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Yanlış Sebepleri</h3>
+    <div class="grid">
+      <div><label>Konu eksiği</label><input id="konu" type="number" placeholder="0"></div>
+      <div><label>İşlem hatası</label><input id="islem" type="number" placeholder="0"></div>
+      <div><label>Dikkat hatası</label><input id="dikkat" type="number" placeholder="0"></div>
+      <div><label>Süre yetmedi</label><input id="sure" type="number" placeholder="0"></div>
+      <div><label>Soru tarzını tanımadım</label><input id="tarz" type="number" placeholder="0"></div>
+      <div><label>Bilgi var ama uygulayamadım</label><input id="uygulama" type="number" placeholder="0"></div>
+    </div>
+  </div>
+
+  <button onclick="analizEt()">Analiz Et</button>
+
+  <div class="result" id="sonuc">
+    <div style="text-align:center">Ana Kayıp Kaynağın</div>
+    <div class="big" id="ana">-</div>
+    <div class="row"><span>Kayıp Profili</span><b id="profil">-</b></div>
+    <div class="row"><span>Risk Seviyesi</span><b id="risk">-</b></div>
+    <div class="row"><span>Bu Hafta Odak</span><b id="odak">-</b></div>
+    <div class="analysis" id="yorum"></div>
+    <div class="note">Bu araç kayıt tutmaz; öğrenciye anlık koçluk analizi verir.</div>
+  </div>
+</div>
+<script>
+function n(id){return Number(document.getElementById(id).value)||0}
+function analizEt(){
+  const data=[
+    ["Konu eksiği",n("konu")],
+    ["İşlem hatası",n("islem")],
+    ["Dikkat hatası",n("dikkat")],
+    ["Süre problemi",n("sure")],
+    ["Soru tarzı eksikliği",n("tarz")],
+    ["Uygulama zayıflığı",n("uygulama")]
+  ].sort((a,b)=>b[1]-a[1]);
+
+  const ana=data[0][0], ikinci=data[1][0];
+  const toplamSebep=data.reduce((s,x)=>s+x[1],0);
+  const yanlis=n("yanlis"), bos=n("bos");
+  let risk="Düşük", profil="Dengeli kayıp", odak="", yorum="";
+
+  if(yanlis+bos>=18) risk="Yüksek";
+  else if(yanlis+bos>=10) risk="Orta";
+
+  if(data[0][1]>=toplamSebep*0.45) profil="Tek ana problem baskın";
+  else if(data[0][1]-data[1][1]<=2) profil="İki problem birlikte gidiyor";
+  else profil="Ana problem net görünüyor";
+
+  if(ana==="Konu eksiği"){odak="Konu tamamlama"; yorum="Bu sonuç moral meselesi değil. Konu bilgisi tamamlanmadan deneme çözmek neti sınırlıyor. Bu hafta 2 küçük konu seç, özet çıkar, ardından hedefli test çöz.";}
+  if(ana==="İşlem hatası"){odak="Yavaş ve temiz çözüm"; yorum="Bilgi var ama puan masada kalıyor. Çözümü hızlandırmaya değil, satır düzeni ve kontrol alışkanlığına odaklan. Her testten sonra sadece işlem hatalarını ayrı işaretle.";}
+  if(ana==="Dikkat hatası"){odak="Soru kökü kontrolü"; yorum="Soruları biliyorsun ama dikkatsizlik neti yiyor. Özellikle 'değildir, en az, en çok, kesinlikle' kelimelerini işaretleme alışkanlığı kur.";}
+  if(ana==="Süre problemi"){odak="Süre stratejisi"; yorum="Asıl sorun konu değil, sınav yönetimi olabilir. Takıldığın soruda inat etmeyi bırakıp ikinci tur stratejisi kurmalısın.";}
+  if(ana==="Soru tarzı eksikliği"){odak="Yeni nesil soru tipi"; yorum="Konu biliniyor ama soru dili tanıdık değil. Aynı konudan farklı kaynak ve farklı tarz soru görmen gerekiyor.";}
+  if(ana==="Uygulama zayıflığı"){odak="Çözümlü örnek + tekrar"; yorum="Bilgi pasif kalmış. Önce çözümlü 5 örnek incele, sonra benzer 15 soru çöz. Hemen deneme çözmek yerine uygulama kası kur.";}
+  if(data[1][1]>0) yorum += " İkinci dikkat edilecek alan: " + ikinci + ".";
+
+  document.getElementById("ana").innerText=ana;
+  document.getElementById("profil").innerText=profil;
+  document.getElementById("risk").innerText=risk;
+  document.getElementById("odak").innerText=odak;
+  document.getElementById("yorum").innerText=yorum;
+  document.getElementById("sonuc").style.display="block";
+}
+</script>
+</body>
+</html>

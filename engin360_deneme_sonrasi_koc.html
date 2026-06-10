@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ENGİN360 Deneme Sonrası Koç</title>
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:radial-gradient(circle at top,#5b21ff 0,#160032 38%,#050510 100%);
+  color:white;
+  padding:16px;
+}
+.app{
+  max-width:570px;
+  margin:auto;
+  background:rgba(255,255,255,.085);
+  border:1px solid rgba(255,255,255,.17);
+  border-radius:28px;
+  padding:20px;
+  box-shadow:0 0 38px rgba(107,55,255,.42);
+}
+.logo{text-align:center;font-size:32px;font-weight:900;letter-spacing:1px}
+.logo span{color:#00eaff}
+.sub{text-align:center;color:#ded8ff;font-size:13px;line-height:1.4;margin:6px 0 18px}
+.card{
+  background:rgba(0,0,0,.27);
+  border:1px solid rgba(255,255,255,.11);
+  border-radius:21px;
+  padding:15px;
+  margin-bottom:14px;
+}
+h3{margin:0 0 10px;font-size:16px}
+label{display:block;margin:9px 0 5px;font-size:13px;color:#eeeaff;font-weight:bold}
+input,select{
+  width:100%;
+  padding:12px;
+  border:0;
+  outline:0;
+  border-radius:13px;
+  font-size:16px;
+  background:#fff;
+  color:#111;
+}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+button{
+  width:100%;
+  border:0;
+  border-radius:18px;
+  padding:15px;
+  margin-top:8px;
+  background:linear-gradient(90deg,#8a2cff,#00cfff);
+  color:white;
+  font-size:17px;
+  font-weight:900;
+  box-shadow:0 0 22px rgba(0,207,255,.27);
+}
+.result{
+  display:none;
+  margin-top:15px;
+  padding:16px;
+  border-radius:23px;
+  background:linear-gradient(160deg,rgba(0,234,255,.16),rgba(138,44,255,.22));
+  border:1px solid rgba(255,255,255,.22);
+}
+.big{text-align:center;font-size:27px;font-weight:900;color:#7df9ff;margin:7px 0 13px}
+.row{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  border-bottom:1px solid rgba(255,255,255,.13);
+  padding:8px 0;
+  font-size:14px;
+}
+.row:last-child{border-bottom:0}
+.analysis{
+  margin-top:12px;
+  background:rgba(0,0,0,.22);
+  border-radius:16px;
+  padding:12px;
+  font-size:13px;
+  line-height:1.58;
+}
+.day{
+  margin:9px 0;
+  padding:12px;
+  border-radius:16px;
+  background:rgba(255,255,255,.09);
+  border:1px solid rgba(255,255,255,.10);
+}
+.day b{color:#7df9ff}
+.quote{
+  margin-top:12px;
+  padding:14px;
+  border-radius:18px;
+  background:rgba(0,234,255,.10);
+  border:1px solid rgba(125,249,255,.25);
+  font-size:14px;
+  line-height:1.55;
+}
+.badge{
+  display:inline-block;
+  background:rgba(255,255,255,.14);
+  padding:6px 10px;
+  border-radius:999px;
+  font-size:12px;
+  margin:4px 3px;
+}
+.footer{
+  margin-top:14px;
+  text-align:center;
+  font-size:12px;
+  color:#cfc8ff;
+  letter-spacing:.2px;
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="logo">ENGİN<span>360</span></div>
+  <div class="sub">Deneme Sonrası Koç<br>Net düştüğünde, moral bozulduğunda veya ne yapacağını bilemediğinde yol gösterir.</div>
+
+  <div class="card">
+    <h3>Deneme Sonrası Durum</h3>
+
+    <label>Deneme Sonrası Hissin</label>
+    <select id="his">
+      <option value="moral">Moralim çok bozuk</option>
+      <option value="ofke">Kendime kızıyorum</option>
+      <option value="panik">Panik oldum</option>
+      <option value="bosluk">Ne yapacağımı bilmiyorum</option>
+      <option value="normal">Normalim, analiz yapmak istiyorum</option>
+    </select>
+
+    <div class="grid">
+      <div><label>Son Net</label><input id="sonNet" type="number" step="0.25" placeholder="Örn: 78"></div>
+      <div><label>Önceki Net</label><input id="oncekiNet" type="number" step="0.25" placeholder="Örn: 82"></div>
+    </div>
+
+    <label>En Çok Ne Zorladı?</label>
+    <select id="problem">
+      <option value="sure">Süre yetmedi</option>
+      <option value="dikkat">Dikkat hatası yaptım</option>
+      <option value="konu">Konu eksiği çıktı</option>
+      <option value="panik">Sınavda dağıldım</option>
+      <option value="zor">Deneme çok zordu</option>
+    </select>
+
+    <label>Bugün Ne Kadar Çalışabilecek Durumdasın?</label>
+    <select id="enerji">
+      <option value="dusuk">Çok az</option>
+      <option value="orta" selected>Orta</option>
+      <option value="yuksek">İyiyim, toparlayabilirim</option>
+    </select>
+
+    <div>
+      <span class="badge">Moral</span>
+      <span class="badge">Gerçekçi analiz</span>
+      <span class="badge">Küçük eylem</span>
+      <span class="badge">Yalnız değilsin</span>
+    </div>
+  </div>
+
+  <button onclick="koclukVer()">Koçluk Mesajımı Oluştur</button>
+
+  <div class="result" id="sonuc">
+    <div style="text-align:center">Bugünkü Kararın</div>
+    <div class="big" id="karar">-</div>
+
+    <div class="row"><span>Net Değişimi</span><b id="degisim">-</b></div>
+    <div class="row"><span>Bugünkü Öncelik</span><b id="oncelik">-</b></div>
+    <div class="row"><span>Çalışma Modu</span><b id="mod">-</b></div>
+
+    <div class="quote" id="moral"></div>
+    <div class="analysis" id="analiz"></div>
+    <div class="analysis" id="plan"></div>
+    <div class="footer">ENGİN360 Öğrenci Koçluk Sistemi tarafından oluşturulmuştur.</div>
+  </div>
+</div>
+
+<script>
+function n(id){return Number(document.getElementById(id).value)||0}
+
+function koclukVer(){
+  const his=document.getElementById("his").value;
+  const problem=document.getElementById("problem").value;
+  const enerji=document.getElementById("enerji").value;
+  const son=n("sonNet");
+  const onceki=n("oncekiNet");
+  const fark=son-onceki;
+
+  let karar="", oncelik="", mod="", moral="", analiz="", plan="";
+
+  if(fark>=5){
+    karar="Yükselişi koru";
+    moral="Bugün iyi bir sonuç aldın. Ama asıl mesele sevinmekten sonra sistemi korumak. Bu net tesadüf değilse, hangi davranışın bunu getirdiğini bulmalısın.";
+    analiz="Net artışı var. Şimdi yapılacak en doğru şey yeni konuya saldırmak değil; bu artışı sağlayan dersleri ve soru tiplerini not etmektir.";
+  }else if(fark>=0){
+    karar="İstikrarı sürdür";
+    moral="Bazen ilerleme büyük sıçrama gibi görünmez. Aynı seviyeyi korumak bile emek ister. Bugün küçük ama değerli bir çizgiyi korudun.";
+    analiz="Net düşmemiş. Bu durumda amaç panik yapmak değil, 2-3 küçük hatayı yakalayıp bir sonraki denemeye taşımamaktır.";
+  }else if(fark>=-5){
+    karar="Küçük düşüş, büyük alarm değil";
+    moral="Bu bir çöküş değil. Denemelerde birkaç netlik düşüş normaldir. Bir deneme senin seviyeni değil, o günkü kararlarını gösterir.";
+    analiz="Net düşüşü sınırlı. Sorun sistemsel olmayabilir. Dikkat, süre veya deneme zorluğu etkili olmuş olabilir.";
+  }else{
+    karar="Dur, analiz et, yeniden kur";
+    moral="Bugün canın sıkılmış olabilir. Bu çok normal. Ama şunu unutma: Kötü deneme, kötü öğrenci demek değildir. Sadece sistemin nereden sızdırdığını gösteren bir rapordur.";
+    analiz="Net düşüşü belirgin. Bugün yeni konu yüklenmek yerine önce denemeyi sakin şekilde parçalamak gerekir.";
+  }
+
+  if(his==="moral"){
+    moral += " Şu anda yalnız değilsin. Birçok öğrenci deneme sonrası kendini geride kalmış hisseder. Farkı yaratan şey o duyguda kalmak değil, küçük bir adımla geri dönmektir.";
+  }
+  if(his==="ofke"){
+    moral += " Kendine kızmak kısa süreli enerji verir ama uzun süreli çözüm üretmez. Bugün kendini suçlamak yerine hatayı sınıflandır.";
+  }
+  if(his==="panik"){
+    moral += " Panik, beynin 'tehlike var' alarmıdır; ama her alarm gerçek tehlike değildir. Önce nefes al, sonra sadece ilk küçük işi seç.";
+  }
+  if(his==="bosluk"){
+    moral += " Ne yapacağını bilmemek tembellik değildir; çoğu zaman plan eksikliğidir. Bugün sana tek bir yol lazım, on tane değil.";
+  }
+  if(his==="normal"){
+    moral += " Bu iyi. Duyguya kapılmadan analiz yapabilmek sınav sürecinde çok güçlü bir beceridir.";
+  }
+
+  if(problem==="sure"){
+    oncelik="Süre analizi";
+    plan="<div class='day'><b>1. Adım:</b> Süre yetmeyen testleri işaretle.</div><div class='day'><b>2. Adım:</b> Takıldığın 3 soruyu bul.</div><div class='day'><b>3. Adım:</b> Bir sonraki denemede 90 saniye kuralı uygula.</div>";
+  }
+  if(problem==="dikkat"){
+    oncelik="Dikkat hatası kapatma";
+    plan="<div class='day'><b>1. Adım:</b> Dikkat hatası olan soruları ayır.</div><div class='day'><b>2. Adım:</b> Soru kökünde kaçırdığın kelimeyi yaz.</div><div class='day'><b>3. Adım:</b> Sonraki denemede 'değildir, en az, en çok' kelimelerini işaretle.</div>";
+  }
+  if(problem==="konu"){
+    oncelik="Konu eksiği belirleme";
+    plan="<div class='day'><b>1. Adım:</b> Yanlış çıkan konuları listele.</div><div class='day'><b>2. Adım:</b> En çok tekrar eden 1 konuyu seç.</div><div class='day'><b>3. Adım:</b> Bugün sadece o konudan 20 soru çöz.</div>";
+  }
+  if(problem==="panik"){
+    oncelik="Sınav anı kontrolü";
+    plan="<div class='day'><b>1. Adım:</b> Denemede dağıldığın anı yaz.</div><div class='day'><b>2. Adım:</b> O anda ne yapacağını belirle: dur, nefes al, kolay soruya geç.</div><div class='day'><b>3. Adım:</b> Bir sonraki denemede bu planı özellikle dene.</div>";
+  }
+  if(problem==="zor"){
+    oncelik="Deneme zorluğu ayrımı";
+    plan="<div class='day'><b>1. Adım:</b> Gerçekten bilmediğin soruları ayır.</div><div class='day'><b>2. Adım:</b> Zor ama yapılabilir olanları işaretle.</div><div class='day'><b>3. Adım:</b> Sadece yapılabilir 5 soruyu yeniden çöz.</div>";
+  }
+
+  if(enerji==="dusuk"){
+    mod="Toparlanma modu";
+    plan += "<div class='day'><b>Bugünkü Sınır:</b> Yeni konu yok. Sadece 20-30 dakika analiz yeterli.</div>";
+  }else if(enerji==="orta"){
+    mod="Kısa analiz modu";
+    plan += "<div class='day'><b>Bugünkü Sınır:</b> 30 dakika analiz + 15 benzer soru yeterli.</div>";
+  }else{
+    mod="Geri dönüş modu";
+    plan += "<div class='day'><b>Bugünkü Sınır:</b> Analizden sonra 30-40 soru ile günü kapat.</div>";
+  }
+
+  let degisimYazi = fark>0 ? "+"+fark.toFixed(2)+" net" : fark.toFixed(2)+" net";
+  if(!onceki && !son) degisimYazi="Net girilmedi";
+
+  document.getElementById("karar").innerText=karar;
+  document.getElementById("degisim").innerText=degisimYazi;
+  document.getElementById("oncelik").innerText=oncelik;
+  document.getElementById("mod").innerText=mod;
+  document.getElementById("moral").innerText=moral;
+  document.getElementById("analiz").innerText=analiz;
+  document.getElementById("plan").innerHTML=plan;
+  document.getElementById("sonuc").style.display="block";
+}
+</script>
+</body>
+</html>

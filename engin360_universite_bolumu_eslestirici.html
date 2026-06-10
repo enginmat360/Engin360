@@ -1,0 +1,76 @@
+
+<!DOCTYPE html><html lang='tr'><head><meta charset='UTF-8'>
+<meta name='viewport' content='width=device-width,initial-scale=1'>
+<title>ENGİN360 Üniversite Bölümü Eşleştirici</title>
+<style>
+body{font-family:Arial;background:#120428;color:#fff;padding:15px}
+.box{max-width:700px;margin:auto;background:#1d1038;padding:20px;border-radius:20px}
+input,select,button{width:100%;padding:12px;margin:6px 0;border-radius:10px;border:none}
+button{background:#6a2cff;color:#fff;font-weight:bold}
+.result{display:none;margin-top:15px;padding:15px;background:#2a184d;border-radius:15px}
+.card{background:#341f61;padding:10px;border-radius:10px;margin:8px 0}
+</style></head><body>
+<div class='box'>
+<h2>🎓 ENGİN360 Üniversite Bölümü Eşleştirici</h2>
+<select id='alan'>
+<option value='say'>Sayısal</option>
+<option value='ea'>Eşit Ağırlık</option>
+<option value='soz'>Sözel</option>
+</select>
+<input id='tyt' type='number' placeholder='TYT Neti'>
+<input id='ayt' type='number' placeholder='AYT / Alan Neti'>
+<select id='sehir'>
+<option>Bursa</option><option>İstanbul</option><option>Ankara</option>
+<option>İzmir</option><option>Farketmez</option>
+</select>
+<button onclick='hesapla()'>Bölümleri Eşleştir</button>
+
+<div id='sonuc' class='result'></div>
+</div>
+
+<script>
+const bolumler={
+say:[
+["Bilgisayar Mühendisliği","Analitik düşünme, teknoloji ve problem çözme"],
+["Tıp","Bilimsel merak, insanlara yardım"],
+["Elektrik-Elektronik Müh.","Teknik ve matematiksel düşünme"],
+["Endüstri Mühendisliği","Analiz ve sistem kurma"],
+["Yazılım Geliştirme","Kodlama ve üretme"]
+],
+ea:[
+["Hukuk","Yorumlama ve savunma"],
+["Psikoloji","İnsan davranışları"],
+["PDR","Rehberlik ve iletişim"],
+["İşletme","Yönetim ve liderlik"],
+["Uluslararası İlişkiler","Analiz ve iletişim"]
+],
+soz:[
+["Türkçe Öğretmenliği","Anlatma ve iletişim"],
+["Tarih","Araştırma ve yorumlama"],
+["Gazetecilik","İletişim ve üretim"],
+["Radyo-TV-Sinema","Yaratıcılık"],
+["Sosyal Hizmet","İnsan odaklı çalışma"]
+]
+};
+
+function hesapla(){
+let alan=document.getElementById('alan').value;
+let tyt=Number(document.getElementById('tyt').value)||0;
+let ayt=Number(document.getElementById('ayt').value)||0;
+
+let seviye="Gelişim Aşamasında";
+if(tyt+ayt>120) seviye="Güçlü Aday";
+else if(tyt+ayt>80) seviye="Potansiyelli Aday";
+
+let html="<h3>"+seviye+"</h3>";
+html+="<p>Bu sonuç yönlendirme amaçlıdır.</p>";
+
+bolumler[alan].forEach((b,i)=>{
+html+=`<div class='card'><b>${i+1}. ${b[0]}</b><br>${b[1]}</div>`;
+});
+
+document.getElementById('sonuc').innerHTML=html;
+document.getElementById('sonuc').style.display='block';
+}
+</script>
+</body></html>
