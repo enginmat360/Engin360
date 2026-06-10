@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ENGİN360 Laboratuvar</title>
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Segoe UI',Arial,sans-serif;
+}
+body{
+  min-height:100vh;
+  color:#fff;
+  background:
+    radial-gradient(circle at top left,rgba(168,85,247,.35),transparent 35%),
+    radial-gradient(circle at bottom right,rgba(14,165,233,.30),transparent 35%),
+    linear-gradient(135deg,#05010d,#120024,#06142f);
+  padding:20px;
+}
+.container{
+  max-width:1050px;
+  margin:0 auto;
+}
+.hero{
+  text-align:center;
+  padding:34px 22px;
+  border-radius:30px;
+  background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.14);
+  box-shadow:0 0 38px rgba(124,58,237,.34);
+  backdrop-filter:blur(14px);
+}
+.logo{
+  font-size:44px;
+  font-weight:900;
+  letter-spacing:2px;
+  background:linear-gradient(90deg,#a855f7,#38bdf8,#ec4899);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+.subtitle{
+  margin-top:10px;
+  color:#ddd7ff;
+  font-size:16px;
+  line-height:1.55;
+}
+.badges{
+  margin-top:16px;
+  display:flex;
+  gap:10px;
+  justify-content:center;
+  flex-wrap:wrap;
+}
+.badge{
+  padding:8px 14px;
+  border-radius:999px;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.16);
+  color:#f6e7ff;
+  font-size:13px;
+}
+.section{
+  margin-top:30px;
+}
+.section-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:15px;
+}
+.section-title{
+  font-size:23px;
+  color:#f5d0fe;
+}
+.section-note{
+  color:#aeb7ff;
+  font-size:13px;
+}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(245px,1fr));
+  gap:16px;
+}
+.card{
+  display:block;
+  text-decoration:none;
+  color:#fff;
+  min-height:145px;
+  padding:20px;
+  border-radius:24px;
+  background:linear-gradient(135deg,rgba(124,58,237,.25),rgba(14,165,233,.13));
+  border:1px solid rgba(255,255,255,.13);
+  box-shadow:0 12px 28px rgba(0,0,0,.28);
+  transition:.22s ease;
+}
+.card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 0 28px rgba(236,72,153,.35);
+}
+.icon{
+  font-size:34px;
+  margin-bottom:12px;
+}
+.card h3{
+  font-size:18px;
+  margin-bottom:8px;
+}
+.card p{
+  color:#d7d9f7;
+  font-size:14px;
+  line-height:1.45;
+}
+.status{
+  margin-top:14px;
+  display:inline-block;
+  font-size:12px;
+  padding:6px 10px;
+  border-radius:999px;
+  background:rgba(34,197,94,.13);
+  color:#bbf7d0;
+  border:1px solid rgba(34,197,94,.25);
+}
+.soon{
+  background:rgba(255,255,255,.05);
+}
+.soon .status{
+  background:rgba(251,191,36,.12);
+  color:#fde68a;
+  border-color:rgba(251,191,36,.25);
+}
+.footer{
+  text-align:center;
+  color:#a8a8b8;
+  font-size:13px;
+  margin:36px 0 12px;
+}
+@media(max-width:520px){
+  body{padding:14px}
+  .hero{padding:28px 16px}
+  .logo{font-size:36px}
+  .section-head{display:block}
+  .section-note{margin-top:5px}
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="hero">
+    <div class="logo">ENGİN360</div>
+    <div class="subtitle">
+      Matematik Laboratuvarı · Rehberlik · Koçluk<br>
+      Oyna, keşfet, uygula, öğren.
+    </div>
+    <div class="badges">
+      <span class="badge">🧪 Etkileşimli Öğrenme</span>
+      <span class="badge">📱 Mobil Uyumlu</span>
+      <span class="badge">🎯 Öğrenci Odaklı</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <h2 class="section-title">🧪 Matematik Laboratuvarı</h2>
+      <div class="section-note">Grafik, fonksiyon, türev, integral ve olasılık etkinlikleri</div>
+    </div>
+
+    <div class="grid">
+      <a class="card" href="parabol.html">
+        <div class="icon">📈</div>
+        <h3>Parabol Laboratuvarı</h3>
+        <p>Parabolün öteleme ve dönüşüm hareketlerini etkileşimli olarak incele.</p>
+        <span class="status">HTML yüklendiğinde aktif</span>
+      </a>
+
+      <a class="card" href="mutlakdeger.html">
+        <div class="icon">🔷</div>
+        <h3>Mutlak Değer Fonksiyonu</h3>
+        <p>V şeklindeki grafik yapısını ve kritik noktaları görerek öğren.</p>
+        <span class="status">HTML yüklendiğinde aktif</span>
+      </a>
+
+      <a class="card" href="fonksiyon-donusumleri.html">
+        <div class="icon">🔄</div>
+        <h3>Fonksiyon Dönüşümleri</h3>
+        <p>Öteleme, yansıma, sıkışma ve esneme hareketlerini keşfet.</p>
+        <span class="status">HTML yüklendiğinde aktif</span>
+      </a>
+
+      <a class="card" href="turev-teget.html">
+        <div class="icon">📐</div>
+        <h3>Türev ve Teğet Eğimi</h3>
+        <p>Anlık değişim oranını ve teğet doğrusunun eğimini görselleştir.</p>
+        <span class="status">HTML yüklendiğinde aktif</span>
+      </a>
+
+      <a class="card" href="integral-alan.html">
+        <div class="icon">🟪</div>
+        <h3>İntegral Alan</h3>
+        <p>Grafik altında kalan alanı parçalara ayırarak anlamlandır.</p>
+        <span class="status">HTML yüklendiğinde aktif</span>
+      </a>
+
+      <a class="card" href="olasilik.html">
+        <div class="icon">🎲</div>
+        <h3>Olasılık Simülasyonu</h3>
+        <p>Deneysel ve teorik olasılığı karşılaştırmalı olarak gör.</p>
+        <span class="status">HTML yüklendiğinde aktif</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <h2 class="section-title">🧠 Rehberlik ve Koçluk</h2>
+      <div class="section-note">Öğrenci farkındalığı ve çalışma alışkanlığı araçları</div>
+    </div>
+
+    <div class="grid">
+      <a class="card" href="engin360_erteleme_aliskanligi_testi.html">
+        <div class="icon">⏳</div>
+        <h3>Erteleme Alışkanlığı Testi</h3>
+        <p>Çalışmayı neden ertelediğini fark et ve kişisel çözüm yolunu gör.</p>
+        <span class="status">Aktif</span>
+      </a>
+
+      <a class="card soon" href="mesleki-yonelim.html">
+        <div class="icon">🎯</div>
+        <h3>Mesleki Yönelim Testi</h3>
+        <p>İlgi alanlarına göre meslek gruplarını keşfet.</p>
+        <span class="status">HTML yüklendiğinde aktif</span>
+      </a>
+
+      <a class="card soon" href="motivasyon-analizi.html">
+        <div class="icon">🚀</div>
+        <h3>Motivasyon Analizi</h3>
+        <p>Çalışma isteğini etkileyen güçlü ve zayıf noktaları analiz et.</p>
+        <span class="status">HTML yüklendiğinde aktif</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="footer">
+    ENGİN360 © 2026 · Matematik · Rehberlik · Koçluk
+  </div>
+
+</div>
+</body>
+</html>
