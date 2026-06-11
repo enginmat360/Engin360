@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ENGİN360 | Fonksiyon Davranışları Laboratuvarı</title>
+  <style>
+    :root{
+      --bg:#070915;
+      --card:#101426;
+      --card2:#151a33;
+      --text:#f4f7ff;
+      --muted:#aab3d6;
+      --blue:#38bdf8;
+      --purple:#8b5cf6;
+      --pink:#ec4899;
+      --green:#22c55e;
+      --red:#fb7185;
+      --yellow:#facc15;
+      --line:rgba(255,255,255,.12);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Arial, Helvetica, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at 20% 10%, rgba(139,92,246,.34), transparent 32%),
+        radial-gradient(circle at 80% 15%, rgba(56,189,248,.24), transparent 30%),
+        radial-gradient(circle at 55% 90%, rgba(236,72,153,.18), transparent 35%),
+        var(--bg);
+      min-height:100vh;
+      padding:18px;
+    }
+    .wrap{max-width:1180px;margin:0 auto}
+    .hero{
+      border:1px solid var(--line);
+      border-radius:26px;
+      background:linear-gradient(135deg,rgba(16,20,38,.96),rgba(15,20,44,.82));
+      box-shadow:0 22px 60px rgba(0,0,0,.35);
+      padding:22px;
+      margin-bottom:16px;
+      position:relative;
+      overflow:hidden;
+    }
+    .hero:before{
+      content:"";
+      position:absolute;
+      width:260px;height:260px;
+      border-radius:50%;
+      background:rgba(139,92,246,.16);
+      right:-80px;top:-90px;
+      filter:blur(2px);
+    }
+    .brand{
+      display:flex;align-items:center;gap:12px;flex-wrap:wrap;position:relative;
+    }
+    .logo{
+      font-weight:900;
+      letter-spacing:1px;
+      padding:10px 14px;
+      border-radius:16px;
+      background:linear-gradient(135deg,var(--purple),var(--blue));
+      box-shadow:0 0 22px rgba(56,189,248,.30);
+    }
+    h1{font-size:28px;margin:10px 0 8px}
+    .subtitle{color:var(--muted);line-height:1.55;max-width:850px;margin:0}
+    .stats{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:10px;
+      margin-top:16px;
+    }
+    .stat{
+      background:rgba(255,255,255,.06);
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:12px;
+    }
+    .stat b{display:block;font-size:22px}
+    .stat span{font-size:12px;color:var(--muted)}
+    .tabs{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:10px;
+      margin:14px 0;
+    }
+    .tab{
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.06);
+      color:var(--text);
+      border-radius:18px;
+      padding:13px 10px;
+      cursor:pointer;
+      font-weight:800;
+    }
+    .tab.active{
+      background:linear-gradient(135deg,rgba(139,92,246,.95),rgba(56,189,248,.78));
+      box-shadow:0 0 26px rgba(139,92,246,.22);
+    }
+    .grid{
+      display:grid;
+      grid-template-columns:1.25fr .75fr;
+      gap:14px;
+    }
+    .panel{
+      background:rgba(16,20,38,.92);
+      border:1px solid var(--line);
+      border-radius:24px;
+      padding:16px;
+      box-shadow:0 18px 50px rgba(0,0,0,.24);
+    }
+    .canvasBox{
+      background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.015));
+      border:1px solid var(--line);
+      border-radius:22px;
+      padding:10px;
+      position:relative;
+    }
+    canvas{
+      width:100%;
+      height:420px;
+      display:block;
+      border-radius:16px;
+      background:#080b19;
+    }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:8px 10px;
+      border-radius:999px;
+      background:rgba(255,255,255,.07);
+      border:1px solid var(--line);
+      color:var(--muted);
+      font-size:13px;
+      margin:4px 6px 4px 0;
+    }
+    .badge.green{color:#b7ffd0;border-color:rgba(34,197,94,.35);background:rgba(34,197,94,.10)}
+    .badge.red{color:#ffc4cf;border-color:rgba(251,113,133,.35);background:rgba(251,113,133,.10)}
+    .badge.blue{color:#bceeff;border-color:rgba(56,189,248,.35);background:rgba(56,189,248,.10)}
+    .formula{
+      margin:12px 0;
+      padding:13px;
+      border-radius:18px;
+      background:rgba(139,92,246,.10);
+      border:1px solid rgba(139,92,246,.25);
+      font-weight:800;
+      color:#fff;
+      overflow:auto;
+    }
+    .control{margin:13px 0}
+    label{
+      display:flex;
+      justify-content:space-between;
+      gap:8px;
+      color:var(--muted);
+      font-size:13px;
+      margin-bottom:6px;
+    }
+    input[type=range]{width:100%;accent-color:var(--purple)}
+    input[type=text]{
+      width:100%;
+      background:#090d1d;
+      color:var(--text);
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:12px;
+      outline:none;
+      margin-top:6px;
+    }
+    input[type=text]:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(56,189,248,.12)}
+    .btns{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+    button.action{
+      border:0;
+      border-radius:16px;
+      padding:13px;
+      color:white;
+      font-weight:900;
+      cursor:pointer;
+      background:linear-gradient(135deg,var(--purple),var(--blue));
+    }
+    button.secondary{
+      background:rgba(255,255,255,.08);
+      border:1px solid var(--line);
+    }
+    .result{
+      min-height:52px;
+      border-radius:18px;
+      margin-top:12px;
+      padding:12px;
+      color:var(--muted);
+      background:rgba(255,255,255,.05);
+      border:1px solid var(--line);
+      line-height:1.45;
+    }
+    .result.ok{color:#c8ffd9;border-color:rgba(34,197,94,.45);background:rgba(34,197,94,.10)}
+    .result.no{color:#ffd0d7;border-color:rgba(251,113,133,.45);background:rgba(251,113,133,.10)}
+    .miniTitle{font-weight:900;margin:0 0 8px}
+    .hint{color:var(--muted);font-size:13px;line-height:1.5}
+    .answerGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .note{
+      margin-top:14px;
+      padding:14px;
+      border-radius:18px;
+      background:rgba(250,204,21,.08);
+      border:1px solid rgba(250,204,21,.2);
+      color:#fff3b0;
+      line-height:1.55;
+      font-size:13px;
+    }
+    .footer{
+      text-align:center;color:var(--muted);font-size:12px;margin:18px 0 4px;
+    }
+    @media(max-width:900px){
+      body{padding:10px}
+      .grid{grid-template-columns:1fr}
+      .tabs{grid-template-columns:1fr 1fr}
+      .stats{grid-template-columns:1fr 1fr}
+      canvas{height:360px}
+      h1{font-size:23px}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <div class="brand">
+        <div class="logo">ENGİN360</div>
+        <div class="badge blue">🧪 Matematik Laboratuvarı</div>
+        <div class="badge">📈 Fonksiyon Davranışları</div>
+      </div>
+      <h1>Artan - Azalan Fonksiyon Laboratuvarı</h1>
+      <p class="subtitle">
+        Grafiği incele, fonksiyonun nerede arttığını ve nerede azaldığını tahmin et.
+        Parabol, kübik, mutlak değer ve rasyonel fonksiyonları aynı ekranda keşfet.
+      </p>
+      <div class="stats">
+        <div class="stat"><b id="score">0</b><span>Puan</span></div>
+        <div class="stat"><b id="correct">0</b><span>Doğru</span></div>
+        <div class="stat"><b id="levelText">1</b><span>Seviye</span></div>
+        <div class="stat"><b id="rank">Başlangıç</b><span>Rozet</span></div>
+      </div>
+    </section>
+
+    <div class="tabs">
+      <button class="tab active" onclick="setMode('parabol')">1. Parabol</button>
+      <button class="tab" onclick="setMode('kubik')">2. Kübik</button>
+      <button class="tab" onclick="setMode('mutlak')">3. Mutlak Değer</button>
+      <button class="tab" onclick="setMode('rasyonel')">4. Rasyonel</button>
+    </div>
+
+    <section class="grid">
+      <div class="panel">
+        <div class="canvasBox">
+          <canvas id="graph" width="900" height="520"></canvas>
+        </div>
+        <div style="margin-top:10px">
+          <span class="badge green">Yeşil: Artan</span>
+          <span class="badge red">Kırmızı: Azalan</span>
+          <span class="badge blue">Mavi Nokta: Kritik nokta / asimptot</span>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2 class="miniTitle" id="modeTitle">Parabol Laboratuvarı</h2>
+        <div class="formula" id="formula">f(x)=ax²+bx+c</div>
+
+        <div id="controls"></div>
+
+        <div class="note" id="theory">
+          Parabolde tepe noktasının solunda ve sağında davranış değişir.
+        </div>
+
+        <h3 class="miniTitle" style="margin-top:14px">Tahminini yaz</h3>
+        <p class="hint">Örnek yazım: <b>(-∞,2)</b> veya <b>(2,+∞)</b>. Sonsuz için ∞ kullanabilirsin.</p>
+
+        <div class="answerGrid">
+          <div>
+            <label>Azalan aralık</label>
+            <input id="decAns" type="text" placeholder="Örn: (-∞,2)">
+          </div>
+          <div>
+            <label>Artan aralık</label>
+            <input id="incAns" type="text" placeholder="Örn: (2,+∞)">
+          </div>
+        </div>
+
+        <div class="btns">
+          <button class="action" onclick="checkAnswer()">Kontrol Et</button>
+          <button class="action secondary" onclick="newQuestion()">Yeni Soru</button>
+        </div>
+
+        <div class="result" id="result">
+          Grafiği incele, artan ve azalan aralıkları yaz.
+        </div>
+      </div>
+    </section>
+
+    <div class="footer">ENGİN360 • Matematik Laboratuvarı • Artan-Azalan Fonksiyonlar</div>
+  </div>
+
+<script>
+let mode = "parabol";
+let params = {};
+let score = 0, correct = 0;
+
+const canvas = document.getElementById("graph");
+const ctx = canvas.getContext("2d");
+
+const configs = {
+  parabol: {
+    title:"Parabol Laboratuvarı",
+    level:"1",
+    formula:()=>`f(x) = ${fmt(params.a)}x² ${signed(params.b)}x ${signed(params.c)}`,
+    theory:"Parabolde tepe noktası davranışın değiştiği yerdir. a>0 ise önce azalır sonra artar. a<0 ise önce artar sonra azalır.",
+    init:()=>({a:1,b:-4,c:3}),
+    controls:[
+      ["a",-3,3,0.5],["b",-8,8,1],["c",-6,6,1]
+    ],
+    f:x=>params.a*x*x+params.b*x+params.c,
+    crit:()=>[-params.b/(2*params.a)],
+    intervals:()=>{
+      const h = -params.b/(2*params.a);
+      if(params.a>0) return {dec:`(-∞,${round(h)})`, inc:`(${round(h)},+∞)`};
+      return {dec:`(${round(h)},+∞)`, inc:`(-∞,${round(h)})`};
+    }
+  },
+  kubik: {
+    title:"Kübik Fonksiyon Laboratuvarı",
+    level:"2",
+    formula:()=>`f(x) = x³ ${signed(params.p)}x`,
+    theory:"Kübik fonksiyonda türevin işareti artan-azalan davranışı belirler. Bu modelde kritik noktalar simetriktir.",
+    init:()=>({p:-3}),
+    controls:[["p",-12,6,1]],
+    f:x=>x*x*x+params.p*x,
+    crit:()=>{
+      if(params.p>=0) return [];
+      const t=Math.sqrt(-params.p/3);
+      return [-t,t];
+    },
+    intervals:()=>{
+      if(params.p>=0) return {dec:"Yok", inc:"(-∞,+∞)"};
+      const t=round(Math.sqrt(-params.p/3));
+      return {dec:`(${-t},${t})`, inc:`(-∞,${-t}) ∪ (${t},+∞)`};
+    }
+  },
+  mutlak: {
+    title:"Mutlak Değer Laboratuvarı",
+    level:"3",
+    formula:()=>`f(x) = ${fmt(params.a)}|x ${signed(-params.h)}| ${signed(params.k)}`,
+    theory:"Mutlak değer grafiğinde köşe noktası davranışın değiştiği yerdir. a>0 ise V yukarı açılır; a<0 ise ters V olur.",
+    init:()=>({a:1,h:2,k:0}),
+    controls:[["a",-3,3,0.5],["h",-5,5,1],["k",-5,5,1]],
+    f:x=>params.a*Math.abs(x-params.h)+params.k,
+    crit:()=>[params.h],
+    intervals:()=>{
+      const h=round(params.h);
+      if(params.a>0) return {dec:`(-∞,${h})`, inc:`(${h},+∞)`};
+      return {dec:`(${h},+∞)`, inc:`(-∞,${h})`};
+    }
+  },
+  rasyonel: {
+    title:"Rasyonel Fonksiyon Laboratuvarı",
+    level:"4",
+    formula:()=>`f(x) = ${fmt(params.a)}/(x ${signed(-params.h)}) ${signed(params.k)}`,
+    theory:"Rasyonel fonksiyonda x=h dikey asimptottur. Bu temel modelde fonksiyon asimptotun iki tarafında aynı yönde davranır.",
+    init:()=>({a:1,h:1,k:0}),
+    controls:[["a",-5,5,1],["h",-5,5,1],["k",-5,5,1]],
+    f:x=>params.a/(x-params.h)+params.k,
+    crit:()=>[params.h],
+    intervals:()=>{
+      const h=round(params.h);
+      if(params.a>0) return {dec:`(-∞,${h}) ∪ (${h},+∞)`, inc:"Yok"};
+      return {dec:"Yok", inc:`(-∞,${h}) ∪ (${h},+∞)`};
+    }
+  }
+};
+
+function fmt(n){
+  if(n===1) return "";
+  if(n===-1) return "-";
+  return Number.isInteger(n)?String(n):String(n);
+}
+function signed(n){
+  if(n===0) return "+ 0";
+  return n>0 ? `+ ${round(n)}` : `- ${round(Math.abs(n))}`;
+}
+function round(n){
+  const r=Math.round(n*100)/100;
+  return Number.isInteger(r)?String(r):String(r);
+}
+
+function setMode(m){
+  mode=m;
+  params=configs[mode].init();
+  document.querySelectorAll(".tab").forEach(b=>b.classList.remove("active"));
+  const idx = ["parabol","kubik","mutlak","rasyonel"].indexOf(m);
+  document.querySelectorAll(".tab")[idx].classList.add("active");
+  document.getElementById("decAns").value="";
+  document.getElementById("incAns").value="";
+  document.getElementById("result").className="result";
+  document.getElementById("result").innerHTML="Grafiği incele, artan ve azalan aralıkları yaz.";
+  renderControls();
+  updateAll();
+}
+
+function renderControls(){
+  const box=document.getElementById("controls");
+  box.innerHTML="";
+  configs[mode].controls.forEach(([name,min,max,step])=>{
+    if(name==="a" && params[name]===0) params[name]=1;
+    const div=document.createElement("div");
+    div.className="control";
+    div.innerHTML=`
+      <label><span>${name} değeri</span><b id="val_${name}">${params[name]}</b></label>
+      <input type="range" min="${min}" max="${max}" step="${step}" value="${params[name]}" 
+      oninput="changeParam('${name}', this.value)">
+    `;
+    box.appendChild(div);
+  });
+}
+
+function changeParam(name,val){
+  val=parseFloat(val);
+  if(name==="a" && val===0) val=1;
+  params[name]=val;
+  document.getElementById("val_"+name).textContent=val;
+  updateAll();
+}
+
+function updateAll(){
+  document.getElementById("modeTitle").textContent=configs[mode].title;
+  document.getElementById("levelText").textContent=configs[mode].level;
+  document.getElementById("formula").textContent=configs[mode].formula();
+  document.getElementById("theory").textContent=configs[mode].theory;
+  document.getElementById("score").textContent=score;
+  document.getElementById("correct").textContent=correct;
+  document.getElementById("rank").textContent = score>=120 ? "Fonksiyon Ustası" : score>=70 ? "Grafik Dedektifi" : score>=30 ? "Yükselen" : "Başlangıç";
+  drawGraph();
+}
+
+function newQuestion(){
+  const c=configs[mode];
+  params=c.init();
+  c.controls.forEach(([name,min,max,step])=>{
+    let values=[];
+    for(let v=min; v<=max+0.0001; v+=step){
+      if(name==="a" && v===0) continue;
+      if(mode==="kubik" && name==="p" && v===0) continue;
+      if(mode==="rasyonel" && name==="a" && v===0) continue;
+      values.push(Math.round(v*100)/100);
+    }
+    params[name]=values[Math.floor(Math.random()*values.length)];
+  });
+  document.getElementById("decAns").value="";
+  document.getElementById("incAns").value="";
+  document.getElementById("result").className="result";
+  document.getElementById("result").innerHTML="Yeni soru hazır. Grafiği okuyup tahminini yaz.";
+  renderControls();
+  updateAll();
+}
+
+function normalize(s){
+  return (s||"")
+    .toLowerCase()
+    .replaceAll(" ","")
+    .replaceAll("−","-")
+    .replaceAll("∞","infty")
+    .replaceAll("+infty","+infty")
+    .replaceAll("infinity","infty");
+}
+
+function closeEnough(user, correct){
+  const u=normalize(user);
+  const c=normalize(correct);
+  if(u===c) return true;
+  if(correct==="Yok" && (u==="yok" || u==="-" || u==="boş" || u==="bos")) return true;
+  return false;
+}
+
+function checkAnswer(){
+  const ans=configs[mode].intervals();
+  const dec=document.getElementById("decAns").value;
+  const inc=document.getElementById("incAns").value;
+  const ok = closeEnough(dec, ans.dec) && closeEnough(inc, ans.inc);
+  const res=document.getElementById("result");
+  if(ok){
+    score += 10;
+    correct += 1;
+    res.className="result ok";
+    res.innerHTML=`✅ Harika! Doğru cevap.<br><b>Azalan:</b> ${ans.dec}<br><b>Artan:</b> ${ans.inc}`;
+  }else{
+    res.className="result no";
+    res.innerHTML=`❌ Bir daha incele. Doğru aralıklar:<br><b>Azalan:</b> ${ans.dec}<br><b>Artan:</b> ${ans.inc}`;
+  }
+  updateAll();
+}
+
+function X(x){ return canvas.width/2 + x*45; }
+function Y(y){ return canvas.height/2 - y*45; }
+
+function drawGraph(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  drawGrid();
+
+  const crit = configs[mode].crit();
+  drawColoredCurve();
+
+  ctx.lineWidth=2;
+  ctx.strokeStyle="rgba(255,255,255,.75)";
+  crit.forEach(c=>{
+    if(!isFinite(c)) return;
+    ctx.beginPath();
+    ctx.setLineDash([8,8]);
+    ctx.moveTo(X(c),0);
+    ctx.lineTo(X(c),canvas.height);
+    ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle="#38bdf8";
+    ctx.beginPath();
+    const fy = safeF(c);
+    const yy = isFinite(fy) && Math.abs(fy)<100 ? Y(fy) : canvas.height/2;
+    ctx.arc(X(c), yy, 6, 0, Math.PI*2);
+    ctx.fill();
+  });
+
+  ctx.fillStyle="rgba(255,255,255,.9)";
+  ctx.font="16px Arial";
+  ctx.fillText(configs[mode].formula(), 18, 28);
+}
+
+function safeF(x){
+  try{
+    const y=configs[mode].f(x);
+    if(!isFinite(y) || Math.abs(y)>1000) return NaN;
+    return y;
+  }catch(e){return NaN;}
+}
+
+function drawGrid(){
+  ctx.fillStyle="#080b19";
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.strokeStyle="rgba(255,255,255,.08)";
+  ctx.lineWidth=1;
+
+  for(let x=-10;x<=10;x++){
+    ctx.beginPath(); ctx.moveTo(X(x),0); ctx.lineTo(X(x),canvas.height); ctx.stroke();
+  }
+  for(let y=-6;y<=6;y++){
+    ctx.beginPath(); ctx.moveTo(0,Y(y)); ctx.lineTo(canvas.width,Y(y)); ctx.stroke();
+  }
+
+  ctx.strokeStyle="rgba(255,255,255,.45)";
+  ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(0,Y(0)); ctx.lineTo(canvas.width,Y(0)); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(X(0),0); ctx.lineTo(X(0),canvas.height); ctx.stroke();
+
+  ctx.fillStyle="rgba(255,255,255,.55)";
+  ctx.font="12px Arial";
+  for(let x=-10;x<=10;x+=2) ctx.fillText(x, X(x)+3, Y(0)+14);
+  for(let y=-6;y<=6;y+=2) if(y!==0) ctx.fillText(y, X(0)+6, Y(y)-4);
+}
+
+function derivativeSign(x){
+  const h=0.001;
+  const y1=safeF(x-h), y2=safeF(x+h);
+  if(!isFinite(y1)||!isFinite(y2)) return 0;
+  const d=(y2-y1)/(2*h);
+  if(d>0.01) return 1;
+  if(d<-0.01) return -1;
+  return 0;
+}
+
+function drawColoredCurve(){
+  let last=null, lastSign=0;
+  for(let px=0; px<=canvas.width; px+=2){
+    const x=(px-canvas.width/2)/45;
+    const y=safeF(x);
+    const py=Y(y);
+    if(!isFinite(y) || py<-500 || py>canvas.height+500){
+      last=null;
+      continue;
+    }
+    const s=derivativeSign(x);
+    ctx.strokeStyle = s>=0 ? "#22c55e" : "#fb7185";
+    ctx.lineWidth=4;
+    ctx.shadowBlur=10;
+    ctx.shadowColor=ctx.strokeStyle;
+    if(last && Math.abs(py-last.y)<250){
+      ctx.beginPath();
+      ctx.moveTo(last.x,last.y);
+      ctx.lineTo(px,py);
+      ctx.stroke();
+    }
+    ctx.shadowBlur=0;
+    last={x:px,y:py};
+  }
+}
+
+setMode("parabol");
+</script>
+</body>
+</html>
