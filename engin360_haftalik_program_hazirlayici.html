@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>ENGİN360 Haftalık Program Hazırlayıcı</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',Arial,sans-serif}
+body{
+  min-height:100vh;color:#fff;padding:16px;
+  background:
+  radial-gradient(circle at top left,rgba(168,85,247,.38),transparent 35%),
+  radial-gradient(circle at bottom right,rgba(14,165,233,.30),transparent 35%),
+  linear-gradient(135deg,#05010d,#130023,#061631);
+}
+.container{max-width:1160px;margin:auto}
+.hero{text-align:center;padding:28px 16px;border-radius:28px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);box-shadow:0 0 35px rgba(124,58,237,.34);margin-bottom:16px}
+.logo{font-size:35px;font-weight:900;letter-spacing:1px;background:linear-gradient(90deg,#a855f7,#38bdf8,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.subtitle{margin-top:8px;color:#ded9ff;font-size:15px;line-height:1.5}
+.panel{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.13);border-radius:24px;padding:17px;margin-top:14px;box-shadow:0 12px 26px rgba(0,0,0,.25)}
+h2{font-size:20px;color:#f5d0fe;margin-bottom:12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:13px}
+label{display:block;color:#f5d0fe;font-size:14px;margin-bottom:7px}
+input,textarea{
+  width:100%;border:none;outline:none;border-radius:14px;padding:12px 13px;
+  background:rgba(255,255,255,.12);color:white;border:1px solid rgba(255,255,255,.16);font-size:15px
+}
+textarea{min-height:86px;resize:vertical}
+button{
+  width:100%;padding:13px;border:none;border-radius:16px;margin-top:11px;
+  color:white;font-weight:800;font-size:15px;cursor:pointer;
+  background:linear-gradient(90deg,#7c3aed,#0ea5e9,#ec4899);
+  box-shadow:0 0 22px rgba(236,72,153,.25)
+}
+.secondary{background:linear-gradient(90deg,#334155,#475569)}
+.success{background:linear-gradient(90deg,#16a34a,#22c55e)}
+.warning{background:linear-gradient(90deg,#ca8a04,#f59e0b)}
+.small{font-size:13px;color:#cfd3ff;line-height:1.55;margin-top:8px}
+.previewWrap{overflow:auto;background:#eef2ff;border-radius:22px;padding:14px;margin-top:12px}
+#previewCanvas{background:white;border-radius:18px;display:block;width:1050px;max-width:none}
+.footer{text-align:center;color:#aaa;font-size:12px;margin:26px 0 10px}
+@media(max-width:650px){body{padding:12px}.logo{font-size:30px}.grid{grid-template-columns:1fr}.previewWrap{padding:8px}}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="hero">
+    <div class="logo">ENGİN360</div>
+    <div class="subtitle">Haftalık Program Hazırlayıcı<br>Programını oluştur, görsel/PDF olarak indir, koçuna gönder.</div>
+  </div>
+
+  <div class="panel">
+    <h2>1) Öğrenci ve Hafta Bilgisi</h2>
+    <div class="grid">
+      <div><label>Öğrenci adı</label><input id="student" value="Öğrenci Adı"></div>
+      <div><label>Hafta</label><input id="week" value="10 - 16 Haziran"></div>
+      <div><label>Hedef</label><input id="goal" value="Eksik konuları bitirip düzenli test çözmek"></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>2) Günlük Program</h2>
+    <div class="grid">
+      <div><label>Pazartesi</label><textarea id="mon">Matematik: 2 test
+Paragraf: 1 test
+Yanlış analizi</textarea></div>
+      <div><label>Salı</label><textarea id="tue">Geometri: 2 test
+Türkçe: 1 test
+Konu tekrarı</textarea></div>
+      <div><label>Çarşamba</label><textarea id="wed">Matematik: konu + 2 test
+Fen: 1 test
+Çözülemeyen sorular</textarea></div>
+      <div><label>Perşembe</label><textarea id="thu">Problemler: 2 test
+Paragraf: 1 test
+Kısa tekrar</textarea></div>
+      <div><label>Cuma</label><textarea id="fri">Geometri: 2 test
+Matematik: 1 test
+Yanlış defteri</textarea></div>
+      <div><label>Cumartesi</label><textarea id="sat">Deneme
+Deneme analizi
+Eksik konu listesi</textarea></div>
+      <div><label>Pazar</label><textarea id="sun">Çözemediğin soruları izle-sor-öğren-yapıştır
+Haftalık değerlendirme</textarea></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>3) Ek Not</h2>
+    <textarea id="note">Bu hafta amaç mükemmel olmak değil, plana sadık kalmak. Eksik kalanlar pazar günü toparlanacak.</textarea>
+    <div class="grid">
+      <button onclick="drawPreview()">Programı Güncelle</button>
+      <button class="success" onclick="downloadPNG()">Görsel Olarak İndir</button>
+      <button class="warning" onclick="downloadPDF()">PDF Olarak Kaydet</button>
+      <button class="secondary" onclick="shareWhatsApp()">WhatsApp Metni Hazırla</button>
+    </div>
+    <div class="small">Görsel indirme canvas ile yapılır; telefonda eski sürüme göre çok daha stabil çalışır. PDF butonu tarayıcının yazdır/PDF ekranını açar.</div>
+  </div>
+
+  <div class="panel">
+    <h2>4) Ön İzleme</h2>
+    <div class="previewWrap">
+      <canvas id="previewCanvas" width="1050" height="1420"></canvas>
+    </div>
+  </div>
+
+  <div class="footer">ENGİN360 © 2026 · Rehberlik Laboratuvarı</div>
+</div>
+
+<script>
+const days=[
+  ["Pazartesi","mon"],["Salı","tue"],["Çarşamba","wed"],["Perşembe","thu"],["Cuma","fri"],["Cumartesi","sat"],["Pazar","sun"]
+];
+
+function val(id){return document.getElementById(id).value || "";}
+function wrapText(ctx,text,x,y,maxWidth,lineHeight){
+  const lines=[];
+  String(text).split("\\n").forEach(part=>{
+    const words=part.split(" ");
+    let line="";
+    words.forEach(word=>{
+      let test=line?line+" "+word:word;
+      if(ctx.measureText(test).width>maxWidth && line){
+        lines.push(line); line=word;
+      }else line=test;
+    });
+    lines.push(line);
+  });
+  lines.forEach((line,i)=>ctx.fillText(line,x,y+i*lineHeight));
+  return lines.length*lineHeight;
+}
+function roundRect(ctx,x,y,w,h,r,fill,stroke){
+  ctx.beginPath();
+  ctx.moveTo(x+r,y);
+  ctx.lineTo(x+w-r,y);
+  ctx.quadraticCurveTo(x+w,y,x+w,y+r);
+  ctx.lineTo(x+w,y+h-r);
+  ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
+  ctx.lineTo(x+r,y+h);
+  ctx.quadraticCurveTo(x,y+h,x,y+h-r);
+  ctx.lineTo(x,y+r);
+  ctx.quadraticCurveTo(x,y,x+r,y);
+  ctx.closePath();
+  if(fill)ctx.fill();
+  if(stroke)ctx.stroke();
+}
+function drawPreview(){
+  const canvas=document.getElementById("previewCanvas");
+  const ctx=canvas.getContext("2d");
+  const W=canvas.width,H=canvas.height;
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle="#ffffff";ctx.fillRect(0,0,W,H);
+
+  ctx.fillStyle="#312e81";
+  ctx.fillRect(0,0,W,120);
+  ctx.fillStyle="#ffffff";
+  ctx.font="900 42px Segoe UI";
+  ctx.fillText("ENGİN360",40,55);
+  ctx.font="700 22px Segoe UI";
+  ctx.fillText("Haftalık Çalışma Programı",40,90);
+  ctx.textAlign="right";
+  ctx.font="700 20px Segoe UI";
+  ctx.fillText(val("student"),W-40,55);
+  ctx.font="16px Segoe UI";
+  ctx.fillText(val("week"),W-40,86);
+  ctx.textAlign="left";
+
+  let y=145;
+  ctx.strokeStyle="#cbd5e1";ctx.lineWidth=2;
+  const info=[
+    ["Öğrenci",val("student")],
+    ["Hafta",val("week")],
+    ["Hedef",val("goal")]
+  ];
+  info.forEach((it,i)=>{
+    let x=40+i*323;
+    ctx.fillStyle="#f1f5f9";roundRect(ctx,x,y,300,72,12,true,true);
+    ctx.fillStyle="#475569";ctx.font="700 14px Segoe UI";ctx.fillText(it[0],x+14,y+24);
+    ctx.fillStyle="#111827";ctx.font="15px Segoe UI";wrapText(ctx,it[1],x+14,y+47,270,18);
+  });
+
+  y=245;
+  const colDay=135,colTask=700,colCheck=135,rowH=130;
+  ctx.fillStyle="#312e81";ctx.fillRect(40,y,colDay+colTask+colCheck,42);
+  ctx.fillStyle="#ffffff";ctx.font="700 16px Segoe UI";
+  ctx.fillText("Gün",55,y+27);ctx.fillText("Program",180,y+27);ctx.fillText("Durum",895,y+27);
+  y+=42;
+
+  days.forEach((d,idx)=>{
+    ctx.fillStyle=idx%2===0?"#ffffff":"#f8fafc";
+    ctx.fillRect(40,y,colDay+colTask+colCheck,rowH);
+    ctx.strokeStyle="#cbd5e1";ctx.strokeRect(40,y,colDay+colTask+colCheck,rowH);
+    ctx.beginPath();ctx.moveTo(40+colDay,y);ctx.lineTo(40+colDay,y+rowH);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(40+colDay+colTask,y);ctx.lineTo(40+colDay+colTask,y+rowH);ctx.stroke();
+
+    ctx.fillStyle="#312e81";ctx.font="800 16px Segoe UI";ctx.fillText(d[0],55,y+28);
+    ctx.fillStyle="#111827";ctx.font="14px Segoe UI";
+    wrapText(ctx,val(d[1]),180,y+24,660,20);
+    ctx.fillStyle="#334155";ctx.font="14px Segoe UI";
+    ctx.fillText("☐ Yapıldı",895,y+27);
+    ctx.fillText("☐ Eksik kaldı",895,y+55);
+    ctx.fillText("☐ Sorular soruldu",895,y+83);
+    y+=rowH;
+  });
+
+  y+=20;
+  ctx.fillStyle="#f1f5f9";roundRect(ctx,40,y,970,110,14,true,true);
+  ctx.fillStyle="#312e81";ctx.font="800 16px Segoe UI";ctx.fillText("Koç Notu",60,y+30);
+  ctx.fillStyle="#111827";ctx.font="14px Segoe UI";wrapText(ctx,val("note"),60,y+58,930,20);
+
+  ctx.fillStyle="#64748b";ctx.font="13px Segoe UI";ctx.textAlign="center";
+  ctx.fillText("ENGİN360 · Matematik · Rehberlik · Koçluk",W/2,H-28);
+  ctx.textAlign="left";
+}
+function downloadPNG(){
+  drawPreview();
+  const canvas=document.getElementById("previewCanvas");
+  try{
+    const a=document.createElement("a");
+    a.download="engin360_haftalik_program.png";
+    a.href=canvas.toDataURL("image/png");
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }catch(e){
+    alert("Görsel indirilemedi. Ekran görüntüsü almayı deneyebilirsin.");
+  }
+}
+function downloadPDF(){
+  drawPreview();
+  const data=document.getElementById("previewCanvas").toDataURL("image/png");
+  const w=window.open("");
+  if(!w){
+    alert("PDF için açılır pencereye izin ver.");
+    return;
+  }
+  w.document.write("<html><head><title>ENGİN360 Haftalık Program</title><style>body{margin:0;text-align:center;background:#eee}img{width:100%;max-width:900px}@media print{body{background:white}button{display:none}}</style></head><body><button onclick='window.print()' style='padding:12px 20px;margin:10px;font-weight:bold'>PDF olarak kaydet / Yazdır</button><br><img src='"+data+"'></body></html>");
+  w.document.close();
+}
+function shareWhatsApp(){
+  let text="ENGİN360 Haftalık Program\\nÖğrenci: "+val("student")+"\\nHafta: "+val("week")+"\\n\\n";
+  days.forEach(d=>{text+=d[0]+":\\n"+val(d[1])+"\\n\\n";});
+  text+="Koç Notu:\\n"+val("note");
+  window.open("https://wa.me/?text="+encodeURIComponent(text),"_blank");
+}
+document.querySelectorAll("input,textarea").forEach(el=>el.addEventListener("input",drawPreview));
+drawPreview();
+</script>
+</body>
+</html>
