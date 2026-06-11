@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>ENGİN360 Kartezyen Çarpım Dedektifi PRO</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:Segoe UI,Arial,sans-serif}
+body{min-height:100vh;color:white;padding:16px;background:radial-gradient(circle at top left,rgba(168,85,247,.38),transparent 35%),radial-gradient(circle at bottom right,rgba(14,165,233,.30),transparent 35%),linear-gradient(135deg,#05010d,#130023,#061631)}
+.container{max-width:1120px;margin:auto}
+.hero{text-align:center;padding:28px 16px;border-radius:28px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);box-shadow:0 0 35px rgba(124,58,237,.34);margin-bottom:16px}
+.logo{font-size:35px;font-weight:900;letter-spacing:1px;background:linear-gradient(90deg,#a855f7,#38bdf8,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.subtitle{margin-top:8px;color:#ded9ff;font-size:15px;line-height:1.5}
+.panel{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.13);border-radius:24px;padding:17px;margin-top:14px;box-shadow:0 12px 26px rgba(0,0,0,.25)}
+h2{font-size:20px;color:#f5d0fe;margin-bottom:12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(235px,1fr));gap:13px}
+label{display:block;color:#f5d0fe;font-size:14px;margin-bottom:7px}
+input,select{width:100%;border:none;outline:none;border-radius:14px;padding:12px 13px;background:rgba(255,255,255,.12);color:white;border:1px solid rgba(255,255,255,.16);font-size:16px}
+select option{color:#111}
+button{width:100%;padding:13px;border:none;border-radius:16px;margin-top:11px;color:white;font-weight:800;font-size:15px;background:linear-gradient(90deg,#7c3aed,#0ea5e9,#ec4899);box-shadow:0 0 22px rgba(236,72,153,.25)}
+.result{background:rgba(0,0,0,.24);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:13px;margin-top:10px;line-height:1.55;overflow:auto}
+.pair{display:inline-block;margin:4px;padding:7px 9px;border-radius:999px;background:rgba(14,165,233,.15);border:1px solid rgba(56,189,248,.28)}
+.hot{background:rgba(236,72,153,.18);border-color:rgba(236,72,153,.55)}
+.ok{color:#86efac;font-weight:800}.bad{color:#fca5a5;font-weight:800}
+.formula{padding:12px;border-radius:16px;background:rgba(124,58,237,.14);border:1px solid rgba(168,85,247,.25);line-height:1.7}
+.footer{text-align:center;color:#aaa;font-size:12px;margin:26px 0 10px}
+@media(max-width:540px){body{padding:12px}.logo{font-size:30px}.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="hero"><div class="logo">ENGİN360</div><div class="subtitle">Kartezyen Çarpım Dedektifi PRO<br>A×B, B×A, kesişim, birleşim ve YKS soru üretici</div></div>
+
+<div class="panel">
+<h2>1) Kümeleri Gir ve Keşfet</h2>
+<div class="grid">
+<div><label>A kümesi</label><input id="setA" value="1,2,3"></div>
+<div><label>B kümesi</label><input id="setB" value="2,3,4"></div>
+<div><label>Kesişim tahminin</label><input id="guess" type="number" value="4"></div>
+</div>
+<button onclick="analyze()">Analiz Et</button>
+<button onclick="checkGuess()">Tahminimi Kontrol Et</button>
+<div id="guessBox" class="result"></div>
+</div>
+
+<div class="grid">
+<div class="panel"><h2>A×B</h2><div id="AB" class="result"></div></div>
+<div class="panel"><h2>B×A</h2><div id="BA" class="result"></div></div>
+</div>
+
+<div class="panel"><h2>2) Kesişim Neden |A∩B|²?</h2><div id="intersectionBox" class="result"></div></div>
+<div class="panel"><h2>3) Birleşim Analizi</h2><div id="unionBox" class="result"></div></div>
+
+<div class="panel">
+<h2>4) Kullanılan Formüller</h2>
+<div class="formula">
+|A×B| = |A| · |B|<br>
+|B×A| = |B| · |A|<br>
+|(A×B)∩(B×A)| = |A∩B|²<br>
+|(A×B)∪(B×A)| = |A×B| + |B×A| - |(A×B)∩(B×A)|
+</div>
+</div>
+
+<div class="panel">
+<h2>5) YKS Soru Üretici PRO</h2>
+<div class="grid">
+<div><label>Soru modu</label><select id="mode">
+<option value="intersection">Kesişim sorusu</option>
+<option value="union">Birleşim sorusu</option>
+<option value="mixed">Karışık soru</option>
+<option value="reverse">Ters soru</option>
+<option value="hard">Zor YKS sorusu</option>
+</select></div>
+<div><label>Cevabın</label><input id="studentAnswer" type="number" placeholder="Cevabı yaz"></div>
+</div>
+<button onclick="generateQuestion()">Yeni Soru Üret</button>
+<button onclick="checkQuestion()">Cevabı Kontrol Et</button>
+<div id="questionBox" class="result"></div>
+<div id="answerBox" class="result" style="display:none"></div>
+</div>
+
+<div class="panel">
+<h2>6) 10 Soruluk Mini Challenge</h2>
+<button onclick="startChallenge()">Challenge Başlat</button>
+<div id="challengeBox" class="result"></div>
+</div>
+
+<div class="footer">ENGİN360 © 2026 · Matematik Laboratuvarı</div>
+</div>
+
+<script>
+let currentIntersection=0,currentAnswer=0,currentSolution="",score=0,qNo=0;
+function parseSet(id){return [...new Set(document.getElementById(id).value.split(",").map(x=>x.trim()).filter(Boolean))]}
+function cart(A,B){let r=[];for(let a of A)for(let b of B)r.push("("+a+","+b+")");return r}
+function renderPairs(arr,hotSet=null){if(arr.length===0)return "Boş küme";return arr.map(x=>"<span class='pair "+(hotSet&&hotSet.has(x)?"hot":"")+"'>"+x+"</span>").join("")}
+function analyze(){
+let A=parseSet("setA"),B=parseSet("setB"),AB=cart(A,B),BA=cart(B,A),sBA=new Set(BA);
+let inter=AB.filter(x=>sBA.has(x)),interSet=new Set(inter),common=A.filter(x=>B.includes(x)),union=new Set([...AB,...BA]);
+currentIntersection=inter.length;
+document.getElementById("AB").innerHTML=renderPairs(AB,interSet)+"<br><br><b>|A×B| = "+AB.length+"</b>";
+document.getElementById("BA").innerHTML=renderPairs(BA,interSet)+"<br><br><b>|B×A| = "+BA.length+"</b>";
+document.getElementById("intersectionBox").innerHTML="A∩B = {"+common.join(", ")+"}<br>|A∩B| = "+common.length+"<br>|A∩B|² = "+common.length+"² = "+(common.length*common.length)+"<br><br><b>Kesişim elemanları:</b><br>"+renderPairs(inter)+"<br><br><b>|(A×B)∩(B×A)| = "+inter.length+"</b>";
+document.getElementById("unionBox").innerHTML="|A×B| = "+AB.length+"<br>|B×A| = "+BA.length+"<br>|Kesişim| = "+inter.length+"<br><br>|Birleşim| = |A×B| + |B×A| - |Kesişim|<br>|Birleşim| = "+AB.length+" + "+BA.length+" - "+inter.length+" = <b>"+union.size+"</b>";
+}
+function checkGuess(){let g=Number(document.getElementById("guess").value);document.getElementById("guessBox").innerHTML=g===currentIntersection?"<span class='ok'>✔ Doğru. Kesişim "+currentIntersection+" elemanlı.</span>":"<span class='bad'>✘ Yanlış. Doğru cevap "+currentIntersection+".</span>"}
+function rnd(a,b){return Math.floor(Math.random()*(b-a+1))+a}
+function data(){let a=rnd(5,13),b=rnd(6,15),c=rnd(1,Math.min(a,b,6));return {a,b,c,prod:a*b,inter:c*c,union:2*a*b-c*c}}
+function generateQuestion(){
+let m=document.getElementById("mode").value,d=data(),q="",sol="",ans=0;
+if(m==="intersection"){ans=d.inter;q="|A|="+d.a+", |B|="+d.b+", |A∩B|="+d.c+"<br><br><b>Soru:</b> |(A×B)∩(B×A)| kaçtır?";sol="|A∩B|² = "+d.c+"² = "+ans}
+else if(m==="union"){ans=d.union;q="|A|="+d.a+", |B|="+d.b+", |A∩B|="+d.c+"<br><br><b>Soru:</b> |(A×B)∪(B×A)| kaçtır?";sol="|A×B|="+d.prod+"<br>|B×A|="+d.prod+"<br>|Kesişim|="+d.inter+"<br>|Birleşim|="+d.prod+"+"+d.prod+"-"+d.inter+"="+ans}
+else if(m==="mixed"){ans=d.union+d.inter;q="|A|="+d.a+", |B|="+d.b+", |A∩B|="+d.c+"<br><br><b>Soru:</b> |Birleşim| + |Kesişim| kaçtır?";sol="Birleşim="+d.union+"<br>Kesişim="+d.inter+"<br>Toplam="+ans}
+else if(m==="reverse"){ans=d.c;q="|(A×B)∩(B×A)|="+d.inter+"<br><br><b>Soru:</b> |A∩B| kaçtır?";sol="|A∩B|²="+d.inter+" olduğundan |A∩B|="+ans}
+else{ans=d.union;q="|A|="+d.a+", |B|="+d.b+", |(A×B)∩(B×A)|="+d.inter+"<br><br><b>Soru:</b> |(A×B)∪(B×A)| kaçtır?";sol="|A×B|="+d.prod+"<br>|B×A|="+d.prod+"<br>|Birleşim|="+d.prod+"+"+d.prod+"-"+d.inter+"="+ans}
+currentAnswer=ans;currentSolution=sol;document.getElementById("studentAnswer").value="";document.getElementById("answerBox").style.display="none";document.getElementById("questionBox").innerHTML=q}
+function checkQuestion(){let s=Number(document.getElementById("studentAnswer").value),box=document.getElementById("answerBox");box.style.display="block";box.innerHTML=(s===currentAnswer?"<span class='ok'>✔ Doğru!</span><br><br>":"<span class='bad'>✘ Yanlış. Doğru cevap: "+currentAnswer+"</span><br><br>")+"<b>Çözüm:</b><br>"+currentSolution}
+function startChallenge(){score=0;qNo=0;nextChallenge()}
+function nextChallenge(){qNo++;if(qNo>10){document.getElementById("challengeBox").innerHTML="<b>Skor: "+score+"/10</b><br>"+(score>=8?"Kartezyen Çarpım Ustası!":"Birleşim formülünü tekrar et.");return}let modes=["intersection","union","mixed","reverse","hard"];document.getElementById("mode").value=modes[rnd(0,4)];generateQuestion();document.getElementById("challengeBox").innerHTML="<b>"+qNo+". soru hazır.</b><br>Yukarıdaki soruyu çöz, sonra buraya bas.<button onclick='challengeCheck()'>Challenge Cevabımı Say</button>"}
+function challengeCheck(){let s=Number(document.getElementById("studentAnswer").value);if(s===currentAnswer)score++;nextChallenge()}
+analyze();generateQuestion();
+</script>
+</body>
+</html>
