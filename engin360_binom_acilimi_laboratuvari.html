@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ENGİN360 Binom Açılımı Laboratuvarı</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',Arial,sans-serif}
+body{
+  min-height:100vh;
+  color:#fff;
+  padding:18px;
+  background:
+    radial-gradient(circle at top left,rgba(168,85,247,.38),transparent 34%),
+    radial-gradient(circle at bottom right,rgba(14,165,233,.30),transparent 35%),
+    linear-gradient(135deg,#05010d,#130023,#061631);
+}
+.container{max-width:1100px;margin:auto}
+.hero{
+  text-align:center;
+  padding:28px 16px;
+  border-radius:28px;
+  background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.14);
+  box-shadow:0 0 35px rgba(124,58,237,.34);
+  margin-bottom:18px;
+}
+.logo{
+  font-size:36px;
+  font-weight:900;
+  letter-spacing:1px;
+  background:linear-gradient(90deg,#a855f7,#38bdf8,#ec4899);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+.subtitle{margin-top:8px;color:#ded9ff;font-size:15px;line-height:1.5}
+.panel{
+  background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.13);
+  border-radius:24px;
+  padding:18px;
+  margin-top:16px;
+  box-shadow:0 12px 26px rgba(0,0,0,.25);
+}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+  gap:14px;
+}
+label{display:block;color:#f5d0fe;font-size:14px;margin-bottom:7px}
+input,select{
+  width:100%;
+  border:none;
+  outline:none;
+  border-radius:15px;
+  padding:12px 13px;
+  background:rgba(255,255,255,.12);
+  color:#fff;
+  border:1px solid rgba(255,255,255,.16);
+  font-size:16px;
+}
+select option{color:#111}
+button{
+  width:100%;
+  margin-top:14px;
+  padding:14px;
+  border:none;
+  border-radius:18px;
+  color:white;
+  font-weight:800;
+  font-size:16px;
+  background:linear-gradient(90deg,#7c3aed,#0ea5e9,#ec4899);
+  box-shadow:0 0 22px rgba(236,72,153,.25);
+}
+h2{font-size:21px;margin-bottom:12px;color:#f5d0fe}
+.formula{
+  font-size:21px;
+  line-height:1.7;
+  padding:16px;
+  border-radius:18px;
+  background:rgba(0,0,0,.22);
+  border:1px solid rgba(255,255,255,.12);
+  overflow:auto;
+}
+.steps{display:grid;gap:12px}
+.step{
+  padding:14px;
+  border-radius:18px;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.12);
+}
+.step b{color:#93c5fd}
+.warn{color:#fde68a;font-size:14px;margin-top:10px;line-height:1.5}
+.term-list{display:grid;gap:8px}
+.term{
+  padding:11px 12px;
+  border-radius:14px;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.1);
+  font-size:15px;
+}
+.highlight{
+  border-color:rgba(236,72,153,.7);
+  box-shadow:0 0 18px rgba(236,72,153,.25);
+}
+.small{font-size:13px;color:#cdd3ff;line-height:1.5}
+.footer{text-align:center;color:#aaa;font-size:12px;margin:26px 0 10px}
+code{background:rgba(255,255,255,.10);padding:2px 6px;border-radius:8px;color:#fff}
+@media(max-width:560px){
+  body{padding:12px}
+  .logo{font-size:31px}
+  .formula{font-size:18px}
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="hero">
+    <div class="logo">ENGİN360</div>
+    <div class="subtitle">
+      Binom Açılımı Laboratuvarı<br>
+      Genel terim, 3. terim, 5. terim ve tam açılım mantığı
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>⚙️ Açılımı Ayarla</h2>
+    <div class="grid">
+      <div>
+        <label>Birinci terim katsayısı: a</label>
+        <input id="a" type="number" value="1">
+      </div>
+      <div>
+        <label>Birinci değişken</label>
+        <input id="xvar" type="text" value="x">
+      </div>
+      <div>
+        <label>İkinci terim katsayısı: b</label>
+        <input id="b" type="number" value="1">
+      </div>
+      <div>
+        <label>İkinci değişken</label>
+        <input id="yvar" type="text" value="y">
+      </div>
+      <div>
+        <label>Üs: n</label>
+        <input id="n" type="number" min="1" max="12" value="5">
+      </div>
+      <div>
+        <label>Kaçıncı terim?</label>
+        <select id="k">
+          <option value="1">1. terim</option>
+          <option value="2">2. terim</option>
+          <option value="3" selected>3. terim</option>
+          <option value="4">4. terim</option>
+          <option value="5">5. terim</option>
+          <option value="6">6. terim</option>
+          <option value="7">7. terim</option>
+          <option value="8">8. terim</option>
+          <option value="9">9. terim</option>
+          <option value="10">10. terim</option>
+          <option value="11">11. terim</option>
+          <option value="12">12. terim</option>
+          <option value="13">13. terim</option>
+        </select>
+      </div>
+    </div>
+    <button onclick="calculate()">Hesapla ve Göster</button>
+    <div class="warn">
+      Not: Binomda <b>k. terim</b> için kombinasyonun altı <b>k - 1</b> olur. Yani 3. terim için r = 2, 5. terim için r = 4 alınır.
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>📌 Binom Formülü</h2>
+    <div class="formula" id="mainFormula"></div>
+  </div>
+
+  <div class="panel">
+    <h2>🔎 Seçilen Terim Nasıl Bulunur?</h2>
+    <div class="steps" id="steps"></div>
+  </div>
+
+  <div class="panel">
+    <h2>📚 Tam Açılım</h2>
+    <div class="term-list" id="expansion"></div>
+  </div>
+
+  <div class="footer">ENGİN360 © 2026 · Matematik Laboratuvarı</div>
+
+</div>
+
+<script>
+function fact(n){
+  if(n<0) return NaN;
+  let f=1;
+  for(let i=2;i<=n;i++) f*=i;
+  return f;
+}
+function C(n,r){
+  if(r<0 || r>n) return 0;
+  return fact(n)/(fact(r)*fact(n-r));
+}
+function powText(base, exp){
+  if(exp===0) return "";
+  if(exp===1) return base;
+  return base + "<sup>" + exp + "</sup>";
+}
+function cleanTerm(coef, part1, part2){
+  let vars = (part1 + part2);
+  if(vars==="") return String(coef);
+  if(coef===1) return vars;
+  if(coef===-1) return "-" + vars;
+  return coef + vars;
+}
+function termData(a,b,xv,yv,n,k){
+  let r = k-1;
+  let comb = C(n,r);
+  let coef = comb * Math.pow(a,n-r) * Math.pow(b,r);
+  let xpart = powText(xv,n-r);
+  let ypart = powText(yv,r);
+  return {r,comb,coef,xpart,ypart,text:cleanTerm(coef,xpart,ypart)};
+}
+function calculate(){
+  let a = Number(document.getElementById("a").value);
+  let b = Number(document.getElementById("b").value);
+  let xv = document.getElementById("xvar").value.trim() || "x";
+  let yv = document.getElementById("yvar").value.trim() || "y";
+  let n = Number(document.getElementById("n").value);
+  let k = Number(document.getElementById("k").value);
+
+  if(n<1) n=1;
+  if(n>12) n=12;
+  if(k>n+1) k=n+1;
+
+  document.getElementById("n").value=n;
+  document.getElementById("k").value=k;
+
+  let first = (a===1?xv:(a + xv));
+  let second = (b===1?yv:(b + yv));
+  let left = "(" + first + " + " + second + ")<sup>" + n + "</sup>";
+  document.getElementById("mainFormula").innerHTML =
+    left + " açılımında genel terim:<br>" +
+    "T<sub>k</sub> = C(n, k-1) · (" + first + ")<sup>n-(k-1)</sup> · (" + second + ")<sup>k-1</sup>";
+
+  let d = termData(a,b,xv,yv,n,k);
+  document.getElementById("steps").innerHTML = `
+    <div class="step"><b>1. Adım:</b> Seçilen terim <b>${k}. terim</b> olduğu için <code>r = k - 1 = ${k} - 1 = ${d.r}</code>.</div>
+    <div class="step"><b>2. Adım:</b> Kombinasyon kısmı <code>C(${n}, ${d.r}) = ${d.comb}</code>.</div>
+    <div class="step"><b>3. Adım:</b> Birinci terimin üssü <code>n - r = ${n} - ${d.r} = ${n-d.r}</code>.</div>
+    <div class="step"><b>4. Adım:</b> İkinci terimin üssü <code>r = ${d.r}</code>.</div>
+    <div class="step"><b>5. Adım:</b> 
+      T<sub>${k}</sub> = C(${n},${d.r}) · (${first})<sup>${n-d.r}</sup> · (${second})<sup>${d.r}</sup>
+      <br><br>
+      <b>Sonuç:</b> <span style="color:#f0abfc;font-size:20px">${d.text}</span>
+    </div>
+  `;
+
+  let terms = [];
+  for(let i=1;i<=n+1;i++){
+    let td = termData(a,b,xv,yv,n,i);
+    let cls = i===k ? "term highlight" : "term";
+    terms.push(`<div class="${cls}"><b>${i}. terim:</b> ${td.text} <span class="small"> &nbsp; (r=${td.r})</span></div>`);
+  }
+  document.getElementById("expansion").innerHTML = terms.join("");
+}
+calculate();
+</script>
+</body>
+</html>
