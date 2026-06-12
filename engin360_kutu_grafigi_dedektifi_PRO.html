@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>ENGİN360 Kutu Grafiği Dedektifi PRO</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',Arial,sans-serif}
+body{
+  min-height:100vh;color:#fff;padding:16px;
+  background:radial-gradient(circle at top left,rgba(168,85,247,.38),transparent 35%),
+  radial-gradient(circle at bottom right,rgba(14,165,233,.30),transparent 35%),
+  linear-gradient(135deg,#05010d,#130023,#061631)
+}
+.container{max-width:1160px;margin:auto}
+.hero{text-align:center;padding:28px 16px;border-radius:28px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);box-shadow:0 0 35px rgba(124,58,237,.34);margin-bottom:16px}
+.logo{font-size:35px;font-weight:900;letter-spacing:1px;background:linear-gradient(90deg,#a855f7,#38bdf8,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.subtitle{margin-top:8px;color:#ded9ff;font-size:15px;line-height:1.5}
+.panel{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.13);border-radius:24px;padding:17px;margin-top:14px;box-shadow:0 12px 26px rgba(0,0,0,.25)}
+h2{font-size:20px;color:#f5d0fe;margin-bottom:12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:13px}
+label{display:block;color:#f5d0fe;font-size:14px;margin-bottom:7px}
+input,select{
+  width:100%;border:none;outline:none;border-radius:14px;padding:12px 13px;
+  background:rgba(255,255,255,.12);color:white;border:1px solid rgba(255,255,255,.16);font-size:15px
+}
+select option{color:#111}
+button{
+  width:100%;padding:13px;border:none;border-radius:16px;margin-top:11px;
+  color:white;font-weight:800;font-size:15px;cursor:pointer;
+  background:linear-gradient(90deg,#7c3aed,#0ea5e9,#ec4899);
+  box-shadow:0 0 22px rgba(236,72,153,.25)
+}
+.secondary{background:linear-gradient(90deg,#334155,#475569)}
+.result{background:rgba(0,0,0,.24);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:13px;margin-top:10px;line-height:1.7;overflow:auto}
+.badge{display:inline-block;margin:4px;padding:7px 10px;border-radius:999px;background:rgba(14,165,233,.15);border:1px solid rgba(56,189,248,.28)}
+.hot{background:rgba(236,72,153,.18);border-color:rgba(236,72,153,.55)}
+.ok{color:#86efac;font-weight:800}.warn{color:#fde68a;font-weight:800}.pink{color:#f0abfc;font-weight:800}.bad{color:#fca5a5;font-weight:800}
+canvas{width:100%;background:white;border-radius:18px;border:1px solid rgba(255,255,255,.15);display:block;margin:auto}
+.footer{text-align:center;color:#aaa;font-size:12px;margin:26px 0 10px}
+@media(max-width:600px){body{padding:12px}.logo{font-size:30px}.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="hero">
+    <div class="logo">ENGİN360</div>
+    <div class="subtitle">Kutu Grafiği Dedektifi PRO<br>Grafikten minimum, Q1, medyan, Q3, maksimum ve çeyrekler açıklığını yakala.</div>
+  </div>
+
+  <div class="panel">
+    <h2>1) Kutu Grafiği Üret</h2>
+    <div class="grid">
+      <div>
+        <label>Seviye</label>
+        <select id="level">
+          <option value="easy">Kolay</option>
+          <option value="mid">Orta</option>
+          <option value="hard">Zor</option>
+        </select>
+      </div>
+      <div>
+        <label>Soru tipi</label>
+        <select id="qType">
+          <option value="min">Minimum kaçtır?</option>
+          <option value="q1">Q1 kaçtır?</option>
+          <option value="med">Medyan kaçtır?</option>
+          <option value="q3">Q3 kaçtır?</option>
+          <option value="max">Maksimum kaçtır?</option>
+          <option value="iqr">Çeyrekler açıklığı kaçtır?</option>
+          <option value="range">Açıklık kaçtır?</option>
+          <option value="comment">Grafik ne söylüyor?</option>
+        </select>
+      </div>
+    </div>
+    <button onclick="newBox()">Yeni Kutu Grafiği</button>
+    <button class="secondary" onclick="showValues()">Değerleri Göster / Gizle</button>
+  </div>
+
+  <div class="panel">
+    <h2>2) Kutu Grafiği</h2>
+    <canvas id="boxCanvas" width="900" height="420"></canvas>
+  </div>
+
+  <div class="grid">
+    <div class="panel">
+      <h2>3) Dedektif Sorusu</h2>
+      <div id="questionBox" class="result"></div>
+      <div class="grid">
+        <div><label>Cevabın</label><input id="studentAnswer" placeholder="Cevabı yaz"></div>
+        <div><label>Kontrol</label><button onclick="checkAnswer()">Cevabı Kontrol Et</button></div>
+      </div>
+      <div id="answerBox" class="result"></div>
+    </div>
+
+    <div class="panel">
+      <h2>4) Grafik Yorumlama</h2>
+      <div id="commentBox" class="result"></div>
+      <button class="secondary" onclick="newCommentQuestion()">Yeni Yorum Sorusu</button>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="panel">
+      <h2>5) Hata Avcısı</h2>
+      <div id="bugBox" class="result"></div>
+      <div class="grid">
+        <button onclick="checkBug('iqr')">Çeyrekler açıklığı hatası</button>
+        <button onclick="checkBug('range')">Açıklık hatası</button>
+        <button onclick="checkBug('median')">Medyan hatası</button>
+      </div>
+      <div id="bugAnswer" class="result"></div>
+    </div>
+
+    <div class="panel">
+      <h2>6) Rozet</h2>
+      <div id="scoreBox" class="result"></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>7) Altın Kural</h2>
+    <div class="result">
+      <span class="pink">Kutu grafiği 5 temel değeri gösterir:</span><br>
+      Minimum, Q1, Medyan, Q3, Maksimum<br><br>
+      <span class="pink">Çeyrekler açıklığı:</span> Q3 - Q1<br>
+      <span class="pink">Açıklık:</span> Maksimum - Minimum<br><br>
+      Kutunun genişliği büyüdükçe verinin ortadaki %50'lik kısmı daha yayılmış demektir.
+    </div>
+  </div>
+
+  <div class="footer">ENGİN360 © 2026 · Maarif Model Laboratuvarı</div>
+</div>
+
+<script>
+let stats={min:2,q1:5,med:8,q3:12,max:18};
+let visible=false, currentAnswer="", currentSolution="", score=0, currentBug="iqr";
+
+function fmt(x){return Math.abs(x-Math.round(x))<1e-9?String(Math.round(x)):String(Math.round(x*10)/10);}
+function makeStats(){
+  let level=document.getElementById("level").value;
+  let min,q1,med,q3,max;
+  if(level==="easy"){
+    min=rand(0,5); q1=min+rand(2,4); med=q1+rand(2,4); q3=med+rand(2,4); max=q3+rand(2,5);
+  }else if(level==="mid"){
+    min=rand(0,10); q1=min+rand(3,7); med=q1+rand(2,8); q3=med+rand(3,8); max=q3+rand(4,10);
+  }else{
+    min=rand(-8,5); q1=min+rand(4,9); med=q1+rand(3,10); q3=med+rand(4,10); max=q3+rand(6,14);
+    if(Math.random()<0.5){med += 0.5; q3 += 0.5;}
+  }
+  stats={min,q1,med,q3,max};
+}
+function rand(a,b){return Math.floor(Math.random()*(b-a+1))+a;}
+function drawBox(){
+  const c=document.getElementById("boxCanvas"), ctx=c.getContext("2d"), W=c.width, H=c.height;
+  ctx.clearRect(0,0,W,H);ctx.fillStyle="#fff";ctx.fillRect(0,0,W,H);
+  ctx.fillStyle="#111827";ctx.font="800 24px Segoe UI";ctx.fillText("Kutu Grafiği Dedektifi",35,42);
+
+  let left=90,right=W-70,y=220;
+  let min=stats.min,max=stats.max,pad=(max-min)*0.12||1;
+  let scaleMin=min-pad,scaleMax=max+pad;
+  function x(v){return left+(v-scaleMin)/(scaleMax-scaleMin)*(right-left);}
+
+  ctx.strokeStyle="#e2e8f0";ctx.lineWidth=1;
+  for(let i=0;i<=8;i++){
+    let xx=left+(right-left)*i/8;
+    let v=scaleMin+(scaleMax-scaleMin)*i/8;
+    ctx.beginPath();ctx.moveTo(xx,90);ctx.lineTo(xx,y+92);ctx.stroke();
+    ctx.fillStyle="#475569";ctx.font="13px Segoe UI";ctx.fillText(fmt(v),xx-12,y+112);
+  }
+
+  ctx.strokeStyle="#334155";ctx.lineWidth=2;
+  ctx.beginPath();ctx.moveTo(left,y+70);ctx.lineTo(right,y+70);ctx.stroke();
+
+  let mn=x(stats.min), q1=x(stats.q1), med=x(stats.med), q3=x(stats.q3), mx=x(stats.max);
+
+  ctx.strokeStyle="#0ea5e9";ctx.lineWidth=5;
+  ctx.beginPath();ctx.moveTo(mn,y);ctx.lineTo(q1,y);ctx.moveTo(q3,y);ctx.lineTo(mx,y);ctx.stroke();
+
+  ctx.fillStyle="rgba(124,58,237,.85)";
+  ctx.strokeStyle="#312e81";ctx.lineWidth=3;
+  ctx.fillRect(q1,y-48,q3-q1,96);ctx.strokeRect(q1,y-48,q3-q1,96);
+
+  ctx.strokeStyle="#ec4899";ctx.lineWidth=5;
+  ctx.beginPath();ctx.moveTo(med,y-60);ctx.lineTo(med,y+60);ctx.stroke();
+
+  ctx.strokeStyle="#0ea5e9";ctx.lineWidth=4;
+  ctx.beginPath();ctx.moveTo(mn,y-28);ctx.lineTo(mn,y+28);ctx.moveTo(mx,y-28);ctx.lineTo(mx,y+28);ctx.stroke();
+
+  if(visible){
+    let labels=[["Min",stats.min,mn],["Q1",stats.q1,q1],["Medyan",stats.med,med],["Q3",stats.q3,q3],["Max",stats.max,mx]];
+    labels.forEach((d,i)=>{
+      ctx.fillStyle="#111827";ctx.font="800 14px Segoe UI";ctx.fillText(d[0],d[2]-22,108+(i%2)*22);
+      ctx.font="14px Segoe UI";ctx.fillText(fmt(d[1]),d[2]-10,128+(i%2)*22);
+    });
+  }else{
+    ctx.fillStyle="#64748b";ctx.font="15px Segoe UI";
+    ctx.fillText("Değerleri sen tahmin et. Kontrol için 'Değerleri Göster' düğmesini kullanabilirsin.",35,H-32);
+  }
+}
+function newBox(){
+  visible=false;
+  makeStats();
+  drawBox();
+  makeQuestion();
+  makeComment();
+  makeBug();
+  updateScore();
+  document.getElementById("studentAnswer").value="";
+  document.getElementById("answerBox").innerHTML="";
+}
+function showValues(){visible=!visible;drawBox();}
+function makeQuestion(){
+  let t=document.getElementById("qType").value;
+  let q="",a="",sol="";
+  if(t==="min"){q="Bu kutu grafiğinde minimum değer kaçtır?";a=fmt(stats.min);sol="Sol uç minimum değeri gösterir. Minimum = "+fmt(stats.min);}
+  if(t==="q1"){q="Bu kutu grafiğinde Q1 kaçtır?";a=fmt(stats.q1);sol="Kutunun sol kenarı Q1 değerini gösterir. Q1 = "+fmt(stats.q1);}
+  if(t==="med"){q="Bu kutu grafiğinde medyan kaçtır?";a=fmt(stats.med);sol="Kutunun içindeki dikey çizgi medyanı gösterir. Medyan = "+fmt(stats.med);}
+  if(t==="q3"){q="Bu kutu grafiğinde Q3 kaçtır?";a=fmt(stats.q3);sol="Kutunun sağ kenarı Q3 değerini gösterir. Q3 = "+fmt(stats.q3);}
+  if(t==="max"){q="Bu kutu grafiğinde maksimum değer kaçtır?";a=fmt(stats.max);sol="Sağ uç maksimum değeri gösterir. Maksimum = "+fmt(stats.max);}
+  if(t==="iqr"){q="Çeyrekler açıklığı kaçtır?";a=fmt(stats.q3-stats.q1);sol="Q3 - Q1 = "+fmt(stats.q3)+" - "+fmt(stats.q1)+" = "+fmt(stats.q3-stats.q1);}
+  if(t==="range"){q="Açıklık kaçtır?";a=fmt(stats.max-stats.min);sol="Maksimum - Minimum = "+fmt(stats.max)+" - "+fmt(stats.min)+" = "+fmt(stats.max-stats.min);}
+  if(t==="comment"){q="Verinin ortadaki %50'lik kısmı hangi aralıkta yer alır? Cevabı Q1-Q3 biçiminde yaz.";a=fmt(stats.q1)+"-"+fmt(stats.q3);sol="Ortadaki %50'lik kısım Q1 ile Q3 arasındadır: "+a;}
+  currentAnswer=a; currentSolution=sol;
+  document.getElementById("questionBox").innerHTML="<b>Soru:</b> "+q;
+}
+function norm(s){return String(s).toLowerCase().replace(",",".").replace("–","-").replace("—","-").replaceAll(" ","").trim();}
+function checkAnswer(){
+  let s=norm(document.getElementById("studentAnswer").value), a=norm(currentAnswer);
+  let ok=false;
+  if(!isNaN(Number(a)) && !isNaN(Number(s))) ok=Math.abs(Number(s)-Number(a))<0.11;
+  else ok=s===a;
+  if(ok){score++; document.getElementById("answerBox").innerHTML="<span class='ok'>✔ Doğru!</span><br><br><b>Çözüm:</b><br>"+currentSolution;}
+  else{document.getElementById("answerBox").innerHTML="<span class='warn'>Tekrar kontrol et. Beklenen cevap: "+currentAnswer+"</span><br><br><b>Çözüm:</b><br>"+currentSolution;}
+  updateScore();
+}
+function makeComment(){
+  let iqr=stats.q3-stats.q1, range=stats.max-stats.min, left=stats.q1-stats.min, right=stats.max-stats.q3;
+  let html="";
+  html+="<span class='badge hot'>Çeyrekler açıklığı = "+fmt(iqr)+"</span>";
+  html+="<span class='badge hot'>Açıklık = "+fmt(range)+"</span><br><br>";
+  if(iqr > range*0.55) html+="<span class='warn'>Yorum:</span> Ortadaki %50'lik veri oldukça yayılmış görünüyor.<br>";
+  else html+="<span class='ok'>Yorum:</span> Ortadaki %50'lik veri daha toplu görünüyor.<br>";
+  if(right>left*1.6) html+="Sağ bıyık daha uzun: büyük değerlere doğru yayılım daha fazla olabilir.";
+  else if(left>right*1.6) html+="Sol bıyık daha uzun: küçük değerlere doğru yayılım daha fazla olabilir.";
+  else html+="Bıyık uzunlukları birbirine yakın: uçlardaki yayılım dengeli görünüyor.";
+  document.getElementById("commentBox").innerHTML=html;
+}
+function newCommentQuestion(){makeComment();}
+function makeBug(){
+  let bugs=[
+    {type:"iqr", text:"Bir öğrenci çeyrekler açıklığını maksimum - minimum diye hesapladı. Hata türü nedir?"},
+    {type:"range", text:"Bir öğrenci açıklığı Q3 - Q1 diye hesapladı. Hata türü nedir?"},
+    {type:"median", text:"Bir öğrenci medyan yerine Q1 değerini orta değer sandı. Hata türü nedir?"}
+  ];
+  let b=bugs[Math.floor(Math.random()*bugs.length)];
+  currentBug=b.type;
+  document.getElementById("bugBox").innerHTML="<b>Hata Avcısı:</b><br>"+b.text;
+  document.getElementById("bugAnswer").innerHTML="";
+}
+function checkBug(t){
+  if(t===currentBug){
+    score++;
+    document.getElementById("bugAnswer").innerHTML="<span class='ok'>✔ Doğru!</span>";
+    setTimeout(makeBug,900);
+  }else{
+    document.getElementById("bugAnswer").innerHTML="<span class='warn'>Tekrar düşün.</span>";
+  }
+  updateScore();
+}
+function updateScore(){
+  let badge="Kutu Grafiği Çırağı";
+  if(score>=4) badge="Kutu Grafiği Dedektifi";
+  if(score>=8) badge="Çeyrekler Ustası";
+  if(score>=12) badge="Maarif Veri Profesörü";
+  document.getElementById("scoreBox").innerHTML="Puan: <span class='badge hot'>"+score+"</span><br>Rozet: <span class='ok'>"+badge+"</span>";
+}
+document.getElementById("qType").addEventListener("change",makeQuestion);
+newBox();
+</script>
+</body>
+</html>
