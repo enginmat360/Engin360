@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>ENGİN360 Grafik Dönüştürme Laboratuvarı</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',Arial,sans-serif}
+body{
+  min-height:100vh;color:#fff;padding:16px;
+  background:radial-gradient(circle at top left,rgba(168,85,247,.38),transparent 35%),
+  radial-gradient(circle at bottom right,rgba(14,165,233,.30),transparent 35%),
+  linear-gradient(135deg,#05010d,#130023,#061631)
+}
+.container{max-width:1160px;margin:auto}
+.hero{text-align:center;padding:28px 16px;border-radius:28px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);box-shadow:0 0 35px rgba(124,58,237,.34);margin-bottom:16px}
+.logo{font-size:35px;font-weight:900;letter-spacing:1px;background:linear-gradient(90deg,#a855f7,#38bdf8,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.subtitle{margin-top:8px;color:#ded9ff;font-size:15px;line-height:1.5}
+.panel{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.13);border-radius:24px;padding:17px;margin-top:14px;box-shadow:0 12px 26px rgba(0,0,0,.25)}
+h2{font-size:20px;color:#f5d0fe;margin-bottom:12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:13px}
+label{display:block;color:#f5d0fe;font-size:14px;margin-bottom:7px}
+input,textarea,select{
+  width:100%;border:none;outline:none;border-radius:14px;padding:12px 13px;
+  background:rgba(255,255,255,.12);color:white;border:1px solid rgba(255,255,255,.16);font-size:15px
+}
+textarea{min-height:84px;resize:vertical}
+select option{color:#111}
+button{width:100%;padding:13px;border:none;border-radius:16px;margin-top:11px;color:white;font-weight:800;font-size:15px;background:linear-gradient(90deg,#7c3aed,#0ea5e9,#ec4899);box-shadow:0 0 22px rgba(236,72,153,.25);cursor:pointer}
+.secondary{background:linear-gradient(90deg,#334155,#475569)}
+.result{background:rgba(0,0,0,.24);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:13px;margin-top:10px;line-height:1.65;overflow:auto}
+canvas{width:100%;background:white;border-radius:18px;border:1px solid rgba(255,255,255,.15);display:block;margin:auto}
+.badge{display:inline-block;margin:4px;padding:7px 10px;border-radius:999px;background:rgba(14,165,233,.15);border:1px solid rgba(56,189,248,.28)}
+.ok{color:#86efac;font-weight:800}.warn{color:#fde68a;font-weight:800}.pink{color:#f0abfc;font-weight:800}
+.footer{text-align:center;color:#aaa;font-size:12px;margin:26px 0 10px}
+@media(max-width:600px){body{padding:12px}.logo{font-size:30px}.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="hero">
+    <div class="logo">ENGİN360</div>
+    <div class="subtitle">Grafik Dönüştürme Laboratuvarı<br>Sütun grafiğinden daire grafiğine geçiş, yüzde, merkez açı ve yorumlama.</div>
+  </div>
+
+  <div class="panel">
+    <h2>1) Veriyi Gir</h2>
+    <div class="grid">
+      <div>
+        <label>Başlık</label>
+        <input id="title" value="Sınıfın Sevdiği Dersler">
+      </div>
+      <div>
+        <label>Kategoriler</label>
+        <input id="labels" value="Matematik,Fen,Türkçe,Sosyal">
+      </div>
+      <div>
+        <label>Değerler</label>
+        <input id="values" value="12,8,6,4">
+      </div>
+      <div>
+        <label>Yorum sorusu</label>
+        <select id="questionType">
+          <option value="max">En büyük kategori hangisi?</option>
+          <option value="min">En küçük kategori hangisi?</option>
+          <option value="percent">Bir kategorinin yüzdesini bul</option>
+          <option value="angle">Bir kategorinin merkez açısını bul</option>
+          <option value="compare">İki kategoriyi karşılaştır</option>
+        </select>
+      </div>
+    </div>
+    <button onclick="updateAll()">Grafikleri Oluştur</button>
+    <button class="secondary" onclick="sampleData()">Örnek Veri Yükle</button>
+  </div>
+
+  <div class="grid">
+    <div class="panel">
+      <h2>2) Sütun Grafiği</h2>
+      <canvas id="barCanvas" width="680" height="430"></canvas>
+    </div>
+    <div class="panel">
+      <h2>3) Daire Grafiği</h2>
+      <canvas id="pieCanvas" width="680" height="430"></canvas>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>4) Dönüştürme Tablosu</h2>
+    <div id="tableBox" class="result"></div>
+  </div>
+
+  <div class="panel">
+    <h2>5) Daire Grafiğine Nasıl Geçilir?</h2>
+    <div id="stepsBox" class="result"></div>
+  </div>
+
+  <div class="panel">
+    <h2>6) Yorumlama Dedektifi</h2>
+    <div id="questionBox" class="result"></div>
+    <div class="grid">
+      <div><label>Cevabın</label><input id="studentAnswer" placeholder="Cevabı yaz"></div>
+      <div><label>Kontrol</label><button onclick="checkAnswer()">Cevabı Kontrol Et</button></div>
+    </div>
+    <div id="answerBox" class="result"></div>
+  </div>
+
+  <div class="panel">
+    <h2>7) Altın Kural</h2>
+    <div class="result">
+      <span class="pink">Sütun grafiği değeri gösterir.</span><br>
+      <span class="pink">Daire grafiği oranı gösterir.</span><br><br>
+      Merkez açı = Kategori değeri / Toplam × 360°<br>
+      Yüzde = Kategori değeri / Toplam × 100
+    </div>
+  </div>
+
+  <div class="footer">ENGİN360 © 2026 · Matematik Laboratuvarı</div>
+</div>
+
+<script>
+let data=[], labels=[], currentAnswer="", currentSolution="";
+const colors=["#7c3aed","#0ea5e9","#ec4899","#22c55e","#f59e0b","#ef4444","#14b8a6","#6366f1"];
+
+function parse(){
+  labels=document.getElementById("labels").value.split(",").map(x=>x.trim()).filter(Boolean);
+  data=document.getElementById("values").value.split(",").map(x=>Number(x.trim())).filter(x=>!isNaN(x)&&x>=0);
+  let n=Math.min(labels.length,data.length);
+  labels=labels.slice(0,n); data=data.slice(0,n);
+}
+function total(){return data.reduce((a,b)=>a+b,0);}
+function updateAll(){parse();drawBar();drawPie();makeTable();makeSteps();makeQuestion();}
+function drawBar(){
+  const c=document.getElementById("barCanvas"),ctx=c.getContext("2d"),W=c.width,H=c.height;
+  ctx.clearRect(0,0,W,H);ctx.fillStyle="#fff";ctx.fillRect(0,0,W,H);
+  ctx.fillStyle="#111827";ctx.font="800 20px Segoe UI";ctx.fillText(document.getElementById("title").value,30,34);
+  let max=Math.max(...data,1), left=65,bottom=360,top=70,width=560;
+  ctx.strokeStyle="#334155";ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(left,top);ctx.lineTo(left,bottom);ctx.lineTo(left+width,bottom);ctx.stroke();
+  ctx.fillStyle="#475569";ctx.font="13px Segoe UI";
+  for(let i=0;i<=5;i++){let v=Math.round(max*i/5), y=bottom-(bottom-top)*i/5;ctx.fillText(v,25,y+4);ctx.strokeStyle="#e2e8f0";ctx.beginPath();ctx.moveTo(left,y);ctx.lineTo(left+width,y);ctx.stroke();}
+  let gap=18, bw=(width-gap*(data.length+1))/Math.max(data.length,1);
+  data.forEach((v,i)=>{
+    let h=(bottom-top)*v/max, x=left+gap+i*(bw+gap), y=bottom-h;
+    ctx.fillStyle=colors[i%colors.length];ctx.fillRect(x,y,bw,h);
+    ctx.fillStyle="#111827";ctx.font="800 14px Segoe UI";ctx.fillText(v,x+bw/2-8,y-8);
+    ctx.font="13px Segoe UI";ctx.save();ctx.translate(x+bw/2,bottom+18);ctx.rotate(-0.25);ctx.fillText(labels[i],-20,0);ctx.restore();
+  });
+}
+function drawPie(){
+  const c=document.getElementById("pieCanvas"),ctx=c.getContext("2d"),W=c.width,H=c.height,T=total();
+  ctx.clearRect(0,0,W,H);ctx.fillStyle="#fff";ctx.fillRect(0,0,W,H);
+  ctx.fillStyle="#111827";ctx.font="800 20px Segoe UI";ctx.fillText(document.getElementById("title").value,30,34);
+  let cx=230,cy=230,r=135,start=-Math.PI/2;
+  data.forEach((v,i)=>{
+    let angle=T?2*Math.PI*v/T:0;
+    ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,r,start,start+angle);ctx.closePath();
+    ctx.fillStyle=colors[i%colors.length];ctx.fill();
+    ctx.strokeStyle="#fff";ctx.lineWidth=3;ctx.stroke();
+    let mid=start+angle/2;
+    ctx.fillStyle="#111827";ctx.font="800 13px Segoe UI";
+    let pct=T?Math.round(v/T*1000)/10:0;
+    ctx.fillText(pct+"%",cx+Math.cos(mid)*85-16,cy+Math.sin(mid)*85+4);
+    start+=angle;
+  });
+  let lx=420,ly=95;
+  labels.forEach((lab,i)=>{
+    ctx.fillStyle=colors[i%colors.length];ctx.fillRect(lx,ly+i*34,18,18);
+    ctx.fillStyle="#111827";ctx.font="14px Segoe UI";ctx.fillText(lab+" ("+data[i]+")",lx+28,ly+i*34+14);
+  });
+}
+function makeTable(){
+  let T=total(), html="<b>Toplam = "+T+"</b><br><br>";
+  html+="<table style='width:100%;border-collapse:collapse;color:white'><tr><th>Kategori</th><th>Değer</th><th>Yüzde</th><th>Merkez Açı</th></tr>";
+  labels.forEach((lab,i)=>{
+    let pct=T?data[i]/T*100:0, ang=T?data[i]/T*360:0;
+    html+="<tr><td>"+lab+"</td><td>"+data[i]+"</td><td>"+pct.toFixed(1)+"%</td><td>"+ang.toFixed(1)+"°</td></tr>";
+  });
+  html+="</table>";
+  document.getElementById("tableBox").innerHTML=html;
+}
+function makeSteps(){
+  let T=total(), maxI=data.indexOf(Math.max(...data)), minI=data.indexOf(Math.min(...data));
+  let out="1) Önce bütün değerleri topla: <b>Toplam = "+T+"</b><br><br>";
+  out+="2) Her kategori için oranı bul:<br>Kategori / Toplam<br><br>";
+  out+="3) Daire grafiği için merkez açıyı hesapla:<br><b>Merkez açı = Kategori / Toplam × 360°</b><br><br>";
+  if(labels.length){
+    out+="Örnek: "+labels[0]+" için<br>";
+    out+=data[0]+" / "+T+" × 360° = <b>"+(T?data[0]/T*360:0).toFixed(1)+"°</b><br><br>";
+    out+="En büyük pay: <span class='ok'>"+labels[maxI]+"</span><br>";
+    out+="En küçük pay: <span class='warn'>"+labels[minI]+"</span>";
+  }
+  document.getElementById("stepsBox").innerHTML=out;
+}
+function makeQuestion(){
+  let mode=document.getElementById("questionType").value,T=total();
+  let maxI=data.indexOf(Math.max(...data)), minI=data.indexOf(Math.min(...data));
+  let q="",ans="",sol="";
+  if(mode==="max"){q="Grafiğe göre en büyük kategori hangisidir?";ans=labels[maxI].toLowerCase();sol="En büyük değer "+data[maxI]+" olduğu için cevap "+labels[maxI]+".";}
+  else if(mode==="min"){q="Grafiğe göre en küçük kategori hangisidir?";ans=labels[minI].toLowerCase();sol="En küçük değer "+data[minI]+" olduğu için cevap "+labels[minI]+".";}
+  else if(mode==="percent"){let i=0;q=labels[i]+" kategorisinin yüzdesi kaçtır?";ans=(T?data[i]/T*100:0).toFixed(1);sol=data[i]+"/"+T+"×100 = "+ans+"%";}
+  else if(mode==="angle"){let i=0;q=labels[i]+" kategorisinin daire grafiğindeki merkez açısı kaç derecedir?";ans=(T?data[i]/T*360:0).toFixed(1);sol=data[i]+"/"+T+"×360 = "+ans+"°";}
+  else{let a=0,b=1;q=labels[a]+" ile "+labels[b]+" arasındaki fark kaçtır?";ans=String(Math.abs(data[a]-data[b]));sol="Fark = |"+data[a]+"-"+data[b]+"| = "+ans;}
+  currentAnswer=ans;currentSolution=sol;
+  document.getElementById("questionBox").innerHTML="<b>Soru:</b> "+q;
+  document.getElementById("answerBox").innerHTML="";
+}
+function normalize(x){return String(x).toLowerCase().replace(",",".").replace(" derece","").replace("°","").replace("%","").trim();}
+function checkAnswer(){
+  let s=normalize(document.getElementById("studentAnswer").value), a=normalize(currentAnswer);
+  let ok=false;
+  if(!isNaN(Number(a))&&!isNaN(Number(s))) ok=Math.abs(Number(s)-Number(a))<0.11;
+  else ok=s===a;
+  document.getElementById("answerBox").innerHTML=(ok?"<span class='ok'>✔ Doğru!</span>":"<span class='warn'>Tekrar kontrol et. Beklenen cevap: "+currentAnswer+"</span>")+"<br><br><b>Çözüm:</b><br>"+currentSolution;
+}
+function sampleData(){
+  const samples=[
+    ["Spor Kulübü Tercihleri","Futbol,Basketbol,Voleybol,Yüzme","18,12,9,6"],
+    ["Kütüphane Kitap Türleri","Roman,Bilim,Şiir,Tarih","20,10,5,15"],
+    ["Ulaşım Tercihleri","Otobüs,Metro,Bisiklet,Yürüyüş","16,14,6,4"]
+  ];
+  let s=samples[Math.floor(Math.random()*samples.length)];
+  document.getElementById("title").value=s[0];document.getElementById("labels").value=s[1];document.getElementById("values").value=s[2];updateAll();
+}
+updateAll();
+</script>
+</body>
+</html>
