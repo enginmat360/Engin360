@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>ENGİN360 Haftalık Koç Görüşmesi</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',Arial,sans-serif}
+body{min-height:100vh;color:#fff;padding:16px;background:radial-gradient(circle at top left,rgba(168,85,247,.38),transparent 35%),radial-gradient(circle at bottom right,rgba(14,165,233,.30),transparent 35%),linear-gradient(135deg,#05010d,#130023,#061631)}
+.container{max-width:1160px;margin:auto}.hero{text-align:center;padding:28px 16px;border-radius:28px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);box-shadow:0 0 35px rgba(124,58,237,.34);margin-bottom:16px}
+.logo{font-size:35px;font-weight:900;letter-spacing:1px;background:linear-gradient(90deg,#a855f7,#38bdf8,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent}.subtitle{margin-top:8px;color:#ded9ff;font-size:15px;line-height:1.5}
+.panel{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.13);border-radius:24px;padding:17px;margin-top:14px;box-shadow:0 12px 26px rgba(0,0,0,.25)}
+h2{font-size:20px;color:#f5d0fe;margin-bottom:12px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:13px}
+label{display:block;color:#f5d0fe;font-size:14px;margin-bottom:7px}
+input,textarea{width:100%;border:none;outline:none;border-radius:14px;padding:12px 13px;background:rgba(255,255,255,.12);color:white;border:1px solid rgba(255,255,255,.16);font-size:15px}
+textarea{min-height:86px;resize:vertical}button{width:100%;padding:13px;border:none;border-radius:16px;margin-top:11px;color:white;font-weight:800;font-size:15px;cursor:pointer;background:linear-gradient(90deg,#7c3aed,#0ea5e9,#ec4899);box-shadow:0 0 22px rgba(236,72,153,.25)}
+.success{background:linear-gradient(90deg,#16a34a,#22c55e)}.warning{background:linear-gradient(90deg,#ca8a04,#f59e0b)}.secondary{background:linear-gradient(90deg,#334155,#475569)}.mail{background:linear-gradient(90deg,#0f766e,#06b6d4)}
+.small{font-size:13px;color:#cfd3ff;line-height:1.55;margin-top:8px}.previewWrap{overflow:auto;background:#eef2ff;border-radius:22px;padding:14px;margin-top:12px}
+#reportCanvas{background:white;border-radius:18px;display:block;width:1050px;max-width:none}.rangeRow{display:grid;grid-template-columns:1fr 70px;gap:10px;align-items:center}.scoreText{font-weight:800;color:#fde68a;text-align:center}.footer{text-align:center;color:#aaa;font-size:12px;margin:26px 0 10px}
+@media(max-width:650px){body{padding:12px}.logo{font-size:30px}.grid{grid-template-columns:1fr}.previewWrap{padding:8px}}
+</style></head>
+<body><div class="container">
+<div class="hero"><div class="logo">ENGİN360</div><div class="subtitle">Haftalık Koç Görüşmesi<br>Haftanı değerlendir, rapor oluştur, görsel/PDF olarak kaydet ve koçuna gönder.</div></div>
+
+<div class="panel"><h2>1) Genel Bilgiler</h2><div class="grid">
+<div><label>Öğrenci adı</label><input id="student" value="Öğrenci Adı"></div>
+<div><label>Hafta</label><input id="week" value="10 - 16 Haziran"></div>
+<div><label>Toplam soru</label><input id="totalQuestions" type="number" value="450"></div>
+<div><label>Deneme sayısı</label><input id="examCount" type="number" value="2"></div>
+<div><label>En çok çalışılan ders</label><input id="bestLesson" value="Matematik"></div>
+<div><label>En az çalışılan ders</label><input id="weakLesson" value="Geometri"></div>
+</div></div>
+
+<div class="panel"><h2>2) Kendini Değerlendir</h2><div class="grid">
+<div><label>Motivasyon</label><div class="rangeRow"><input id="motivation" type="range" min="1" max="10" value="7" oninput="syncScores()"><div id="motivationText" class="scoreText">7/10</div></div></div>
+<div><label>Odaklanma</label><div class="rangeRow"><input id="focus" type="range" min="1" max="10" value="7" oninput="syncScores()"><div id="focusText" class="scoreText">7/10</div></div></div>
+<div><label>Disiplin</label><div class="rangeRow"><input id="discipline" type="range" min="1" max="10" value="6" oninput="syncScores()"><div id="disciplineText" class="scoreText">6/10</div></div></div>
+<div><label>Verimlilik</label><div class="rangeRow"><input id="efficiency" type="range" min="1" max="10" value="7" oninput="syncScores()"><div id="efficiencyText" class="scoreText">7/10</div></div></div>
+</div></div>
+
+<div class="panel"><h2>3) Haftalık Koçluk Soruları</h2><div class="grid">
+<div><label>Bu hafta en iyi yaptığım şey</label><textarea id="good">Düzenli soru çözmeye daha çok yaklaştım.</textarea></div>
+<div><label>Bu hafta beni geriye çeken şey</label><textarea id="problem">Bazı günler plansız başladığım için verim düştü.</textarea></div>
+<div><label>Bu hafta öğrendiğim en önemli şey</label><textarea id="learned">Yanlış analizi yapınca aynı hataları daha hızlı fark ediyorum.</textarea></div>
+<div><label>Koçuma söylemek istediğim</label><textarea id="message">Bu hafta özellikle geometri için yönlendirme istiyorum.</textarea></div>
+<div><label>Gelecek hafta hedefim</label><textarea id="nextGoal">Geometriyi toparlamak ve en az 500 soru çözmek.</textarea></div>
+<div><label>Bitireceğim konular</label><textarea id="topics">Problemler, üçgende açılar, paragraf tekrarları</textarea></div>
+</div></div>
+
+<div class="panel"><h2>4) Rapor İşlemleri</h2><div class="grid">
+<button onclick="drawReport()">Raporu Güncelle</button>
+<button class="success" onclick="downloadPNG()">Görsel Olarak Kaydet</button>
+<button class="warning" onclick="downloadPDF()">PDF Olarak Kaydet</button>
+<button class="secondary" onclick="shareWhatsApp()">WhatsApp Metni Hazırla</button>
+<button class="mail" onclick="sendMail()">Mail Hazırla</button>
+</div><div class="small">Mail butonu alıcıyı otomatik doldurur. Ek dosya güvenlik nedeniyle otomatik eklenemez; öğrenci kaydettiği görsel/PDF’yi mail uygulamasında ekler.</div></div>
+
+<div class="panel"><h2>5) Rapor Ön İzleme</h2><div class="previewWrap"><canvas id="reportCanvas" width="1050" height="1480"></canvas></div></div>
+<div class="footer">ENGİN360 © 2026 · Koçluk Sistemi</div></div>
+
+<script>
+function val(id){return document.getElementById(id).value||""}
+function syncScores(){["motivation","focus","discipline","efficiency"].forEach(id=>{document.getElementById(id+"Text").textContent=document.getElementById(id).value+"/10"});drawReport()}
+function wrapText(ctx,text,x,y,maxWidth,lineHeight){let lines=[];String(text).split("\n").forEach(part=>{let words=part.split(" "),line="";words.forEach(word=>{let test=line?line+" "+word:word;if(ctx.measureText(test).width>maxWidth&&line){lines.push(line);line=word}else line=test});lines.push(line)});lines.forEach((line,i)=>ctx.fillText(line,x,y+i*lineHeight));return lines.length*lineHeight}
+function roundRect(ctx,x,y,w,h,r,fill,stroke){ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);ctx.lineTo(x+w,y+h-r);ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);ctx.lineTo(x+r,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-r);ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);ctx.closePath();if(fill)ctx.fill();if(stroke)ctx.stroke()}
+function scoreBar(ctx,label,score,x,y,w){ctx.fillStyle="#475569";ctx.font="700 15px Segoe UI";ctx.fillText(label,x,y);ctx.fillStyle="#e2e8f0";roundRect(ctx,x,y+12,w,16,8,true,false);ctx.fillStyle=score>=8?"#22c55e":score>=5?"#f59e0b":"#ef4444";roundRect(ctx,x,y+12,w*(score/10),16,8,true,false);ctx.fillStyle="#111827";ctx.font="800 14px Segoe UI";ctx.fillText(score+"/10",x+w+12,y+26)}
+function drawReport(){const canvas=document.getElementById("reportCanvas"),ctx=canvas.getContext("2d"),W=canvas.width,H=canvas.height;ctx.clearRect(0,0,W,H);ctx.fillStyle="#fff";ctx.fillRect(0,0,W,H);ctx.fillStyle="#312e81";ctx.fillRect(0,0,W,125);ctx.fillStyle="#fff";ctx.font="900 42px Segoe UI";ctx.fillText("ENGİN360",40,55);ctx.font="700 22px Segoe UI";ctx.fillText("Haftalık Koç Görüşmesi Raporu",40,92);ctx.textAlign="right";ctx.font="700 20px Segoe UI";ctx.fillText(val("student"),W-40,55);ctx.font="16px Segoe UI";ctx.fillText(val("week"),W-40,88);ctx.textAlign="left";let y=150;[["Toplam Soru",val("totalQuestions")],["Deneme",val("examCount")],["En Çok Çalışılan",val("bestLesson")],["En Az Çalışılan",val("weakLesson")]].forEach((it,i)=>{let x=40+i*245;ctx.fillStyle="#f1f5f9";ctx.strokeStyle="#cbd5e1";roundRect(ctx,x,y,225,76,12,true,true);ctx.fillStyle="#475569";ctx.font="700 14px Segoe UI";ctx.fillText(it[0],x+14,y+25);ctx.fillStyle="#111827";ctx.font="800 20px Segoe UI";wrapText(ctx,it[1],x+14,y+53,195,20)});y=255;ctx.fillStyle="#312e81";ctx.font="800 20px Segoe UI";ctx.fillText("Kendini Değerlendirme",40,y);y+=25;scoreBar(ctx,"Motivasyon",Number(val("motivation")),40,y,320);scoreBar(ctx,"Odaklanma",Number(val("focus")),560,y,320);y+=62;scoreBar(ctx,"Disiplin",Number(val("discipline")),40,y,320);scoreBar(ctx,"Verimlilik",Number(val("efficiency")),560,y,320);y+=85;[["Bu Hafta En İyi Yaptığım Şey",val("good")],["Beni Geriye Çeken Şey",val("problem")],["Öğrendiğim En Önemli Şey",val("learned")],["Koçuma Mesajım",val("message")],["Gelecek Hafta Hedefim",val("nextGoal")],["Bitireceğim Konular",val("topics")]].forEach((b,i)=>{let x=i%2===0?40:540,yy=y+Math.floor(i/2)*235;ctx.fillStyle="#f8fafc";ctx.strokeStyle="#cbd5e1";roundRect(ctx,x,yy,470,200,14,true,true);ctx.fillStyle="#312e81";ctx.font="800 16px Segoe UI";ctx.fillText(b[0],x+18,yy+32);ctx.fillStyle="#111827";ctx.font="14px Segoe UI";wrapText(ctx,b[1],x+18,yy+62,430,21)});y+=735;ctx.fillStyle="#eef2ff";ctx.strokeStyle="#c7d2fe";roundRect(ctx,40,y,970,120,16,true,true);ctx.fillStyle="#312e81";ctx.font="900 18px Segoe UI";ctx.fillText("Koçluk Yorumu İçin Alan",60,y+34);ctx.fillStyle="#475569";ctx.font="14px Segoe UI";ctx.fillText("Bu rapor öğrenci tarafından doldurulmuştur. Koç değerlendirmesi sonrası haftalık hedefler netleştirilebilir.",60,y+65);ctx.fillStyle="#111827";ctx.font="800 15px Segoe UI";ctx.fillText("Hazırlayan: Engin Özcan",60,H-70);ctx.fillStyle="#475569";ctx.font="14px Segoe UI";ctx.fillText("Matematik Öğretmeni • Eğitim Koçu",60,H-48);ctx.textAlign="center";ctx.fillStyle="#64748b";ctx.font="13px Segoe UI";ctx.fillText("ENGİN360 Haftalık Koçluk Sistemi",W/2,H-25);ctx.textAlign="left"}
+function downloadPNG(){drawReport();let a=document.createElement("a");a.download="engin360_haftalik_koc_raporu.png";a.href=document.getElementById("reportCanvas").toDataURL("image/png");document.body.appendChild(a);a.click();document.body.removeChild(a)}
+function downloadPDF(){drawReport();let data=document.getElementById("reportCanvas").toDataURL("image/png"),w=window.open("");if(!w){alert("PDF için açılır pencereye izin ver.");return}w.document.write("<html><head><title>ENGİN360 Haftalık Koç Raporu</title><style>body{margin:0;text-align:center;background:#eee}img{width:100%;max-width:900px}@media print{body{background:white}button{display:none}}</style></head><body><button onclick='window.print()' style='padding:12px 20px;margin:10px;font-weight:bold'>PDF olarak kaydet / Yazdır</button><br><img src='"+data+"'></body></html>");w.document.close()}
+function reportText(){return "ENGİN360 Haftalık Koç Raporu\nÖğrenci: "+val("student")+"\nHafta: "+val("week")+"\nToplam Soru: "+val("totalQuestions")+"\nDeneme: "+val("examCount")+"\nMotivasyon: "+val("motivation")+"/10\nOdaklanma: "+val("focus")+"/10\nDisiplin: "+val("discipline")+"/10\nVerimlilik: "+val("efficiency")+"/10\n\nBu hafta en iyi yaptığım şey:\n"+val("good")+"\n\nBeni geriye çeken şey:\n"+val("problem")+"\n\nKoçuma mesajım:\n"+val("message")+"\n\nGelecek hafta hedefim:\n"+val("nextGoal")}
+function shareWhatsApp(){window.open("https://wa.me/?text="+encodeURIComponent(reportText()),"_blank")}
+function sendMail(){let subject="ENGİN360 Haftalık Koç Raporu - "+val("student"),body="Merhaba Engin Hocam,\n\nHaftalık koç raporumu oluşturdum. Görsel/PDF dosyasını bu maile ekliyorum.\n\n"+reportText();window.location.href="mailto:enginozcan82@gmail.com?subject="+encodeURIComponent(subject)+"&body="+encodeURIComponent(body)}
+document.querySelectorAll("input,textarea").forEach(el=>el.addEventListener("input",drawReport));syncScores();drawReport()
+</script></body></html>
