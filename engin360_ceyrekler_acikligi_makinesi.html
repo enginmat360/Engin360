@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>ENGİN360 Çeyrekler Açıklığı Makinesi</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',Arial,sans-serif}
+body{
+  min-height:100vh;color:#fff;padding:16px;
+  background:radial-gradient(circle at top left,rgba(168,85,247,.38),transparent 35%),
+  radial-gradient(circle at bottom right,rgba(14,165,233,.30),transparent 35%),
+  linear-gradient(135deg,#05010d,#130023,#061631)
+}
+.container{max-width:1160px;margin:auto}
+.hero{text-align:center;padding:28px 16px;border-radius:28px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);box-shadow:0 0 35px rgba(124,58,237,.34);margin-bottom:16px}
+.logo{font-size:35px;font-weight:900;letter-spacing:1px;background:linear-gradient(90deg,#a855f7,#38bdf8,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.subtitle{margin-top:8px;color:#ded9ff;font-size:15px;line-height:1.5}
+.panel{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.13);border-radius:24px;padding:17px;margin-top:14px;box-shadow:0 12px 26px rgba(0,0,0,.25)}
+h2{font-size:20px;color:#f5d0fe;margin-bottom:12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:13px}
+label{display:block;color:#f5d0fe;font-size:14px;margin-bottom:7px}
+input,select{
+  width:100%;border:none;outline:none;border-radius:14px;padding:12px 13px;
+  background:rgba(255,255,255,.12);color:white;border:1px solid rgba(255,255,255,.16);font-size:15px
+}
+select option{color:#111}
+button{
+  width:100%;padding:13px;border:none;border-radius:16px;margin-top:11px;
+  color:white;font-weight:800;font-size:15px;cursor:pointer;
+  background:linear-gradient(90deg,#7c3aed,#0ea5e9,#ec4899);
+  box-shadow:0 0 22px rgba(236,72,153,.25)
+}
+.secondary{background:linear-gradient(90deg,#334155,#475569)}
+.result{background:rgba(0,0,0,.24);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:13px;margin-top:10px;line-height:1.7;overflow:auto}
+.badge{display:inline-block;margin:4px;padding:7px 10px;border-radius:999px;background:rgba(14,165,233,.15);border:1px solid rgba(56,189,248,.28)}
+.hot{background:rgba(236,72,153,.18);border-color:rgba(236,72,153,.55)}
+.ok{color:#86efac;font-weight:800}.warn{color:#fde68a;font-weight:800}.pink{color:#f0abfc;font-weight:800}
+canvas{width:100%;background:white;border-radius:18px;border:1px solid rgba(255,255,255,.15);display:block;margin:auto}
+.footer{text-align:center;color:#aaa;font-size:12px;margin:26px 0 10px}
+@media(max-width:600px){body{padding:12px}.logo{font-size:30px}.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="hero">
+    <div class="logo">ENGİN360</div>
+    <div class="subtitle">Çeyrekler Açıklığı Makinesi<br>Veriyi sırala, Q1-Medyan-Q3 bul, çeyrekler açıklığını gör ve kutu grafiği çiz.</div>
+  </div>
+
+  <div class="panel">
+    <h2>1) Veriyi Gir</h2>
+    <div class="grid">
+      <div>
+        <label>Veri seti</label>
+        <input id="dataInput" value="5,7,8,10,12,15,18">
+      </div>
+      <div>
+        <label>Çeyrek hesaplama yöntemi</label>
+        <select id="method">
+          <option value="exclude">Medyanı ayırarak hesapla</option>
+          <option value="include">Medyanı iki tarafa dahil ederek hesapla</option>
+        </select>
+      </div>
+      <div>
+        <label>Soru tipi</label>
+        <select id="qType">
+          <option value="q1">Q1 kaçtır?</option>
+          <option value="median">Medyan kaçtır?</option>
+          <option value="q3">Q3 kaçtır?</option>
+          <option value="iqr">Çeyrekler açıklığı kaçtır?</option>
+          <option value="range">Açıklık kaçtır?</option>
+        </select>
+      </div>
+    </div>
+    <button onclick="analyze()">Hesapla ve Kutu Grafiği Çiz</button>
+    <button class="secondary" onclick="sampleData()">Örnek Veri Yükle</button>
+  </div>
+
+  <div class="grid">
+    <div class="panel">
+      <h2>2) Sıralama ve Değerler</h2>
+      <div id="summary" class="result"></div>
+    </div>
+    <div class="panel">
+      <h2>3) Adım Adım Çözüm</h2>
+      <div id="steps" class="result"></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>4) Kutu Grafiği</h2>
+    <canvas id="boxCanvas" width="900" height="390"></canvas>
+  </div>
+
+  <div class="panel">
+    <h2>5) Yorumlama Dedektifi</h2>
+    <div id="questionBox" class="result"></div>
+    <div class="grid">
+      <div><label>Cevabın</label><input id="studentAnswer" placeholder="Cevabı yaz"></div>
+      <div><label>Kontrol</label><button onclick="checkAnswer()">Cevabı Kontrol Et</button></div>
+    </div>
+    <div id="answerBox" class="result"></div>
+  </div>
+
+  <div class="panel">
+    <h2>6) Altın Kural</h2>
+    <div class="result">
+      <span class="pink">Medyan:</span> Veriyi ortadan ikiye bölen değerdir.<br>
+      <span class="pink">Q1:</span> Alt yarının medyanıdır.<br>
+      <span class="pink">Q3:</span> Üst yarının medyanıdır.<br>
+      <span class="pink">Çeyrekler açıklığı:</span> Q3 - Q1<br><br>
+      Çeyrekler açıklığı, verinin ortadaki %50’lik kısmının ne kadar yayıldığını gösterir.
+    </div>
+  </div>
+
+  <div class="footer">ENGİN360 © 2026 · Maarif Model Laboratuvarı</div>
+</div>
+
+<script>
+let stats={}, currentAnswer="", currentSolution="";
+
+function parseData(){
+  return document.getElementById("dataInput").value
+    .split(",")
+    .map(x=>Number(x.trim()))
+    .filter(x=>!isNaN(x))
+    .sort((a,b)=>a-b);
+}
+function median(arr){
+  if(arr.length===0) return null;
+  let n=arr.length, mid=Math.floor(n/2);
+  if(n%2===1) return arr[mid];
+  return (arr[mid-1]+arr[mid])/2;
+}
+function calc(){
+  let arr=parseData();
+  let n=arr.length;
+  let med=median(arr);
+  let lower=[], upper=[];
+  let method=document.getElementById("method").value;
+  if(n%2===0){
+    lower=arr.slice(0,n/2);
+    upper=arr.slice(n/2);
+  }else{
+    let mid=Math.floor(n/2);
+    if(method==="include"){
+      lower=arr.slice(0,mid+1);
+      upper=arr.slice(mid);
+    }else{
+      lower=arr.slice(0,mid);
+      upper=arr.slice(mid+1);
+    }
+  }
+  let q1=median(lower), q3=median(upper);
+  let min=arr[0], max=arr[n-1];
+  let iqr=q3-q1, range=max-min;
+  return {arr,n,lower,upper,min,q1,med,q3,max,iqr,range};
+}
+function fmt(x){
+  if(x===null || x===undefined || isNaN(x)) return "-";
+  return Math.abs(x-Math.round(x))<1e-9 ? String(Math.round(x)) : String(Math.round(x*100)/100);
+}
+function analyze(){
+  stats=calc();
+  renderSummary();
+  renderSteps();
+  drawBox();
+  makeQuestion();
+}
+function renderSummary(){
+  let s=stats;
+  let html="";
+  html+="<b>Sıralı veri:</b><br>"+s.arr.map(x=>"<span class='badge'>"+x+"</span>").join(" ")+"<br><br>";
+  html+="<span class='badge hot'>Minimum = "+fmt(s.min)+"</span>";
+  html+="<span class='badge hot'>Q1 = "+fmt(s.q1)+"</span>";
+  html+="<span class='badge hot'>Medyan = "+fmt(s.med)+"</span>";
+  html+="<span class='badge hot'>Q3 = "+fmt(s.q3)+"</span>";
+  html+="<span class='badge hot'>Maksimum = "+fmt(s.max)+"</span><br><br>";
+  html+="<b>Çeyrekler açıklığı:</b> Q3 - Q1 = "+fmt(s.q3)+" - "+fmt(s.q1)+" = <span class='ok'>"+fmt(s.iqr)+"</span><br>";
+  html+="<b>Açıklık:</b> Maksimum - Minimum = "+fmt(s.max)+" - "+fmt(s.min)+" = <span class='warn'>"+fmt(s.range)+"</span>";
+  document.getElementById("summary").innerHTML=html;
+}
+function renderSteps(){
+  let s=stats;
+  let html="";
+  html+="1) Verileri küçükten büyüğe sırala:<br>"+s.arr.join(", ")+"<br><br>";
+  html+="2) Ortadaki değeri bul:<br>Medyan = <b>"+fmt(s.med)+"</b><br><br>";
+  html+="3) Alt yarıyı ayır:<br>{"+s.lower.join(", ")+"}<br>Q1 = <b>"+fmt(s.q1)+"</b><br><br>";
+  html+="4) Üst yarıyı ayır:<br>{"+s.upper.join(", ")+"}<br>Q3 = <b>"+fmt(s.q3)+"</b><br><br>";
+  html+="5) Çeyrekler açıklığını bul:<br>Q3 - Q1 = "+fmt(s.q3)+" - "+fmt(s.q1)+" = <b>"+fmt(s.iqr)+"</b>";
+  document.getElementById("steps").innerHTML=html;
+}
+function drawBox(){
+  let s=stats;
+  const c=document.getElementById("boxCanvas"), ctx=c.getContext("2d"), W=c.width, H=c.height;
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle="#fff"; ctx.fillRect(0,0,W,H);
+  ctx.fillStyle="#111827"; ctx.font="800 22px Segoe UI";
+  ctx.fillText("Kutu Grafiği",35,40);
+
+  let left=90,right=W-70,y=210;
+  let min=s.min,max=s.max;
+  let pad = (max-min)*0.1 || 1;
+  let scaleMin=min-pad, scaleMax=max+pad;
+  function x(v){return left+(v-scaleMin)/(scaleMax-scaleMin)*(right-left);}
+  ctx.strokeStyle="#cbd5e1"; ctx.lineWidth=2;
+  ctx.beginPath();ctx.moveTo(left,y+70);ctx.lineTo(right,y+70);ctx.stroke();
+  ctx.fillStyle="#475569";ctx.font="13px Segoe UI";
+  for(let i=0;i<=5;i++){
+    let v=scaleMin+(scaleMax-scaleMin)*i/5;
+    let xx=left+(right-left)*i/5;
+    ctx.strokeStyle="#e2e8f0";ctx.beginPath();ctx.moveTo(xx,80);ctx.lineTo(xx,y+90);ctx.stroke();
+    ctx.fillStyle="#475569";ctx.fillText(fmt(v),xx-12,y+95);
+  }
+
+  let q1=x(s.q1), q3=x(s.q3), med=x(s.med), mn=x(s.min), mx=x(s.max);
+  ctx.strokeStyle="#0ea5e9";ctx.lineWidth=5;
+  ctx.beginPath();ctx.moveTo(mn,y);ctx.lineTo(q1,y);ctx.moveTo(q3,y);ctx.lineTo(mx,y);ctx.stroke();
+
+  ctx.fillStyle="rgba(124,58,237,.85)";
+  ctx.strokeStyle="#312e81";ctx.lineWidth=3;
+  ctx.fillRect(q1,y-45,q3-q1,90);ctx.strokeRect(q1,y-45,q3-q1,90);
+
+  ctx.strokeStyle="#ec4899";ctx.lineWidth=5;
+  ctx.beginPath();ctx.moveTo(med,y-55);ctx.lineTo(med,y+55);ctx.stroke();
+
+  ctx.strokeStyle="#0ea5e9";ctx.lineWidth=4;
+  ctx.beginPath();ctx.moveTo(mn,y-25);ctx.lineTo(mn,y+25);ctx.moveTo(mx,y-25);ctx.lineTo(mx,y+25);ctx.stroke();
+
+  let labels=[
+    ["Min",s.min,mn],["Q1",s.q1,q1],["Medyan",s.med,med],["Q3",s.q3,q3],["Max",s.max,mx]
+  ];
+  labels.forEach((d,i)=>{
+    ctx.fillStyle="#111827";ctx.font="800 14px Segoe UI";
+    ctx.fillText(d[0],d[2]-22,105+(i%2)*22);
+    ctx.font="14px Segoe UI";ctx.fillText(fmt(d[1]),d[2]-12,125+(i%2)*22);
+  });
+}
+function makeQuestion(){
+  let type=document.getElementById("qType").value;
+  let q="", ans="", sol="";
+  if(type==="q1"){q="Bu veri setinde Q1 kaçtır?";ans=fmt(stats.q1);sol="Alt yarının medyanı Q1'dir. Q1 = "+fmt(stats.q1);}
+  else if(type==="median"){q="Bu veri setinde medyan kaçtır?";ans=fmt(stats.med);sol="Ortadaki değer medyandır. Medyan = "+fmt(stats.med);}
+  else if(type==="q3"){q="Bu veri setinde Q3 kaçtır?";ans=fmt(stats.q3);sol="Üst yarının medyanı Q3'tür. Q3 = "+fmt(stats.q3);}
+  else if(type==="iqr"){q="Çeyrekler açıklığı kaçtır?";ans=fmt(stats.iqr);sol="Q3 - Q1 = "+fmt(stats.q3)+" - "+fmt(stats.q1)+" = "+fmt(stats.iqr);}
+  else{q="Açıklık kaçtır?";ans=fmt(stats.range);sol="Maksimum - Minimum = "+fmt(stats.max)+" - "+fmt(stats.min)+" = "+fmt(stats.range);}
+  currentAnswer=ans; currentSolution=sol;
+  document.getElementById("questionBox").innerHTML="<b>Soru:</b> "+q;
+  document.getElementById("answerBox").innerHTML="";
+}
+function norm(x){return String(x).replace(",",".").trim();}
+function checkAnswer(){
+  let s=Number(norm(document.getElementById("studentAnswer").value));
+  let a=Number(norm(currentAnswer));
+  let ok=Math.abs(s-a)<0.01;
+  document.getElementById("answerBox").innerHTML=(ok?"<span class='ok'>✔ Doğru!</span>":"<span class='warn'>Tekrar kontrol et. Beklenen cevap: "+currentAnswer+"</span>")+"<br><br><b>Çözüm:</b><br>"+currentSolution;
+}
+function sampleData(){
+  const samples=[
+    "5,7,8,10,12,15,18",
+    "2,4,4,6,8,10,12,14",
+    "3,5,7,7,9,11,13,15,19",
+    "10,12,13,15,18,20,24,30",
+    "1,2,2,3,5,8,13,21"
+  ];
+  document.getElementById("dataInput").value=samples[Math.floor(Math.random()*samples.length)];
+  analyze();
+}
+document.getElementById("qType").addEventListener("change",makeQuestion);
+document.getElementById("method").addEventListener("change",analyze);
+analyze();
+</script>
+</body>
+</html>
