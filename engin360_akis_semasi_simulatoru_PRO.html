@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>ENGİN360 Akış Şeması Simülatörü PRO</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',Arial,sans-serif}
+body{
+  min-height:100vh;color:#fff;padding:16px;
+  background:radial-gradient(circle at top left,rgba(168,85,247,.38),transparent 35%),
+  radial-gradient(circle at bottom right,rgba(14,165,233,.30),transparent 35%),
+  linear-gradient(135deg,#05010d,#130023,#061631)
+}
+.container{max-width:1180px;margin:auto}
+.hero{text-align:center;padding:28px 16px;border-radius:28px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);box-shadow:0 0 35px rgba(124,58,237,.34);margin-bottom:16px}
+.logo{font-size:35px;font-weight:900;letter-spacing:1px;background:linear-gradient(90deg,#a855f7,#38bdf8,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.subtitle{margin-top:8px;color:#ded9ff;font-size:15px;line-height:1.5}
+.panel{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.13);border-radius:24px;padding:17px;margin-top:14px;box-shadow:0 12px 26px rgba(0,0,0,.25)}
+h2{font-size:20px;color:#f5d0fe;margin-bottom:12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:13px}
+label{display:block;color:#f5d0fe;font-size:14px;margin-bottom:7px}
+input,select{
+  width:100%;border:none;outline:none;border-radius:14px;padding:12px 13px;
+  background:rgba(255,255,255,.12);color:white;border:1px solid rgba(255,255,255,.16);font-size:15px
+}
+select option{color:#111}
+button{width:100%;padding:13px;border:none;border-radius:16px;margin-top:11px;color:white;font-weight:800;font-size:15px;background:linear-gradient(90deg,#7c3aed,#0ea5e9,#ec4899);box-shadow:0 0 22px rgba(236,72,153,.25);cursor:pointer}
+.secondary{background:linear-gradient(90deg,#334155,#475569)}
+.result{background:rgba(0,0,0,.24);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:13px;margin-top:10px;line-height:1.7;overflow:auto}
+.flowWrap{display:flex;flex-direction:column;align-items:center;gap:8px;margin-top:8px}
+.node{min-width:250px;max-width:500px;text-align:center;padding:13px 16px;border:2px solid rgba(255,255,255,.18);background:rgba(15,23,42,.78);box-shadow:0 8px 18px rgba(0,0,0,.25);transition:.25s}
+.terminal{border-radius:999px}
+.process{border-radius:16px}
+.decision{width:190px;height:190px;display:flex;align-items:center;justify-content:center;transform:rotate(45deg);border-radius:18px}
+.decision span{transform:rotate(-45deg);display:block;padding:10px}
+.active{background:rgba(236,72,153,.32);border-color:#f0abfc;box-shadow:0 0 25px rgba(236,72,153,.45)}
+.done{background:rgba(34,197,94,.18);border-color:#86efac}
+.arrow{font-size:24px;color:#93c5fd}
+.badge{display:inline-block;margin:4px;padding:7px 10px;border-radius:999px;background:rgba(14,165,233,.15);border:1px solid rgba(56,189,248,.28)}
+.ok{color:#86efac;font-weight:800}.warn{color:#fde68a;font-weight:800}.pink{color:#f0abfc;font-weight:800}.bad{color:#fca5a5;font-weight:800}
+pre{white-space:pre-wrap;background:rgba(0,0,0,.30);padding:13px;border-radius:14px;border:1px solid rgba(255,255,255,.12);line-height:1.6;color:#dbeafe}
+.footer{text-align:center;color:#aaa;font-size:12px;margin:26px 0 10px}
+@media(max-width:600px){body{padding:12px}.logo{font-size:30px}.grid{grid-template-columns:1fr}.decision{width:160px;height:160px}.node{min-width:220px}}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="hero">
+    <div class="logo">ENGİN360</div>
+    <div class="subtitle">Akış Şeması Simülatörü PRO<br>Akışı seç, sayı gir, adımları çalıştır, sonucu ve sözde kodu gör.</div>
+  </div>
+
+  <div class="panel">
+    <h2>1) Simülasyonu Ayarla</h2>
+    <div class="grid">
+      <div>
+        <label>Akış türü</label>
+        <select id="flowType">
+          <option value="even">Çift / Tek Kontrolü</option>
+          <option value="positive">Pozitif / Negatif / Sıfır</option>
+          <option value="sum">1'den n'ye Toplam</option>
+          <option value="factorial">Faktöriyel</option>
+          <option value="prime">Asal Sayı Kontrolü</option>
+        </select>
+      </div>
+      <div><label>n değeri</label><input id="nValue" type="number" value="8"></div>
+      <div><label>Çalıştırma hızı</label><select id="speed"><option value="900">Normal</option><option value="450">Hızlı</option><option value="1400">Yavaş</option></select></div>
+    </div>
+    <button onclick="buildFlow()">Akışı Hazırla</button>
+    <button onclick="runFlow()">Adım Adım Çalıştır</button>
+    <button class="secondary" onclick="randomExample()">Rastgele Örnek</button>
+  </div>
+
+  <div class="grid">
+    <div class="panel">
+      <h2>2) Akış Şeması</h2>
+      <div id="flowBox" class="flowWrap"></div>
+    </div>
+    <div class="panel">
+      <h2>3) Çalışma Günlüğü</h2>
+      <div id="logBox" class="result">Akışı hazırla ve çalıştır.</div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="panel">
+      <h2>4) Sözde Kod</h2>
+      <pre id="pseudoBox"></pre>
+    </div>
+    <div class="panel">
+      <h2>5) Sonuç ve Rozet</h2>
+      <div id="resultBox" class="result"></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>6) Hata Avcısı</h2>
+    <div id="bugQuestion" class="result"></div>
+    <div class="grid">
+      <button onclick="answerBug('condition')">Koşul hatalı</button>
+      <button onclick="answerBug('update')">Artırma / güncelleme eksik</button>
+      <button onclick="answerBug('output')">Çıktı hatalı</button>
+    </div>
+    <div id="bugAnswer" class="result"></div>
+  </div>
+
+  <div class="panel">
+    <h2>7) Altın Kural</h2>
+    <div class="result">
+      <span class="pink">Akış şeması bir çözüm yolunun haritasıdır.</span><br><br>
+      Oval: Başla / Bitir<br>
+      Dikdörtgen: İşlem yap<br>
+      Paralelkenar gibi düşünülen adım: Veri gir / çıktı yaz<br>
+      Elmas: Karar ver, evet-hayır yoluna ayrıl<br><br>
+      Öğrenci akış şemasını okuyabiliyorsa, algoritmanın mantığını da kurmaya başlamıştır.
+    </div>
+  </div>
+
+  <div class="footer">ENGİN360 © 2026 · Maarif Model Laboratuvarı</div>
+</div>
+
+<script>
+let steps=[], logs=[], currentBug="update";
+
+function n(){return Number(document.getElementById("nValue").value);}
+function flowType(){return document.getElementById("flowType").value;}
+function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
+
+function nodeHtml(step,i){
+  let cls="node "+(step.kind||"process");
+  if(step.kind==="decision") return `<div id="step${i}" class="${cls}"><span>${step.text}</span></div>`;
+  return `<div id="step${i}" class="${cls}">${step.text}</div>`;
+}
+function renderFlow(){
+  let html="";
+  steps.forEach((s,i)=>{
+    html+=nodeHtml(s,i);
+    if(i<steps.length-1) html+=`<div class="arrow">↓</div>`;
+  });
+  document.getElementById("flowBox").innerHTML=html;
+}
+function clearMarks(){
+  steps.forEach((_,i)=>{
+    let el=document.getElementById("step"+i);
+    if(el){el.classList.remove("active");el.classList.remove("done");}
+  });
+}
+function mark(i,cls){
+  let el=document.getElementById("step"+i);
+  if(el) el.classList.add(cls);
+}
+function setLog(text){document.getElementById("logBox").innerHTML=text;}
+function addLog(line){
+  logs.push(line);
+  setLog(logs.map(x=>"• "+x).join("<br>"));
+}
+function buildFlow(){
+  let t=flowType(), value=n();
+  logs=[];
+  if(t==="even"){
+    steps=[
+      {text:"Başla",kind:"terminal"},
+      {text:"n sayısını oku",kind:"process"},
+      {text:"n mod 2 = 0 mı?",kind:"decision"},
+      {text:value%2===0?"Çifttir yaz":"Tektir yaz",kind:"process"},
+      {text:"Bitir",kind:"terminal"}
+    ];
+    document.getElementById("pseudoBox").textContent=`Başla
+Oku n
+Eğer n mod 2 = 0 ise
+  Yaz "Çifttir"
+Değilse
+  Yaz "Tektir"
+Bitir`;
+  }else if(t==="positive"){
+    let out=value>0?"Pozitif":value<0?"Negatif":"Sıfır";
+    steps=[
+      {text:"Başla",kind:"terminal"},
+      {text:"n sayısını oku",kind:"process"},
+      {text:"n > 0 mı?",kind:"decision"},
+      {text:value>0?"Pozitif yaz":"n < 0 mı? kontrol et",kind:"process"},
+      {text:value===0?"Sıfır yaz":out+" yaz",kind:"process"},
+      {text:"Bitir",kind:"terminal"}
+    ];
+    document.getElementById("pseudoBox").textContent=`Başla
+Oku n
+Eğer n > 0 ise
+  Yaz "Pozitif"
+Değilse eğer n < 0 ise
+  Yaz "Negatif"
+Değilse
+  Yaz "Sıfır"
+Bitir`;
+  }else if(t==="sum"){
+    steps=[
+      {text:"Başla",kind:"terminal"},
+      {text:"n oku, toplam=0, i=1",kind:"process"},
+      {text:"i ≤ n mi?",kind:"decision"},
+      {text:"toplam = toplam + i",kind:"process"},
+      {text:"i = i + 1",kind:"process"},
+      {text:"toplamı yaz",kind:"process"},
+      {text:"Bitir",kind:"terminal"}
+    ];
+    document.getElementById("pseudoBox").textContent=`Başla
+Oku n
+toplam = 0
+i = 1
+i ≤ n olduğu sürece
+  toplam = toplam + i
+  i = i + 1
+Yaz toplam
+Bitir`;
+  }else if(t==="factorial"){
+    steps=[
+      {text:"Başla",kind:"terminal"},
+      {text:"n oku, sonuc=1, i=1",kind:"process"},
+      {text:"i ≤ n mi?",kind:"decision"},
+      {text:"sonuc = sonuc × i",kind:"process"},
+      {text:"i = i + 1",kind:"process"},
+      {text:"sonucu yaz",kind:"process"},
+      {text:"Bitir",kind:"terminal"}
+    ];
+    document.getElementById("pseudoBox").textContent=`Başla
+Oku n
+sonuc = 1
+i = 1
+i ≤ n olduğu sürece
+  sonuc = sonuc × i
+  i = i + 1
+Yaz sonuc
+Bitir`;
+  }else{
+    steps=[
+      {text:"Başla",kind:"terminal"},
+      {text:"n oku, bölen=2",kind:"process"},
+      {text:"n < 2 mi?",kind:"decision"},
+      {text:"bölen × bölen ≤ n mi?",kind:"decision"},
+      {text:"n mod bölen = 0 mı?",kind:"decision"},
+      {text:"bölen = bölen + 1",kind:"process"},
+      {text:"Asal / asal değil yaz",kind:"process"},
+      {text:"Bitir",kind:"terminal"}
+    ];
+    document.getElementById("pseudoBox").textContent=`Başla
+Oku n
+Eğer n < 2 ise
+  Yaz "Asal değildir"
+Değilse
+  bölen = 2
+  bölen × bölen ≤ n olduğu sürece
+    Eğer n mod bölen = 0 ise
+      Yaz "Asal değildir"
+      Bitir
+    bölen = bölen + 1
+  Yaz "Asaldır"
+Bitir`;
+  }
+  renderFlow();
+  setLog("Akış hazır. Şimdi adım adım çalıştırabilirsin.");
+  document.getElementById("resultBox").innerHTML="";
+  makeBug();
+}
+async function runFlow(){
+  buildFlow();
+  clearMarks();
+  let sp=Number(document.getElementById("speed").value);
+  for(let i=0;i<steps.length;i++){
+    mark(i,"active");
+    await sleep(sp);
+    explainStep(i);
+    mark(i,"done");
+    await sleep(180);
+  }
+  finalResult();
+}
+function explainStep(i){
+  let t=flowType(), value=n();
+  if(i===0) addLog("Başlangıç yapıldı.");
+  if(t==="even"){
+    if(i===1) addLog("n = "+value+" okundu.");
+    if(i===2) addLog(value+" mod 2 = "+(value%2)+".");
+    if(i===3) addLog(value%2===0?"Sonuç: Çifttir.":"Sonuç: Tektir.");
+    if(i===4) addLog("Akış bitti.");
+  }else if(t==="positive"){
+    if(i===1) addLog("n = "+value+" okundu.");
+    if(i===2) addLog(value+" > 0 sonucu: "+(value>0?"Evet":"Hayır")+".");
+    if(i===3) addLog(value>0?"Pozitif yolu seçildi.":"Pozitif değil, diğer durumlar kontrol edilir.");
+    if(i===4) addLog(value>0?"Çıktı: Pozitif":value<0?"Çıktı: Negatif":"Çıktı: Sıfır");
+    if(i===5) addLog("Akış bitti.");
+  }else if(t==="sum"){
+    if(i===1) addLog("toplam=0, i=1 olarak başlandı.");
+    if(i===2) addLog("i değeri n'e kadar artırılarak devam eder.");
+    if(i===3 || i===4){
+      let total=value*(value+1)/2;
+      addLog("Döngü tamamlandığında toplam = "+total+" olur.");
+    }
+    if(i===5) addLog("Toplam yazılır: "+(value*(value+1)/2));
+    if(i===6) addLog("Akış bitti.");
+  }else if(t==="factorial"){
+    if(i===1) addLog("sonuc=1, i=1 olarak başlandı.");
+    if(i===2) addLog("i değeri n'e kadar çarpılarak ilerler.");
+    if(i===3 || i===4) addLog("Her adımda sonuc = sonuc × i yapılır.");
+    if(i===5) addLog("Faktöriyel yazılır: "+factorial(value));
+    if(i===6) addLog("Akış bitti.");
+  }else{
+    if(i===1) addLog("n = "+value+" okundu, bölen=2 seçildi.");
+    if(i===2) addLog(value+" < 2 kontrol edilir.");
+    if(i===3) addLog("Bölenin karesi n'i geçene kadar kontrol yapılır.");
+    if(i===4) addLog("Her bölen için n mod bölen = 0 mı bakılır.");
+    if(i===5) addLog("Bölmezse bölen 1 artırılır.");
+    if(i===6) addLog("Sonuç: "+(isPrime(value)?"Asaldır":"Asal değildir")+".");
+    if(i===7) addLog("Akış bitti.");
+  }
+}
+function factorial(x){
+  if(x<0) return "Tanımsız";
+  let r=1; for(let i=2;i<=x;i++) r*=i; return r;
+}
+function isPrime(x){
+  if(x<2) return false;
+  for(let i=2;i*i<=x;i++) if(x%i===0) return false;
+  return true;
+}
+function finalResult(){
+  let t=flowType(), value=n(), msg="";
+  if(t==="even") msg=value+" sayısı "+(value%2===0?"çifttir.":"tektir.");
+  else if(t==="positive") msg=value>0?"Pozitif":value<0?"Negatif":"Sıfır";
+  else if(t==="sum") msg="1'den "+value+"'e kadar toplam = "+(value*(value+1)/2);
+  else if(t==="factorial") msg=value+"! = "+factorial(value);
+  else msg=value+" sayısı "+(isPrime(value)?"asaldır.":"asal değildir.");
+  document.getElementById("resultBox").innerHTML="<span class='ok'>Sonuç:</span> "+msg+"<br><br><span class='warn'>Rozet:</span> Akış Şeması Dedektifi";
+}
+function randomExample(){
+  let types=["even","positive","sum","factorial","prime"];
+  document.getElementById("flowType").value=types[Math.floor(Math.random()*types.length)];
+  document.getElementById("nValue").value=Math.floor(Math.random()*14)+2;
+  buildFlow();
+}
+function makeBug(){
+  let bugs=[
+    {type:"condition",q:"Bir akışta 'n çift mi?' yerine yanlışlıkla 'n > 2 mi?' yazılmış. Hata türü nedir?",a:"Koşul hatalıdır. Karar kutusundaki soru problemi çözmüyor."},
+    {type:"update",q:"1'den n'ye toplam algoritmasında i = i + 1 adımı unutulmuş. Hata türü nedir?",a:"Artırma / güncelleme eksiktir. Döngü sonsuza gidebilir."},
+    {type:"output",q:"Çift çıkan sayıya 'Tektir' yazdırılıyor. Hata türü nedir?",a:"Çıktı hatalıdır. İşlem doğru olsa bile yazdırılan sonuç yanlıştır."}
+  ];
+  let b=bugs[Math.floor(Math.random()*bugs.length)];
+  currentBug=b.type;
+  document.getElementById("bugQuestion").innerHTML="<b>Hata Avcısı:</b><br>"+b.q;
+  document.getElementById("bugAnswer").innerHTML="";
+}
+function answerBug(ans){
+  let correct=ans===currentBug;
+  document.getElementById("bugAnswer").innerHTML=correct?"<span class='ok'>✔ Doğru!</span>":"<span class='bad'>✘ Tekrar düşün.</span>";
+  if(correct) setTimeout(makeBug,1000);
+}
+document.getElementById("flowType").addEventListener("change",buildFlow);
+buildFlow();
+</script>
+</body>
+</html>
