@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>ENGİN360 Fonksiyon Makinesi PRO</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',Arial,sans-serif}
+body{
+  min-height:100vh;color:#fff;padding:16px;
+  background:radial-gradient(circle at top left,rgba(168,85,247,.38),transparent 35%),
+  radial-gradient(circle at bottom right,rgba(14,165,233,.30),transparent 35%),
+  linear-gradient(135deg,#05010d,#130023,#061631)
+}
+.container{max-width:1180px;margin:auto}
+.hero{text-align:center;padding:28px 16px;border-radius:28px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);box-shadow:0 0 35px rgba(124,58,237,.34);margin-bottom:16px}
+.logo{font-size:35px;font-weight:900;letter-spacing:1px;background:linear-gradient(90deg,#a855f7,#38bdf8,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.subtitle{margin-top:8px;color:#ded9ff;font-size:15px;line-height:1.5}
+.panel{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.13);border-radius:24px;padding:17px;margin-top:14px;box-shadow:0 12px 26px rgba(0,0,0,.25)}
+h2{font-size:20px;color:#f5d0fe;margin-bottom:12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:13px}
+label{display:block;color:#f5d0fe;font-size:14px;margin-bottom:7px}
+input,select{
+  width:100%;border:none;outline:none;border-radius:14px;padding:12px 13px;
+  background:rgba(255,255,255,.12);color:white;border:1px solid rgba(255,255,255,.16);font-size:15px
+}
+select option{color:#111}
+button{width:100%;padding:13px;border:none;border-radius:16px;margin-top:11px;color:white;font-weight:800;font-size:15px;background:linear-gradient(90deg,#7c3aed,#0ea5e9,#ec4899);box-shadow:0 0 22px rgba(236,72,153,.25);cursor:pointer}
+.secondary{background:linear-gradient(90deg,#334155,#475569)}
+.result{background:rgba(0,0,0,.24);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:13px;margin-top:10px;line-height:1.7;overflow:auto}
+.machine{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:12px}
+.ball{width:72px;height:72px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:900;background:#0ea5e9;box-shadow:0 0 25px rgba(14,165,233,.5)}
+.box{min-width:230px;border-radius:22px;background:linear-gradient(135deg,#7c3aed,#ec4899);padding:26px;text-align:center;font-weight:900;font-size:22px;box-shadow:0 0 30px rgba(236,72,153,.35)}
+.arrow{font-size:35px;color:#fde68a}
+.badge{display:inline-block;margin:4px;padding:7px 10px;border-radius:999px;background:rgba(14,165,233,.15);border:1px solid rgba(56,189,248,.28)}
+.hot{background:rgba(236,72,153,.18);border-color:rgba(236,72,153,.55)}
+.ok{color:#86efac;font-weight:800}.warn{color:#fde68a;font-weight:800}.pink{color:#f0abfc;font-weight:800}.bad{color:#fca5a5;font-weight:800}
+canvas{width:100%;background:white;border-radius:18px;border:1px solid rgba(255,255,255,.15);display:block;margin:auto}
+.footer{text-align:center;color:#aaa;font-size:12px;margin:26px 0 10px}
+@media(max-width:600px){body{padding:12px}.logo{font-size:30px}.grid{grid-template-columns:1fr}.machine{gap:8px}.box{min-width:190px}.ball{width:58px;height:58px}}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="hero">
+    <div class="logo">ENGİN360</div>
+    <div class="subtitle">Fonksiyon Makinesi PRO<br>Sayı at, çıktı al, kuralı bul, fonksiyon olup olmadığını keşfet.</div>
+  </div>
+
+  <div class="panel">
+    <h2>1) Makineye Sayı At</h2>
+    <div class="grid">
+      <div>
+        <label>Fonksiyon kuralı</label>
+        <select id="rule">
+          <option value="2x+3">f(x)=2x+3</option>
+          <option value="3x-1">f(x)=3x-1</option>
+          <option value="x2">f(x)=x²</option>
+          <option value="abs">f(x)=|x|</option>
+          <option value="sqrt">f(x)=√x</option>
+          <option value="inv">f(x)=1/x</option>
+        </select>
+      </div>
+      <div><label>x değeri</label><input id="xValue" type="number" value="5"></div>
+    </div>
+    <button onclick="runMachine()">Makineyi Çalıştır</button>
+    <div class="machine">
+      <div id="inputBall" class="ball">5</div>
+      <div class="arrow">→</div>
+      <div id="machineBox" class="box">f(x)</div>
+      <div class="arrow">→</div>
+      <div id="outputBall" class="ball">?</div>
+    </div>
+    <div id="machineSteps" class="result"></div>
+  </div>
+
+  <div class="grid">
+    <div class="panel">
+      <h2>2) Kuralı Bul</h2>
+      <div id="ruleQuestion" class="result"></div>
+      <div class="grid">
+        <div><label>Kural tahminin</label><input id="ruleGuess" placeholder="Örn: 3x+1"></div>
+        <div><label>Kontrol</label><button onclick="checkRuleGuess()">Kuralı Kontrol Et</button></div>
+      </div>
+      <button class="secondary" onclick="newRuleQuestion()">Yeni Kural Sorusu</button>
+      <div id="ruleAnswer" class="result"></div>
+    </div>
+
+    <div class="panel">
+      <h2>3) Fonksiyon mu?</h2>
+      <div id="functionQuestion" class="result"></div>
+      <div class="grid">
+        <button onclick="checkFunction('yes')">Fonksiyondur</button>
+        <button onclick="checkFunction('no')">Fonksiyon Değildir</button>
+      </div>
+      <button class="secondary" onclick="newFunctionQuestion()">Yeni Eşleme Üret</button>
+      <div id="functionAnswer" class="result"></div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="panel">
+      <h2>4) Tanım-Değer-Görüntü Kümesi</h2>
+      <div id="setBox" class="result"></div>
+      <div class="grid">
+        <div>
+          <label>Soru</label>
+          <select id="setQuestion">
+            <option value="domain">Tanım kümesi nedir?</option>
+            <option value="codomain">Değer kümesi nedir?</option>
+            <option value="range">Görüntü kümesi nedir?</option>
+          </select>
+        </div>
+        <div><label>Cevabın</label><input id="setAnswer" placeholder="Örn: {1,2,3}"></div>
+      </div>
+      <button onclick="checkSetAnswer()">Cevabı Kontrol Et</button>
+      <button class="secondary" onclick="newSetQuestion()">Yeni Küme Sorusu</button>
+      <div id="setResult" class="result"></div>
+    </div>
+
+    <div class="panel">
+      <h2>5) Grafiği Tanı</h2>
+      <canvas id="graph" width="620" height="420"></canvas>
+      <div class="grid">
+        <div>
+          <label>Grafik türü tahminin</label>
+          <select id="graphGuess">
+            <option value="line">Doğrusal</option>
+            <option value="parabola">Parabol</option>
+            <option value="abs">Mutlak Değer</option>
+            <option value="inv">1/x</option>
+            <option value="sqrt">√x</option>
+          </select>
+        </div>
+        <div><label>Kontrol</label><button onclick="checkGraphGuess()">Grafiği Kontrol Et</button></div>
+      </div>
+      <button class="secondary" onclick="newGraph()">Yeni Grafik</button>
+      <div id="graphResult" class="result"></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>6) YKS Modu</h2>
+    <div id="yksBox" class="result"></div>
+    <div class="grid">
+      <div><label>Cevabın</label><input id="yksAnswer" placeholder="Cevabı yaz"></div>
+      <div><label>Kontrol</label><button onclick="checkYKS()">Cevabı Kontrol Et</button></div>
+    </div>
+    <button class="secondary" onclick="newYKS()">Yeni YKS Sorusu</button>
+    <div id="yksResult" class="result"></div>
+  </div>
+
+  <div class="panel">
+    <h2>7) Altın Kural</h2>
+    <div class="result">
+      <span class="pink">Fonksiyon:</span> Tanım kümesindeki her elemanı değer kümesinde yalnızca bir elemana eşleyen bağıntıdır.<br><br>
+      Aynı x değerinden iki farklı y değerine gidiliyorsa fonksiyon değildir.<br>
+      Tanım kümesindeki bir elemanın görüntüsü yoksa fonksiyon değildir.<br>
+      Her x için tek y varsa fonksiyon olma şartı sağlanır.
+    </div>
+  </div>
+
+  <div class="footer">ENGİN360 © 2026 · Fonksiyon ve Grafikler</div>
+</div>
+
+<script>
+let currentRuleAns="", currentFuncAns="yes", currentSet={}, currentGraph="line", currentYKSAns="";
+
+function calcRule(rule,x){
+  if(rule==="2x+3") return 2*x+3;
+  if(rule==="3x-1") return 3*x-1;
+  if(rule==="x2") return x*x;
+  if(rule==="abs") return Math.abs(x);
+  if(rule==="sqrt") return x<0 ? null : Math.sqrt(x);
+  if(rule==="inv") return x===0 ? null : 1/x;
+}
+function ruleText(rule){
+  return {"2x+3":"2x+3","3x-1":"3x-1","x2":"x²","abs":"|x|","sqrt":"√x","inv":"1/x"}[rule];
+}
+function fmt(x){
+  if(x===null) return "Tanımsız";
+  return Math.abs(x-Math.round(x))<1e-9 ? String(Math.round(x)) : String(Math.round(x*100)/100);
+}
+function runMachine(){
+  let rule=document.getElementById("rule").value;
+  let x=Number(document.getElementById("xValue").value);
+  let y=calcRule(rule,x);
+  document.getElementById("inputBall").textContent=x;
+  document.getElementById("machineBox").textContent="f(x)="+ruleText(rule);
+  document.getElementById("outputBall").textContent=fmt(y);
+  let steps="x = "+x+"<br>f(x) = "+ruleText(rule)+"<br>";
+  if(rule==="2x+3") steps+="f("+x+") = 2·"+x+" + 3 = <b>"+fmt(y)+"</b>";
+  if(rule==="3x-1") steps+="f("+x+") = 3·"+x+" - 1 = <b>"+fmt(y)+"</b>";
+  if(rule==="x2") steps+="f("+x+") = "+x+"² = <b>"+fmt(y)+"</b>";
+  if(rule==="abs") steps+="f("+x+") = |"+x+"| = <b>"+fmt(y)+"</b>";
+  if(rule==="sqrt") steps+= x<0 ? "Negatif sayının reel karekökü yoktur." : "f("+x+") = √"+x+" = <b>"+fmt(y)+"</b>";
+  if(rule==="inv") steps+= x===0 ? "1/0 tanımsızdır." : "f("+x+") = 1/"+x+" = <b>"+fmt(y)+"</b>";
+  document.getElementById("machineSteps").innerHTML=steps;
+}
+function newRuleQuestion(){
+  const rules=[{a:2,b:3},{a:3,b:1},{a:4,b:-2},{a:-2,b:5},{a:5,b:0}];
+  let r=rules[Math.floor(Math.random()*rules.length)];
+  currentRuleAns = (r.a===1?"x":r.a+"x") + (r.b>0?"+"+r.b:(r.b<0?String(r.b):""));
+  let xs=[1,2,3,4], html="Aşağıdaki giriş-çıkışlara göre kuralı bul:<br><br>";
+  xs.forEach(x=>html+="<span class='badge'>"+x+" → "+(r.a*x+r.b)+"</span>");
+  html+="<br><br>İpucu: Kural doğrusal biçimde: <b>f(x)=ax+b</b>";
+  document.getElementById("ruleQuestion").innerHTML=html;
+  document.getElementById("ruleAnswer").innerHTML="";
+  document.getElementById("ruleGuess").value="";
+}
+function normRule(s){return String(s).toLowerCase().replaceAll(" ","").replaceAll("f(x)=","").replaceAll("·","").replaceAll("*","").replaceAll("−","-");}
+function checkRuleGuess(){
+  let g=normRule(document.getElementById("ruleGuess").value);
+  let a=normRule(currentRuleAns);
+  document.getElementById("ruleAnswer").innerHTML = g===a ? "<span class='ok'>✔ Doğru! Kural: f(x)="+currentRuleAns+"</span>" : "<span class='warn'>Tekrar dene. Doğru kural: f(x)="+currentRuleAns+"</span>";
+}
+function newFunctionQuestion(){
+  let samples=[
+    {pairs:[[1,5],[2,7],[3,8]], ans:"yes", sol:"Her x değeri yalnızca bir y değerine gidiyor."},
+    {pairs:[[1,5],[2,7],[1,9],[3,8]], ans:"no", sol:"1 elemanı hem 5'e hem 9'a gidiyor. Aynı x iki farklı y alamaz."},
+    {pairs:[[1,4],[2,4],[3,4]], ans:"yes", sol:"Farklı x değerleri aynı y değerine gidebilir. Bu fonksiyondur."},
+    {pairs:[[1,2],[2,3],[2,5]], ans:"no", sol:"2 elemanı iki farklı görüntüye sahip."}
+  ];
+  let s=samples[Math.floor(Math.random()*samples.length)];
+  currentFuncAns=s.ans;
+  currentFuncSol=s.sol;
+  document.getElementById("functionQuestion").innerHTML=s.pairs.map(p=>"<span class='badge'>"+p[0]+" → "+p[1]+"</span>").join(" ")+"<br><br>Bu eşleme fonksiyon mudur?";
+  document.getElementById("functionAnswer").innerHTML="";
+}
+function checkFunction(ans){
+  document.getElementById("functionAnswer").innerHTML = ans===currentFuncAns ? "<span class='ok'>✔ Doğru!</span><br>"+currentFuncSol : "<span class='warn'>Tekrar düşün.</span><br>"+currentFuncSol;
+}
+function newSetQuestion(){
+  let A=[1,2,3], B=[4,5,6,7];
+  let maps=[[1,4],[2,5],[3,5]];
+  currentSet={domain:"{1,2,3}",codomain:"{4,5,6,7}",range:"{4,5}"};
+  document.getElementById("setBox").innerHTML=
+    "A = <span class='badge'>{1,2,3}</span><br>"+
+    "B = <span class='badge'>{4,5,6,7}</span><br><br>"+
+    "Eşlemeler:<br>"+maps.map(p=>"<span class='badge hot'>"+p[0]+" → "+p[1]+"</span>").join(" ");
+  document.getElementById("setResult").innerHTML="";
+}
+function cleanSet(s){return String(s).replaceAll(" ","").replaceAll("，",",").replaceAll(";",",");}
+function checkSetAnswer(){
+  let q=document.getElementById("setQuestion").value;
+  let ans=cleanSet(document.getElementById("setAnswer").value);
+  let correct=cleanSet(currentSet[q]);
+  document.getElementById("setResult").innerHTML = ans===correct ? "<span class='ok'>✔ Doğru!</span>" : "<span class='warn'>Doğru cevap: "+currentSet[q]+"</span>";
+}
+function newGraph(){
+  const types=["line","parabola","abs","inv","sqrt"];
+  currentGraph=types[Math.floor(Math.random()*types.length)];
+  drawGraph(currentGraph);
+  document.getElementById("graphResult").innerHTML="";
+}
+function drawGraph(type){
+  const c=document.getElementById("graph"),ctx=c.getContext("2d"),W=c.width,H=c.height;
+  ctx.clearRect(0,0,W,H);ctx.fillStyle="#fff";ctx.fillRect(0,0,W,H);
+  let ox=W/2, oy=H/2, sc=30;
+  ctx.strokeStyle="#e2e8f0";ctx.lineWidth=1;
+  for(let x=-10;x<=10;x++){ctx.beginPath();ctx.moveTo(ox+x*sc,0);ctx.lineTo(ox+x*sc,H);ctx.stroke();}
+  for(let y=-6;y<=6;y++){ctx.beginPath();ctx.moveTo(0,oy-y*sc);ctx.lineTo(W,oy-y*sc);ctx.stroke();}
+  ctx.strokeStyle="#334155";ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(0,oy);ctx.lineTo(W,oy);ctx.stroke();ctx.beginPath();ctx.moveTo(ox,0);ctx.lineTo(ox,H);ctx.stroke();
+  ctx.strokeStyle="#7c3aed";ctx.lineWidth=4;ctx.beginPath();
+  let first=true;
+  for(let t=-9;t<=9;t+=0.05){
+    let x=t,y=0,valid=true;
+    if(type==="line") y=2*x+1;
+    if(type==="parabola") y=x*x/2;
+    if(type==="abs") y=Math.abs(x);
+    if(type==="inv"){ if(Math.abs(x)<0.15) valid=false; else y=4/x; }
+    if(type==="sqrt"){ if(x<0) valid=false; else y=Math.sqrt(x)*2; }
+    if(!valid){first=true; continue;}
+    let px=ox+x*sc, py=oy-y*sc;
+    if(first){ctx.moveTo(px,py); first=false;} else ctx.lineTo(px,py);
+  }
+  ctx.stroke();
+}
+function checkGraphGuess(){
+  let g=document.getElementById("graphGuess").value;
+  let names={line:"Doğrusal",parabola:"Parabol",abs:"Mutlak değer",inv:"1/x",sqrt:"√x"};
+  document.getElementById("graphResult").innerHTML = g===currentGraph ? "<span class='ok'>✔ Doğru! Grafik türü: "+names[currentGraph]+"</span>" : "<span class='warn'>Tekrar bak. Doğru cevap: "+names[currentGraph]+"</span>";
+}
+function newYKS(){
+  let a=Math.floor(Math.random()*5)+1, b=Math.floor(Math.random()*7)-3, x=Math.floor(Math.random()*5)+1;
+  currentYKSAns=String(a*x+b);
+  document.getElementById("yksBox").innerHTML="f(x)="+a+"x"+(b>=0?"+":"")+b+" ise f("+x+") kaçtır?";
+  document.getElementById("yksResult").innerHTML="";
+  document.getElementById("yksAnswer").value="";
+}
+function checkYKS(){
+  let g=String(document.getElementById("yksAnswer").value).trim();
+  document.getElementById("yksResult").innerHTML = g===currentYKSAns ? "<span class='ok'>✔ Doğru!</span>" : "<span class='warn'>Doğru cevap: "+currentYKSAns+"</span>";
+}
+runMachine(); newRuleQuestion(); newFunctionQuestion(); newSetQuestion(); newGraph(); newYKS();
+</script>
+</body>
+</html>
