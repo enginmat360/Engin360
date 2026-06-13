@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>ENGİN360 İstatistiksel Araştırma Laboratuvarı</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',Arial,sans-serif}
+body{min-height:100vh;color:#fff;padding:16px;background:radial-gradient(circle at top left,rgba(168,85,247,.38),transparent 35%),radial-gradient(circle at bottom right,rgba(14,165,233,.30),transparent 35%),linear-gradient(135deg,#05010d,#130023,#061631)}
+.container{max-width:1100px;margin:auto}.hero{text-align:center;padding:28px 16px;border-radius:28px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);box-shadow:0 0 35px rgba(124,58,237,.34);margin-bottom:16px}
+.logo{font-size:35px;font-weight:900;letter-spacing:1px;background:linear-gradient(90deg,#a855f7,#38bdf8,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent}.subtitle{margin-top:8px;color:#ded9ff;font-size:15px;line-height:1.5}
+.panel{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.13);border-radius:24px;padding:17px;margin-top:14px;box-shadow:0 12px 26px rgba(0,0,0,.25)}h2{font-size:20px;color:#f5d0fe;margin-bottom:12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:13px}label{display:block;color:#f5d0fe;font-size:14px;margin-bottom:7px}
+input,textarea,select{width:100%;border:none;outline:none;border-radius:14px;padding:12px 13px;background:rgba(255,255,255,.12);color:white;border:1px solid rgba(255,255,255,.16);font-size:15px}textarea{min-height:90px;resize:vertical}select option{color:#111}
+button{width:100%;padding:13px;border:none;border-radius:16px;margin-top:11px;color:white;font-weight:800;font-size:15px;cursor:pointer;background:linear-gradient(90deg,#7c3aed,#0ea5e9,#ec4899);box-shadow:0 0 22px rgba(236,72,153,.25)}.secondary{background:linear-gradient(90deg,#334155,#475569)}
+.result{background:rgba(0,0,0,.24);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:13px;margin-top:10px;line-height:1.7;overflow:auto}.badge{display:inline-block;margin:4px;padding:7px 10px;border-radius:999px;background:rgba(14,165,233,.15);border:1px solid rgba(56,189,248,.28)}.hot{background:rgba(236,72,153,.18);border-color:rgba(236,72,153,.55)}.ok{color:#86efac;font-weight:800}.warn{color:#fde68a;font-weight:800}.pink{color:#f0abfc;font-weight:800}
+canvas{width:100%;background:white;border-radius:18px;display:block;margin:auto}.footer{text-align:center;color:#aaa;font-size:12px;margin:26px 0 10px}
+@media(max-width:600px){body{padding:12px}.logo{font-size:30px}.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="hero"><div class="logo">ENGİN360</div><div class="subtitle">İstatistiksel Araştırma Laboratuvarı<br>Araştırma sorusu kur, veri topla, tablo ve grafik oluştur, sonuç yorumla.</div></div>
+<div class="panel"><h2>1) Araştırma Sorusu</h2><div class="grid"><div><label>Araştırma sorusu</label><input id="question" value="Sınıfımızda öğrenciler günde kaç dakika kitap okuyor?"></div><div><label>Grafik türü</label><select id="chartType"><option value="bar">Sütun grafiği</option><option value="pie">Daire grafiği</option></select></div></div></div>
+<div class="panel"><h2>2) Verileri Gir</h2><div class="grid"><div><label>Kategoriler</label><input id="cats" value="0-10 dk,11-20 dk,21-30 dk,31+ dk"></div><div><label>Frekanslar</label><input id="vals" value="3,7,5,2"></div></div><button onclick="build()">Tablo ve Grafik Oluştur</button><button class="secondary" onclick="sample()">Örnek Araştırma Yükle</button></div>
+<div class="grid"><div class="panel"><h2>3) Frekans Tablosu</h2><div id="tableBox" class="result"></div></div><div class="panel"><h2>4) Araştırma Yorumu</h2><div id="commentBox" class="result"></div></div></div>
+<div class="panel"><h2>5) Grafik</h2><canvas id="chart" width="900" height="430"></canvas></div>
+<div class="panel"><h2>6) Sonuç Cümlesi Yaz</h2><textarea id="studentComment" placeholder="Bu araştırmadan çıkardığım sonuç..."></textarea><button onclick="checkReport()">Raporu Kontrol Et</button><div id="reportBox" class="result"></div></div>
+<div class="panel"><h2>7) Altın Kural</h2><div class="result"><span class="pink">Araştırma süreci:</span><br>1) Araştırma sorusu belirle<br>2) Veri topla<br>3) Veriyi tabloya yerleştir<br>4) Uygun grafik seç<br>5) Sonuç yorumla<br><br>İyi bir yorum sadece sayıları söylemez; sayıların ne anlattığını açıklar.</div></div>
+<div class="footer">ENGİN360 © 2026 · Maarif Model Laboratuvarı</div></div>
+<script>
+let data=[];
+function nums(){return document.getElementById("vals").value.split(",").map(x=>Number(x.trim())).filter(x=>!isNaN(x))}
+function cats(){return document.getElementById("cats").value.split(",").map(x=>x.trim()).filter(x=>x)}
+function build(){let c=cats(),v=nums();data=c.map((x,i)=>({cat:x,val:v[i]||0}));table();comment();draw()}
+function table(){let total=data.reduce((a,b)=>a+b.val,0);let h="<b>Araştırma sorusu:</b><br>"+document.getElementById("question").value+"<br><br><table style='width:100%;border-collapse:collapse'><tr><th style='border:1px solid #777;padding:8px'>Kategori</th><th style='border:1px solid #777;padding:8px'>Frekans</th><th style='border:1px solid #777;padding:8px'>Yüzde</th></tr>";data.forEach(d=>{h+="<tr><td style='border:1px solid #777;padding:8px'>"+d.cat+"</td><td style='border:1px solid #777;padding:8px;text-align:center'>"+d.val+"</td><td style='border:1px solid #777;padding:8px;text-align:center'>%"+Math.round(d.val/total*100)+"</td></tr>"});h+="</table><br>Toplam kişi: <b>"+total+"</b>";document.getElementById("tableBox").innerHTML=h}
+function comment(){let total=data.reduce((a,b)=>a+b.val,0);let max=data.reduce((a,b)=>a.val>=b.val?a:b);let min=data.reduce((a,b)=>a.val<=b.val?a:b);document.getElementById("commentBox").innerHTML="<span class='ok'>En yüksek frekans:</span> "+max.cat+" ("+max.val+" kişi)<br><span class='warn'>En düşük frekans:</span> "+min.cat+" ("+min.val+" kişi)<br><br>Toplam veri sayısı: <b>"+total+"</b><br>Bu sonuçlara göre en yaygın cevap <b>"+max.cat+"</b> kategorisidir."}
+function draw(){let type=document.getElementById("chartType").value,c=document.getElementById("chart"),ctx=c.getContext("2d"),W=c.width,H=c.height;ctx.clearRect(0,0,W,H);ctx.fillStyle="#fff";ctx.fillRect(0,0,W,H);ctx.fillStyle="#111827";ctx.font="800 22px Segoe UI";ctx.fillText("Araştırma Grafiği",35,38);if(type==="bar"){let max=Math.max(...data.map(d=>d.val),1),left=70,bottom=340,top=80,width=760,gap=18,bw=(width-gap*(data.length+1))/data.length;ctx.strokeStyle="#334155";ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(left,top);ctx.lineTo(left,bottom);ctx.lineTo(left+width,bottom);ctx.stroke();data.forEach((d,i)=>{let h=(bottom-top)*d.val/max,x=left+gap+i*(bw+gap),y=bottom-h;ctx.fillStyle="#7c3aed";ctx.fillRect(x,y,bw,h);ctx.fillStyle="#111827";ctx.font="800 14px Segoe UI";ctx.fillText(d.val,x+bw/2-6,y-8);ctx.font="13px Segoe UI";ctx.fillText(d.cat,x,bottom+25)})}else{let total=data.reduce((a,b)=>a+b.val,0),cx=W/2,cy=230,r=130,start=0;data.forEach((d,i)=>{let ang=d.val/total*Math.PI*2;ctx.fillStyle=["#7c3aed","#0ea5e9","#ec4899","#f59e0b","#10b981"][i%5];ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,r,start,start+ang);ctx.closePath();ctx.fill();let mid=start+ang/2;ctx.fillStyle="#111827";ctx.font="14px Segoe UI";ctx.fillText(d.cat+" %"+Math.round(d.val/total*100),cx+Math.cos(mid)*(r+35)-35,cy+Math.sin(mid)*(r+35));start+=ang})}}
+function checkReport(){let t=document.getElementById("studentComment").value.trim();let msg=t.length>40?"<span class='ok'>✔ Rapor cümlen yeterli görünüyor.</span>":"<span class='warn'>Biraz daha açıklayıcı yaz. En yüksek kategori ve sonucun ne anlattığını belirt.</span>";document.getElementById("reportBox").innerHTML=msg+"<br><br>Örnek: Bu araştırmada en çok işaretlenen kategori, sınıfın genel eğilimini göstermektedir. Bu nedenle sonuçlar yorumlanırken frekansı en yüksek kategori dikkate alınabilir."}
+function sample(){let qs=["Sınıfımızda öğrenciler hangi ulaşım yolunu kullanıyor?","Öğrenciler haftada kaç gün spor yapıyor?","Sınıfta en çok sevilen ders hangisidir?"];let cs=["Yürüyerek,Servis,Otobüs,Özel araç","0 gün,1-2 gün,3-4 gün,5+ gün","Matematik,Fen,Türkçe,Sosyal"];let vs=["6,8,4,3","5,9,4,2","7,5,6,3"];let i=Math.floor(Math.random()*qs.length);document.getElementById("question").value=qs[i];document.getElementById("cats").value=cs[i];document.getElementById("vals").value=vs[i];build()}
+build();
+</script>
+</body>
+</html>
