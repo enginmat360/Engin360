@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>ENGİN360 Hata Avcısı PRO</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',Arial,sans-serif}
+body{
+  min-height:100vh;color:#fff;padding:16px;
+  background:radial-gradient(circle at top left,rgba(168,85,247,.38),transparent 35%),
+  radial-gradient(circle at bottom right,rgba(14,165,233,.30),transparent 35%),
+  linear-gradient(135deg,#05010d,#130023,#061631)
+}
+.container{max-width:1160px;margin:auto}
+.hero{text-align:center;padding:28px 16px;border-radius:28px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);box-shadow:0 0 35px rgba(124,58,237,.34);margin-bottom:16px}
+.logo{font-size:35px;font-weight:900;letter-spacing:1px;background:linear-gradient(90deg,#a855f7,#38bdf8,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.subtitle{margin-top:8px;color:#ded9ff;font-size:15px;line-height:1.5}
+.panel{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.13);border-radius:24px;padding:17px;margin-top:14px;box-shadow:0 12px 26px rgba(0,0,0,.25)}
+h2{font-size:20px;color:#f5d0fe;margin-bottom:12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:13px}
+label{display:block;color:#f5d0fe;font-size:14px;margin-bottom:7px}
+select,input{
+  width:100%;border:none;outline:none;border-radius:14px;padding:12px 13px;
+  background:rgba(255,255,255,.12);color:white;border:1px solid rgba(255,255,255,.16);font-size:15px
+}
+select option{color:#111}
+button{
+  width:100%;padding:13px;border:none;border-radius:16px;margin-top:11px;
+  color:white;font-weight:800;font-size:15px;cursor:pointer;
+  background:linear-gradient(90deg,#7c3aed,#0ea5e9,#ec4899);
+  box-shadow:0 0 22px rgba(236,72,153,.25)
+}
+.secondary{background:linear-gradient(90deg,#334155,#475569)}
+.result{background:rgba(0,0,0,.24);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:13px;margin-top:10px;line-height:1.7;overflow:auto}
+.solution{
+  background:#0f172a;border:1px solid rgba(255,255,255,.14);border-radius:18px;
+  padding:18px;line-height:1.8;font-size:18px;margin-top:12px
+}
+.step{padding:10px 12px;border-radius:13px;margin:7px 0;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.10)}
+.badStep{border-color:rgba(239,68,68,.85);background:rgba(239,68,68,.15)}
+.badge{display:inline-block;margin:4px;padding:7px 10px;border-radius:999px;background:rgba(14,165,233,.15);border:1px solid rgba(56,189,248,.28)}
+.hot{background:rgba(236,72,153,.18);border-color:rgba(236,72,153,.55)}
+.ok{color:#86efac;font-weight:800}.warn{color:#fde68a;font-weight:800}.pink{color:#f0abfc;font-weight:800}.bad{color:#fca5a5;font-weight:800}
+.scoreCard{text-align:center;font-size:18px}
+.big{font-size:34px;font-weight:900;color:#fde68a}
+.footer{text-align:center;color:#aaa;font-size:12px;margin:26px 0 10px}
+@media(max-width:600px){body{padding:12px}.logo{font-size:30px}.grid{grid-template-columns:1fr}.solution{font-size:16px}}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="hero">
+    <div class="logo">ENGİN360</div>
+    <div class="subtitle">Hata Avcısı PRO<br>Yanlış çözümü incele, hatayı yakala, doğru çözümü gör.</div>
+  </div>
+
+  <div class="panel">
+    <h2>1) Hata Avı Başlat</h2>
+    <div class="grid">
+      <div>
+        <label>Konu</label>
+        <select id="topic">
+          <option value="all">Karışık</option>
+          <option value="uslu">Üslü Sayılar</option>
+          <option value="koklu">Köklü Sayılar</option>
+          <option value="denklem">Denklem</option>
+          <option value="fonksiyon">Fonksiyon</option>
+          <option value="trigonometri">Trigonometri</option>
+          <option value="olasilik">Olasılık</option>
+        </select>
+      </div>
+      <div>
+        <label>Seviye</label>
+        <select id="level">
+          <option value="easy">Kolay</option>
+          <option value="mid">Orta</option>
+          <option value="hard">Zor</option>
+        </select>
+      </div>
+    </div>
+    <button onclick="newQuestion()">Yeni Hata Üret</button>
+    <button class="secondary" onclick="showHint()">İpucu Ver</button>
+  </div>
+
+  <div class="grid">
+    <div class="panel">
+      <h2>2) Öğrencinin Yanlış Çözümü</h2>
+      <div id="questionTitle" class="result"></div>
+      <div id="wrongSolution" class="solution"></div>
+    </div>
+
+    <div class="panel">
+      <h2>3) Hata Nerede?</h2>
+      <div id="choices" class="grid"></div>
+      <div id="feedback" class="result"></div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="panel">
+      <h2>4) Doğru Çözüm</h2>
+      <div id="correctSolution" class="result">Önce cevabını kontrol et.</div>
+    </div>
+
+    <div class="panel scoreCard">
+      <h2>5) Rozet</h2>
+      <div class="big" id="scoreText">0</div>
+      <div id="badgeText" class="result">Hata Avcısı Çırağı</div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>6) Hata Türleri Sözlüğü</h2>
+    <div class="result">
+      <span class="badge hot">Kural Hatası</span> Matematik kuralı yanlış uygulanmıştır.<br>
+      <span class="badge hot">İşlem Hatası</span> Toplama, çarpma, sadeleştirme gibi işlemde hata vardır.<br>
+      <span class="badge hot">Tanım Hatası</span> Fonksiyon, olasılık, kök gibi kavramın anlamı yanlış kullanılmıştır.<br>
+      <span class="badge hot">Genelleme Hatası</span> Her durumda doğru olmayan bir özellik genellenmiştir.
+    </div>
+  </div>
+
+  <div class="footer">ENGİN360 © 2026 · Matematik Laboratuvarı</div>
+</div>
+
+<script>
+let questions=[
+  {
+    topic:"koklu", level:"easy",
+    title:"Köklü Sayılar",
+    prompt:"√16 + √9 işlemi",
+    steps:["√16 + √9 = √(16+9)","√25 = 5","Cevap 5'tir."],
+    badIndex:0,
+    type:"Kural Hatası",
+    hint:"Toplama işlemi kökün içine doğrudan alınabilir mi?",
+    correct:"√16 = 4 ve √9 = 3 olduğundan √16 + √9 = 4 + 3 = 7. Köklerde toplama bu şekilde kökün içine alınamaz.",
+    choices:["1. adımda hata var","2. adımda hata var","3. adımda hata var","Hata yok"]
+  },
+  {
+    topic:"uslu", level:"easy",
+    title:"Üslü Sayılar",
+    prompt:"2³ · 2² işlemi",
+    steps:["2³ · 2² = 2^(3·2)","2⁶ = 64","Cevap 64'tür."],
+    badIndex:0,
+    type:"Kural Hatası",
+    hint:"Tabanlar aynıysa üsler çarpılır mı, toplanır mı?",
+    correct:"Tabanlar aynı ve çarpma varsa üsler toplanır: 2³ · 2² = 2^(3+2)=2⁵=32.",
+    choices:["1. adımda hata var","2. adımda hata var","3. adımda hata var","Hata yok"]
+  },
+  {
+    topic:"denklem", level:"easy",
+    title:"Birinci Dereceden Denklem",
+    prompt:"2x + 5 = 15",
+    steps:["2x + 5 = 15","2x = 15 + 5","2x = 20","x = 10"],
+    badIndex:1,
+    type:"İşaret Hatası",
+    hint:"Bir terim eşitliğin diğer tarafına geçerken işaret değiştirir.",
+    correct:"2x + 5 = 15 ise 5 karşıya -5 olarak geçer. 2x = 10 ve x = 5.",
+    choices:["1. adımda hata var","2. adımda hata var","3. adımda hata var","4. adımda hata var"]
+  },
+  {
+    topic:"fonksiyon", level:"mid",
+    title:"Fonksiyon Olma Şartı",
+    prompt:"Aşağıdaki eşleme fonksiyon mudur?",
+    steps:["1 → 4","2 → 5","1 → 7","Her eleman bir yere gittiği için fonksiyondur."],
+    badIndex:3,
+    type:"Tanım Hatası",
+    hint:"Aynı x değeri iki farklı y değerine gidebilir mi?",
+    correct:"Fonksiyon olması için tanım kümesindeki her eleman yalnızca bir görüntüye gitmelidir. 1 hem 4'e hem 7'ye gittiği için fonksiyon değildir.",
+    choices:["1. adımda hata var","2. adımda hata var","3. adımda hata var","4. adımda hata var"]
+  },
+  {
+    topic:"trigonometri", level:"mid",
+    title:"Trigonometrik İşaret",
+    prompt:"210° açısında sinüsün işareti",
+    steps:["210° üçüncü bölgededir.","Üçüncü bölgede sinüs pozitiftir.","Bu yüzden sin210° pozitiftir."],
+    badIndex:1,
+    type:"İşaret Hatası",
+    hint:"Üçüncü bölgede hangi trigonometrik oran pozitiftir?",
+    correct:"210° üçüncü bölgededir. Üçüncü bölgede tanjant pozitiftir; sinüs ve kosinüs negatiftir. Bu yüzden sin210° negatiftir.",
+    choices:["1. adımda hata var","2. adımda hata var","3. adımda hata var","Hata yok"]
+  },
+  {
+    topic:"olasilik", level:"mid",
+    title:"Olasılık",
+    prompt:"Bir zar atılıyor. Çift sayı gelme olasılığı",
+    steps:["Çift sayılar: 2,4,6","3 tane çift sayı vardır.","Zarda 5 olası sonuç vardır.","Olasılık 3/5'tir."],
+    badIndex:2,
+    type:"Sayma Hatası",
+    hint:"Standart bir zarın kaç yüzü vardır?",
+    correct:"Standart zarın 6 olası sonucu vardır: 1,2,3,4,5,6. Çift sayılar 2,4,6 olduğundan olasılık 3/6=1/2'dir.",
+    choices:["1. adımda hata var","2. adımda hata var","3. adımda hata var","4. adımda hata var"]
+  },
+  {
+    topic:"koklu", level:"mid",
+    title:"Köklü Sayılar",
+    prompt:"√50 sadeleştirme",
+    steps:["√50 = √25 + √2","√25 + √2 = 5 + √2","Cevap 5+√2'dir."],
+    badIndex:0,
+    type:"Kural Hatası",
+    hint:"Çarpım kökten ayrılır, toplam değil.",
+    correct:"50 = 25·2 olduğundan √50 = √(25·2)=5√2. Toplam şeklinde ayrılamaz.",
+    choices:["1. adımda hata var","2. adımda hata var","3. adımda hata var","Hata yok"]
+  },
+  {
+    topic:"uslu", level:"mid",
+    title:"Üslü Sayılar",
+    prompt:"(3²)³ işlemi",
+    steps:["(3²)³ = 3^(2+3)","3⁵ = 243","Cevap 243'tür."],
+    badIndex:0,
+    type:"Kural Hatası",
+    hint:"Üssün üssü alınırken üsler toplanır mı, çarpılır mı?",
+    correct:"Üssün üssü alınırken üsler çarpılır: (3²)³=3^(2·3)=3⁶=729.",
+    choices:["1. adımda hata var","2. adımda hata var","3. adımda hata var","Hata yok"]
+  },
+  {
+    topic:"denklem", level:"hard",
+    title:"Mutlak Değer Denklemi",
+    prompt:"|x-3| = 5",
+    steps:["x-3 = 5","x = 8","Cevap yalnızca 8'dir."],
+    badIndex:0,
+    type:"Eksik Durum Hatası",
+    hint:"Mutlak değer denkleminde pozitif ve negatif durum düşünülür.",
+    correct:"|x-3|=5 için x-3=5 veya x-3=-5 olur. Buradan x=8 veya x=-2 bulunur.",
+    choices:["1. adımda hata var","2. adımda hata var","3. adımda hata var","Hata yok"]
+  },
+  {
+    topic:"fonksiyon", level:"hard",
+    title:"Bileşke Fonksiyon",
+    prompt:"f(x)=2x+1, g(x)=x². (f∘g)(3)",
+    steps:["(f∘g)(3)=g(f(3))","f(3)=7","g(7)=49","Cevap 49'dur."],
+    badIndex:0,
+    type:"Tanım Hatası",
+    hint:"f∘g demek önce g, sonra f demektir.",
+    correct:"(f∘g)(3)=f(g(3)) olmalıdır. g(3)=9, f(9)=2·9+1=19.",
+    choices:["1. adımda hata var","2. adımda hata var","3. adımda hata var","4. adımda hata var"]
+  }
+];
+
+let current=null, score=0, streak=0;
+
+function filtered(){
+  let topic=document.getElementById("topic").value;
+  let level=document.getElementById("level").value;
+  let arr=questions.filter(q=>(topic==="all"||q.topic===topic)&&q.level===level);
+  if(arr.length===0) arr=questions.filter(q=>topic==="all"||q.topic===topic);
+  if(arr.length===0) arr=questions;
+  return arr;
+}
+function newQuestion(){
+  let arr=filtered();
+  current=arr[Math.floor(Math.random()*arr.length)];
+  document.getElementById("questionTitle").innerHTML="<b>"+current.title+"</b><br>"+current.prompt;
+  let html="";
+  current.steps.forEach((s,i)=>{html+="<div id='step"+i+"' class='step'>"+(i+1)+") "+s+"</div>";});
+  document.getElementById("wrongSolution").innerHTML=html;
+  document.getElementById("choices").innerHTML=current.choices.map((c,i)=>'<button onclick="checkAnswer('+i+')">'+c+'</button>').join("");
+  document.getElementById("feedback").innerHTML="Hatayı yakala.";
+  document.getElementById("correctSolution").innerHTML="Önce cevabını kontrol et.";
+}
+function checkAnswer(choiceIndex){
+  let correct=choiceIndex===current.badIndex;
+  document.querySelectorAll(".step").forEach(x=>x.classList.remove("badStep"));
+  document.getElementById("step"+current.badIndex).classList.add("badStep");
+  if(correct){
+    score+=10; streak++;
+    document.getElementById("feedback").innerHTML="<span class='ok'>✔ Hata yakalandı!</span><br>Hata türü: <span class='badge hot'>"+current.type+"</span>";
+  }else{
+    streak=0;
+    document.getElementById("feedback").innerHTML="<span class='warn'>Tekrar dikkat et.</span><br>Doğru hata "+(current.badIndex+1)+". adımdaydı.<br>Hata türü: <span class='badge hot'>"+current.type+"</span>";
+  }
+  document.getElementById("correctSolution").innerHTML="<b>Doğru çözüm:</b><br>"+current.correct;
+  updateScore();
+}
+function showHint(){
+  if(!current) newQuestion();
+  document.getElementById("feedback").innerHTML="<span class='warn'>İpucu:</span><br>"+current.hint;
+}
+function updateScore(){
+  let badge="Hata Avcısı Çırağı";
+  if(score>=30) badge="Hata Dedektifi";
+  if(score>=70) badge="Kural Ustası";
+  if(score>=120) badge="YKS Hata Avcısı";
+  document.getElementById("scoreText").textContent=score;
+  document.getElementById("badgeText").innerHTML="Rozet: <span class='ok'>"+badge+"</span><br>Seri: <span class='badge hot'>"+streak+"</span>";
+}
+newQuestion(); updateScore();
+</script>
+</body>
+</html>
