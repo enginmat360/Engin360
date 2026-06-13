@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>ENGİN360 Olasılık Seçim Dedektifi PRO v3</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',Arial,sans-serif}
+body{
+  min-height:100vh;color:#fff;padding:16px;
+  background:radial-gradient(circle at top left,rgba(168,85,247,.38),transparent 35%),
+  radial-gradient(circle at bottom right,rgba(14,165,233,.30),transparent 35%),
+  linear-gradient(135deg,#05010d,#130023,#061631)
+}
+.container{max-width:1160px;margin:auto}
+.hero{text-align:center;padding:28px 16px;border-radius:28px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);box-shadow:0 0 35px rgba(124,58,237,.34);margin-bottom:16px}
+.logo{font-size:35px;font-weight:900;letter-spacing:1px;background:linear-gradient(90deg,#a855f7,#38bdf8,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.subtitle{margin-top:8px;color:#ded9ff;font-size:15px;line-height:1.5}
+.panel{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.13);border-radius:24px;padding:17px;margin-top:14px;box-shadow:0 12px 26px rgba(0,0,0,.25)}
+h2{font-size:20px;color:#f5d0fe;margin-bottom:12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:13px}
+label{display:block;color:#f5d0fe;font-size:14px;margin-bottom:7px}
+input{width:100%;border:none;outline:none;border-radius:14px;padding:12px 13px;background:rgba(255,255,255,.12);color:white;border:1px solid rgba(255,255,255,.16);font-size:15px}
+button{width:100%;padding:13px;border:none;border-radius:16px;margin-top:11px;color:white;font-weight:800;font-size:15px;cursor:pointer;background:linear-gradient(90deg,#7c3aed,#0ea5e9,#ec4899);box-shadow:0 0 22px rgba(236,72,153,.25)}
+.secondary{background:linear-gradient(90deg,#334155,#475569)}
+.result{background:rgba(0,0,0,.24);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:13px;margin-top:10px;line-height:1.7;overflow:auto}
+.question{font-size:17px;line-height:1.6;background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.13);border-radius:18px;padding:16px;margin-top:12px}
+.option{display:block;text-align:left;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.13);border-radius:14px;padding:11px;margin:7px 0;cursor:pointer}
+.option:hover{background:rgba(236,72,153,.18)}
+.option.selected{border-color:#f0abfc;background:rgba(236,72,153,.22)}
+.badge{display:inline-block;margin:4px;padding:7px 10px;border-radius:999px;background:rgba(14,165,233,.15);border:1px solid rgba(56,189,248,.28)}
+.hot{background:rgba(236,72,153,.18);border-color:rgba(236,72,153,.55)}
+.ok{color:#86efac;font-weight:800}.warn{color:#fde68a;font-weight:800}.pink{color:#f0abfc;font-weight:800}.bad{color:#fca5a5;font-weight:800}
+.solutionCard{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:18px;padding:15px;margin:12px 0;line-height:1.7}
+.pattern{font-size:22px;font-weight:900;letter-spacing:1px;color:#fde68a}
+.footer{text-align:center;color:#aaa;font-size:12px;margin:26px 0 10px}
+@media(max-width:600px){body{padding:12px}.logo{font-size:30px}.grid{grid-template-columns:1fr}.question{font-size:15px}.pattern{font-size:18px}}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="hero">
+    <div class="logo">ENGİN360</div>
+    <div class="subtitle">Olasılık Seçim Dedektifi PRO v3<br>9. sınıf düzeyi: desen yöntemi, sıralı seçim mantığı ve 5 soruluk mini test.</div>
+  </div>
+
+  <div class="panel">
+    <h2>1) Test Ayarları</h2>
+    <div class="grid">
+      <div><label>Kız sayısı</label><input id="girlCount" type="number" value="4"></div>
+      <div><label>Erkek sayısı</label><input id="boyCount" type="number" value="3"></div>
+      <div><label>Seçilecek kişi sayısı</label><input id="chooseCount" type="number" value="3"></div>
+    </div>
+    <button onclick="generateTest()">5 Soruluk Yeni Test Oluştur</button>
+  </div>
+
+  <div class="panel">
+    <h2>2) Mini Test</h2>
+    <div id="testBox"></div>
+    <button onclick="finishTest()">Testi Bitir ve Çözümleri Göster</button>
+  </div>
+
+  <div class="panel">
+    <h2>3) Cevaplar ve Çözümler</h2>
+    <div id="resultBox" class="result">Testi bitirince cevaplar ve çözümler burada görünecek.</div>
+  </div>
+
+  <div class="panel">
+    <h2>4) 9. Sınıf İçin Ana Mantık</h2>
+    <div class="result">
+      <span class="pink">Örnek:</span> 2 kız ve 1 erkek seçilecekse sıralama desenleri şunlardır:<br>
+      <span class="pattern">KKE + KEK + EKK</span><br><br>
+      Bu yöntem öğrencinin olayı görmesini sağlar. Her desen için olasılık hesaplanır, sonra desenler toplanır.
+    </div>
+  </div>
+
+  <div class="footer">ENGİN360 © 2026 · Veri, Olasılık ve Kümeler</div>
+</div>
+
+<script>
+let test=[];
+
+function gcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){let t=b;b=a%b;a=t}return a||1}
+function simp(n,d){let g=gcd(n,d);return {n:n/g,d:d/g}}
+function fracText(f){return f.d===1?String(f.n):f.n+"/"+f.d}
+function rand(a,b){return Math.floor(Math.random()*(b-a+1))+a}
+
+function permutations(pattern){
+  let res=[];
+  function perm(arr,l){
+    if(l===arr.length){let s=arr.join("");if(!res.includes(s))res.push(s);return;}
+    for(let i=l;i<arr.length;i++){
+      [arr[l],arr[i]]=[arr[i],arr[l]];
+      perm(arr,l+1);
+      [arr[l],arr[i]]=[arr[i],arr[l]];
+    }
+  }
+  perm(pattern.split(""),0);
+  return res.sort();
+}
+function seqProb(g,b,pattern){
+  let total=g+b, gn=g, bn=b, num=1, den=1;
+  let parts=[];
+  for(let ch of pattern){
+    if(ch==="K"){
+      parts.push(gn+"/"+total);
+      num*=gn; gn--;
+    }else{
+      parts.push(bn+"/"+total);
+      num*=bn; bn--;
+    }
+    den*=total; total--;
+  }
+  return {fraction:simp(num,den), parts};
+}
+function patternFor(girls,boys){return "K".repeat(girls)+"E".repeat(boys)}
+function allPatternsForCondition(k,type,exactGirl){
+  let list=[];
+  for(let girls=0;girls<=k;girls++){
+    let boys=k-girls, ok=false;
+    if(type==="exact")ok=girls===exactGirl;
+    if(type==="atLeastGirl")ok=girls>=1;
+    if(type==="atLeastBoy")ok=boys>=1;
+    if(type==="allGirl")ok=boys===0;
+    if(type==="allBoy")ok=girls===0;
+    if(type==="atMostGirl")ok=girls<=1;
+    if(type==="atMostBoy")ok=boys<=1;
+    if(ok) list.push({girls,boys,perms:permutations(patternFor(girls,boys))});
+  }
+  return list;
+}
+function addFrac(a,b){return simp(a.n*b.d+b.n*a.d,a.d*b.d)}
+function conditionFraction(g,b,k,type,exactGirl){
+  let groups=allPatternsForCondition(k,type,exactGirl);
+  let total={n:0,d:1};
+  groups.forEach(gr=>{
+    gr.perms.forEach(p=>{
+      let sp=seqProb(g,b,p).fraction;
+      total=addFrac(total,sp);
+    });
+  });
+  return total;
+}
+function qText(q){
+  let base=`Bir grupta <b>${q.g} kız</b> ve <b>${q.b} erkek</b> vardır. Bu gruptan sırayla rastgele <b>${q.k}</b> kişi seçiliyor.`;
+  if(q.type==="exact")return base+`<br>Seçilenlerin <b>tam olarak ${q.exactGirl} kız ve ${q.k-q.exactGirl} erkek</b> olma olasılığı kaçtır?`;
+  if(q.type==="atLeastGirl")return base+`<br>Seçilenlerin içinde <b>en az 1 kız</b> bulunma olasılığı kaçtır?`;
+  if(q.type==="atLeastBoy")return base+`<br>Seçilenlerin içinde <b>en az 1 erkek</b> bulunma olasılığı kaçtır?`;
+  if(q.type==="allGirl")return base+`<br>Seçilenlerin <b>tamamının kız</b> olma olasılığı kaçtır?`;
+  if(q.type==="allBoy")return base+`<br>Seçilenlerin <b>tamamının erkek</b> olma olasılığı kaçtır?`;
+  if(q.type==="atMostGirl")return base+`<br>Seçilenlerin içinde <b>en fazla 1 kız</b> bulunma olasılığı kaçtır?`;
+  if(q.type==="atMostBoy")return base+`<br>Seçilenlerin içinde <b>en fazla 1 erkek</b> bulunma olasılığı kaçtır?`;
+}
+function options(correct){
+  let opts=[correct], d=correct.d;
+  let tries=[
+    simp(Math.max(1,correct.n-1),d),
+    simp(Math.min(d-1,correct.n+1),d),
+    simp(Math.max(1,d-correct.n),d),
+    simp(1,d),
+    simp(Math.floor(d/2)||1,d),
+    simp(d-1,d)
+  ];
+  tries.forEach(f=>{if(opts.length<5&&f.n>0&&f.n<=f.d&&!opts.some(o=>o.n===f.n&&o.d===f.d))opts.push(f)});
+  while(opts.length<5){
+    let f=simp(rand(1,Math.max(2,d-1)),d);
+    if(!opts.some(o=>o.n===f.n&&o.d===f.d))opts.push(f);
+  }
+  return opts.sort(()=>Math.random()-0.5);
+}
+function makeQuestion(i,g,b,k,type,exactGirl){
+  let answer=conditionFraction(g,b,k,type,exactGirl);
+  let opts=options(answer);
+  return {id:i,g,b,k,type,exactGirl,answer,opts,selected:null};
+}
+function generateTest(){
+  let g=Number(document.getElementById("girlCount").value);
+  let b=Number(document.getElementById("boyCount").value);
+  let k=Number(document.getElementById("chooseCount").value);
+  if(k>g+b || k<1){
+    document.getElementById("testBox").innerHTML="<div class='bad'>Seçilecek kişi sayısı toplam kişiden büyük olamaz.</div>";
+    return;
+  }
+  test=[
+    makeQuestion(0,g,b,k,"exact",Math.min(2,k)),
+    makeQuestion(1,g,b,k,"atLeastBoy",0),
+    makeQuestion(2,g,b,k,"atLeastGirl",0),
+    makeQuestion(3,g,b,k,"allGirl",0),
+    makeQuestion(4,g,b,k,["allBoy","atMostGirl","atMostBoy","exact"][rand(0,3)],rand(1,Math.max(1,k-1)))
+  ];
+  renderTest();
+  document.getElementById("resultBox").innerHTML="Testi bitirince cevaplar ve çözümler burada görünecek.";
+}
+function renderTest(){
+  let html="";
+  test.forEach((q,idx)=>{
+    html+=`<div class="question"><b>${idx+1}. Soru</b><br>${qText(q)}<div>`;
+    q.opts.forEach((o,j)=>{
+      html+=`<div class="option ${q.selected===j?"selected":""}" onclick="selectOpt(${idx},${j})">${String.fromCharCode(65+j)}) ${fracText(o)}</div>`;
+    });
+    html+="</div></div>";
+  });
+  document.getElementById("testBox").innerHTML=html;
+}
+function selectOpt(qi,oi){
+  test[qi].selected=oi;
+  renderTest();
+}
+function finishTest(){
+  let score=0, html="";
+  test.forEach((q,idx)=>{
+    let selected=q.selected===null?null:q.opts[q.selected];
+    let ok=selected&&selected.n===q.answer.n&&selected.d===q.answer.d;
+    if(ok)score++;
+    html+=`<div class="solutionCard"><b>${idx+1}. Soru:</b> ${ok?"<span class='ok'>Doğru</span>":"<span class='warn'>Yanlış / boş</span>"}<br>`;
+    html+=`Doğru cevap: <b>${fracText(q.answer)}</b><br><br>`;
+    html+=solution(q);
+    html+="</div>";
+  });
+  html=`<div class="badge hot">Sonuç: ${score}/5</div><br>`+html;
+  document.getElementById("resultBox").innerHTML=html;
+}
+function solution(q){
+  let groups=allPatternsForCondition(q.k,q.type,q.exactGirl);
+  let html="<b>Desen yöntemiyle çözüm:</b><br>";
+  groups.forEach(gr=>{
+    html+=`<br><span class="pink">${gr.girls} kız, ${gr.boys} erkek durumu:</span><br>`;
+    html+=`Desenler: <span class="pattern">${gr.perms.join(" + ")}</span><br>`;
+    gr.perms.forEach(p=>{
+      let sp=seqProb(q.g,q.b,p);
+      html+=`${p}: ${sp.parts.join(" · ")} = <b>${fracText(sp.fraction)}</b><br>`;
+    });
+  });
+  html+=`<br>Bu uygun desenlerin olasılıkları toplanır.<br>`;
+  html+=`Sonuç: <b>${fracText(q.answer)}</b>`;
+  if(q.type==="atLeastBoy"){
+    html+=`<br><br><span class="warn">Kısa fikir:</span> En az 1 erkek demek erkekli olan bütün desenleri toplamak demektir.`;
+  }
+  if(q.type==="atLeastGirl"){
+    html+=`<br><br><span class="warn">Kısa fikir:</span> En az 1 kız demek kızlı olan bütün desenleri toplamak demektir.`;
+  }
+  return html;
+}
+generateTest();
+</script>
+</body>
+</html>
