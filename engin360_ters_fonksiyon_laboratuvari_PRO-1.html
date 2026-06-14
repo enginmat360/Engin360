@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>ENGİN360 Ters Fonksiyon Laboratuvarı PRO</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',Arial,sans-serif}
+body{
+  min-height:100vh;color:#fff;padding:16px;
+  background:radial-gradient(circle at top left,rgba(168,85,247,.38),transparent 35%),
+  radial-gradient(circle at bottom right,rgba(14,165,233,.30),transparent 35%),
+  linear-gradient(135deg,#05010d,#130023,#061631)
+}
+.container{max-width:1180px;margin:auto}
+.hero{text-align:center;padding:28px 16px;border-radius:28px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);box-shadow:0 0 35px rgba(124,58,237,.34);margin-bottom:16px}
+.logo{font-size:35px;font-weight:900;letter-spacing:1px;background:linear-gradient(90deg,#a855f7,#38bdf8,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.subtitle{margin-top:8px;color:#ded9ff;font-size:15px;line-height:1.5}
+.panel{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.13);border-radius:24px;padding:17px;margin-top:14px;box-shadow:0 12px 26px rgba(0,0,0,.25)}
+h2{font-size:20px;color:#f5d0fe;margin-bottom:12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:13px}
+label{display:block;color:#f5d0fe;font-size:14px;margin-bottom:7px}
+input,select{
+  width:100%;border:none;outline:none;border-radius:14px;padding:12px 13px;
+  background:rgba(255,255,255,.12);color:white;border:1px solid rgba(255,255,255,.16);font-size:15px
+}
+select option{color:#111}
+button{
+  width:100%;padding:13px;border:none;border-radius:16px;margin-top:11px;
+  color:white;font-weight:800;font-size:15px;cursor:pointer;
+  background:linear-gradient(90deg,#7c3aed,#0ea5e9,#ec4899);
+  box-shadow:0 0 22px rgba(236,72,153,.25)
+}
+.secondary{background:linear-gradient(90deg,#334155,#475569)}
+.result{background:rgba(0,0,0,.24);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:13px;margin-top:10px;line-height:1.7;overflow:auto}
+.machine{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:12px}
+.ball{width:70px;height:70px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:900;background:#0ea5e9;box-shadow:0 0 25px rgba(14,165,233,.45)}
+.box{min-width:180px;border-radius:22px;background:linear-gradient(135deg,#7c3aed,#ec4899);padding:22px;text-align:center;font-weight:900;font-size:20px;box-shadow:0 0 30px rgba(236,72,153,.35)}
+.arrow{font-size:32px;color:#fde68a}
+.badge{display:inline-block;margin:4px;padding:7px 10px;border-radius:999px;background:rgba(14,165,233,.15);border:1px solid rgba(56,189,248,.28)}
+.hot{background:rgba(236,72,153,.18);border-color:rgba(236,72,153,.55)}
+.ok{color:#86efac;font-weight:800}.warn{color:#fde68a;font-weight:800}.pink{color:#f0abfc;font-weight:800}.bad{color:#fca5a5;font-weight:800}
+canvas{width:100%;background:white;border-radius:18px;border:1px solid rgba(255,255,255,.15);display:block;margin:auto}
+.option{display:block;text-align:left;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.13);border-radius:14px;padding:11px;margin:7px 0;cursor:pointer}
+.option:hover{background:rgba(236,72,153,.18)}
+.option.selected{border-color:#f0abfc;background:rgba(236,72,153,.22)}
+.solutionCard{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:18px;padding:15px;margin:12px 0;line-height:1.7}
+.equation{font-size:22px;color:#fde68a;font-weight:900;text-align:center;padding:10px}
+.footer{text-align:center;color:#aaa;font-size:12px;margin:26px 0 10px}
+@media(max-width:600px){body{padding:12px}.logo{font-size:30px}.grid{grid-template-columns:1fr}.ball{width:58px;height:58px}.box{min-width:155px;font-size:17px}.equation{font-size:18px}}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="hero">
+    <div class="logo">ENGİN360</div>
+    <div class="subtitle">Ters Fonksiyon Laboratuvarı PRO<br>Makineyi tersine çalıştır, ters fonksiyonu bul, grafikte y=x simetrisini gör.</div>
+  </div>
+
+  <div class="panel">
+    <h2>1) Fonksiyon Makinesi</h2>
+    <div class="grid">
+      <div><label>a değeri</label><input id="aVal" type="number" value="3"></div>
+      <div><label>b değeri</label><input id="bVal" type="number" value="2"></div>
+      <div><label>x değeri</label><input id="xVal" type="number" value="5"></div>
+    </div>
+    <button onclick="runMachine()">Makineyi Çalıştır</button>
+    <button class="secondary" onclick="randomLinear()">Rastgele Doğrusal Fonksiyon</button>
+    <div class="machine">
+      <div id="inBall" class="ball">5</div>
+      <div class="arrow">→</div>
+      <div id="fBox" class="box">f(x)</div>
+      <div class="arrow">→</div>
+      <div id="outBall" class="ball">?</div>
+    </div>
+    <div class="machine">
+      <div id="backIn" class="ball">?</div>
+      <div class="arrow">→</div>
+      <div id="invBox" class="box">f⁻¹(x)</div>
+      <div class="arrow">→</div>
+      <div id="backOut" class="ball">?</div>
+    </div>
+    <div id="machineBox" class="result"></div>
+  </div>
+
+  <div class="grid">
+    <div class="panel">
+      <h2>2) Ters Fonksiyon Dedektifi</h2>
+      <div id="inverseSteps" class="result"></div>
+    </div>
+    <div class="panel">
+      <h2>3) Ters İşlem Mantığı</h2>
+      <div id="reverseBox" class="result"></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>4) Grafik Laboratuvarı</h2>
+    <canvas id="graph" width="900" height="520"></canvas>
+    <div class="result">
+      <span class="badge hot">Mor doğru: f(x)</span>
+      <span class="badge hot">Mavi doğru: f⁻¹(x)</span>
+      <span class="badge hot">Pembe doğru: y=x</span><br>
+      Ters fonksiyonun grafiği, y=x doğrusuna göre simetriktir.
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="panel">
+      <h2>5) Tersi Var mı?</h2>
+      <div id="existQuestion" class="result"></div>
+      <div class="grid">
+        <button onclick="checkExist('yes')">Tersi vardır</button>
+        <button onclick="checkExist('no')">Tersi yoktur</button>
+      </div>
+      <button class="secondary" onclick="newExistQuestion()">Yeni Kart</button>
+      <div id="existFeedback" class="result"></div>
+    </div>
+
+    <div class="panel">
+      <h2>6) Eşleştirme</h2>
+      <div id="matchBox" class="result"></div>
+      <div class="grid">
+        <div><label>Cevabın</label><input id="matchAnswer" placeholder="Örn: (x-2)/3"></div>
+        <div><label>Kontrol</label><button onclick="checkMatch()">Kontrol Et</button></div>
+      </div>
+      <button class="secondary" onclick="newMatch()">Yeni Eşleştirme</button>
+      <div id="matchFeedback" class="result"></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>7) 5 Soruluk Mini Test</h2>
+    <div id="testBox"></div>
+    <button onclick="finishTest()">Testi Bitir ve Çözümleri Göster</button>
+    <button class="secondary" onclick="generateTest()">Yeni Test Oluştur</button>
+    <div id="testResult" class="result">Testi bitirince çözümler burada görünecek.</div>
+  </div>
+
+  <div class="panel">
+    <h2>8) Altın Kural</h2>
+    <div class="result">
+      <span class="pink">Ters fonksiyon:</span> Bir fonksiyonun yaptığı işlemi geriye alan fonksiyondur.<br><br>
+      f(x)=ax+b ise tersini bulmak için:<br>
+      1) y=ax+b yaz.<br>
+      2) x ve y yer değiştir.<br>
+      3) y yalnız bırak.<br><br>
+      Sonuç: <b>f⁻¹(x)=(x-b)/a</b>
+    </div>
+  </div>
+
+  <div class="footer">ENGİN360 © 2026 · Fonksiyon ve Grafikler</div>
+</div>
+
+<script>
+let existCurrent={}, matchCurrent={}, test=[];
+
+function fmt(x){return Math.abs(x-Math.round(x))<1e-9?String(Math.round(x)):String(Math.round(x*100)/100)}
+function vals(){return {a:Number(aVal.value), b:Number(bVal.value), x:Number(xVal.value)}}
+function invText(a,b){
+  let sign=b>=0?`-${fmt(b)}`:`+${fmt(-b)}`;
+  return `(x${sign})/${fmt(a)}`;
+}
+function fText(a,b){
+  return `${fmt(a)}x${b>=0?"+":""}${fmt(b)}`;
+}
+function runMachine(){
+  let {a,b,x}=vals();
+  if(a===0){machineBox.innerHTML="<span class='bad'>a=0 olursa sabit fonksiyon olur; birebir değildir, ters fonksiyon yoktur.</span>";return;}
+  let y=a*x+b;
+  inBall.textContent=fmt(x); outBall.textContent=fmt(y);
+  fBox.textContent="f(x)="+fText(a,b);
+  backIn.textContent=fmt(y); backOut.textContent=fmt(x);
+  invBox.textContent="f⁻¹(x)="+invText(a,b);
+  machineBox.innerHTML=`f(${fmt(x)}) = ${fmt(a)}·${fmt(x)} ${b>=0?"+":""} ${fmt(b)} = <b>${fmt(y)}</b><br>
+  Şimdi makineyi ters çalıştıralım:<br>
+  ${fmt(y)} değerinden önce <b>${fmt(b)}</b> çıkarılır, sonra <b>${fmt(a)}</b>'ya bölünür.<br>
+  (${fmt(y)} ${b>=0?"-":"+"} ${fmt(Math.abs(b))}) / ${fmt(a)} = <b>${fmt(x)}</b>`;
+  inverseSteps();
+  drawGraph();
+}
+function inverseSteps(){
+  let {a,b}=vals();
+  if(a===0){inverseSteps.innerHTML="a=0 olduğunda ters fonksiyon yoktur.";return;}
+  inverseSteps.innerHTML=`<div class="equation">f(x) = ${fText(a,b)}</div>
+  1) y = ${fText(a,b)} yazılır.<br>
+  2) x ve y yer değiştirir:<br>
+  <span class="badge hot">x = ${fmt(a)}y${b>=0?"+":""}${fmt(b)}</span><br>
+  3) y yalnız bırakılır:<br>
+  x ${b>=0?"-":"+"} ${fmt(Math.abs(b))} = ${fmt(a)}y<br>
+  y = <span class="ok">${invText(a,b)}</span><br><br>
+  <b>Sonuç:</b> f⁻¹(x) = ${invText(a,b)}`;
+  reverseBox.innerHTML=`f fonksiyonu önce <b>${fmt(a)} ile çarpar</b>, sonra <b>${fmt(b)} ekler</b>.<br>
+  Ters fonksiyon bunun tam tersini yapar:<br>
+  Önce <b>${fmt(b)} çıkarır</b>, sonra <b>${fmt(a)}'ya böler</b>.`;
+}
+function drawGraph(){
+  let {a,b}=vals();
+  let c=document.getElementById("graph"),ctx=c.getContext("2d"),W=c.width,H=c.height;
+  ctx.clearRect(0,0,W,H);ctx.fillStyle="#fff";ctx.fillRect(0,0,W,H);
+  let ox=W/2, oy=H/2, sc=32;
+  function X(x){return ox+x*sc}
+  function Y(y){return oy-y*sc}
+  ctx.strokeStyle="#e5e7eb";ctx.lineWidth=1;
+  for(let i=-12;i<=12;i++){ctx.beginPath();ctx.moveTo(X(i),0);ctx.lineTo(X(i),H);ctx.stroke();ctx.beginPath();ctx.moveTo(0,Y(i));ctx.lineTo(W,Y(i));ctx.stroke();}
+  ctx.strokeStyle="#334155";ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(0,oy);ctx.lineTo(W,oy);ctx.moveTo(ox,0);ctx.lineTo(ox,H);ctx.stroke();
+  function line(fn,color,width){
+    ctx.strokeStyle=color;ctx.lineWidth=width;ctx.beginPath();let first=true;
+    for(let x=-12;x<=12;x+=0.1){let y=fn(x),px=X(x),py=Y(y);if(first){ctx.moveTo(px,py);first=false}else ctx.lineTo(px,py)}
+    ctx.stroke();
+  }
+  line(x=>x,"#ec4899",3);
+  if(a!==0){line(x=>a*x+b,"#7c3aed",5);line(x=>(x-b)/a,"#0ea5e9",5);}
+  ctx.fillStyle="#111827";ctx.font="800 19px Segoe UI";ctx.fillText("f(x), f⁻¹(x) ve y=x",35,30);
+}
+function randomLinear(){
+  let aa=[2,3,4,5,-2,-3], bb=[-5,-3,-1,1,2,4,6];
+  aVal.value=aa[Math.floor(Math.random()*aa.length)];
+  bVal.value=bb[Math.floor(Math.random()*bb.length)];
+  xVal.value=Math.floor(Math.random()*7)-2;
+  runMachine();
+}
+function newExistQuestion(){
+  let list=[
+    {name:"f(x)=2x+3",ans:"yes",sol:"Doğrusal ve eğimi 0 değildir. Birebirdir, tersi vardır."},
+    {name:"f(x)=x², tanım kümesi R",ans:"no",sol:"R üzerinde birebir değildir. Örneğin 2 ve -2 aynı görüntüye gider."},
+    {name:"f(x)=|x|, tanım kümesi R",ans:"no",sol:"R üzerinde birebir değildir. 3 ve -3 aynı görüntüye gider."},
+    {name:"f(x)=1/x",ans:"yes",sol:"Tanım kümesinde 0 yoksa birebir kabul edilir ve tersi yine 1/x'tir."},
+    {name:"f(x)=5",ans:"no",sol:"Sabit fonksiyon birebir değildir; ters fonksiyonu yoktur."}
+  ];
+  existCurrent=list[Math.floor(Math.random()*list.length)];
+  existQuestion.innerHTML=`<b>${existCurrent.name}</b><br>Bu fonksiyonun tersi var mı?`;
+  existFeedback.innerHTML="";
+}
+function checkExist(ans){
+  existFeedback.innerHTML=ans===existCurrent.ans?`<span class="ok">✔ Doğru!</span><br>${existCurrent.sol}`:`<span class="warn">Tekrar düşün.</span><br>${existCurrent.sol}`;
+}
+function newMatch(){
+  let list=[
+    {f:"f(x)=3x-1",ans:"(x+1)/3"},
+    {f:"f(x)=2x+5",ans:"(x-5)/2"},
+    {f:"f(x)=5x",ans:"x/5"},
+    {f:"f(x)=x+8",ans:"x-8"},
+    {f:"f(x)=4x-7",ans:"(x+7)/4"}
+  ];
+  matchCurrent=list[Math.floor(Math.random()*list.length)];
+  matchBox.innerHTML=`Tersini yaz:<br><span class="badge hot">${matchCurrent.f}</span>`;
+  matchAnswer.value="";
+  matchFeedback.innerHTML="";
+}
+function norm(s){return String(s).toLowerCase().replaceAll(" ","").replaceAll("f⁻¹(x)=","").replaceAll("f-1(x)=","").replaceAll("−","-");}
+function checkMatch(){
+  let a=norm(matchCurrent.ans), v=norm(matchAnswer.value);
+  matchFeedback.innerHTML=v===a?`<span class="ok">✔ Doğru!</span>`:`<span class="warn">Doğru cevap: ${matchCurrent.ans}</span>`;
+}
+function makeQ(i){
+  let a=[2,3,4,5][Math.floor(Math.random()*4)];
+  let b=[-6,-3,2,5,7][Math.floor(Math.random()*5)];
+  let ans=invText(a,b);
+  let opts=[ans, invText(a,-b), `(x${b>=0?"+":"-"}${Math.abs(b)})/${a}`, `${a}x${b>=0?"+":""}${b}`];
+  opts=[...new Set(opts)].sort(()=>Math.random()-0.5);
+  return {a,b,ans,opts,sel:null};
+}
+function generateTest(){
+  test=[0,1,2,3,4].map(makeQ);
+  renderTest();
+  testResult.innerHTML="Testi bitirince çözümler burada görünecek.";
+}
+function renderTest(){
+  let html="";
+  test.forEach((q,i)=>{
+    html+=`<div class="solutionCard"><b>${i+1}. Soru</b><br>f(x)=${fText(q.a,q.b)} için f⁻¹(x) hangisidir?`;
+    q.opts.forEach((o,j)=>{html+=`<div class="option ${q.sel===j?"selected":""}" onclick="selectTest(${i},${j})">${String.fromCharCode(65+j)}) ${o}</div>`});
+    html+="</div>";
+  });
+  testBox.innerHTML=html;
+}
+function selectTest(i,j){test[i].sel=j;renderTest();}
+function finishTest(){
+  let score=0, html="";
+  test.forEach((q,i)=>{
+    let chosen=q.sel===null?null:q.opts[q.sel];
+    let ok=chosen===q.ans;if(ok)score++;
+    html+=`<div class="solutionCard"><b>${i+1}. Soru:</b> ${ok?"<span class='ok'>Doğru</span>":"<span class='warn'>Yanlış / boş</span>"}<br>
+    Doğru cevap: <b>${q.ans}</b><br>
+    y=${fText(q.a,q.b)} yazılır. x ve y yer değiştirir: x=${q.a}y${q.b>=0?"+":""}${q.b}. y yalnız bırakılır: f⁻¹(x)=${q.ans}</div>`;
+  });
+  testResult.innerHTML=`<span class="badge hot">Sonuç: ${score}/5</span>`+html;
+}
+runMachine(); newExistQuestion(); newMatch(); generateTest();
+</script>
+</body>
+</html>
