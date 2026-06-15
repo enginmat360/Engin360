@@ -36,7 +36,7 @@
     .page{
       width:min(1160px,94%);
       margin:auto;
-      padding:22px 0 38px;
+      padding:22px 0 90px;
     }
 
     header{
@@ -261,6 +261,59 @@
 
     .banner img{width:100%;display:block;object-fit:cover}
 
+    .floating-track{
+      position:fixed;
+      right:18px;
+      bottom:18px;
+      z-index:50;
+      text-decoration:none;
+      color:white;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:13px 16px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.28);
+      background:linear-gradient(135deg,rgba(34,197,94,.96),rgba(56,189,248,.94),rgba(168,85,247,.92));
+      box-shadow:
+        0 0 22px rgba(34,197,94,.42),
+        0 0 34px rgba(56,189,248,.35),
+        0 14px 36px rgba(0,0,0,.34);
+      font-weight:900;
+      transition:.22s ease;
+      animation:pulseGlow 2.2s infinite;
+    }
+
+    .floating-track:hover{
+      transform:translateY(-4px) scale(1.03);
+      filter:brightness(1.08);
+    }
+
+    .floating-track .bubble{
+      width:38px;
+      height:38px;
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      background:rgba(255,255,255,.20);
+      font-size:21px;
+      flex:0 0 auto;
+      box-shadow:inset 0 0 16px rgba(255,255,255,.14);
+    }
+
+    .floating-track small{
+      display:block;
+      font-size:11px;
+      opacity:.88;
+      margin-top:2px;
+      font-weight:800;
+    }
+
+    @keyframes pulseGlow{
+      0%,100%{box-shadow:0 0 18px rgba(34,197,94,.34),0 0 30px rgba(56,189,248,.28),0 14px 36px rgba(0,0,0,.34)}
+      50%{box-shadow:0 0 28px rgba(34,197,94,.55),0 0 44px rgba(168,85,247,.40),0 14px 36px rgba(0,0,0,.34)}
+    }
+
     footer{
       margin-top:14px;
       text-align:center;
@@ -290,6 +343,21 @@
       .btn strong{font-size:16px}
       .btn small{font-size:11.2px}
       .banner{border-radius:22px}
+
+      .floating-track{
+        left:14px;
+        right:14px;
+        bottom:12px;
+        justify-content:center;
+        border-radius:20px;
+        padding:11px 13px;
+      }
+
+      .floating-track .bubble{
+        width:34px;
+        height:34px;
+        font-size:19px;
+      }
     }
   </style>
 </head>
@@ -356,5 +424,10 @@
     </footer>
 
   </main>
+
+  <a class="floating-track" href="engin360_gunluk_soru_takip_v2.html">
+    <span class="bubble">✍️</span>
+    <span>Bugün kaç soru çözdüm?<small>Günlük soru kaydı</small></span>
+  </a>
 </body>
 </html>
