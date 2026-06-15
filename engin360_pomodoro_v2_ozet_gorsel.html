@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ENGİN360 Pomodoro Takip Sistemi</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+:root{--bg:#07071f;--card:#11113a;--mor:#7c3cff;--mavi:#1d8bff;--pembe:#ff4fb3;--yesil:#22c55e;--sari:#facc15;--kirmizi:#ef4444;--text:#f8f7ff;--muted:#b9b8d8}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:radial-gradient(circle at top left,#28126e 0,#07071f 38%,#030312 100%);color:var(--text);min-height:100vh;display:flex;justify-content:center;padding:18px}.app{width:min(1080px,100%)}.top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px}.brand{display:flex;gap:12px;align-items:center}.logo{width:58px;height:58px;border-radius:18px;background:linear-gradient(135deg,var(--mavi),var(--mor));box-shadow:0 0 24px #7c3cff88;display:grid;place-items:center;font-weight:900;font-size:18px}.brand h1{margin:0;font-size:26px}.brand span{color:#63b3ff}.brand p{margin:2px 0 0;color:var(--muted);font-weight:700}.pill{border:1px solid #ffffff22;background:#ffffff10;border-radius:999px;padding:10px 14px;color:#fff;font-weight:800}.grid{display:grid;grid-template-columns:1.12fr .88fr;gap:16px}.card{background:linear-gradient(180deg,#18184d,#0f0f35);border:1px solid #ffffff18;border-radius:28px;padding:22px;box-shadow:0 24px 60px #0008}.timerCard{text-align:center;position:relative;overflow:hidden}.timerCard:before{content:"";position:absolute;inset:-80px;background:radial-gradient(circle,#7c3cff22,transparent 60%);pointer-events:none}.modeTabs{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:18px;position:relative}.tab{border:1px solid #ffffff22;background:#ffffff0e;color:var(--text);border-radius:999px;padding:10px 14px;font-weight:900;cursor:pointer}.tab.active{background:linear-gradient(135deg,var(--mor),var(--mavi));box-shadow:0 0 18px #1d8bff66}.circleWrap{position:relative;width:310px;height:310px;margin:0 auto 14px}.progress{width:310px;height:310px;transform:rotate(-90deg)}.progress circle{fill:none;stroke-width:16;stroke-linecap:round}.track{stroke:#ffffff14}.bar{stroke:url(#grad);stroke-dasharray:879.6;stroke-dashoffset:0;transition:stroke-dashoffset .5s linear}.time{position:absolute;inset:0;display:grid;place-content:center}.time .big{font-size:70px;font-weight:900;letter-spacing:-3px}.time .small{color:var(--muted);font-weight:800;margin-top:6px}.status{font-size:21px;font-weight:900;margin:8px 0 18px}.controls,.actionBtns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}.btn{border:0;border-radius:16px;padding:14px 18px;color:white;font-weight:900;cursor:pointer;background:linear-gradient(135deg,var(--mor),var(--mavi));box-shadow:0 10px 25px #0005}.btn.dark{background:#ffffff12;border:1px solid #ffffff20}.btn.green{background:linear-gradient(135deg,#16a34a,#22c55e)}.btn.red{background:linear-gradient(135deg,#dc2626,#ef4444)}.btn.pink{background:linear-gradient(135deg,#db2777,#ff4fb3)}.side{display:grid;gap:16px}.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}.stat{background:#ffffff0b;border:1px solid #ffffff15;border-radius:18px;padding:16px;text-align:center}.stat b{display:block;font-size:30px}.stat span{color:var(--muted);font-weight:800;font-size:13px}.settings label{display:grid;grid-template-columns:1fr 90px;gap:10px;align-items:center;margin:10px 0;color:var(--muted);font-weight:800}.settings input,.settings textarea,.reportBox textarea{width:100%;border:1px solid #ffffff22;background:#090927;color:white;border-radius:12px;padding:10px;font-weight:900}.settings input{text-align:center}.settings textarea,.reportBox textarea{min-height:84px;resize:vertical;line-height:1.55;font-weight:700}.quote{line-height:1.6;color:#e8e6ff;font-weight:700}.tasks{display:grid;gap:8px}.task{display:flex;gap:9px;align-items:center;background:#ffffff0b;border:1px solid #ffffff13;border-radius:14px;padding:10px}.task input[type=text]{flex:1;background:transparent;border:0;color:white;font-weight:800;outline:none}.task input[type=checkbox]{width:20px;height:20px}.reportBox{margin-top:16px}.reportTitle{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}.activity{display:grid;gap:8px;margin-top:10px}.activityItem{background:#ffffff0b;border:1px solid #ffffff16;border-radius:14px;padding:11px;font-weight:800;color:#eee}.activityItem small{display:block;color:#aaa8d8;margin-top:4px;font-weight:700}.shareCard{background:linear-gradient(135deg,#121240,#09091f);border:1px solid #ffffff18;border-radius:24px;padding:20px;margin-top:16px}.shareHeader{display:flex;justify-content:space-between;gap:12px;align-items:center;border-bottom:1px solid #ffffff16;padding-bottom:12px;margin-bottom:14px}.shareHeader h2{margin:0}.miniGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.miniStat{background:#ffffff0b;border:1px solid #ffffff13;border-radius:16px;padding:12px;text-align:center}.miniStat b{display:block;font-size:28px}.miniStat span{font-size:12px;color:var(--muted);font-weight:800}.footer{margin-top:14px;text-align:center;color:#9f9dc7;font-weight:700;font-size:13px}.hiddenSave{display:none!important}@media(max-width:900px){body{padding:10px}.grid{grid-template-columns:1fr}.top{align-items:flex-start}.circleWrap,.progress{width:270px;height:270px}.time .big{font-size:58px}.brand h1{font-size:22px}.pill{display:none}.miniGrid{grid-template-columns:1fr 1fr}}@media print{.noPrint{display:none!important}body{background:white}.app{width:100%}.card,.shareCard{box-shadow:none}}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="top noPrint">
+    <div class="brand"><div class="logo">360</div><div><h1>ENGİN<span>360</span> Pomodoro</h1><p>Odaklan • Bitir • Ne yaptığını kaydet • Paylaş</p></div></div>
+    <div class="pill" id="todayText">Bugün: 0 pomodoro</div>
+  </div>
+
+  <div id="captureArea">
+  <div class="grid">
+    <div class="card timerCard">
+      <div class="modeTabs noPrint">
+        <button class="tab active" onclick="setMode('focus')">🎯 Odak</button>
+        <button class="tab" onclick="setMode('short')">☕ Kısa Mola</button>
+        <button class="tab" onclick="setMode('long')">🌙 Uzun Mola</button>
+      </div>
+      <div class="circleWrap">
+        <svg class="progress" viewBox="0 0 310 310"><defs><linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#7c3cff"/><stop offset="100%" stop-color="#1d8bff"/></linearGradient></defs><circle class="track" cx="155" cy="155" r="140"></circle><circle id="bar" class="bar" cx="155" cy="155" r="140"></circle></svg>
+        <div class="time"><div class="big" id="timeText">25:00</div><div class="small" id="modeText">Odak zamanı</div></div>
+      </div>
+      <div class="status" id="statusText">Hazırsan başla. Telefonu uzaklaştır, tek işe kilitlen.</div>
+      <div class="controls noPrint">
+        <button class="btn green" id="startBtn" onclick="toggleTimer()">Başla</button><button class="btn dark" onclick="resetTimer()">Sıfırla</button><button class="btn red" onclick="finishSession()">Tamamlandı Say</button>
+      </div>
+      <div class="reportBox">
+        <div class="reportTitle"><h2>📝 Bu Pomodoro'da Ne Yaptım?</h2><button class="btn dark noPrint" onclick="addActivity()">Listeye Ekle</button></div>
+        <textarea id="currentWork" placeholder="Örn: Parabol konu tekrarı yaptım, 20 soru çözdüm, yanlışları not aldım."></textarea>
+        <div class="activity" id="activityList"></div>
+      </div>
+    </div>
+
+    <div class="side">
+      <div class="card">
+        <h2>📊 Pomodoro Sayacı</h2>
+        <div class="stats"><div class="stat"><b id="todayCount">0</b><span>Bugün</span></div><div class="stat"><b id="weekCount">0</b><span>Bu Hafta</span></div><div class="stat"><b id="focusMinute">0</b><span>Odak dk</span></div><div class="stat"><b id="streakCount">0</b><span>Seri</span></div></div>
+      </div>
+      <div class="card settings noPrint"><h2>⚙️ Süre Ayarları</h2><label>Odak süresi <input id="focusMin" type="number" value="25" min="1" onchange="applySettings()"></label><label>Kısa mola <input id="shortMin" type="number" value="5" min="1" onchange="applySettings()"></label><label>Uzun mola <input id="longMin" type="number" value="15" min="1" onchange="applySettings()"></label><button class="btn dark" onclick="clearStats()">Sayaçları Temizle</button></div>
+      <div class="card quote" id="coachNote">Bugünkü hedef mükemmel çalışmak değil; başladığın işi bölmeden bitirmek. Bir pomodoro bile disiplin kasını güçlendirir.</div>
+    </div>
+  </div>
+
+  <div class="shareCard" id="shareCard">
+    <div class="shareHeader"><div class="brand"><div class="logo">360</div><div><h2>Pomodoro Çalışma Özeti</h2><p>ENGİN360 Öğrenci Takip ve Koçluk Sistemi</p></div></div><div id="shareDate"></div></div>
+    <div class="miniGrid"><div class="miniStat"><b id="sToday">0</b><span>Bugünkü Pomodoro</span></div><div class="miniStat"><b id="sWeek">0</b><span>Haftalık Pomodoro</span></div><div class="miniStat"><b id="sMin">0</b><span>Toplam Odak Dakikası</span></div><div class="miniStat"><b id="sStreak">0</b><span>Seri</span></div></div>
+    <h3>Bugün yapılan çalışmalar</h3><div id="shareActivities" class="activity"></div>
+    <p class="quote" id="shareComment">Bugünkü çalışma özeti otomatik oluşturulacaktır.</p>
+  </div>
+  </div>
+
+  <div class="actionBtns noPrint" style="margin-top:16px"><button class="btn" onclick="saveImage()">📸 Özet Görsel Kaydet</button><button class="btn pink" onclick="shareWhatsapp()">📲 WhatsApp'a Gönder</button><button class="btn dark" onclick="copyWhatsappText()">Metni Kopyala</button></div>
+  <div class="footer">ENGİN360 Öğrenci Takip ve Koçluk Sistemi</div>
+</div>
+<audio id="beep"><source src="data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAESsAACJWAAACABAAZGF0YQAAAAA=" type="audio/wav"></audio>
+<script>
+let mode='focus', running=false, timer=null, total=25*60, left=total;
+const modes={focus:{label:'Odak zamanı',status:'Tek hedef, tek ekran, tek iş. Başlıyoruz.',key:'focusMin'},short:{label:'Kısa mola',status:'Kısa mola. Ayağa kalk, su iç, ekrana bakma.',key:'shortMin'},long:{label:'Uzun mola',status:'Uzun mola. Zihin toparlanıyor, sonra tekrar devam.',key:'longMin'}};
+function el(id){return document.getElementById(id)}
+function todayKey(){return new Date().toISOString().slice(0,10)}
+function weekKey(){const d=new Date(); const onejan=new Date(d.getFullYear(),0,1); const week=Math.ceil((((d-onejan)/86400000)+onejan.getDay()+1)/7); return d.getFullYear()+'-W'+week}
+function getStore(){return JSON.parse(localStorage.getItem('engin360_pomodoro_v2')||'{}')}
+function setStore(s){localStorage.setItem('engin360_pomodoro_v2',JSON.stringify(s))}
+function getActivities(){const s=getStore(); return s.activities?.[todayKey()]||[]}
+function setActivities(arr){const s=getStore(); s.activities=s.activities||{}; s.activities[todayKey()]=arr.slice(-12); setStore(s)}
+function applySettings(){ if(!running){ total=(parseInt(el(modes[mode].key).value)||25)*60; left=total; updateUI(); }}
+function setMode(m){ mode=m; document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active')); document.querySelectorAll('.tab')[m==='focus'?0:m==='short'?1:2].classList.add('active'); running=false; clearInterval(timer); el('startBtn').textContent='Başla'; total=(parseInt(el(modes[mode].key).value)||25)*60; left=total; updateUI(); }
+function updateUI(){ const mm=String(Math.floor(left/60)).padStart(2,'0'), ss=String(left%60).padStart(2,'0'); el('timeText').textContent=mm+':'+ss; el('modeText').textContent=modes[mode].label; el('statusText').textContent=modes[mode].status; const circ=2*Math.PI*140; const pct=left/total; el('bar').style.strokeDasharray=circ; el('bar').style.strokeDashoffset=circ*(1-pct); document.title=mm+':'+ss+' | ENGİN360 Pomodoro'; updateStats(); renderActivities(); }
+function toggleTimer(){ if(running){running=false; clearInterval(timer); el('startBtn').textContent='Devam Et'; return;} running=true; el('startBtn').textContent='Duraklat'; timer=setInterval(()=>{ left--; if(left<=0){ completeMode(); } updateUI();},1000); }
+function resetTimer(){ running=false; clearInterval(timer); el('startBtn').textContent='Başla'; left=total; updateUI(); }
+function completeMode(){ running=false; clearInterval(timer); left=0; try{el('beep').play()}catch(e){} if(mode==='focus') finishSession(true); else el('statusText').textContent='Mola tamamlandı. Yeni odak turuna hazırsın.'; el('startBtn').textContent='Başla'; }
+function finishSession(auto=false){ if(mode!=='focus' && !auto){setMode('focus');return;} const work=(el('currentWork').value||'Odak çalışması yapıldı.').trim(); if(work) addActivity(work,true); const s=getStore(); const t=todayKey(), w=weekKey(); s[t]=(s[t]||0)+1; s[w]=(s[w]||0)+1; s.focusMinutes=(s.focusMinutes||0)+(parseInt(el('focusMin').value)||25); s.streak=(s.streak||0)+1; setStore(s); updateStats(); el('currentWork').value=''; el('coachNote').textContent='Güzel. Bir pomodoro tamamlandı. Şimdi kısa bir mola ver; sonra aynı disiplinle devam.'; setMode(s.streak%4===0?'long':'short'); }
+function addActivity(text, silent=false){const val=(text || el('currentWork').value || '').trim(); if(!val){if(!silent) alert('Önce bu pomodoro içinde ne yaptığını yaz.'); return;} const arr=getActivities(); const time=new Date().toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'}); arr.push({text:val,time}); setActivities(arr); if(!text) el('currentWork').value=''; renderActivities(); updateShareCard();}
+function renderActivities(){const arr=getActivities(); const box=el('activityList'); if(!box) return; box.innerHTML=arr.length?arr.map((a,i)=>`<div class="activityItem">${i+1}. ${escapeHtml(a.text)}<small>${a.time}</small></div>`).join(''):'<div class="activityItem">Henüz çalışma notu eklenmedi.<small>Pomodoro bitince buraya yaptıklarını yazabilirsin.</small></div>'; updateShareCard();}
+function updateStats(){ const s=getStore(); const t=s[todayKey()]||0, w=s[weekKey()]||0; el('todayCount').textContent=t; el('weekCount').textContent=w; el('focusMinute').textContent=s.focusMinutes||0; el('streakCount').textContent=s.streak||0; el('todayText').textContent='Bugün: '+t+' pomodoro'; updateShareCard(); }
+function updateShareCard(){const s=getStore(); const arr=getActivities(); el('shareDate').textContent=new Date().toLocaleDateString('tr-TR'); el('sToday').textContent=s[todayKey()]||0; el('sWeek').textContent=s[weekKey()]||0; el('sMin').textContent=s.focusMinutes||0; el('sStreak').textContent=s.streak||0; el('shareActivities').innerHTML=arr.length?arr.map((a,i)=>`<div class="activityItem">${i+1}. ${escapeHtml(a.text)}<small>${a.time}</small></div>`).join(''):'<div class="activityItem">Bugün için çalışma notu eklenmedi.</div>'; const count=s[todayKey()]||0; el('shareComment').textContent=count>=4?'Bugün çok güçlü bir odak temposu yakalandı. Kısa tekrar ve yanlış analiziyle çalışma kalitesi daha da artar.':count>=2?'Bugün iyi bir odak başlangıcı yapıldı. Aynı düzen korunursa haftalık hedefe ulaşmak kolaylaşır.':count>=1?'Bugün en az bir odak turu tamamlandı. Önemli olan başlamak ve ritmi korumak.':'Bugün henüz tamamlanan pomodoro yok. Küçük bir hedef seçip ilk turla başlamak yeterli.';}
+function makeWhatsappText(){const s=getStore(); const arr=getActivities(); const lines=arr.map((a,i)=>`${i+1}) ${a.text}`).join('\n'); return `ENGİN360 Pomodoro Çalışma Özeti\n\nBugünkü pomodoro: ${s[todayKey()]||0}\nBu haftaki pomodoro: ${s[weekKey()]||0}\nToplam odak dakikası: ${s.focusMinutes||0}\nSeri: ${s.streak||0}\n\nBugün yapılanlar:\n${lines||'Henüz çalışma notu eklenmedi.'}\n\n${el('shareComment').textContent}`;}
+function copyWhatsappText(){const msg=makeWhatsappText(); if(navigator.clipboard){navigator.clipboard.writeText(msg).then(()=>alert('WhatsApp metni kopyalandı.')).catch(()=>prompt('Metin:',msg));}else prompt('Metin:',msg)}
+function shareWhatsapp(){const msg=encodeURIComponent(makeWhatsappText()); window.open('https://wa.me/?text='+msg,'_blank');}
+async function saveImage(){
+  updateShareCard();
+  const node=el('shareCard');
+  node.scrollIntoView({block:'center'});
+  await new Promise(r=>setTimeout(r,150));
+  const canvas=await html2canvas(node,{scale:2.5,backgroundColor:'#07071f',useCORS:true});
+  const a=document.createElement('a');
+  a.href=canvas.toDataURL('image/png');
+  a.download='ENGIN360_Pomodoro_Ozet_Raporu.png';
+  a.click();
+}
+function clearStats(){ if(confirm('Pomodoro sayaçları ve bugünkü çalışma notları temizlensin mi?')){localStorage.removeItem('engin360_pomodoro_v2'); updateStats(); renderActivities();}}
+function escapeHtml(str){return String(str).replace(/[&<>'"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#039;','"':'&quot;'}[m]))}
+updateUI(); renderActivities(); updateShareCard();
+</script>
+</body>
+</html>
