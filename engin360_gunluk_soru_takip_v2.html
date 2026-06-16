@@ -49,7 +49,7 @@ button:disabled{opacity:.65;cursor:not-allowed;transform:none}
 </head>
 <body>
 <main class="page">
-<section class="hero"><h1>ENGİN360 Günlük Soru Takip PRO</h1><p>Günlük soru sayılarını branşlara göre kaydet. Kayıtlar bu cihazda saklanır ve öğretmenin Google Sheets tablosuna gönderilir.</p></section>
+<section class="hero"><h1>ENGİN360 Günlük Soru Takip PRO</h1><p>Günlük soru sayılarını branşlara göre kaydet. Giriş sadece kayıtlı öğrenci adı ve koduyla yapılır.</p></section>
 
 <section id="loginPanel" class="panel login-panel">
 <h2 style="margin-bottom:12px">Öğrenci Girişi</h2>
@@ -57,8 +57,9 @@ button:disabled{opacity:.65;cursor:not-allowed;transform:none}
 <div><label>Öğrenci adı</label><input id="loginName" type="text" placeholder="Ad Soyad"></div>
 <div><label>Öğrenci kodu</label><input id="loginCode" type="password" placeholder="Örn: DURU360"></div>
 </div>
-<button class="login" onclick="studentLogin()">Giriş Yap</button>
-<p class="note">Yeni öğrenci geldikçe Google Sheets'teki OGRENCILER sayfasına ad ve kod ekleyerek sistemi büyüteceğiz.</p>
+<button id="loginBtn" class="login" onclick="studentLogin()">Giriş Yap</button>
+<div id="loginMessage" class="status-message"></div>
+<p class="note">Giriş, Google Sheets'teki OGRENCILER sayfasından kontrol edilir.</p>
 </section>
 
 <section id="appPanel" class="hidden">
@@ -115,8 +116,8 @@ button:disabled{opacity:.65;cursor:not-allowed;transform:none}
 
 <script>
 const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxC5wGuo0XDrCbE84ClW63NP-PxCgCoiVt7mo78h4J23DcdR07csNZ2gF4moUb5xkBJ/exec";
-const STORAGE_KEY = "engin360_gunluk_soru_takip_pro_local";
-const LOGIN_KEY = "engin360_soru_takip_login";
+const STORAGE_KEY = "engin360_gunluk_soru_takip_validated_local";
+const LOGIN_KEY = "engin360_soru_takip_validated_login";
 const subjects = ["tytMatematik","aytMatematik","problemler","geometri","paragraf","turkce","fizik","kimya","biyoloji","edebiyat","sosyal"];
 const subjectNames = {tytMatematik:"TYT Matematik",aytMatematik:"AYT Matematik",problemler:"Problemler",geometri:"Geometri",paragraf:"Paragraf",turkce:"Türkçe",fizik:"Fizik",kimya:"Kimya",biyoloji:"Biyoloji",edebiyat:"Edebiyat",sosyal:"Sosyal"};
 
@@ -127,12 +128,46 @@ function setRecords(records){localStorage.setItem(STORAGE_KEY,JSON.stringify(rec
 function normalizeText(text){return String(text||"").trim().replace(/\s+/g," ")}
 function normalizeCode(text){return String(text||"").trim().toUpperCase().replace(/\s+/g,"")}
 
-function studentLogin(){
+function setLoginMessage(type,text){
+  const el=document.getElementById("loginMessage");
+  el.className="status-message "+(type==="success"?"status-success":"status-error");
+  el.textContent=text;
+}
+
+function jsonp(url){
+  return new Promise((resolve,reject)=>{
+    const cb="engin360_cb_"+Date.now()+"_"+Math.floor(Math.random()*10000);
+    const script=document.createElement("script");
+    const sep=url.includes("?")?"&":"?";
+    window[cb]=data=>{delete window[cb];script.remove();resolve(data)};
+    script.onerror=()=>{delete window[cb];script.remove();reject(new Error("Bağlantı hatası"))};
+    script.src=url+sep+"callback="+cb;
+    document.body.appendChild(script);
+  });
+}
+
+async function studentLogin(){
+  const btn=document.getElementById("loginBtn");
   const name=normalizeText(document.getElementById("loginName").value);
   const code=normalizeCode(document.getElementById("loginCode").value);
-  if(!name||!code){alert("Lütfen öğrenci adı ve kodunu gir.");return}
-  localStorage.setItem(LOGIN_KEY,JSON.stringify({name,code}));
-  openApp(name,code);
+  if(!name||!code){setLoginMessage("error","Lütfen öğrenci adı ve kodunu gir.");return}
+  btn.disabled=true;btn.textContent="Kontrol ediliyor...";
+  try{
+    const url=WEB_APP_URL+"?action=login&ogrenci="+encodeURIComponent(name)+"&kod="+encodeURIComponent(code);
+    const result=await jsonp(url);
+    if(result && result.ok){
+      const finalName=result.ogrenci||name;
+      localStorage.setItem(LOGIN_KEY,JSON.stringify({name:finalName,code}));
+      setLoginMessage("success","Giriş başarılı.");
+      openApp(finalName,code);
+    }else{
+      setLoginMessage("error","Öğrenci adı veya kod hatalı.");
+    }
+  }catch(e){
+    setLoginMessage("error","Google Sheets bağlantısı kurulamadı. İnternet bağlantısını kontrol et.");
+  }finally{
+    btn.disabled=false;btn.textContent="Giriş Yap";
+  }
 }
 
 function openApp(name,code){
@@ -150,11 +185,11 @@ function setMessage(type,text){const el=document.getElementById("statusMessage")
 
 async function sendToGoogleSheets(record){
   await fetch(WEB_APP_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({
-    tarih:record.date, ogrenci:record.name, kod:record.code,
-    tytMatematik:record.tytMatematik, aytMatematik:record.aytMatematik, problemler:record.problemler,
-    geometri:record.geometri, paragraf:record.paragraf, turkce:record.turkce,
-    fizik:record.fizik, kimya:record.kimya, biyoloji:record.biyoloji,
-    edebiyat:record.edebiyat, sosyal:record.sosyal, toplam:record.total, not:record.note
+    action:"save",tarih:record.date,ogrenci:record.name,kod:record.code,
+    tytMatematik:record.tytMatematik,aytMatematik:record.aytMatematik,problemler:record.problemler,
+    geometri:record.geometri,paragraf:record.paragraf,turkce:record.turkce,
+    fizik:record.fizik,kimya:record.kimya,biyoloji:record.biyoloji,
+    edebiyat:record.edebiyat,sosyal:record.sosyal,toplam:record.total,not:record.note
   })});
 }
 
@@ -165,55 +200,42 @@ async function saveRecord(){
   const code=normalizeCode(loginData.code);
   const date=document.getElementById("date").value||todayISO();
   const note=document.getElementById("note").value.trim();
-  const data={}; let total=0;
-  subjects.forEach(s=>{data[s]=getNumber(s); total+=data[s]});
+  const data={};let total=0;
+  subjects.forEach(s=>{data[s]=getNumber(s);total+=data[s]});
   if(!name||!code){alert("Giriş bilgisi bulunamadı. Lütfen tekrar giriş yap.");logout();return}
   if(total===0&&!note){alert("En az bir branşa soru sayısı ya da kısa not gir.");return}
   const record={id:Date.now(),name,code,date,...data,total,note};
-  saveBtn.disabled=true; saveBtn.textContent="Gönderiliyor...";
-  const records=getRecords(); records.unshift(record); setRecords(records); render();
-  try{await sendToGoogleSheets(record);setMessage("success","Kayıt alındı. Google Sheets'e gönderim yapıldı. Tabloyu kontrol et.");clearForm(false)}
-  catch(err){setMessage("error","Kayıt bu cihazda saklandı ama Google Sheets'e gönderilirken sorun oluştu.")}
-  finally{saveBtn.disabled=false; saveBtn.textContent="Kaydet"}
+  saveBtn.disabled=true;saveBtn.textContent="Gönderiliyor...";
+  const records=getRecords();records.unshift(record);setRecords(records);render();
+  try{await sendToGoogleSheets(record);setMessage("success","Kayıt alındı. Google Sheets'e gönderim yapıldı.");clearForm(false)}
+  catch(err){setMessage("error","Kayıt cihazda saklandı ama Google Sheets'e gönderilirken sorun oluştu.")}
+  finally{saveBtn.disabled=false;saveBtn.textContent="Kaydet"}
 }
 
-function clearForm(clearName=true){
-  const loginData=JSON.parse(localStorage.getItem(LOGIN_KEY)||"{}");
-  if(clearName)document.getElementById("studentName").value=loginData.name||"";
-  document.getElementById("date").value=todayISO();
-  subjects.forEach(s=>document.getElementById(s).value="");
-  document.getElementById("note").value="";
-}
-
-function deleteRecord(id){
-  if(!confirm("Bu cihazdaki kaydı silmek istiyor musun? Google Sheets'teki satır silinmez."))return;
-  setRecords(getRecords().filter(r=>r.id!==id)); render();
-}
-
+function clearForm(clearName=true){const loginData=JSON.parse(localStorage.getItem(LOGIN_KEY)||"{}");if(clearName)document.getElementById("studentName").value=loginData.name||"";document.getElementById("date").value=todayISO();subjects.forEach(s=>document.getElementById(s).value="");document.getElementById("note").value=""}
+function deleteRecord(id){if(!confirm("Bu cihazdaki kaydı silmek istiyor musun? Google Sheets'teki satır silinmez."))return;setRecords(getRecords().filter(r=>r.id!==id));render()}
 function subjectText(r){return subjects.filter(s=>r[s]>0).map(s=>`${subjectNames[s]}: ${r[s]}`).join(" • ")}
 function render(){
   const loginData=JSON.parse(localStorage.getItem(LOGIN_KEY)||"{}");
   const records=getRecords().filter(r=>!loginData.name||r.name===loginData.name);
   const container=document.getElementById("records");
-  const today=todayISO(), now=new Date(today), sevenAgo=new Date(now); sevenAgo.setDate(sevenAgo.getDate()-6);
+  const today=todayISO(),now=new Date(today),sevenAgo=new Date(now);sevenAgo.setDate(sevenAgo.getDate()-6);
   let todayTotal=0,weekTotal=0,allTotal=0,tytMatTotal=0,aytMatTotal=0,problemTotal=0,paragrafTotal=0;
   records.forEach(r=>{allTotal+=r.total||0;tytMatTotal+=r.tytMatematik||0;aytMatTotal+=r.aytMatematik||0;problemTotal+=r.problemler||0;paragrafTotal+=r.paragraf||0;if(r.date===today)todayTotal+=r.total||0;const rd=new Date(r.date);if(rd>=sevenAgo&&rd<=now)weekTotal+=r.total||0});
   document.getElementById("todayTotal").textContent=todayTotal;document.getElementById("weekTotal").textContent=weekTotal;document.getElementById("allTotal").textContent=allTotal;document.getElementById("tytMatTotal").textContent=tytMatTotal;document.getElementById("aytMatTotal").textContent=aytMatTotal;document.getElementById("problemTotal").textContent=problemTotal;document.getElementById("paragrafTotal").textContent=paragrafTotal;
   if(records.length===0){container.innerHTML='<div class="empty">Bu cihazda henüz kayıt yok.</div>';return}
   container.innerHTML=records.map(r=>`<div class="record"><div class="record-head"><div>${r.date} • ${escapeHTML(r.name)} • Toplam: ${r.total}</div><button class="delete-one" onclick="deleteRecord(${r.id})">Sil</button></div><small>${subjectText(r)||"Branş sorusu girilmedi."}</small>${r.note?`<br><small><b>Not:</b> ${escapeHTML(r.note)}</small>`:""}</div>`).join("");
 }
-
 function escapeHTML(str){return String(str).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
 function downloadCSV(){
-  const records=getRecords(); if(records.length===0){alert("İndirilecek kayıt yok.");return}
+  const records=getRecords();if(records.length===0){alert("İndirilecek kayıt yok.");return}
   const headers=["tarih","ogrenci","kod","tyt_matematik","ayt_matematik","problemler","geometri","paragraf","turkce","fizik","kimya","biyoloji","edebiyat","sosyal","toplam","not"];
   const rows=records.map(r=>[r.date,r.name,r.code||"",r.tytMatematik,r.aytMatematik,r.problemler,r.geometri,r.paragraf,r.turkce,r.fizik,r.kimya,r.biyoloji,r.edebiyat,r.sosyal,r.total,r.note]);
   const csv=[headers,...rows].map(row=>row.map(cell=>`"${String(cell??"").replace(/"/g,'""')}"`).join(";")).join("\n");
-  const blob=new Blob(["\ufeff"+csv],{type:"text/csv;charset=utf-8;"}); const url=URL.createObjectURL(blob); const a=document.createElement("a"); a.href=url; a.download="engin360_gunluk_soru_takip_pro.csv"; document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
+  const blob=new Blob(["\ufeff"+csv],{type:"text/csv;charset=utf-8;"});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download="engin360_gunluk_soru_takip.csv";document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
 }
-
 function sendWhatsApp(){
-  const records=getRecords(); if(records.length===0){alert("Gönderilecek kayıt yok.");return}
+  const records=getRecords();if(records.length===0){alert("Gönderilecek kayıt yok.");return}
   const latest=records[0];
   const text=`ENGİN360 Günlük Soru Takip\nÖğrenci: ${latest.name}\nTarih: ${latest.date}\nToplam: ${latest.total}\n\n${subjectText(latest)}\n\nNot: ${latest.note||"-"}`;
   window.open("https://wa.me/?text="+encodeURIComponent(text),"_blank");
