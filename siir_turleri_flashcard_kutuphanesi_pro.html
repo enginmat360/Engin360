@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ENGİN360 Şiir Türleri Flashcard Kütüphanesi PRO</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+:root{--bg1:#050512;--bg2:#111138;--mor:#a855f7;--mavi:#38bdf8;--pembe:#ec4899;--yesil:#22c55e;--turuncu:#fb923c;--muted:#dbeafe;--border:rgba(255,255,255,.18)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{min-height:100vh;font-family:Arial,Helvetica,sans-serif;color:#fff;padding:16px;background:radial-gradient(circle at 15% 7%,rgba(168,85,247,.45),transparent 30%),radial-gradient(circle at 88% 12%,rgba(56,189,248,.30),transparent 32%),radial-gradient(circle at 50% 102%,rgba(236,72,153,.22),transparent 38%),linear-gradient(145deg,var(--bg1),var(--bg2));overflow-x:hidden}
+.container{max-width:1180px;margin:auto}
+.hero{text-align:center;padding:24px 16px;border-radius:28px;background:rgba(255,255,255,.06);border:1px solid var(--border);box-shadow:0 0 42px rgba(168,85,247,.32);margin-bottom:14px}
+.logo{font-size:clamp(30px,6vw,58px);font-weight:900;font-style:italic;letter-spacing:1px;background:linear-gradient(90deg,#f0abfc,#a855f7,#38bdf8,#67e8f9);-webkit-background-clip:text;color:transparent;filter:drop-shadow(0 0 12px rgba(168,85,247,.55))}
+.hero h2{font-size:clamp(22px,4vw,38px);margin:8px 0 6px}
+.hero p{color:#dbeafe;line-height:1.5;font-size:15px}
+.topbar{border:1px solid var(--border);border-radius:24px;background:rgba(255,255,255,.065);box-shadow:0 14px 38px rgba(0,0,0,.26);padding:14px;margin-bottom:14px;backdrop-filter:blur(10px)}
+.controls{display:flex;flex-wrap:wrap;gap:9px;align-items:center}
+button,select,input{border:0;border-radius:14px;padding:11px 13px;font-weight:800;outline:none}
+button{color:white;cursor:pointer;background:linear-gradient(135deg,var(--mor),var(--mavi));box-shadow:0 0 18px rgba(56,189,248,.20);transition:.2s}
+button:hover{transform:translateY(-2px);filter:brightness(1.08)}
+.btn2{background:linear-gradient(135deg,#ec4899,#8b5cf6)}.btn3{background:linear-gradient(135deg,#22c55e,#38bdf8)}.btn4{background:linear-gradient(135deg,#fb923c,#ec4899)}
+select,input{background:rgba(255,255,255,.12);color:white;border:1px solid rgba(255,255,255,.18)}
+select option{color:#111} input::placeholder{color:#cbd5e1}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
+.stat{border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.07);border-radius:18px;padding:12px;text-align:center}
+.stat b{display:block;font-size:26px;color:#67e8f9}.stat span{font-size:12px;color:#dbeafe;font-weight:800}
+.main{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:14px;align-items:start}
+.stage{display:flex;flex-direction:column;gap:12px}
+.box{border:1px solid var(--border);border-radius:24px;background:rgba(255,255,255,.065);box-shadow:0 14px 38px rgba(0,0,0,.26);padding:16px;backdrop-filter:blur(10px)}
+.flashcard{min-height:390px;border-radius:28px;padding:0;position:relative;perspective:1200px;cursor:pointer}
+.card-inner{position:relative;width:100%;min-height:390px;transition:transform .55s;transform-style:preserve-3d}
+.flashcard.flipped .card-inner{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;border-radius:28px;border:1px solid rgba(255,255,255,.22);backface-visibility:hidden;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:34px;background:radial-gradient(circle at top left,rgba(168,85,247,.35),transparent 40%),linear-gradient(135deg,rgba(255,255,255,.13),rgba(255,255,255,.04));box-shadow:inset 0 0 45px rgba(255,255,255,.06),0 20px 55px rgba(0,0,0,.28)}
+.back{transform:rotateY(180deg);background:radial-gradient(circle at top right,rgba(56,189,248,.30),transparent 40%),linear-gradient(135deg,rgba(255,255,255,.12),rgba(255,255,255,.045))}
+.badge{position:absolute;top:18px;left:18px;border-radius:999px;padding:8px 12px;background:rgba(255,255,255,.14);font-weight:900;color:#e9d5ff;font-size:12px}
+.card-title{font-size:clamp(26px,4vw,46px);font-weight:900;line-height:1.18;margin:10px 0;text-shadow:0 0 16px rgba(255,255,255,.12)}
+.card-answer{font-size:clamp(22px,3vw,36px);font-weight:900;line-height:1.25;color:#fff}
+.card-note{margin-top:16px;color:#dbeafe;line-height:1.55;font-size:15px;max-width:760px}
+.card-nav{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.card-nav button{min-height:48px}
+.side h3{font-size:20px;margin-bottom:10px;color:#67e8f9}
+.list{max-height:560px;overflow:auto;padding-right:5px}
+.item{padding:10px;border-radius:15px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.055);margin-bottom:8px;cursor:pointer;transition:.18s}
+.item:hover,.item.active{background:rgba(56,189,248,.16);border-color:rgba(56,189,248,.4)}
+.item b{display:block;font-size:13px}.item small{color:#dbeafe}
+.quizArea{display:none}.question{font-size:25px;font-weight:900;line-height:1.3;margin-bottom:14px}.options{display:grid;gap:10px}.option{text-align:left;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.15)}.option.correct{background:rgba(34,197,94,.38)}.option.wrong{background:rgba(239,68,68,.38)}.result{margin-top:12px;padding:14px;border-radius:18px;background:rgba(255,255,255,.08);line-height:1.55}
+.printSheet{display:none}.print-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.print-card{border:2px dashed #555;border-radius:14px;min-height:125px;padding:12px;color:#111;background:white;display:grid;grid-template-columns:1fr 1fr;gap:8px;page-break-inside:avoid}.print-card .front,.print-card .backp{display:flex;align-items:center;justify-content:center;text-align:center;padding:8px;border:1px solid #ddd;border-radius:10px}.print-card .front{font-size:20px;font-weight:900}.print-card .backp{font-size:16px;font-weight:700}.fold{border-left:2px dashed #999}
+.footer{text-align:center;color:#cbd5e1;font-size:12px;margin:18px 0}
+@media(max-width:900px){.main{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}.card-nav{position:sticky;bottom:10px;z-index:20;background:rgba(5,5,18,.74);border:1px solid rgba(255,255,255,.16);border-radius:20px;padding:10px;backdrop-filter:blur(10px)}.card-nav button{font-size:13px;padding:10px 6px}.list{max-height:320px}}
+@media(max-width:560px){body{padding:12px}.card-inner,.flashcard{min-height:360px}.face{padding:28px 18px}.controls input,.controls select,.controls button{width:100%}.card-nav{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}}
+@media print{body{background:white;color:#111;padding:0}.container>.hero,.topbar,.main,.footer{display:none}.printSheet{display:block;padding:10mm}.print-grid{grid-template-columns:1fr}.print-card{break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="hero">
+    <div class="logo">ENGİN360</div>
+    <h2>Şiir Türleri Flashcard Kütüphanesi PRO</h2>
+    <p>PDF notlarından oluşturulan; lirik, epik, didaktik, satirik, pastoral ve dramatik şiir kartları.</p>
+  </div>
+
+  <div class="topbar">
+    <div class="controls">
+      <select id="category" onchange="applyFilters()"></select>
+      <input id="search" oninput="applyFilters()" placeholder="Kart ara: lirik, epik, Hayriyye, Sahra...">
+      <button onclick="shuffleCards()">🔀 Karıştır</button>
+      <button class="btn3" onclick="toggleQuiz()">🧪 Quiz Modu</button>
+      <button class="btn4" onclick="printCards()">🖨️ Yazdır</button>
+      <button onclick="saveCardImage()">📸 Kart Görseli</button>
+    </div>
+    <div class="stats">
+      <div class="stat"><b id="totalCards">0</b><span>Toplam Kart</span></div>
+      <div class="stat"><b id="shownCards">0</b><span>Filtrelenen</span></div>
+      <div class="stat"><b id="currentNo">1</b><span>Aktif Kart</span></div>
+      <div class="stat"><b id="learnedNo">0</b><span>Çalışılan</span></div>
+    </div>
+  </div>
+
+  <div class="main" id="studyArea">
+    <div class="stage">
+      <div class="box flashcard" id="flashcard" onclick="flipCard()">
+        <div class="card-inner">
+          <div class="face front">
+            <div class="badge" id="frontCat">Kategori</div>
+            <div class="card-title" id="frontText">Kart</div>
+            <div class="card-note">Cevabı görmek için karta dokun.</div>
+          </div>
+          <div class="face back">
+            <div class="badge" id="backCat">Cevap</div>
+            <div class="card-answer" id="backText">Cevap</div>
+            <div class="card-note" id="noteText"></div>
+          </div>
+        </div>
+      </div>
+      <div class="card-nav">
+        <button class="btn2" onclick="prevCard()">⬅️ Önceki</button>
+        <button onclick="flipCard()">🔄 Çevir</button>
+        <button class="btn2" onclick="nextCard()">Sonraki ➡️</button>
+      </div>
+    </div>
+
+    <div class="box side">
+      <h3>Kart Listesi</h3>
+      <div class="list" id="cardList"></div>
+    </div>
+  </div>
+
+  <div class="box quizArea" id="quizArea">
+    <h3 style="color:#67e8f9;margin-bottom:10px">Şiir Türleri Quiz Modu</h3>
+    <div id="quizContent"></div>
+  </div>
+
+  <div class="printSheet">
+    <h2>ENGİN360 Şiir Türleri Flashcard Çıktısı</h2>
+    <p style="margin:6px 0 14px">Ortadan katla, yapıştır, dış çizgiden kes.</p>
+    <div class="print-grid" id="printGrid"></div>
+  </div>
+
+  <div class="footer">ENGİN360 Hafıza Laboratuvarı · Şiir Türleri Flashcard Kütüphanesi</div>
+</div>
+<script>
+const cards = [{"cat": "Genel", "front": "Şiir türleri nelerdir?", "back": "Lirik, epik, didaktik, satirik, pastoral ve dramatik şiir.", "note": "Bu PDF şiir türlerini örnekleriyle ele alır."}, {"cat": "Lirik Şiir", "front": "Lirik şiir adını nereden alır?", "back": "Yunan şairlerin çaldığı 'lir' adlı çalgıdan alır.", "note": "Lirik şiirde içten gelen duygular ön plandadır."}, {"cat": "Lirik Şiir", "front": "Lirik şiirde hangi duygular anlatılır?", "back": "Aşk, sevgi, özlem gibi içten gelen duygular.", "note": "Duygusallık ve kişisel hisler belirgindir."}, {"cat": "Lirik Şiir", "front": "İlk lirik şiiri kimler yazmıştır?", "back": "Yunanlılar.", "note": "Yunan edebiyatında Sappho lirik şiirle anılır."}, {"cat": "Lirik Şiir", "front": "Yunan edebiyatında lirik şiir denince akla gelen isim kimdir?", "back": "Sappho.", "note": "PDF'de lirik şiirin önemli ismi olarak verilmiştir."}, {"cat": "Lirik Şiir", "front": "Divan edebiyatında lirik şiir denince akla gelen sanatçılar kimlerdir?", "back": "Fuzuli ve Nedim.", "note": "Divan şiirinde lirizm güçlüdür."}, {"cat": "Lirik Şiir", "front": "Halk edebiyatında lirik şiir denince akla gelen sanatçı kimdir?", "back": "Karacaoğlan.", "note": "Aşk ve doğa temalarıyla bilinir."}, {"cat": "Lirik Şiir", "front": "Milli Edebiyat Döneminde lirik şiir denince akla gelen isim kimdir?", "back": "Yahya Kemal.", "note": "PDF'de bu dönem için verilen isimdir."}, {"cat": "Lirik Şiir", "front": "Cumhuriyet Döneminde lirik şiir denince akla gelen isim kimdir?", "back": "Cahit Sıtkı Tarancı.", "note": "Duygusal şiirleriyle bilinir."}, {"cat": "Lirik Şiir", "front": "Aşk ve özlem duygularını içten anlatan şiir türü hangisidir?", "back": "Lirik şiir.", "note": "Ayırt edici anahtar: duygu ve içtenlik."}, {"cat": "Epik Şiir", "front": "Epik şiir hangi konuları işler?", "back": "Savaş, kahramanlık ve yiğitlik.", "note": "Destansı anlatım öne çıkar."}, {"cat": "Epik Şiir", "front": "Epik şiir için kullanılan diğer adlar nelerdir?", "back": "Hamasi şiir, destani şiir, kahramanlık şiiri.", "note": "Bu üç ad aynı türle ilişkilidir."}, {"cat": "Epik Şiir", "front": "Epik şiirin ilk örnekleri nelerdir?", "back": "Destanlar.", "note": "Kahramanlık anlatısı destanlarda güçlüdür."}, {"cat": "Epik Şiir", "front": "İlk epik şiir örnekleri hangi eserlerdir?", "back": "Homeros'un derlediği İlyada ve Odessia.", "note": "PDF'de ilk epik örnekler olarak verilmiştir."}, {"cat": "Epik Şiir", "front": "İlyada ve Odessia kiminle ilişkilidir?", "back": "Homeros.", "note": "Epik şiirin ilk örnekleri olarak anılır."}, {"cat": "Epik Şiir", "front": "Çanakkale savaşı, kahramanlık ve millet mücadelesi anlatan şiir hangi türdür?", "back": "Epik şiir.", "note": "PDF'deki örnek Mehmet Akif'in Çanakkale şiirinden alınmıştır."}, {"cat": "Didaktik Şiir", "front": "Didaktik şiir nedir?", "back": "Bilgi aktarmak, ders vermek ve düşünce üretmek amacıyla yazılan şiirdir.", "note": "Duygusallık amaç değildir."}, {"cat": "Didaktik Şiir", "front": "Didaktik şiirde temel amaç nedir?", "back": "Öğretmek, ders çıkarmak ve düşünce üretmek.", "note": "Öğretici yönü baskındır."}, {"cat": "Didaktik Şiir", "front": "Didaktik şiirde duygusallık amaç mıdır?", "back": "Hayır, duygusallık amaç değildir.", "note": "Bu türde bilgi ve öğüt ön plandadır."}, {"cat": "Didaktik Şiir", "front": "Didaktik şiirin ilk örnekleri kimlerde görülür?", "back": "Eski Yunanlılarda.", "note": "Hesiodos önemli bir örnek olarak verilir."}, {"cat": "Didaktik Şiir", "front": "Hesiodos'un didaktik şiir açısından önemli eseri nedir?", "back": "İşler ve Günler.", "note": "PDF'de önemli örnek olarak belirtilmiştir."}, {"cat": "Didaktik Şiir", "front": "Nabi'nin didaktik şiir türündeki önemli eseri nedir?", "back": "Hayriyye.", "note": "AYT'de sık sorulan örneklerden biridir."}, {"cat": "Didaktik Şiir", "front": "Tevfik Fikret'in didaktik şiir açısından önemli eseri nedir?", "back": "Haluk'un Defteri.", "note": "PDF'de sorularda bol bol çıkacağı vurgulanır."}, {"cat": "Didaktik Şiir", "front": "Fabllar hangi şiir türü içinde değerlendirilir?", "back": "Didaktik şiir.", "note": "Öğüt verme amacı taşıdığı için didaktiktir."}, {"cat": "Didaktik Şiir", "front": "Bilgi ve öğüt verme amacı taşıyan şiir türü hangisidir?", "back": "Didaktik şiir.", "note": "Anahtar kelime: öğreticilik."}, {"cat": "Satirik Şiir", "front": "Satirik şiir nedir?", "back": "Yergi amaçlı yazılan şiir türüdür.", "note": "Toplumun ve insanların aksayan yönleri eleştirilir."}, {"cat": "Satirik Şiir", "front": "Satirik şiir neyi vurgular?", "back": "Toplumun ve insanların aksayan yönlerini.", "note": "Eleştirel ve alaycı bir tavır olabilir."}, {"cat": "Satirik Şiir", "front": "Satirik şiirde bazen nasıl bir anlatım görülür?", "back": "İnce bir alay.", "note": "Yergi ve mizah iç içe olabilir."}, {"cat": "Satirik Şiir", "front": "Divan edebiyatında satirik şiire ne denir?", "back": "Hiciv.", "note": "Divan geleneğindeki karşılığıdır."}, {"cat": "Satirik Şiir", "front": "Halk edebiyatında satirik şiire ne denir?", "back": "Taşlama.", "note": "Halk şiirindeki karşılığıdır."}, {"cat": "Satirik Şiir", "front": "Nef'i'nin satirik şiirle ilgili önemli eseri nedir?", "back": "Siham-ı Kaza.", "note": "Hiciv türünün güçlü örneklerindendir."}, {"cat": "Satirik Şiir", "front": "Bağdatlı Ruhi'nin satirik şiirle ilgili önemli eseri nedir?", "back": "Terkib-i Bend.", "note": "Yergi yönüyle bilinir."}, {"cat": "Satirik Şiir", "front": "Şeyhi'nin satirik şiirle ilgili önemli eseri nedir?", "back": "Harname.", "note": "Yergi edebiyatının önemli eseridir."}, {"cat": "Satirik Şiir", "front": "Yergi, alay ve eleştiri varsa şiir türü büyük ihtimalle nedir?", "back": "Satirik şiir.", "note": "Anahtar kelime: yergi."}, {"cat": "Pastoral Şiir", "front": "Pastoral şiir nedir?", "back": "Doğa güzelliklerini, köy yaşamını ve çoban hayatını anlatan şiir türüdür.", "note": "Kır yaşamı ve doğa ön plandadır."}, {"cat": "Pastoral Şiir", "front": "Pastoral şiiri dünyada ilk yazan kimdir?", "back": "Theokritos.", "note": "PDF'de bu bilgi açıkça verilir."}, {"cat": "Pastoral Şiir", "front": "Türk edebiyatında ilk pastoral şiir örneği nedir?", "back": "Abdülhak Hamit Tarhan'ın Sahra şiiri.", "note": "AYT için önemli eşleştirmedir."}, {"cat": "Pastoral Şiir", "front": "Sahra şiiri kime aittir?", "back": "Abdülhak Hamit Tarhan.", "note": "Türk edebiyatındaki ilk pastoral şiir örneği kabul edilir."}, {"cat": "Pastoral Şiir", "front": "İdil nedir?", "back": "Bir şairin doğa güzelliklerini ve kır hayatını anlatmasıdır.", "note": "Pastoral şiirle ilişkilidir."}, {"cat": "Pastoral Şiir", "front": "Eglog nedir?", "back": "İki çobanın şiir yoluyla konuşup sohbet etmesidir.", "note": "Pastoral şiirin alt biçimlerinden biridir."}, {"cat": "Pastoral Şiir", "front": "Doğa, köy yaşamı ve çoban hayatı anlatılıyorsa şiir türü nedir?", "back": "Pastoral şiir.", "note": "Anahtar kelimeler: doğa, kır, çoban."}, {"cat": "Dramatik Şiir", "front": "Dramatik şiir nerede kullanılır?", "back": "Tiyatroda kullanılır.", "note": "Eyleme dönüşen şiirsel anlatım vardır."}, {"cat": "Dramatik Şiir", "front": "Dramatik şiir nedir?", "back": "İnsan yaşamının tutku, özlem, istek, kaygı ve korkularını gerçeğe uygun biçimde eyleme dönüştüren şiirdir.", "note": "Tiyatro ile ilişkisi güçlüdür."}, {"cat": "Dramatik Şiir", "front": "Dramatik şiir hangi şiir türüyle kesişir?", "back": "Epik şiirle.", "note": "Bazı kuramcılara göre dramatik şiir epik şiirden doğmuştur."}, {"cat": "Dramatik Şiir", "front": "Bazı edebiyat kuramcılarına göre dramatik şiir hangi türden doğmuştur?", "back": "Epik şiirden.", "note": "Sonrasında tiyatroyu oluşturmuştur."}, {"cat": "Dramatik Şiir", "front": "Eski Yunan edebiyatında dramatik şiirle tanınan isimler kimlerdir?", "back": "Aiskhylos, Sophokles, Euripidies ve Aristophanes.", "note": "Manzum tiyatrolarıyla tanınmışlardır."}, {"cat": "Dramatik Şiir", "front": "Türk edebiyatında dramatik şiire örnek veren sanatçılar kimlerdir?", "back": "Namık Kemal, Abdülhak Hamit Tarhan, Faruk Nafız Çamlıbel.", "note": "PDF'de başlıca kişiler olarak verilmiştir."}, {"cat": "Dramatik Şiir", "front": "Tiyatro, eylem ve konuşma varsa şiir türü nedir?", "back": "Dramatik şiir.", "note": "Anahtar kelime: tiyatro."}, {"cat": "AYT Hızlı Tekrar", "front": "Aşk, sevgi, özlem → hangi şiir türü?", "back": "Lirik şiir.", "note": "Duygusal şiirdir."}, {"cat": "AYT Hızlı Tekrar", "front": "Savaş, kahramanlık, yiğitlik → hangi şiir türü?", "back": "Epik şiir.", "note": "Hamasi/destani şiir de denir."}, {"cat": "AYT Hızlı Tekrar", "front": "Bilgi verme, ders çıkarma → hangi şiir türü?", "back": "Didaktik şiir.", "note": "Öğretici şiirdir."}, {"cat": "AYT Hızlı Tekrar", "front": "Yergi ve alay → hangi şiir türü?", "back": "Satirik şiir.", "note": "Divanda hiciv, halkta taşlama."}, {"cat": "AYT Hızlı Tekrar", "front": "Doğa, kır, çoban → hangi şiir türü?", "back": "Pastoral şiir.", "note": "İdil ve eglog kavramlarıyla ilişkilidir."}, {"cat": "AYT Hızlı Tekrar", "front": "Tiyatro ve eylem → hangi şiir türü?", "back": "Dramatik şiir.", "note": "Manzum tiyatro ile ilişkilidir."}, {"cat": "AYT Hızlı Tekrar", "front": "Hayriyye ve Haluk'un Defteri → hangi şiir türü?", "back": "Didaktik şiir.", "note": "Öğretici yönleriyle bilinir."}, {"cat": "AYT Hızlı Tekrar", "front": "Siham-ı Kaza, Terkib-i Bend, Harname → hangi şiir türü?", "back": "Satirik şiir.", "note": "Yergi örnekleridir."}, {"cat": "AYT Hızlı Tekrar", "front": "Sahra → hangi şiir türüyle ilişkilidir?", "back": "Pastoral şiir.", "note": "Abdülhak Hamit Tarhan."}, {"cat": "AYT Hızlı Tekrar", "front": "İlyada ve Odessia → hangi şiir türüyle ilişkilidir?", "back": "Epik şiir.", "note": "Homeros."}, {"cat": "AYT Hızlı Tekrar", "front": "Fuzuli, Nedim, Karacaoğlan → hangi şiir türüyle ilişkilidir?", "back": "Lirik şiir.", "note": "Duygusal şiir örnekleriyle anılırlar."}];
+let filtered=[...cards], current=0, learned=0, quiz=[], qIndex=0, correct=0, wrong=0, missed={};
+function $(id){return document.getElementById(id)}
+function esc(s){return String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;')}
+function init(){
+  const cats=["Tüm Kartlar",...Array.from(new Set(cards.map(c=>c.cat)))];
+  $("category").innerHTML=cats.map(c=>`<option>${esc(c)}</option>`).join("");
+  $("totalCards").textContent=cards.length;
+  applyFilters();
+}
+function applyFilters(){
+  const cat=$("category").value, s=$("search").value.toLowerCase().trim();
+  filtered=cards.filter(c=>(cat==="Tüm Kartlar"||c.cat===cat) && (c.front+" "+c.back+" "+c.note+" "+c.cat).toLowerCase().includes(s));
+  current=0; $("shownCards").textContent=filtered.length; renderList(); renderCard();
+}
+function renderList(){
+  $("cardList").innerHTML=filtered.map((c,i)=>`<div class="item ${i===current?'active':''}" onclick="goCard(${i})"><b>${i+1}. ${esc(c.front)}</b><small>${esc(c.cat)}</small></div>`).join("");
+}
+function renderCard(){
+  if(!filtered.length){$("frontText").textContent="Kart bulunamadı"; $("backText").textContent="-"; $("noteText").textContent=""; return;}
+  const c=filtered[current]; $("flashcard").classList.remove("flipped");
+  $("frontCat").textContent=c.cat; $("backCat").textContent=c.cat;
+  $("frontText").textContent=c.front; $("backText").textContent=c.back; $("noteText").textContent=c.note||"";
+  $("currentNo").textContent=current+1; renderList();
+}
+function flipCard(){ $("flashcard").classList.toggle("flipped"); if($("flashcard").classList.contains("flipped")){learned++; $("learnedNo").textContent=learned;} }
+function nextCard(){ if(!filtered.length)return; current=(current+1)%filtered.length; renderCard(); }
+function prevCard(){ if(!filtered.length)return; current=(current-1+filtered.length)%filtered.length; renderCard(); }
+function goCard(i){current=i; renderCard();}
+function shuffleCards(){filtered.sort(()=>Math.random()-.5); current=0; renderCard();}
+function printCards(){
+  $("printGrid").innerHTML=filtered.map(c=>`<div class="print-card"><div class="front">${esc(c.front)}</div><div class="backp fold">${esc(c.back)}<br><small>${esc(c.note||"")}</small></div></div>`).join("");
+  window.print();
+}
+async function saveCardImage(){
+  const node=$("flashcard");
+  const canvas=await html2canvas(node,{scale:2,backgroundColor:null});
+  const a=document.createElement("a"); a.href=canvas.toDataURL("image/png"); a.download="siir_turleri_flashcard.png"; a.click();
+}
+function toggleQuiz(){
+  const qa=$("quizArea"), st=$("studyArea");
+  if(qa.style.display==="block"){qa.style.display="none";st.style.display="grid";return;}
+  st.style.display="none"; qa.style.display="block"; startQuiz();
+}
+function startQuiz(){
+  quiz=[...cards].sort(()=>Math.random()-.5).slice(0,20);
+  qIndex=0; correct=0; wrong=0; missed={}; showQuestion();
+}
+function showQuestion(){
+  const q=quiz[qIndex]; if(!q){finishQuiz();return;}
+  let options=[q.back];
+  while(options.length<4){const r=cards[Math.floor(Math.random()*cards.length)].back;if(!options.includes(r)) options.push(r);}
+  options.sort(()=>Math.random()-.5);
+  $("quizContent").innerHTML=`<div class="question">${qIndex+1}/20 · ${esc(q.front)}</div>
+    <div class="options">${options.map(o=>`<button class="option" data-answer="${esc(o)}" data-right="${esc(q.back)}" data-cat="${esc(q.cat)}" onclick="answerQuiz(this)">${esc(o)}</button>`).join("")}</div>
+    <div class="result">Kategori: <b>${esc(q.cat)}</b></div>`;
+}
+function answerQuiz(btn){
+  const selected=btn.dataset.answer, right=btn.dataset.right, cat=btn.dataset.cat;
+  document.querySelectorAll(".option").forEach(b=>b.disabled=true);
+  if(selected===right){correct++; btn.classList.add("correct");}
+  else{wrong++; btn.classList.add("wrong"); missed[cat]=(missed[cat]||0)+1; document.querySelectorAll(".option").forEach(b=>{if(b.dataset.answer===right)b.classList.add("correct")});}
+  setTimeout(()=>{qIndex++; showQuestion();},850);
+}
+function finishQuiz(){
+  const percent=Math.round(correct*100/quiz.length);
+  const weak=Object.entries(missed).sort((a,b)=>b[1]-a[1]).map(x=>x[0]).slice(0,3);
+  const comment= percent>=85 ? "Çok iyi. Şiir türleri tekrarın güçlü görünüyor." :
+    percent>=65 ? "İyi gidiyorsun. Yanlış çıkan şiir türlerini kısa tekrar etmelisin." :
+    "Temel ayrımları tekrar etmelisin. Özellikle tür-anahtar kelime eşleştirmelerine dön.";
+  $("quizContent").innerHTML=`<div class="question">Quiz Tamamlandı</div>
+    <div class="stats">
+      <div class="stat"><b>${correct}</b><span>Doğru</span></div>
+      <div class="stat"><b>${wrong}</b><span>Yanlış</span></div>
+      <div class="stat"><b>%${percent}</b><span>Başarı</span></div>
+      <div class="stat"><b>${weak.length?esc(weak.join(", ")):"Yok"}</b><span>Eksik Alan</span></div>
+    </div>
+    <div class="result"><b>ENGİN360 Koç Yorumu:</b><br>${comment}<br><br>${weak.length?("Tekrar önerisi: "+esc(weak.join(", "))+" kartlarını yeniden çalış."): "Belirgin eksik alan görünmüyor."}</div>
+    <button style="margin-top:12px" onclick="startQuiz()">Yeniden Başlat</button>`;
+}
+init();
+</script>
+</body>
+</html>

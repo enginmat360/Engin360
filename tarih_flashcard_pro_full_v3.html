@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ENGİN360 Tarih Flashcard PRO FULL V3</title>
+<style>
+:root{--bg1:#050512;--bg2:#111138;--t:#fff;--m:#dbeafe;--br:rgba(255,255,255,.18)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{min-height:100vh;font-family:Arial,Helvetica,sans-serif;color:var(--t);background:radial-gradient(circle at 15% 7%,rgba(168,85,247,.42),transparent 30%),radial-gradient(circle at 88% 12%,rgba(56,189,248,.25),transparent 32%),radial-gradient(circle at 50% 102%,rgba(236,72,153,.18),transparent 38%),linear-gradient(145deg,var(--bg1),var(--bg2));padding:18px 0 36px}
+.page{width:min(1100px,94%);margin:auto}
+.hero,.panel{border:1px solid var(--br);border-radius:28px;background:rgba(255,255,255,.065);box-shadow:0 20px 58px rgba(0,0,0,.30);padding:20px;margin-bottom:16px}
+.badge{display:inline-block;margin-bottom:12px;border:1px solid rgba(103,232,249,.30);border-radius:999px;padding:8px 12px;color:#e0f2fe;background:rgba(15,23,42,.38);font-size:13px}
+.hero h1{font-size:clamp(30px,6vw,58px);font-weight:900;font-style:italic;margin-bottom:8px;background:linear-gradient(90deg,#f0abfc,#a855f7,#38bdf8,#67e8f9);-webkit-background-clip:text;color:transparent;filter:drop-shadow(0 0 10px rgba(168,85,247,.55))}
+.hero p,.note{color:var(--m);line-height:1.6;font-size:15px}
+.controls{display:grid;grid-template-columns:2fr 1fr 1fr;gap:10px;margin-top:14px}
+select,button{border:0;border-radius:15px;padding:12px 13px;font-weight:900;font-size:14px}
+select{background:rgba(15,23,42,.72);color:white;border:1px solid rgba(255,255,255,.16);outline:none}
+button{color:white;cursor:pointer;background:linear-gradient(135deg,#a855f7,#38bdf8);box-shadow:0 12px 28px rgba(0,0,0,.24);transition:.2s}
+button:hover{transform:translateY(-2px);filter:brightness(1.08)}
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:16px}
+.box{border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);border-radius:20px;padding:14px;text-align:center}
+.box strong{display:block;font-size:25px}.box span{color:#dbeafe;font-size:12px}
+.progress{height:12px;background:rgba(255,255,255,.10);border-radius:99px;overflow:hidden;margin-top:10px;border:1px solid rgba(255,255,255,.13)}
+.bar{height:100%;width:0%;background:linear-gradient(90deg,#22c55e,#38bdf8,#a855f7);transition:.3s}
+.flash-wrap{perspective:1200px;margin:18px auto;max-width:780px}
+.flashcard{height:340px;position:relative;transform-style:preserve-3d;transition:.55s;cursor:pointer}
+.flashcard.flip{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:28px;border-radius:28px;backface-visibility:hidden;border:1px solid rgba(255,255,255,.20);box-shadow:0 22px 60px rgba(0,0,0,.34), inset 0 0 35px rgba(255,255,255,.06)}
+.front{background:linear-gradient(135deg,rgba(168,85,247,.42),rgba(56,189,248,.18)),rgba(255,255,255,.07)}
+.backface{background:linear-gradient(135deg,rgba(34,197,94,.34),rgba(56,189,248,.18)),rgba(255,255,255,.07);transform:rotateY(180deg)}
+.face-content small{display:block;color:#c4b5fd;font-weight:900;margin-bottom:14px}.face-content h2{font-size:clamp(24px,5vw,42px);line-height:1.25}
+.nav{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}
+.learned{background:linear-gradient(135deg,#22c55e,#06b6d4)}.orange{background:linear-gradient(135deg,#fb923c,#ec4899)}
+.package-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:12px}
+.pkg{border:1px solid rgba(255,255,255,.13);border-radius:18px;background:rgba(255,255,255,.05);padding:14px;color:#dbeafe;line-height:1.45}
+.pkg strong{display:block;color:white;margin-bottom:5px;font-size:17px}
+footer{text-align:center;color:#cbd5e1;font-size:13px;margin-top:18px}
+@media(max-width:760px){.controls,.stats,.nav,.package-grid{grid-template-columns:1fr}.hero,.panel,.face{border-radius:22px}.flashcard{height:300px}.box strong{font-size:23px}}
+</style>
+</head>
+<body>
+<main class="page">
+<section class="hero">
+<div class="badge">ENGİN360 • Tarih Flashcard Kütüphanesi PRO FULL V3</div>
+<h1>🏛️ Tarih Flashcard PRO</h1>
+<p>TYT-AYT tarih için kısa cevaplı, hızlı tekrar odaklı flashcard sistemi. Kategoriyi seç, kartı çevir, öğrendiğini işaretle ve ilerlemeni takip et.</p>
+<div class="controls">
+<select id="category" onchange="changeCategory()"></select>
+<button onclick="shuffleCards()">Karıştır</button>
+<button onclick="resetProgress()" class="orange">Sıfırla</button>
+</div>
+</section>
+
+<section class="stats">
+<div class="box"><strong id="total">0</strong><span>Toplam</span></div>
+<div class="box"><strong id="current">0</strong><span>Kart</span></div>
+<div class="box"><strong id="learned">0</strong><span>Öğrendim</span></div>
+<div class="box"><strong id="remaining">0</strong><span>Kalan</span></div>
+<div class="box"><strong id="percent">0%</strong><span>İlerleme</span></div>
+</section>
+
+<section class="panel">
+<div class="flash-wrap">
+<div id="flashcard" class="flashcard" onclick="flipCard()">
+<div class="face front"><div class="face-content"><small id="catFront"></small><h2 id="frontText"></h2></div></div>
+<div class="face backface"><div class="face-content"><small>Cevap</small><h2 id="backText"></h2></div></div>
+</div>
+</div>
+<div class="progress"><div id="bar" class="bar"></div></div>
+<div class="nav">
+<button onclick="prevCard()">← Önceki</button>
+<button onclick="flipCard()">Kartı Çevir</button>
+<button onclick="markLearned()" class="learned">Öğrendim</button>
+<button onclick="nextCard()">Sonraki →</button>
+</div>
+<p class="note" style="margin-top:14px">Bu sürümde 4 ana paket vardır: İlk Türk Devletleri, Türk-İslam Devletleri, Osmanlı Kuruluş ve Osmanlı Yükselme. Sonraki sürümde Osmanlı Duraklama-Gerileme, Islahatlar, Kurtuluş Savaşı ve İnkılaplar eklenecek.</p>
+</section>
+
+<section class="panel">
+<h2>📚 Paketler</h2>
+<div class="package-grid">
+<div class="pkg"><strong>🏹 İlk Türk Devletleri</strong>Kut, töre, kurultay, Göktürkler, Uygurlar ve önemli ilkler.</div>
+<div class="pkg"><strong>📜 Türk-İslam Devletleri</strong>Karahanlılar, Gazneliler, Selçuklular, Malazgirt, Ahilik ve İkta.</div>
+<div class="pkg"><strong>⚔️ Osmanlı Kuruluş</strong>Osman Bey, Orhan Bey, I. Murat, Yıldırım, Ankara Savaşı ve Fetret.</div>
+<div class="pkg"><strong>🏰 Osmanlı Yükselme</strong>Fatih, Yavuz, Kanuni, İstanbul'un fethi, Mısır, Preveze ve kapitülasyonlar.</div>
+</div>
+</section>
+
+<footer>ENGİN360 • Engin Özcan • Matematik Öğretmeni / Eğitim Koçu</footer>
+</main>
+
+<script>
+const allCards = [{"cat": "İlk Türk Devletleri", "front": "İlk Türk devleti hangisidir?", "back": "Asya Hun Devleti"}, {"cat": "İlk Türk Devletleri", "front": "Asya Hun Devleti'nin en güçlü hükümdarı kimdir?", "back": "Mete Han"}, {"cat": "İlk Türk Devletleri", "front": "Onlu ordu sistemini kuran hükümdar kimdir?", "back": "Mete Han"}, {"cat": "İlk Türk Devletleri", "front": "Türk adıyla kurulan ilk devlet hangisidir?", "back": "Göktürkler"}, {"cat": "İlk Türk Devletleri", "front": "İlk Türk alfabesini kullanan devlet hangisidir?", "back": "Göktürkler"}, {"cat": "İlk Türk Devletleri", "front": "Orhun Yazıtları hangi devlete aittir?", "back": "II. Göktürk Devleti"}, {"cat": "İlk Türk Devletleri", "front": "Türk tarihinin ilk yazılı belgeleri nelerdir?", "back": "Orhun Yazıtları"}, {"cat": "İlk Türk Devletleri", "front": "Orhun Yazıtları'nı yazan kişi kimdir?", "back": "Yollug Tigin"}, {"cat": "İlk Türk Devletleri", "front": "Orhun Yazıtları kimler adına dikilmiştir?", "back": "Bilge Kağan, Kültigin ve Tonyukuk"}, {"cat": "İlk Türk Devletleri", "front": "Yerleşik yaşama geçen ilk Türk devleti hangisidir?", "back": "Uygurlar"}, {"cat": "İlk Türk Devletleri", "front": "Matbaayı kullanan ilk Türk devleti hangisidir?", "back": "Uygurlar"}, {"cat": "İlk Türk Devletleri", "front": "Kâğıdı kullanan ilk Türk devleti hangisidir?", "back": "Uygurlar"}, {"cat": "İlk Türk Devletleri", "front": "Maniheizm'i benimseyen Türk devleti hangisidir?", "back": "Uygurlar"}, {"cat": "İlk Türk Devletleri", "front": "Türklerde devlet işlerinin görüşüldüğü meclis nedir?", "back": "Kurultay"}, {"cat": "İlk Türk Devletleri", "front": "Devlet yönetme yetkisinin Tanrı tarafından verildiğine inanılmasına ne denir?", "back": "Kut anlayışı"}, {"cat": "İlk Türk Devletleri", "front": "Ülkenin doğu-batı şeklinde yönetilmesine ne denir?", "back": "İkili teşkilat"}, {"cat": "İlk Türk Devletleri", "front": "Türklerde yazısız hukuk kurallarına ne denir?", "back": "Töre"}, {"cat": "İlk Türk Devletleri", "front": "İslamiyet öncesi Türklerde hükümdar eşine ne denir?", "back": "Hatun"}, {"cat": "İlk Türk Devletleri", "front": "İslamiyet öncesi Türklerde hükümdara verilen unvanlardan biri nedir?", "back": "Kağan / Hakan"}, {"cat": "İlk Türk Devletleri", "front": "Kavimler Göçü'nün başlamasında etkili olan Türk devleti hangisidir?", "back": "Asya Hun Devleti"}, {"cat": "İlk Türk Devletleri", "front": "İstanbul'u ilk kuşatan Türk devleti hangisidir?", "back": "Avarlar"}, {"cat": "İlk Türk Devletleri", "front": "Araplara karşı Orta Asya'yı savunan Türk devleti hangisidir?", "back": "Türgişler"}, {"cat": "İlk Türk Devletleri", "front": "Talas Savaşı'nda Abbasilere yardım eden Türk boyu hangisidir?", "back": "Karluklar"}, {"cat": "İlk Türk Devletleri", "front": "İslamiyet'i kabul eden ilk Türk boylarından biri hangisidir?", "back": "Karluklar"}, {"cat": "İlk Türk Devletleri", "front": "Kırgızların önemli özelliği nedir?", "back": "Manas Destanı'nı oluşturmuş olmaları"}, {"cat": "İlk Türk Devletleri", "front": "Uygurların yerleşik hayata geçmesinin sonucu nedir?", "back": "Mimari, ticaret ve tarım gelişti"}, {"cat": "İlk Türk Devletleri", "front": "İslamiyet öncesi Türklerde mezarlara ne denir?", "back": "Kurgan"}, {"cat": "İlk Türk Devletleri", "front": "İslamiyet öncesi Türklerde mezar taşlarına ne denir?", "back": "Balbal"}, {"cat": "İlk Türk Devletleri", "front": "Türklerde askeri yapının temelinde hangi sistem vardır?", "back": "Onlu sistem"}, {"cat": "İlk Türk Devletleri", "front": "Göçebe yaşamın temel ekonomik faaliyeti nedir?", "back": "Hayvancılık"}, {"cat": "İlk Türk Devletleri", "front": "İslamiyet öncesi Türklerde bağımsızlık anlayışı hangi kavramla ilişkilidir?", "back": "Oksızlık"}, {"cat": "İlk Türk Devletleri", "front": "Uygurlar hangi alanda diğer Türk devletlerinden ayrılır?", "back": "Yerleşik yaşam ve kültürel gelişme"}, {"cat": "İlk Türk Devletleri", "front": "Göktürklerin en önemli özelliği nedir?", "back": "Türk adıyla kurulan ilk devlet olmaları"}, {"cat": "İlk Türk Devletleri", "front": "Asya Hunları'nın Çin'e karşı en önemli etkisi nedir?", "back": "Çin Seddi'nin yapılmasında etkili olmaları"}, {"cat": "İlk Türk Devletleri", "front": "İlk Türk devletlerinde devletin hanedan üyelerinin ortak malı sayılması neye yol açmıştır?", "back": "Taht kavgalarına"}, {"cat": "Türk-İslam Devletleri", "front": "İlk Müslüman Türk Devleti hangisidir?", "back": "Karahanlılar"}, {"cat": "Türk-İslam Devletleri", "front": "İlk Türk-İslam Devleti hangisidir?", "back": "Karahanlılar"}, {"cat": "Türk-İslam Devletleri", "front": "Resmi dili Türkçe olan ilk Türk-İslam devleti hangisidir?", "back": "Karahanlılar"}, {"cat": "Türk-İslam Devletleri", "front": "Satuk Buğra Han hangi devletin hükümdarıdır?", "back": "Karahanlılar"}, {"cat": "Türk-İslam Devletleri", "front": "Türklerin İslamiyet'i kabul eden ilk hükümdarı kimdir?", "back": "Satuk Buğra Han"}, {"cat": "Türk-İslam Devletleri", "front": "İlk Türkçe siyasetname nedir?", "back": "Kutadgu Bilig"}, {"cat": "Türk-İslam Devletleri", "front": "Kutadgu Bilig'in yazarı kimdir?", "back": "Yusuf Has Hacip"}, {"cat": "Türk-İslam Devletleri", "front": "İlk Türkçe sözlük nedir?", "back": "Divanü Lugati't-Türk"}, {"cat": "Türk-İslam Devletleri", "front": "Divanü Lugati't-Türk'ün yazarı kimdir?", "back": "Kaşgarlı Mahmut"}, {"cat": "Türk-İslam Devletleri", "front": "Atabetü'l Hakayık'ın yazarı kimdir?", "back": "Edip Ahmet Yükneki"}, {"cat": "Türk-İslam Devletleri", "front": "Divan-ı Hikmet'in yazarı kimdir?", "back": "Ahmet Yesevi"}, {"cat": "Türk-İslam Devletleri", "front": "İlk Türk mutasavvıfı kimdir?", "back": "Ahmet Yesevi"}, {"cat": "Türk-İslam Devletleri", "front": "Gazneli Devleti'nin en ünlü hükümdarı kimdir?", "back": "Gazneli Mahmut"}, {"cat": "Türk-İslam Devletleri", "front": "Sultan unvanını kullanan ilk Türk hükümdarı kimdir?", "back": "Gazneli Mahmut"}, {"cat": "Türk-İslam Devletleri", "front": "Gazneliler hangi savaşta Büyük Selçuklulara yenildi?", "back": "Dandanakan Savaşı"}, {"cat": "Türk-İslam Devletleri", "front": "Büyük Selçuklu Devleti hangi savaş sonrası kuruldu?", "back": "Dandanakan Savaşı"}, {"cat": "Türk-İslam Devletleri", "front": "Büyük Selçuklu Devleti'nin kurucusu kimdir?", "back": "Tuğrul Bey"}, {"cat": "Türk-İslam Devletleri", "front": "Büyük Selçuklu Devleti'nin en parlak dönemi hangi hükümdar zamanıdır?", "back": "Melikşah"}, {"cat": "Türk-İslam Devletleri", "front": "Büyük Selçuklu Devleti'nin ünlü veziri kimdir?", "back": "Nizamülmülk"}, {"cat": "Türk-İslam Devletleri", "front": "Siyasetname adlı eserin yazarı kimdir?", "back": "Nizamülmülk"}, {"cat": "Türk-İslam Devletleri", "front": "Nizamiye Medreselerini kuran devlet adamı kimdir?", "back": "Nizamülmülk"}, {"cat": "Türk-İslam Devletleri", "front": "İlk büyük medrese teşkilatı hangisidir?", "back": "Nizamiye Medreseleri"}, {"cat": "Türk-İslam Devletleri", "front": "Malazgirt Savaşı hangi tarihte yapıldı?", "back": "1071"}, {"cat": "Türk-İslam Devletleri", "front": "Malazgirt Savaşı'nın komutanı kimdir?", "back": "Alparslan"}, {"cat": "Türk-İslam Devletleri", "front": "Malazgirt Savaşı'nın sonucu nedir?", "back": "Anadolu'nun kapıları Türklere açıldı"}, {"cat": "Türk-İslam Devletleri", "front": "Türkiye Selçuklu Devleti'nin kurucusu kimdir?", "back": "Süleyman Şah"}, {"cat": "Türk-İslam Devletleri", "front": "İlk Türk denizcisi kimdir?", "back": "Çaka Bey"}, {"cat": "Türk-İslam Devletleri", "front": "İlk Türk donanmasını kuran kişi kimdir?", "back": "Çaka Bey"}, {"cat": "Türk-İslam Devletleri", "front": "Kösedağ Savaşı hangi tarihte yapıldı?", "back": "1243"}, {"cat": "Türk-İslam Devletleri", "front": "Kösedağ Savaşı'nın sonucu nedir?", "back": "Anadolu Moğol egemenliğine girdi"}, {"cat": "Türk-İslam Devletleri", "front": "Anadolu'da ticareti geliştiren teşkilat nedir?", "back": "Ahilik"}, {"cat": "Türk-İslam Devletleri", "front": "Ahilik teşkilatının kurucusu kimdir?", "back": "Ahi Evran"}, {"cat": "Türk-İslam Devletleri", "front": "Selçuklularda toprak sisteminin adı nedir?", "back": "İkta"}, {"cat": "Türk-İslam Devletleri", "front": "İkta sisteminin temel amacı nedir?", "back": "Vergi toplama ve asker yetiştirme"}, {"cat": "Türk-İslam Devletleri", "front": "Türkiye Selçuklu Devleti'nin en parlak hükümdarı kimdir?", "back": "I. Alaaddin Keykubat"}, {"cat": "Türk-İslam Devletleri", "front": "Anadolu'daki ilk kervansaray hangisidir?", "back": "Alay Han"}, {"cat": "Türk-İslam Devletleri", "front": "Selçuklularda hükümdarın oğluna verilen unvan nedir?", "back": "Melik"}, {"cat": "Türk-İslam Devletleri", "front": "Selçuklularda şehzadeleri yetiştiren devlet adamı kimdir?", "back": "Atabey"}, {"cat": "Türk-İslam Devletleri", "front": "Türk-İslam devletlerinde eğitim kurumu nedir?", "back": "Medrese"}, {"cat": "Türk-İslam Devletleri", "front": "Türk-İslam devletlerinde sosyal yardımlaşma kurumu nedir?", "back": "Vakıf"}, {"cat": "Türk-İslam Devletleri", "front": "Türk-İslam kültüründe hastanelere verilen ad nedir?", "back": "Darüşşifa"}, {"cat": "Türk-İslam Devletleri", "front": "Selçuklularda posta teşkilatı nedir?", "back": "Berid"}, {"cat": "Türk-İslam Devletleri", "front": "Türk-İslam devletlerinde hükümdarlık alametleri nelerdir?", "back": "Hutbe okutmak ve para bastırmak"}, {"cat": "Türk-İslam Devletleri", "front": "Yassı Çemen Savaşı hangi devletler arasında yapılmıştır?", "back": "Türkiye Selçuklu - Harzemşah"}, {"cat": "Türk-İslam Devletleri", "front": "Haçlı Seferleri sırasında Anadolu'yu savunan devlet hangisidir?", "back": "Türkiye Selçuklu Devleti"}, {"cat": "Osmanlı Kuruluş Dönemi", "front": "Osmanlı Devleti'nin kurucusu kimdir?", "back": "Osman Bey"}, {"cat": "Osmanlı Kuruluş Dönemi", "front": "Osmanlılar hangi Türk boyuna mensuptur?", "back": "Kayı Boyu"}, {"cat": "Osmanlı Kuruluş Dönemi", "front": "Osmanlı Beyliği'nin ilk merkezi neresidir?", "back": "Söğüt"}, {"cat": "Osmanlı Kuruluş Dönemi", "front": "Osmanlı Devleti hangi uç bölgesinde kurulmuştur?", "back": "Bizans sınırında"}, {"cat": "Osmanlı Kuruluş Dönemi", "front": "Osman Bey döneminde Bizans ile yapılan ilk savaş hangisidir?", "back": "Koyunhisar Savaşı"}, {"cat": "Osmanlı Kuruluş Dönemi", "front": "Koyunhisar Savaşı'nın önemi nedir?", "back": "Osmanlı ile Bizans arasındaki ilk büyük savaştır"}, {"cat": "Osmanlı Kuruluş Dönemi", "front": "Osmanlı'da ilk para hangi padişah döneminde bastırılmıştır?", "back": "Osman Bey"}, {"cat": "Osmanlı Kuruluş Dönemi", "front": "Bursa hangi padişah döneminde fethedilmiştir?", "back": "Orhan Bey"}, {"cat": "Osmanlı Kuruluş Dönemi", "front": "Bursa'nın fethinin önemi nedir?", "back": "Osmanlı'nın başkenti olmuştur"}, {"cat": "Osmanlı Kuruluş Dönemi", "front": "İlk düzenli Osmanlı ordusu hangisidir?", "back": "Yaya ve Müsellem"}, {"cat": "Osmanlı Kuruluş Dönemi", "front": "İlk düzenli ordu hangi padişah döneminde kuruldu?", "back": "Orhan Bey"}, {"cat": "Osmanlı Kuruluş Dönemi", "front": "İlk Osmanlı medresesi nerede açıldı?", "back": "İznik"}, {"cat": "Osmanlı Kuruluş Dönemi", "front": "İlk Osmanlı medresesini kim açtırdı?", "back": "Orhan Bey"}, {"cat": "Osmanlı Kuruluş Dönemi", "front": "Rumeli'ye geçiş hangi padişah döneminde başladı?", "back": "Orhan Bey"}, {"cat": "Osmanlı Kuruluş Dönemi", "front": "Rumeli'deki ilk Osmanlı toprağı neresidir?", "back": "Çimpe Kalesi"}, {"cat": "Osmanlı Kuruluş Dönemi", "front": "Çimpe Kalesi'nin önemi nedir?", "back": "Osmanlı'nın Rumeli'ye geçiş üssü olmuştur"}, {"cat": "Osmanlı Kuruluş Dönemi", "front": "Osmanlı'da divan teşkilatı ilk kez kimin döneminde kuruldu?", "back": "Orhan Bey"}, {"cat": "Osmanlı Kuruluş Dönemi", "front": "Osmanlı'da ilk vezirlik makamı hangi dönemde oluşturuldu?", "back": "Orhan Bey"}, {"cat": "Osmanlı Kuruluş Dönemi", "front": "Edirne hangi padişah döneminde fethedildi?", "back": "I. Murat"}, {"cat": "Osmanlı Kuruluş Dönemi", "front": "Edirne'nin fethedilmesinin önemi nedir?", "back": "Balkanlara ilerleyiş kolaylaştı"}, {"cat": "Osmanlı Kuruluş Dönemi", "front": "Sırpsındığı Savaşı hangi padişah dönemindedir?", "back": "I. Murat"}, {"cat": "Osmanlı Kuruluş Dönemi", "front": "Sırpsındığı Savaşı'nın önemi nedir?", "back": "Osmanlı'nın Haçlılara karşı ilk büyük başarısıdır"}, {"cat": "Osmanlı Kuruluş Dönemi", "front": "I. Kosova Savaşı hangi padişah dönemindedir?", "back": "I. Murat"}, {"cat": "Osmanlı Kuruluş Dönemi", "front": "I. Kosova Savaşı'nın önemi nedir?", "back": "Balkanlarda Osmanlı hâkimiyeti güçlendi"}, {"cat": "Osmanlı Kuruluş Dönemi", "front": "Yeniçeri Ocağı hangi padişah döneminde kuruldu?", "back": "I. Murat"}, {"cat": "Osmanlı Kuruluş Dönemi", "front": "Devşirme sisteminin temeli hangi padişah döneminde atılmıştır?", "back": "I. Murat"}, {"cat": "Osmanlı Kuruluş Dönemi", "front": "Tımar sistemi hangi dönemde düzenli hale gelmiştir?", "back": "I. Murat"}, {"cat": "Osmanlı Kuruluş Dönemi", "front": "Yıldırım Bayezid'in İstanbul'u kuşatmak için yaptırdığı hisar nedir?", "back": "Anadolu Hisarı"}, {"cat": "Osmanlı Kuruluş Dönemi", "front": "Anadolu Hisarı'nı kim yaptırdı?", "back": "Yıldırım Bayezid"}, {"cat": "Osmanlı Kuruluş Dönemi", "front": "Niğbolu Savaşı hangi padişah dönemindedir?", "back": "Yıldırım Bayezid"}, {"cat": "Osmanlı Kuruluş Dönemi", "front": "Niğbolu Savaşı'nın önemi nedir?", "back": "Osmanlı'nın Avrupa karşısındaki gücü arttı"}, {"cat": "Osmanlı Kuruluş Dönemi", "front": "Ankara Savaşı hangi tarihte yapıldı?", "back": "1402"}, {"cat": "Osmanlı Kuruluş Dönemi", "front": "Ankara Savaşı kimler arasında yapıldı?", "back": "Yıldırım Bayezid ile Timur"}, {"cat": "Osmanlı Kuruluş Dönemi", "front": "Ankara Savaşı'nın sonucu nedir?", "back": "Osmanlı Fetret Devri'ne girdi"}, {"cat": "Osmanlı Kuruluş Dönemi", "front": "Fetret Devri hangi yıllar arasındadır?", "back": "1402-1413"}, {"cat": "Osmanlı Kuruluş Dönemi", "front": "Fetret Devri'ne son veren padişah kimdir?", "back": "Çelebi Mehmet"}, {"cat": "Osmanlı Kuruluş Dönemi", "front": "Osmanlı Devleti'nin ikinci kurucusu sayılan padişah kimdir?", "back": "Çelebi Mehmet"}, {"cat": "Osmanlı Kuruluş Dönemi", "front": "Şeyh Bedreddin İsyanı hangi padişah dönemindedir?", "back": "Çelebi Mehmet"}, {"cat": "Osmanlı Kuruluş Dönemi", "front": "Varna Savaşı hangi padişah dönemindedir?", "back": "II. Murat"}, {"cat": "Osmanlı Kuruluş Dönemi", "front": "II. Kosova Savaşı'nın önemi nedir?", "back": "Balkanların Türk yurdu olduğu kesinleşti"}, {"cat": "Osmanlı Yükselme Dönemi", "front": "İstanbul'u fetheden padişah kimdir?", "back": "Fatih Sultan Mehmet"}, {"cat": "Osmanlı Yükselme Dönemi", "front": "İstanbul hangi tarihte fethedildi?", "back": "1453"}, {"cat": "Osmanlı Yükselme Dönemi", "front": "İstanbul'un fethinin dünya tarihi açısından sonucu nedir?", "back": "Orta Çağ kapandı, Yeni Çağ başladı"}, {"cat": "Osmanlı Yükselme Dönemi", "front": "İstanbul'un fethiyle Bizans Devleti'nin durumu ne oldu?", "back": "Bizans yıkıldı"}, {"cat": "Osmanlı Yükselme Dönemi", "front": "Rumeli Hisarı'nı kim yaptırdı?", "back": "Fatih Sultan Mehmet"}, {"cat": "Osmanlı Yükselme Dönemi", "front": "Fatih'in İstanbul kuşatması için yaptırdığı hisar hangisidir?", "back": "Rumeli Hisarı"}, {"cat": "Osmanlı Yükselme Dönemi", "front": "Osmanlı'da ilk altın para hangi padişah döneminde basıldı?", "back": "Fatih Sultan Mehmet"}, {"cat": "Osmanlı Yükselme Dönemi", "front": "Kanunname-i Ali Osman hangi padişah döneminde hazırlandı?", "back": "Fatih Sultan Mehmet"}, {"cat": "Osmanlı Yükselme Dönemi", "front": "Fatih döneminde Karadeniz ticaret güvenliği için alınan yerlerden biri nedir?", "back": "Amasra / Sinop / Trabzon / Kırım"}, {"cat": "Osmanlı Yükselme Dönemi", "front": "Kırım'ın alınmasının önemi nedir?", "back": "Karadeniz Türk gölü haline geldi"}, {"cat": "Osmanlı Yükselme Dönemi", "front": "Trabzon Rum İmparatorluğu hangi padişah döneminde yıkıldı?", "back": "Fatih Sultan Mehmet"}, {"cat": "Osmanlı Yükselme Dönemi", "front": "Otlukbeli Savaşı kimler arasında yapıldı?", "back": "Osmanlı ile Akkoyunlular"}, {"cat": "Osmanlı Yükselme Dönemi", "front": "Otlukbeli Savaşı hangi padişah dönemindedir?", "back": "Fatih Sultan Mehmet"}, {"cat": "Osmanlı Yükselme Dönemi", "front": "II. Bayezid döneminde İspanya'dan getirilen topluluk kimdir?", "back": "Yahudiler"}, {"cat": "Osmanlı Yükselme Dönemi", "front": "Cem Sultan Olayı hangi padişah döneminde yaşandı?", "back": "II. Bayezid"}, {"cat": "Osmanlı Yükselme Dönemi", "front": "Şahkulu İsyanı hangi padişah dönemindedir?", "back": "II. Bayezid"}, {"cat": "Osmanlı Yükselme Dönemi", "front": "Çaldıran Savaşı hangi padişah dönemindedir?", "back": "Yavuz Sultan Selim"}, {"cat": "Osmanlı Yükselme Dönemi", "front": "Çaldıran Savaşı kimler arasında yapıldı?", "back": "Osmanlı ile Safeviler"}, {"cat": "Osmanlı Yükselme Dönemi", "front": "Turnadağ Savaşı hangi padişah dönemindedir?", "back": "Yavuz Sultan Selim"}, {"cat": "Osmanlı Yükselme Dönemi", "front": "Turnadağ Savaşı'nın önemi nedir?", "back": "Dulkadiroğulları alınarak Anadolu Türk birliği kesinleşti"}, {"cat": "Osmanlı Yükselme Dönemi", "front": "Mercidabık Savaşı hangi padişah dönemindedir?", "back": "Yavuz Sultan Selim"}, {"cat": "Osmanlı Yükselme Dönemi", "front": "Ridaniye Savaşı hangi padişah dönemindedir?", "back": "Yavuz Sultan Selim"}, {"cat": "Osmanlı Yükselme Dönemi", "front": "Mısır hangi padişah döneminde alındı?", "back": "Yavuz Sultan Selim"}, {"cat": "Osmanlı Yükselme Dönemi", "front": "Halifelik Osmanlı'ya hangi padişah döneminde geçti?", "back": "Yavuz Sultan Selim"}, {"cat": "Osmanlı Yükselme Dönemi", "front": "Baharat Yolu hangi padişah döneminde Osmanlı denetimine girdi?", "back": "Yavuz Sultan Selim"}, {"cat": "Osmanlı Yükselme Dönemi", "front": "Kanuni Sultan Süleyman döneminin genel özelliği nedir?", "back": "Osmanlı en parlak dönemini yaşadı"}, {"cat": "Osmanlı Yükselme Dönemi", "front": "Mohaç Meydan Savaşı hangi padişah dönemindedir?", "back": "Kanuni Sultan Süleyman"}, {"cat": "Osmanlı Yükselme Dönemi", "front": "Mohaç Savaşı'nın önemi nedir?", "back": "Macaristan Osmanlı hâkimiyetine girdi"}, {"cat": "Osmanlı Yükselme Dönemi", "front": "Preveze Deniz Savaşı hangi padişah dönemindedir?", "back": "Kanuni Sultan Süleyman"}, {"cat": "Osmanlı Yükselme Dönemi", "front": "Preveze Deniz Savaşı'nın önemi nedir?", "back": "Akdeniz'de Osmanlı üstünlüğü sağlandı"}, {"cat": "Osmanlı Yükselme Dönemi", "front": "Barbaros Hayreddin Paşa hangi alanda önemlidir?", "back": "Denizcilik"}, {"cat": "Osmanlı Yükselme Dönemi", "front": "Hint Deniz Seferleri hangi padişah dönemindedir?", "back": "Kanuni Sultan Süleyman"}, {"cat": "Osmanlı Yükselme Dönemi", "front": "Kapitülasyonlar ilk kez hangi devlete verildi?", "back": "Fransa"}, {"cat": "Osmanlı Yükselme Dönemi", "front": "Fransa'ya kapitülasyonlar hangi padişah döneminde verildi?", "back": "Kanuni Sultan Süleyman"}, {"cat": "Osmanlı Yükselme Dönemi", "front": "Zigetvar Seferi hangi padişah dönemindedir?", "back": "Kanuni Sultan Süleyman"}, {"cat": "Osmanlı Yükselme Dönemi", "front": "Osmanlı'nın en geniş sınırlara ulaştığı padişah kimdir?", "back": "Kanuni Sultan Süleyman"}, {"cat": "Osmanlı Yükselme Dönemi", "front": "Kanuni döneminin ünlü sadrazamlarından biri kimdir?", "back": "Sokullu Mehmet Paşa"}, {"cat": "Osmanlı Yükselme Dönemi", "front": "Sokullu Mehmet Paşa'nın projelerinden biri nedir?", "back": "Don-Volga Kanalı / Süveyş Kanalı / Marmara-Karadeniz Kanalı"}, {"cat": "Osmanlı Yükselme Dönemi", "front": "Osmanlı'da yükselme dönemi hangi padişahla başlar?", "back": "Fatih Sultan Mehmet"}, {"cat": "Osmanlı Yükselme Dönemi", "front": "Osmanlı'da yükselme dönemi genel olarak hangi padişah döneminde zirveye ulaşır?", "back": "Kanuni Sultan Süleyman"}];
+let deck = [];
+let index = 0;
+let learnedSet = new Set(JSON.parse(localStorage.getItem("engin360_tarih_full_v3_learned") || "[]"));
+
+function init(){
+  const cats = ["Tüm Kartlar", ...new Set(allCards.map(c=>c.cat))];
+  document.getElementById("category").innerHTML = cats.map(c=>`<option value="${c}">${c}</option>`).join("");
+  changeCategory();
+}
+function changeCategory(){
+  const cat = document.getElementById("category").value;
+  deck = cat === "Tüm Kartlar" ? [...allCards] : allCards.filter(c=>c.cat===cat);
+  index = 0;
+  render();
+}
+function cardId(c){ return c.cat + "|" + c.front; }
+function render(){
+  if(deck.length === 0) return;
+  document.getElementById("flashcard").classList.remove("flip");
+  const c = deck[index];
+  document.getElementById("catFront").textContent = c.cat;
+  document.getElementById("frontText").textContent = c.front;
+  document.getElementById("backText").textContent = c.back;
+  const learnedInDeck = deck.filter(x=>learnedSet.has(cardId(x))).length;
+  const percent = Math.round((learnedInDeck / deck.length) * 100);
+  document.getElementById("total").textContent = deck.length;
+  document.getElementById("current").textContent = index + 1;
+  document.getElementById("learned").textContent = learnedInDeck;
+  document.getElementById("remaining").textContent = deck.length - learnedInDeck;
+  document.getElementById("percent").textContent = percent + "%";
+  document.getElementById("bar").style.width = percent + "%";
+}
+function flipCard(){ document.getElementById("flashcard").classList.toggle("flip"); }
+function nextCard(){ index = (index + 1) % deck.length; render(); }
+function prevCard(){ index = (index - 1 + deck.length) % deck.length; render(); }
+function shuffleCards(){
+  for(let i=deck.length-1;i>0;i--){ let j=Math.floor(Math.random()*(i+1)); [deck[i],deck[j]]=[deck[j],deck[i]]; }
+  index = 0; render();
+}
+function markLearned(){
+  learnedSet.add(cardId(deck[index]));
+  localStorage.setItem("engin360_tarih_full_v3_learned", JSON.stringify([...learnedSet]));
+  nextCard();
+}
+function resetProgress(){
+  if(confirm("Öğrendim kayıtları sıfırlansın mı?")){
+    learnedSet = new Set();
+    localStorage.removeItem("engin360_tarih_full_v3_learned");
+    render();
+  }
+}
+init();
+</script>
+</body>
+</html>
