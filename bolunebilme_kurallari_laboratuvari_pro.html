@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ENGİN360 Bölünebilme Kuralları Laboratuvarı PRO</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',Arial,sans-serif}
+body{min-height:100vh;color:#fff;background:radial-gradient(circle at top left,rgba(168,85,247,.34),transparent 34%),radial-gradient(circle at bottom right,rgba(14,165,233,.30),transparent 34%),linear-gradient(135deg,#05010d,#120024,#06142f);padding:18px}.wrap{max-width:1180px;margin:auto}.top{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:16px;flex-wrap:wrap}.back{display:inline-block;text-decoration:none;color:#e7e0ff;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);padding:10px 14px;border-radius:999px;font-weight:800}.brand{font-weight:900;font-size:28px;background:linear-gradient(90deg,#a855f7,#38bdf8,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent}.hero{text-align:center;padding:28px 18px;border-radius:28px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);box-shadow:0 0 34px rgba(124,58,237,.30);backdrop-filter:blur(12px);margin-bottom:16px}.hero h1{font-size:34px;margin-bottom:8px}.hero p{color:#ddd7ff;line-height:1.55}.grid{display:grid;grid-template-columns:1.1fr .9fr;gap:14px}.card{border-radius:24px;background:rgba(255,255,255,.075);border:1px solid rgba(255,255,255,.14);box-shadow:0 12px 28px rgba(0,0,0,.28);padding:18px;margin-bottom:14px}.card h2{font-size:21px;margin-bottom:12px;color:#e9ddff}.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:10px 0}input,select,button{border:0;outline:0;border-radius:14px;padding:12px 13px;font-weight:800}input,select{background:#fff;color:#16133a;border:1px solid rgba(255,255,255,.22)}button{cursor:pointer;background:linear-gradient(135deg,#7c3aed,#0ea5e9);color:#fff;box-shadow:0 8px 20px rgba(14,165,233,.20)}button.secondary{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18)}.pill{display:inline-flex;align-items:center;gap:7px;margin:5px;padding:8px 10px;border-radius:999px;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.13);font-size:13px;font-weight:800}.result{background:rgba(2,6,23,.30);border:1px solid rgba(255,255,255,.13);border-radius:18px;padding:14px;margin-top:12px;line-height:1.65;color:#f2f0ff}.ok{color:#4ade80;font-weight:900}.bad{color:#fb7185;font-weight:900}.warn{color:#facc15;font-weight:900}.rule{padding:12px;margin:8px 0;border-radius:16px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12)}.rule b{color:#7dd3fc}.digits{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.digit{width:42px;height:42px;border-radius:13px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,rgba(124,58,237,.45),rgba(14,165,233,.24));border:1px solid rgba(255,255,255,.18);font-weight:900;font-size:18px}.sumBox{display:grid;grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:10px;margin-top:12px}.stat{padding:13px;border-radius:18px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);text-align:center}.stat .num{font-size:26px;font-weight:900;color:#7dd3fc}.quizQ{font-size:19px;font-weight:900;margin-bottom:10px;line-height:1.4}.answers{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}.answers button{background:rgba(255,255,255,.11);border:1px solid rgba(255,255,255,.16)}.answers button:hover{background:linear-gradient(135deg,#7c3aed,#0ea5e9)}.progress{height:11px;border-radius:999px;background:rgba(255,255,255,.13);overflow:hidden;margin:12px 0}.progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,#22c55e,#38bdf8)}.analysisBox{white-space:pre-wrap}.miniTitle{font-size:14px;color:#c7d2fe;margin-top:8px;font-weight:900}.chips button{padding:10px 12px;margin:4px;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.14)}.footer{text-align:center;color:#aaa;font-size:12px;margin:22px 0 6px}@media(max-width:880px){.grid{grid-template-columns:1fr}.hero h1{font-size:27px}body{padding:12px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="back" href="https://enginmat360.github.io/Engin360/sayilar_ve_cebir.html">← Sayılar ve Cebir'e Dön</a><div class="brand">ENGİN360</div></div>
+  <div class="hero"><h1>🧭 Bölünebilme Kuralları Laboratuvarı PRO</h1><p>Kuralları ezberlemek yerine mantığını gör: rakam toplamı, son basamaklar, eksik rakam bulma ve 10 soruluk analizli quiz.</p></div>
+
+  <div class="grid">
+    <main>
+      <div class="card">
+        <h2>🔍 Sayı Dedektifi</h2>
+        <div class="row"><input id="numInput" value="7392" inputmode="numeric" placeholder="Sayı gir"><button onclick="analyzeNumber()">Analiz Et</button><button class="secondary" onclick="randomNumber()">Rastgele Sayı</button></div>
+        <div id="digits" class="digits"></div>
+        <div id="numberResult" class="result">Bir sayı girip analiz et.</div>
+      </div>
+
+      <div class="card">
+        <h2>❓ Eksik Rakamı Bul</h2>
+        <p style="color:#d8daf7;line-height:1.5">Bir tane <b>?</b> kullan. Örnek: <b>34?2</b>. Hangi rakamlar yazılırsa seçilen kurala bölüneceğini gösterir.</p>
+        <div class="row"><input id="missingInput" value="34?2" placeholder="Ör: 12?6"><select id="missingRule"><option value="2">2 ile</option><option value="3">3 ile</option><option value="4">4 ile</option><option value="5">5 ile</option><option value="6">6 ile</option><option value="8">8 ile</option><option value="9">9 ile</option><option value="10">10 ile</option><option value="11">11 ile</option></select><button onclick="findMissingDigits()">Eksik Rakamları Bul</button></div>
+        <div id="missingResult" class="result">Eksik rakam sorularını burada çözebilirsin.</div>
+      </div>
+
+      <div class="card">
+        <h2>🎯 10 Soruluk Akıllı Quiz</h2>
+        <div class="row"><button onclick="startQuiz()">Yeni Quiz Başlat</button><button class="secondary" onclick="resetQuiz()">Sıfırla</button></div>
+        <div class="progress"><i id="bar"></i></div>
+        <div id="quizArea" class="result">Quiz başlatınca 10 karışık soru gelir. Sonunda eksik konularını analiz eder.</div>
+      </div>
+    </main>
+
+    <aside>
+      <div class="card">
+        <h2>📌 Kurallar Panosu</h2>
+        <div class="rule"><b>2:</b> Son rakam çiftse bölünür.</div>
+        <div class="rule"><b>3:</b> Rakamları toplamı 3'ün katıysa bölünür.</div>
+        <div class="rule"><b>4:</b> Son iki basamak 4'e bölünüyorsa bölünür.</div>
+        <div class="rule"><b>5:</b> Son rakam 0 veya 5 ise bölünür.</div>
+        <div class="rule"><b>6:</b> Hem 2'ye hem 3'e bölünüyorsa bölünür.</div>
+        <div class="rule"><b>8:</b> Son üç basamak 8'e bölünüyorsa bölünür.</div>
+        <div class="rule"><b>9:</b> Rakamları toplamı 9'un katıysa bölünür.</div>
+        <div class="rule"><b>10:</b> Son rakam 0 ise bölünür.</div>
+        <div class="rule"><b>11:</b> Tek sıra ve çift sıra rakam toplamlarının farkı 11'in katıysa bölünür.</div>
+      </div>
+      <div class="card">
+        <h2>🧠 Mantık Kısayolları</h2>
+        <div class="pill">3 ve 9 → rakam toplamı</div><div class="pill">4 → son 2 basamak</div><div class="pill">8 → son 3 basamak</div><div class="pill">6 → 2 ve 3 birlikte</div><div class="pill">11 → fark yöntemi</div>
+        <div id="quickStats" class="sumBox"><div class="stat"><div class="num">0</div><div>Rakam Toplamı</div></div><div class="stat"><div class="num">00</div><div>Son 2 Basamak</div></div><div class="stat"><div class="num">000</div><div>Son 3 Basamak</div></div></div>
+      </div>
+    </aside>
+  </div>
+  <div class="footer">ENGİN360 © 2026 · Bölünebilme Kuralları Laboratuvarı</div>
+</div>
+<script>
+function el(id){return document.getElementById(id)}
+function digitsOf(s){return String(s).replace(/\D/g,'').split('').map(Number)}
+function sumDigits(n){return digitsOf(n).reduce((a,b)=>a+b,0)}
+function last(n,k){let s=String(n).replace(/\D/g,''); return Number(s.slice(-k)||0)}
+function divRule(n,d){n=Number(n); if(!Number.isFinite(n))return false; if(d==2)return n%2==0; if(d==3)return sumDigits(n)%3==0; if(d==4)return last(n,2)%4==0; if(d==5)return n%5==0; if(d==6)return n%2==0&&sumDigits(n)%3==0; if(d==8)return last(n,3)%8==0; if(d==9)return sumDigits(n)%9==0; if(d==10)return n%10==0; if(d==11){let ds=String(Math.abs(n)).split('').map(Number).reverse();let a=0,b=0;ds.forEach((x,i)=>i%2?a+=x:b+=x);return Math.abs(a-b)%11==0;} return n%d==0}
+function explain(n,d){let s=String(n).replace(/\D/g,''), sd=sumDigits(s), l2=last(s,2), l3=last(s,3); let ok=divRule(s,d); let base=`<b>${s}</b> sayısı <b>${d}</b> ile ${ok?'<span class="ok">bölünür</span>':'<span class="bad">bölünmez</span>'}.<br>`; if(d==2)return base+`Son rakam <b>${s.slice(-1)}</b>. ${ok?'Çift olduğu için bölünür.':'Çift olmadığı için bölünmez.'}`; if(d==3)return base+`Rakam toplamı: <b>${sd}</b>. ${sd} ${ok?'3ün katıdır.':'3ün katı değildir.'}`; if(d==4)return base+`Son iki basamak: <b>${l2}</b>. ${l2} ${ok?'4e bölünür.':'4e bölünmez.'}`; if(d==5)return base+`Son rakam <b>${s.slice(-1)}</b>. 0 veya 5 olmalıdır.`; if(d==6)return base+`6 için sayı hem 2'ye hem 3'e bölünmelidir. 2: ${divRule(s,2)?'evet':'hayır'}, 3: ${divRule(s,3)?'evet':'hayır'}.`; if(d==8)return base+`Son üç basamak: <b>${l3}</b>. ${l3} ${ok?'8e bölünür.':'8e bölünmez.'}`; if(d==9)return base+`Rakam toplamı: <b>${sd}</b>. ${sd} ${ok?'9un katıdır.':'9un katı değildir.'}`; if(d==10)return base+`Son rakam <b>${s.slice(-1)}</b>. 10 için son rakam 0 olmalıdır.`; if(d==11){let ds=s.split('').map(Number).reverse();let a=0,b=0;ds.forEach((x,i)=>i%2?a+=x:b+=x);return base+`Sağdan başlayarak tek sıra toplamı <b>${b}</b>, çift sıra toplamı <b>${a}</b>. Fark: <b>${Math.abs(a-b)}</b>.`;} }
+function analyzeNumber(){let s=el('numInput').value.replace(/\D/g,''); if(!s){el('numberResult').innerHTML='Geçerli bir sayı gir.';return} el('numInput').value=s; el('digits').innerHTML=s.split('').map(x=>`<span class="digit">${x}</span>`).join(''); let rules=[2,3,4,5,6,8,9,10,11]; let html='<div class="miniTitle">Hızlı Sonuçlar</div>'+rules.map(r=>`<span class="pill">${r}: ${divRule(s,r)?'<span class="ok">✓</span>':'<span class="bad">✗</span>'}</span>`).join(''); html+=`<div class="miniTitle">Detaylı Mantık</div>${rules.map(r=>`<div class="rule">${explain(s,r)}</div>`).join('')}`; el('numberResult').innerHTML=html; el('quickStats').innerHTML=`<div class="stat"><div class="num">${sumDigits(s)}</div><div>Rakam Toplamı</div></div><div class="stat"><div class="num">${String(last(s,2)).padStart(2,'0')}</div><div>Son 2 Basamak</div></div><div class="stat"><div class="num">${String(last(s,3)).padStart(3,'0')}</div><div>Son 3 Basamak</div></div>`}
+function randomNumber(){el('numInput').value=String(Math.floor(1000+Math.random()*89999)); analyzeNumber()}
+function findMissingDigits(){let pat=el('missingInput').value.trim(); let d=Number(el('missingRule').value); if((pat.match(/\?/g)||[]).length!==1){el('missingResult').innerHTML='<span class="bad">Sadece bir tane ? kullanmalısın.</span>';return} let vals=[]; for(let x=0;x<=9;x++){let s=pat.replace('?',String(x)); if(/^\d+$/.test(s)&&!(s.length>1&&s[0]=='0')&&divRule(s,d)) vals.push(x)} let sample=vals.map(v=>pat.replace('?',v)).join(', '); el('missingResult').innerHTML= vals.length?`<span class="ok">Uygun rakamlar:</span> <b>${vals.join(', ')}</b><br><br>Oluşan sayılar: ${sample}<br><br>${vals.length===1?'Bu tip soruda tek cevap var.':'Birden fazla cevap olabilir; soru kökü buna göre dikkatli okunmalı.'}`:`<span class="bad">Bu koşula uyan rakam yok.</span>`}
+let quiz=[],idx=0,score=0,wrong=[];
+function makeQuestion(){let types=['rule','missing','truefalse'];let type=types[Math.floor(Math.random()*types.length)];let rules=[2,3,4,5,6,8,9,10,11];let r=rules[Math.floor(Math.random()*rules.length)]; if(type==='rule'){let n=Math.floor(100+Math.random()*9900);let ans=divRule(n,r)?'Bölünür':'Bölünmez';return {cat:`${r} ile bölünebilme`,q:`${n} sayısı ${r} ile bölünür mü?`,opts:['Bölünür','Bölünmez'],ans,exp:explain(n,r).replace(/<[^>]+>/g,'')}} if(type==='missing'){let base=String(Math.floor(100+Math.random()*9000));let pos=Math.floor(Math.random()*base.length);let pat=base.slice(0,pos)+'?'+base.slice(pos+1);let vals=[];for(let x=0;x<=9;x++){let s=pat.replace('?',x); if(!(s.length>1&&s[0]=='0')&&divRule(s,r)) vals.push(String(x))} if(vals.length===0)return makeQuestion();let correct=vals.join(',');let opts=[correct];while(opts.length<4){let fake=String(Math.floor(Math.random()*10)); if(!opts.includes(fake)&&!vals.includes(fake))opts.push(fake)} opts=opts.sort(()=>Math.random()-.5);return {cat:'Eksik rakam bulma',q:`${pat} sayısının ${r} ile bölünebilmesi için ? yerine hangi rakam/rakamlar gelebilir?`,opts,ans:correct,exp:`Uygun rakamlar: ${correct}. Her rakam denenince kurala uyanlar seçilir.`}} let n=Math.floor(1000+Math.random()*9000);let claim=divRule(n,r);return {cat:'Kural tanıma',q:`İddia: ${n} sayısı ${r} ile ${claim?'bölünür':'bölünmez'}. Bu iddia doğru mu?`,opts:['Doğru','Yanlış'],ans:'Doğru',exp:explain(n,r).replace(/<[^>]+>/g,'')}}
+function startQuiz(){quiz=Array.from({length:10},makeQuestion);idx=0;score=0;wrong=[];showQ()}
+function resetQuiz(){quiz=[];idx=0;score=0;wrong=[];el('bar').style.width='0%';el('quizArea').innerHTML='Quiz sıfırlandı. Yeni quiz başlatabilirsin.'}
+function showQ(){el('bar').style.width=(idx*10)+'%';let q=quiz[idx];el('quizArea').innerHTML=`<div class="quizQ">${idx+1}. ${q.q}</div><div class="answers">${q.opts.map(o=>`<button onclick="answer('${String(o).replace(/'/g,"\\'")}')">${o}</button>`).join('')}</div>`}
+function answer(a){let q=quiz[idx]; if(a===q.ans)score++; else wrong.push(q); idx++; if(idx>=10)finishQuiz(); else showQ()}
+function finishQuiz(){el('bar').style.width='100%';let wrongCount=10-score, pct=Math.round(score*10);let cats={};wrong.forEach(w=>cats[w.cat]=(cats[w.cat]||0)+1);let eksik=Object.keys(cats).length?Object.entries(cats).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`• ${k}: ${v} hata`).join('\n'):'• Belirgin eksik yok.';let yorum=pct>=85?'Bölünebilme kuralları çok iyi oturmuş. Artık eksik rakam ve daha uzun sayılarda hız kazanmalısın.':pct>=60?'Temel kuralları biliyorsun; özellikle hata yaptığın başlıkları kısa tekrar edip tekrar quiz çözmelisin.':'Kurallar karışıyor. Önce 2-3-5-10, sonra 4-8-9-11 sırasıyla çalışmak daha doğru olur.';el('quizArea').innerHTML=`<div class="sumBox"><div class="stat"><div class="num">${score}</div><div>Doğru</div></div><div class="stat"><div class="num">${wrongCount}</div><div>Yanlış</div></div><div class="stat"><div class="num">%${pct}</div><div>Başarı</div></div></div><div class="result analysisBox"><b>🧠 Eksik Konu Analizi</b>\n${eksik}\n\n<b>💬 ENGİN360 Koç Yorumu</b>\n${yorum}</div>`}
+analyzeNumber();findMissingDigits();
+</script>
+</body>
+</html>

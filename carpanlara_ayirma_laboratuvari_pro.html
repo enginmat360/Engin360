@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ENGİN360 Çarpanlara Ayırma Laboratuvarı PRO</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',Arial,sans-serif}body{min-height:100vh;color:#fff;padding:18px;background:radial-gradient(circle at top left,rgba(168,85,247,.38),transparent 34%),radial-gradient(circle at bottom right,rgba(14,165,233,.32),transparent 34%),linear-gradient(135deg,#05010d,#120024,#06142f)}.wrap{max-width:1180px;margin:0 auto}.top{padding:24px;border-radius:28px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);box-shadow:0 0 34px rgba(124,58,237,.34);margin-bottom:16px}.brand{font-size:36px;font-weight:900;background:linear-gradient(90deg,#a855f7,#38bdf8,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent}.sub{color:#ddd8ff;line-height:1.55;margin-top:8px}.grid{display:grid;grid-template-columns:1.15fr .85fr;gap:14px}.card{background:rgba(255,255,255,.075);border:1px solid rgba(255,255,255,.14);border-radius:22px;padding:18px;box-shadow:0 12px 28px rgba(0,0,0,.25);margin-bottom:14px}.card h2{font-size:22px;margin-bottom:12px;color:#c4b5fd}.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.pill{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.14);border-radius:999px;padding:9px 12px;font-weight:800;color:#e9e7ff}button{border:0;border-radius:14px;padding:12px 15px;font-weight:900;color:white;background:linear-gradient(135deg,#7c3aed,#0ea5e9);cursor:pointer}button.secondary{background:#1e1b4b}input,select{background:rgba(255,255,255,.11);border:1px solid rgba(255,255,255,.18);color:#fff;border-radius:12px;padding:11px;font-weight:800;outline:none}select option{color:#111}.formula{font-size:28px;font-weight:900;text-align:center;line-height:1.5;padding:16px;border-radius:18px;background:rgba(0,0,0,.22);border:1px solid rgba(255,255,255,.12);margin:10px 0}.steps{display:grid;gap:9px;margin-top:12px}.step{padding:12px;border-radius:16px;background:rgba(255,255,255,.09);border-left:4px solid #38bdf8;line-height:1.5;color:#f0edff;font-weight:700}.miniGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.method{min-height:108px;border-radius:18px;padding:14px;background:linear-gradient(135deg,rgba(124,58,237,.24),rgba(14,165,233,.13));border:1px solid rgba(255,255,255,.13)}.method b{display:block;color:#fff;margin-bottom:8px}.method p{font-size:13.5px;color:#ddd8ff;line-height:1.45}.quizBox{display:none}.qtitle{font-size:24px;font-weight:900;margin:8px 0 12px}.answers{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.ans{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:16px;padding:14px;cursor:pointer;font-weight:900}.ans:hover{background:rgba(124,58,237,.25)}.ans.correct{background:rgba(22,163,74,.35);border-color:#22c55e}.ans.wrong{background:rgba(239,68,68,.35);border-color:#ef4444}.score{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0}.score div{border-radius:18px;background:rgba(255,255,255,.09);padding:14px;text-align:center}.score b{font-size:28px;color:#38bdf8}.analysis{white-space:pre-wrap;line-height:1.6;color:#eee;font-weight:700}.tag{display:inline-block;border-radius:999px;padding:6px 10px;background:rgba(34,197,94,.18);border:1px solid rgba(34,197,94,.35);margin:4px;color:#dcfce7;font-weight:900}.back{display:inline-block;text-decoration:none;color:#ddd8ff;font-weight:800;margin-bottom:12px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:999px;padding:10px 14px}.numLine{height:74px;position:relative;background:rgba(255,255,255,.08);border-radius:18px;margin-top:12px}.axis{position:absolute;left:24px;right:24px;top:36px;height:2px;background:#a5b4fc}.dot{position:absolute;top:25px;width:22px;height:22px;border-radius:50%;background:#38bdf8;box-shadow:0 0 16px #38bdf8}.label{position:absolute;top:50px;transform:translateX(-40%);font-size:12px;font-weight:900;color:#fff}@media(max-width:850px){.grid,.miniGrid,.answers,.score{grid-template-columns:1fr}.brand{font-size:30px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<a class="back" href="https://enginmat360.github.io/Engin360/sayilar_ve_cebir.html">← Sayılar ve Cebir'e Dön</a>
+<div class="top"><div class="brand">ENGİN360 · Çarpanlara Ayırma Laboratuvarı PRO</div><div class="sub">Ortak çarpan, iki kare farkı, tam kare açılımı ve üç terimli ifadeleri etkileşimli öğren. Son bölümde 10 soruluk quiz ve eksik konu analizi var.</div></div>
+
+<div class="grid">
+<div>
+<div class="card"><h2>🧩 Çarpanlara Ayırma Makinesi</h2>
+<div class="row"><select id="type" onchange="makeExample()"><option value="ortak">Ortak çarpan parantezine alma</option><option value="ikikare">İki kare farkı</option><option value="tamkare">Tam kare ifade</option><option value="ucterim">x² + bx + c tipi</option></select><button onclick="makeExample()">Yeni Örnek</button><button class="secondary" onclick="showSteps()">Adım Adım Göster</button></div>
+<div class="formula" id="question">6x + 12</div><div class="formula" id="answer" style="display:none;color:#86efac">6(x + 2)</div><div class="steps" id="steps"></div></div>
+
+<div class="card"><h2>🧠 Yöntem Haritası</h2><div class="miniGrid">
+<div class="method"><b>1. Ortak Çarpan</b><p>Her terimde ortak olan sayı veya harfi dışarı al. Örnek: 4x + 8 = 4(x + 2)</p></div>
+<div class="method"><b>2. İki Kare Farkı</b><p>a² - b² biçimindeyse sonuç (a-b)(a+b) olur.</p></div>
+<div class="method"><b>3. Tam Kare</b><p>a² ± 2ab + b² görürsen (a±b)² şeklinde yaz.</p></div>
+<div class="method"><b>4. Üç Terimli</b><p>x² + bx + c için çarpımları c, toplamları b olan iki sayı ara.</p></div>
+</div></div>
+
+<div class="card"><h2>🎯 10 Soruluk Akıllı Quiz</h2><div id="quizStart"><p class="sub">Karışık sorular gelir. Bitince doğru, yanlış, başarı yüzdesi ve eksik konu analizi çıkar.</p><br><button onclick="startQuiz()">Quizi Başlat</button></div><div class="quizBox" id="quizBox"><div class="pill" id="progress">1 / 10</div><div class="qtitle" id="quizQ"></div><div class="answers" id="answers"></div></div><div id="result"></div></div>
+</div>
+
+<div>
+<div class="card"><h2>🔍 Hızlı Kontrol</h2><p class="sub">Bir ifadeyi görünce önce şunu sor:</p><div class="steps"><div class="step">1) Her terimde ortak çarpan var mı?</div><div class="step">2) İfade iki kare farkına benziyor mu?</div><div class="step">3) İlk ve son terim kare, orta terim 2ab mi?</div><div class="step">4) x² + bx + c biçimindeyse iki sayı bulunabiliyor mu?</div></div></div>
+<div class="card"><h2>📌 Formül Panosu</h2><div class="formula" style="font-size:22px">a² - b² = (a-b)(a+b)</div><div class="formula" style="font-size:22px">a² + 2ab + b² = (a+b)²</div><div class="formula" style="font-size:22px">a² - 2ab + b² = (a-b)²</div></div>
+<div class="card"><h2>📊 Analiz Ne Ölçer?</h2><span class="tag">Ortak çarpan</span><span class="tag">İki kare farkı</span><span class="tag">Tam kare</span><span class="tag">Üç terimli</span><p class="sub" style="margin-top:10px">Quiz sonunda en çok hata yaptığın başlıklar belirlenir ve sana net tekrar önerisi verir.</p></div>
+</div>
+</div>
+</div>
+<script>
+const examples={
+ortak:[['6x + 12','6(x + 2)',['6x ve 12 terimlerinde ortak çarpan 6’dır.','6 dışarı alınır: 6(x + 2).']],['9a - 15','3(3a - 5)',['9a ve 15’in ortak çarpanı 3’tür.','3 dışarı alınır: 3(3a - 5).']],['12x² + 8x','4x(3x + 2)',['12x² ve 8x terimlerinde 4x ortaktır.','4x dışarı alınır: 4x(3x + 2).']]],
+ikikare:[['x² - 25','(x - 5)(x + 5)',['x² ve 25 birer tam karedir.','a²-b²=(a-b)(a+b) uygulanır.']],['4x² - 9','(2x - 3)(2x + 3)',['4x²=(2x)² ve 9=3².','İki kare farkı: (2x-3)(2x+3).']],['a² - 16','(a - 4)(a + 4)',['a² ve 16=4².','Sonuç: (a-4)(a+4).']]],
+tamkare:[['x² + 6x + 9','(x + 3)²',['İlk terim x², son terim 9=3².','Orta terim 2·x·3 = 6x olduğu için tam karedir.']],['x² - 10x + 25','(x - 5)²',['25=5² ve orta terim -2·x·5 = -10x.','Sonuç: (x-5)².']],['4x² + 12x + 9','(2x + 3)²',['4x²=(2x)², 9=3².','Orta terim 2·2x·3=12x.']]],
+ucterim:[['x² + 5x + 6','(x + 2)(x + 3)',['Çarpımları 6, toplamları 5 olan sayılar 2 ve 3’tür.','Sonuç: (x+2)(x+3).']],['x² - 7x + 12','(x - 3)(x - 4)',['Çarpımları 12, toplamları -7 olan sayılar -3 ve -4’tür.','Sonuç: (x-3)(x-4).']],['x² + x - 12','(x + 4)(x - 3)',['Çarpımları -12, toplamları 1 olan sayılar 4 ve -3’tür.','Sonuç: (x+4)(x-3).']]]
+};
+let current=examples.ortak[0];
+function el(id){return document.getElementById(id)}
+function makeExample(){const t=el('type').value; const arr=examples[t]; current=arr[Math.floor(Math.random()*arr.length)]; el('question').textContent=current[0]; el('answer').style.display='none'; el('answer').textContent=current[1]; el('steps').innerHTML=''}
+function showSteps(){el('answer').style.display='block'; el('steps').innerHTML=current[2].map((s,i)=>`<div class="step">${i+1}. ${s}</div>`).join('')}
+const quizPool=[
+{q:'6x + 18',a:'6(x + 3)',opts:['6(x + 3)','3(2x + 3)','x(6 + 18)','6x(1 + 3)'],cat:'Ortak çarpan'},
+{q:'12a² - 8a',a:'4a(3a - 2)',opts:['4a(3a - 2)','2a(6a - 8)','4(3a - 2)','a(12a - 8a)'],cat:'Ortak çarpan'},
+{q:'x² - 49',a:'(x - 7)(x + 7)',opts:['(x - 7)(x + 7)','(x - 7)²','(x + 7)²','x(x - 49)'],cat:'İki kare farkı'},
+{q:'9x² - 16',a:'(3x - 4)(3x + 4)',opts:['(3x - 4)(3x + 4)','(9x - 4)(x + 4)','(3x - 4)²','(x - 4)(x + 4)'],cat:'İki kare farkı'},
+{q:'x² + 8x + 16',a:'(x + 4)²',opts:['(x + 4)²','(x + 8)(x + 2)','(x - 4)²','(x + 4)(x - 4)'],cat:'Tam kare'},
+{q:'x² - 12x + 36',a:'(x - 6)²',opts:['(x - 6)²','(x + 6)²','(x - 3)(x - 12)','(x - 6)(x + 6)'],cat:'Tam kare'},
+{q:'x² + 7x + 10',a:'(x + 5)(x + 2)',opts:['(x + 5)(x + 2)','(x + 10)(x + 1)','(x - 5)(x - 2)','(x + 7)(x + 10)'],cat:'Üç terimli'},
+{q:'x² - x - 20',a:'(x - 5)(x + 4)',opts:['(x - 5)(x + 4)','(x + 5)(x - 4)','(x - 10)(x + 2)','(x - 20)(x + 1)'],cat:'Üç terimli'},
+{q:'4x² + 4x + 1',a:'(2x + 1)²',opts:['(2x + 1)²','(4x + 1)²','(2x - 1)²','(x + 1)(4x + 1)'],cat:'Tam kare'},
+{q:'25a² - 1',a:'(5a - 1)(5a + 1)',opts:['(5a - 1)(5a + 1)','(25a - 1)(a + 1)','(5a - 1)²','5(a² - 1)'],cat:'İki kare farkı'},
+{q:'15x² + 10x',a:'5x(3x + 2)',opts:['5x(3x + 2)','5(3x + 2)','10x(5x + 1)','x(15x + 10x)'],cat:'Ortak çarpan'},
+{q:'x² + 2x - 15',a:'(x + 5)(x - 3)',opts:['(x + 5)(x - 3)','(x - 5)(x + 3)','(x + 15)(x - 1)','(x + 2)(x - 15)'],cat:'Üç terimli'}
+];
+let quiz=[],qi=0,correct=0,wrongCats=[];
+function shuffle(a){return [...a].sort(()=>Math.random()-.5)}
+function startQuiz(){quiz=shuffle(quizPool).slice(0,10); qi=0; correct=0; wrongCats=[]; el('result').innerHTML=''; el('quizStart').style.display='none'; el('quizBox').style.display='block'; showQ()}
+function showQ(){const item=quiz[qi]; el('progress').textContent=(qi+1)+' / 10'; el('quizQ').textContent=item.q+' ifadesinin çarpanlara ayrılmış hali nedir?'; el('answers').innerHTML=shuffle(item.opts).map(o=>`<div class="ans" onclick="pick(this,'${o.replace(/'/g,"\\'")}')">${o}</div>`).join('')}
+function pick(node,opt){const item=quiz[qi]; document.querySelectorAll('.ans').forEach(x=>x.style.pointerEvents='none'); if(opt===item.a){node.classList.add('correct'); correct++;}else{node.classList.add('wrong'); wrongCats.push(item.cat); document.querySelectorAll('.ans').forEach(x=>{if(x.textContent===item.a)x.classList.add('correct')})} setTimeout(()=>{qi++; if(qi<quiz.length)showQ(); else finishQuiz();},900)}
+function finishQuiz(){el('quizBox').style.display='none'; const wrong=10-correct, pct=Math.round(correct*10); const counts={}; wrongCats.forEach(c=>counts[c]=(counts[c]||0)+1); const weak=Object.entries(counts).sort((a,b)=>b[1]-a[1]).map(x=>x[0]); let analysis=''; if(pct>=85) analysis='Çok iyi! Çarpanlara ayırma mantığın güçlü. Şimdi hız kazanmak için süreli test çözebilirsin.'; else if(pct>=60) analysis='İyi gidiyorsun ama bazı başlıklarda tekrar gerekiyor. Özellikle '+(weak.join(', ')||'karışık işlemler')+' konusuna odaklan.'; else analysis='Temel mantık tekrar edilmeli. Önce ortak çarpan ve iki kare farkını sağlamlaştır, sonra tam kare ve üç terimliye geç.'; if(weak.length) analysis+='\n\nEksik konu tespiti: '+weak.join(', ')+'.'; else analysis+='\n\nBelirgin eksik konu yok.'; el('result').innerHTML=`<div class="score"><div><b>${correct}</b><br>Doğru</div><div><b>${wrong}</b><br>Yanlış</div><div><b>%${pct}</b><br>Başarı</div></div><div class="card" style="margin:0"><h2>🧠 ENGİN360 Analiz</h2><div class="analysis">${analysis}</div><br><button onclick="startQuiz()">Tekrar Quiz Çöz</button></div>`; el('quizStart').style.display='block'}
+makeExample();
+</script>
+</body>
+</html>

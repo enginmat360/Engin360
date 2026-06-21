@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ENGİN360 Flashcard Hazırlayıcı V3</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+:root{--bg:#070219;--card:#12082d;--card2:#1b0f42;--line:rgba(255,255,255,.14);--txt:#f7f4ff;--muted:#c8c2e8;--p:#8b5cf6;--b:#38bdf8;--g:#22c55e;--o:#f59e0b;--r:#ef4444;--pink:#ec4899}
+*{box-sizing:border-box}body{margin:0;font-family:Segoe UI,Arial,sans-serif;background:radial-gradient(circle at top left,rgba(139,92,246,.35),transparent 34%),radial-gradient(circle at bottom right,rgba(56,189,248,.24),transparent 34%),linear-gradient(135deg,#05010d,#110025,#06142f);color:var(--txt);min-height:100vh;padding:16px}.wrap{max-width:1180px;margin:0 auto}.hero{border:1px solid var(--line);background:rgba(255,255,255,.07);border-radius:26px;padding:24px;box-shadow:0 0 34px rgba(139,92,246,.25);margin-bottom:16px}.brand{font-size:34px;font-weight:900;letter-spacing:1px;background:linear-gradient(90deg,#a855f7,#38bdf8,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent}.hero h1{font-size:30px;margin:8px 0}.hero p{color:var(--muted);line-height:1.55;margin:0}.grid{display:grid;grid-template-columns:380px 1fr;gap:14px}.panel{border:1px solid var(--line);background:rgba(255,255,255,.075);border-radius:22px;padding:16px;box-shadow:0 12px 28px rgba(0,0,0,.24);backdrop-filter:blur(10px)}h2{font-size:20px;margin:0 0 12px}label{display:block;color:#ddd8ff;font-size:13px;font-weight:700;margin:10px 0 6px}input,textarea,select{width:100%;border:1px solid rgba(255,255,255,.15);background:rgba(4,2,20,.55);color:#fff;border-radius:14px;padding:12px;font-size:14px;outline:none}textarea{min-height:96px;resize:vertical;line-height:1.45}button{border:0;border-radius:14px;padding:12px 14px;font-weight:900;color:white;cursor:pointer;background:linear-gradient(135deg,var(--p),#1677ff);box-shadow:0 8px 18px rgba(0,0,0,.2)}button:hover{filter:brightness(1.08)}.btnrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.btn2{background:#1f1b4b}.btn3{background:linear-gradient(135deg,#16a34a,#22c55e)}.btn4{background:linear-gradient(135deg,#f59e0b,#fb7185)}.btn5{background:linear-gradient(135deg,#ec4899,#8b5cf6)}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:12px}.fc{min-height:185px;border:1px solid var(--line);background:linear-gradient(145deg,rgba(139,92,246,.22),rgba(56,189,248,.10));border-radius:20px;padding:14px;position:relative;overflow:hidden}.fc:before{content:'';position:absolute;right:-28px;top:-28px;width:90px;height:90px;border-radius:50%;background:rgba(56,189,248,.14)}.tag{display:inline-block;background:rgba(255,255,255,.12);border:1px solid var(--line);padding:5px 9px;border-radius:999px;font-size:12px;color:#e8e3ff;font-weight:800}.fc h3{font-size:17px;margin:12px 0 8px}.fc p{font-size:14px;color:#e1def8;line-height:1.45;margin:0 0 8px}.mini{font-size:12px;color:#bdb6e0}.actions{display:flex;gap:8px;margin-top:12px}.actions button{padding:8px 10px;border-radius:10px;font-size:12px}.statgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px}.stat{background:rgba(255,255,255,.08);border:1px solid var(--line);border-radius:18px;padding:12px;text-align:center}.stat b{font-size:26px;display:block}.stat span{font-size:12px;color:var(--muted);font-weight:700}.study{display:grid;grid-template-columns:1fr 300px;gap:12px}.studycard{min-height:320px;border-radius:24px;border:1px solid var(--line);background:linear-gradient(145deg,#1d0f48,#071f45);padding:26px;display:flex;flex-direction:column;justify-content:center;text-align:center;cursor:pointer;box-shadow:0 18px 40px rgba(0,0,0,.28)}.studycard .side{font-size:13px;color:#aee7ff;font-weight:900;margin-bottom:16px}.studycard .big{font-size:31px;font-weight:900;line-height:1.25}.studycard .small{margin-top:14px;color:#d7d1f4;line-height:1.55}.hint{font-size:13px;color:#b8b0df;margin-top:12px}.quizBox{display:none}.option{display:block;margin:8px 0;text-align:left;background:rgba(255,255,255,.08);border:1px solid var(--line);padding:12px;border-radius:14px;cursor:pointer}.option.correct{border-color:var(--g);background:rgba(34,197,94,.18)}.option.wrong{border-color:var(--r);background:rgba(239,68,68,.18)}.analysis{white-space:pre-wrap;line-height:1.6;color:#ede9ff}.empty{border:1px dashed rgba(255,255,255,.22);border-radius:18px;padding:22px;text-align:center;color:#bdb6e0}.printCard{background:#fff;color:#15132f;border-radius:18px;padding:22px;width:900px;max-width:100%}.printCard h2{color:#4b14c9}.printGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.printItem{border:1px solid #dcd8f2;border-radius:14px;padding:12px;min-height:120px}.printItem b{color:#111044}.hide{display:none}.footer{text-align:center;color:#aaa;margin:22px 0 6px;font-size:12px}@media(max-width:900px){.grid,.study{grid-template-columns:1fr}.statgrid{grid-template-columns:repeat(2,1fr)}.brand{font-size:29px}.hero h1{font-size:24px}.printGrid{grid-template-columns:1fr}}
+
+/* V2: Yazdırma ve kart görsel çıktısı */
+.printSheet{background:#fff;color:#15132f;border-radius:18px;padding:22px;width:1000px;max-width:100%;}
+.printHeader{display:flex;justify-content:space-between;gap:14px;align-items:center;border-bottom:2px solid #e5ddff;padding-bottom:12px;margin-bottom:16px}
+.printBrand{font-size:30px;font-weight:900;color:#4b14c9}.printSub{color:#4b5563;font-weight:700;font-size:13px}.cardPrintGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.paperCard{border:2px solid #ded7f7;border-radius:16px;min-height:170px;padding:14px;page-break-inside:avoid;background:linear-gradient(135deg,#ffffff,#f8f6ff)}.paperCard .ptag{display:inline-block;background:#ede9fe;color:#4b14c9;border-radius:999px;padding:4px 8px;font-size:11px;font-weight:900;margin-bottom:8px}.paperCard .front{font-weight:900;font-size:15px;margin-bottom:10px;color:#111044}.paperCard .back{font-size:13px;line-height:1.45;color:#202044}.paperCard .cut{border-top:1px dashed #b8aedf;margin:10px 0 0;padding-top:8px;font-size:11px;color:#6b638d}.printOnly{display:none}
+@media print{body{background:#fff!important;color:#111!important;padding:0}.wrap>.hero,.wrap>.grid,.footer,#summaryCard{display:none!important}.printOnly{display:block!important}.printSheet{display:block!important;width:100%;border-radius:0;padding:12mm;box-shadow:none}.cardPrintGrid{grid-template-columns:repeat(2,1fr);gap:8mm}.paperCard{min-height:58mm}.printHeader{break-after:avoid}.noPrint{display:none!important}}
+
+
+/* V3: Katla-yapıştır ön/arka flashcard çıktı düzeni */
+.printSheet.foldMode{width:1000px;background:#fff;color:#15132f;border-radius:18px;padding:22px;max-width:100%;}
+.foldGrid{display:grid;grid-template-columns:1fr;gap:14px;}
+.foldPair{display:grid;grid-template-columns:1fr 1fr;border:2px solid #d8d0f2;border-radius:18px;overflow:hidden;background:#fff;page-break-inside:avoid;break-inside:avoid;min-height:185px;position:relative;}
+.foldPair:after{content:'KATLA';position:absolute;left:50%;top:0;bottom:0;width:0;border-left:2px dashed #9b8dd9;color:#6d5fc7;font-size:10px;font-weight:900;letter-spacing:1px;display:flex;align-items:center;justify-content:center;writing-mode:vertical-rl;background:rgba(237,233,254,.55);}
+.foldFace{padding:16px 18px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;min-height:185px;}
+.foldFace.frontSide{background:linear-gradient(135deg,#ffffff,#f7f3ff);}
+.foldFace.backSide{background:linear-gradient(135deg,#f8fbff,#ffffff);}
+.foldLabel{position:absolute;top:8px;font-size:11px;font-weight:900;border-radius:999px;padding:4px 8px;}
+.frontSide .foldLabel{left:10px;background:#ede9fe;color:#4b14c9}.backSide .foldLabel{right:10px;background:#e0f2fe;color:#0369a1}
+.foldFrontText{font-size:24px;line-height:1.25;font-weight:900;color:#111044;max-width:92%;}
+.foldBackText{font-size:15px;line-height:1.45;font-weight:750;color:#202044;max-width:92%;white-space:pre-wrap;}
+.foldMeta{margin-top:12px;font-size:11px;color:#6b638d;font-weight:800}.foldHint{font-size:12px;color:#4b5563;font-weight:800;margin-top:6px}.printHelp{background:#f7f3ff;border:1px solid #ddd6fe;color:#312e81;border-radius:14px;padding:10px 12px;font-size:13px;font-weight:800;line-height:1.4;margin:0 0 14px}
+@media print{.printSheet.foldMode{width:100%;padding:10mm;border-radius:0}.foldGrid{gap:6mm}.foldPair{min-height:54mm}.foldFace{min-height:54mm}.foldFrontText{font-size:20px}.foldBackText{font-size:13px}.printHelp{font-size:11px;padding:6px;margin-bottom:5mm}.printBrand{font-size:24px}}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <div class="brand">ENGİN360</div>
+    <h1>Flashcard Hazırlayıcı ve Çalışma Laboratuvarı</h1>
+    <p>Özellikle edebiyat için kavram, eser, yazar, dönem ve akım kartları oluştur. Kartları çalış, quiz yap, eksiklerini analiz et; istersen katla-yapıştır formatında yazdır veya görsel olarak kaydet.</p>
+  </div>
+
+  <div class="grid">
+    <div class="panel">
+      <h2>➕ Kart Oluştur</h2>
+      <label>Ders / Alan</label>
+      <select id="category"><option>Edebiyat</option><option>Türkçe</option><option>Tarih</option><option>Coğrafya</option><option>Matematik</option><option>Diğer</option></select>
+      <label>Kart Ön Yüzü / Soru</label>
+      <textarea id="front" placeholder="Örn: Tanzimat 1. Dönem'in genel özellikleri nelerdir?"></textarea>
+      <label>Kart Arka Yüzü / Cevap</label>
+      <textarea id="back" placeholder="Örn: Sanat toplum içindir, dil sadeleşmeye başlamıştır, gazete ve tiyatro önem kazanmıştır..."></textarea>
+      <label>Etiket / Konu</label>
+      <input id="tag" placeholder="Örn: Tanzimat, Servetifünun, Divan Edebiyatı" />
+      <div class="btnrow">
+        <button onclick="addCard()">Kartı Ekle</button>
+        <button class="btn2" onclick="clearForm()">Temizle</button>
+      </div>
+      <div class="btnrow">
+        <button class="btn3" onclick="loadLiteratureSet()">Edebiyat Örnek Seti</button>
+        <button class="btn4" onclick="makeFromBulk()">Toplu Kart Üret</button>
+      </div>
+      <label>Toplu Kart Alanı</label>
+      <textarea id="bulk" placeholder="Her satıra: soru | cevap | etiket
+Örn: Fecriati sloganı nedir? | Sanat şahsi ve muhteremdir. | Fecriati"></textarea>
+      <div class="btnrow">
+        <button class="btn2" onclick="exportCards()">JSON Dışa Aktar</button>
+        <button class="btn2" onclick="importCards()">JSON İçe Aktar</button>
+        <button class="btn5" onclick="saveSummaryImage()">Özet Görsel Kaydet</button>
+        <button class="btn3" onclick="saveCardsImage()">Katla Kart Görseli</button>
+        <button class="btn4" onclick="printCards()">Katla Kart Yazdır</button>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="statgrid">
+        <div class="stat"><b id="total">0</b><span>Toplam Kart</span></div>
+        <div class="stat"><b id="known">0</b><span>Bildim</span></div>
+        <div class="stat"><b id="unknown">0</b><span>Tekrar</span></div>
+        <div class="stat"><b id="success">0%</b><span>Başarı</span></div>
+      </div>
+      <div class="btnrow">
+        <button onclick="showMode('list')">Kart Listesi</button>
+        <button onclick="showMode('study')">Çalışma Modu</button>
+        <button onclick="startQuiz()">10 Soruluk Quiz</button>
+        <button class="btn2" onclick="resetProgress()">İlerlemeyi Sıfırla</button>
+      </div>
+      <div id="listMode" style="margin-top:14px"><div id="cards" class="cards"></div></div>
+      <div id="studyMode" class="hide" style="margin-top:14px">
+        <div class="study">
+          <div class="studycard" onclick="flipStudy()">
+            <div class="side" id="studySide">ÖN YÜZ</div>
+            <div class="big" id="studyText">Kart yok</div>
+            <div class="small" id="studyHint">Kart ekle veya örnek seti yükle.</div>
+          </div>
+          <div class="panel" style="background:rgba(255,255,255,.05)">
+            <h2>Çalışma Kontrolü</h2>
+            <p class="hint">Kartı görmek için büyük karta dokun. Cevabı bildiysen “Bildim”, zorlandıysan “Tekrar” seç.</p>
+            <div class="btnrow"><button class="btn3" onclick="markStudy(true)">Bildim</button><button class="btn4" onclick="markStudy(false)">Tekrar</button></div>
+            <div class="btnrow"><button class="btn2" onclick="prevStudy()">Önceki</button><button onclick="nextStudy()">Sonraki</button></div>
+            <div id="studyInfo" class="hint"></div>
+          </div>
+        </div>
+      </div>
+      <div id="quizMode" class="quizBox" style="margin-top:14px">
+        <h2>🎯 10 Soruluk Flashcard Quiz</h2>
+        <div id="quizArea"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="summaryCard" class="printCard hide">
+    <h2>ENGİN360 Flashcard Çalışma Özeti</h2>
+    <p><b>Toplam Kart:</b> <span id="pTotal"></span> · <b>Bildim:</b> <span id="pKnown"></span> · <b>Tekrar:</b> <span id="pUnknown"></span> · <b>Başarı:</b> <span id="pSuccess"></span></p>
+    <h2>Eksik Konu Analizi</h2>
+    <p id="pAnalysis"></p>
+    <div class="printGrid" id="printCards"></div>
+  </div>
+
+  <div id="printSheet" class="printSheet printOnly hide">
+    <div class="printHeader">
+      <div>
+        <div class="printBrand">ENGİN360 Flashcard Kartları</div>
+        <div class="printSub">Ortadan katla, yapıştır, kes ve gerçek flashcard gibi kullan.</div>
+      </div>
+      <div class="printSub" id="printDate"></div>
+    </div>
+    <div id="paperCards" class="cardPrintGrid"></div>
+  </div>
+
+  <div class="footer">ENGİN360 © Flashcard Hazırlayıcı</div>
+</div>
+
+<script>
+let cards = JSON.parse(localStorage.getItem('engin360_flashcards')||'[]');
+let progress = JSON.parse(localStorage.getItem('engin360_flash_progress')||'{"known":0,"unknown":0,"weak":{}}');
+let studyIndex=0, flipped=false, quiz=[], quizIndex=0, quizCorrect=0, quizWrong=0, quizWeak={};
+function save(){localStorage.setItem('engin360_flashcards',JSON.stringify(cards));localStorage.setItem('engin360_flash_progress',JSON.stringify(progress));render();}
+function $(id){return document.getElementById(id)}
+function esc(s){return String(s||'').replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]))}
+function addCard(){const front=$('front').value.trim(),back=$('back').value.trim(),tag=$('tag').value.trim()||$('category').value;if(!front||!back){alert('Ön yüz ve arka yüz boş olmamalı.');return}cards.push({front,back,tag,cat:$('category').value,created:Date.now()});clearForm();save();}
+function clearForm(){$('front').value='';$('back').value='';$('tag').value=''}
+function delCard(i){if(confirm('Bu kart silinsin mi?')){cards.splice(i,1);save();}}
+function editCard(i){const c=cards[i];$('front').value=c.front;$('back').value=c.back;$('tag').value=c.tag;$('category').value=c.cat||'Edebiyat';cards.splice(i,1);save();}
+function render(){
+ $('total').textContent=cards.length;$('known').textContent=progress.known||0;$('unknown').textContent=progress.unknown||0;const t=(progress.known||0)+(progress.unknown||0);$('success').textContent=t?Math.round((progress.known||0)*100/t)+'%':'0%';
+ const box=$('cards'); if(!cards.length){box.innerHTML='<div class="empty">Henüz kart yok. Edebiyat örnek setini yükleyebilir veya kendi kartlarını oluşturabilirsin.</div>';return}
+ box.innerHTML=cards.map((c,i)=>`<div class="fc"><span class="tag">${esc(c.cat||'Kart')} · ${esc(c.tag||'Genel')}</span><h3>${esc(c.front)}</h3><p>${esc(c.back)}</p><div class="mini">Kart No: ${i+1}</div><div class="actions"><button onclick="editCard(${i})">Düzenle</button><button class="btn4" onclick="delCard(${i})">Sil</button></div></div>`).join('');
+ updateStudy();
+}
+function showMode(m){$('listMode').classList.toggle('hide',m!=='list');$('studyMode').classList.toggle('hide',m!=='study');$('quizMode').style.display=m==='quiz'?'block':'none';if(m==='study')updateStudy();}
+function updateStudy(){if(!cards.length){$('studyText').textContent='Kart yok';$('studyHint').textContent='Kart ekle veya örnek seti yükle.';return}studyIndex=Math.max(0,Math.min(studyIndex,cards.length-1));flipped=false;const c=cards[studyIndex];$('studySide').textContent='ÖN YÜZ';$('studyText').textContent=c.front;$('studyHint').textContent=c.tag+' · Cevabı görmek için karta dokun.';$('studyInfo').textContent=(studyIndex+1)+' / '+cards.length;}
+function flipStudy(){if(!cards.length)return;flipped=!flipped;const c=cards[studyIndex];$('studySide').textContent=flipped?'ARKA YÜZ':'ÖN YÜZ';$('studyText').textContent=flipped?c.back:c.front;$('studyHint').textContent=flipped?'Cevabı değerlendirmek için sağdaki butonları kullan.':c.tag+' · Cevabı görmek için karta dokun.';}
+function nextStudy(){if(cards.length){studyIndex=(studyIndex+1)%cards.length;updateStudy();}}
+function prevStudy(){if(cards.length){studyIndex=(studyIndex-1+cards.length)%cards.length;updateStudy();}}
+function markStudy(ok){if(!cards.length)return;const tag=cards[studyIndex].tag||'Genel';if(ok)progress.known++;else{progress.unknown++;progress.weak[tag]=(progress.weak[tag]||0)+1}save();nextStudy();}
+function resetProgress(){progress={known:0,unknown:0,weak:{}};save();}
+function loadLiteratureSet(){const set=[
+ ['Tanzimat 1. Dönem sanat anlayışı nedir?','Sanat toplum içindir. Gazete, tiyatro, makale gibi türler önem kazanmıştır. Dil sadeleşmeye başlamıştır.','Tanzimat'],
+ ['Tanzimat 2. Dönem sanat anlayışı nedir?','Sanat sanat içindir anlayışı güçlenmiştir. Dil ağırlaşmış, bireysel konular öne çıkmıştır.','Tanzimat'],
+ ['Servetifünun edebiyatının genel özelliği nedir?','Sanat sanat içindir. Dil ağırdır. Bireysel konular, karamsarlık ve Batılı nazım biçimleri öne çıkar.','Servetifünun'],
+ ['Fecriati topluluğunun sloganı nedir?','Sanat şahsi ve muhteremdir.','Fecriati'],
+ ['Milli Edebiyat döneminin dil anlayışı nedir?','Sade Türkçe savunulmuştur. Konuşma dili yazı dili yapılmak istenmiştir.','Milli Edebiyat'],
+ ['Divan edebiyatında mazmun ne demektir?','Kalıplaşmış söz ve imge demektir. Örneğin gül sevgiliyi, bülbül âşığı temsil edebilir.','Divan Edebiyatı'],
+ ['Halk edebiyatında koşma nedir?','Aşk, doğa, yiğitlik gibi konuları işleyen, genellikle 11’li hece ölçüsüyle yazılan nazım biçimidir.','Halk Edebiyatı'],
+ ['Roman türünün Türk edebiyatındaki ilk örneği nedir?','Şemsettin Sami’nin Taaşşuk-ı Talat ve Fitnat adlı eseridir.','İlkler'],
+ ['İlk edebi roman hangisidir?','Namık Kemal’in İntibah adlı eseridir.','İlkler'],
+ ['İlk realist roman hangisidir?','Recaizade Mahmut Ekrem’in Araba Sevdası adlı eseridir.','İlkler']
+ ];set.forEach(x=>cards.push({front:x[0],back:x[1],tag:x[2],cat:'Edebiyat',created:Date.now()}));save();}
+function makeFromBulk(){const lines=$('bulk').value.split('\n').map(x=>x.trim()).filter(Boolean);let n=0;lines.forEach(line=>{const p=line.split('|').map(x=>x.trim());if(p[0]&&p[1]){cards.push({front:p[0],back:p[1],tag:p[2]||'Genel',cat:$('category').value,created:Date.now()});n++}});$('bulk').value='';save();alert(n+' kart eklendi.');}
+function exportCards(){const data=JSON.stringify(cards,null,2);navigator.clipboard?.writeText(data);prompt('Kart JSON kopyala:',data)}
+function importCards(){const data=prompt('JSON verisini yapıştır:');if(!data)return;try{const arr=JSON.parse(data);if(Array.isArray(arr)){cards=arr;save();}}catch(e){alert('JSON okunamadı.')}}
+function startQuiz(){if(cards.length<4){alert('Quiz için en az 4 kart gerekli.');return}showMode('quiz');quiz=[...cards].sort(()=>Math.random()-.5).slice(0,Math.min(10,cards.length));quizIndex=0;quizCorrect=0;quizWrong=0;quizWeak={};renderQuiz();}
+function renderQuiz(){const area=$('quizArea');if(quizIndex>=quiz.length){finishQuiz();return}const c=quiz[quizIndex];let opts=[c.back];[...cards].sort(()=>Math.random()-.5).forEach(x=>{if(opts.length<4&&x.back!==c.back)opts.push(x.back)});opts=opts.sort(()=>Math.random()-.5);area.innerHTML=`<div class="fc"><span class="tag">Soru ${quizIndex+1}/${quiz.length} · ${esc(c.tag)}</span><h3>${esc(c.front)}</h3><div>${opts.map(o=>`<div class="option" onclick="answerQuiz(this,'${esc(o)}','${esc(c.back)}','${esc(c.tag)}')">${esc(o)}</div>`).join('')}</div></div>`;}
+function answerQuiz(node,ans,right,tag){document.querySelectorAll('.option').forEach(o=>o.style.pointerEvents='none');if(ans===right){quizCorrect++;node.classList.add('correct')}else{quizWrong++;quizWeak[tag]=(quizWeak[tag]||0)+1;node.classList.add('wrong');document.querySelectorAll('.option').forEach(o=>{if(o.textContent===right)o.classList.add('correct')})}setTimeout(()=>{quizIndex++;renderQuiz();},900)}
+function finishQuiz(){const pct=Math.round(quizCorrect*100/quiz.length);const weak=Object.entries(quizWeak).sort((a,b)=>b[1]-a[1]);let msg=`Doğru: ${quizCorrect}\nYanlış: ${quizWrong}\nBaşarı: %${pct}\n\n`;msg+=weak.length?`Eksik görünen konular: ${weak.map(x=>x[0]).join(', ')}\n\n`:'Belirgin eksik konu görünmüyor.\n\n';msg+=pct>=85?'Çok iyi. Kartları düzenli tekrar edersen kalıcılık artar.':pct>=60?'İyi gidiyorsun. Yanlış çıkan etiketleri tekrar kartlarına al.':'Bu konular henüz oturmamış. Önce 10-15 kartı çalış, sonra quiz yap.';$('quizArea').innerHTML=`<div class="panel"><h2>📊 Quiz Analizi</h2><div class="analysis">${esc(msg)}</div><div class="btnrow"><button onclick="startQuiz()">Yeni Quiz</button><button class="btn2" onclick="showMode('list')">Kartlara Dön</button></div></div>`;}
+function buildAnalysis(){const weak=Object.entries(progress.weak||{}).sort((a,b)=>b[1]-a[1]);if(!weak.length)return 'Henüz belirgin eksik konu oluşmadı. Kartları çalışıp tekrar işaretledikçe analiz oluşur.';return 'En çok tekrar isteyen konular: '+weak.map(x=>`${x[0]} (${x[1]})`).join(', ')+'. Bu başlıklardan yeni kart üretmek faydalı olur.';}
+async function saveSummaryImage(){
+ $('pTotal').textContent=cards.length;$('pKnown').textContent=progress.known||0;$('pUnknown').textContent=progress.unknown||0;const t=(progress.known||0)+(progress.unknown||0);$('pSuccess').textContent=t?Math.round((progress.known||0)*100/t)+'%':'0%';$('pAnalysis').textContent=buildAnalysis();
+ $('printCards').innerHTML=cards.slice(0,8).map(c=>`<div class="printItem"><b>${esc(c.front)}</b><br><span>${esc(c.back)}</span><br><small>${esc(c.tag)}</small></div>`).join('');
+ const card=$('summaryCard');card.classList.remove('hide');const canvas=await html2canvas(card,{scale:2,backgroundColor:'#ffffff'});card.classList.add('hide');const a=document.createElement('a');a.href=canvas.toDataURL('image/png');a.download='ENGIN360_flashcard_ozet.png';a.click();
+}
+function buildCardsSheet(limit){
+ const sheet=$('printSheet'), grid=$('paperCards');
+ sheet.classList.add('foldMode');
+ grid.className='foldGrid';
+ $('printDate').textContent=new Date().toLocaleDateString('tr-TR');
+ const arr=typeof limit==='number'?cards.slice(0,limit):cards;
+ if(!arr.length){grid.innerHTML='<div class="foldPair"><div class="foldFace frontSide"><span class="foldLabel">ÖN YÜZ</span><div class="foldFrontText">Henüz kart yok.</div><div class="foldMeta">ENGİN360</div></div><div class="foldFace backSide"><span class="foldLabel">ARKA YÜZ</span><div class="foldBackText">Önce kart oluştur veya edebiyat örnek setini yükle.</div></div></div>';return sheet}
+ grid.innerHTML='<div class="printHelp">Kullanım: Çıktı aldıktan sonra her kartı ortadaki kesik çizgiden ikiye katla. Ön yüz dışta, arka yüz arkada kalacak şekilde yapıştır. Sonra dış çerçeveden kes.</div>'+
+ arr.map((c,i)=>`<div class="foldPair">
+   <div class="foldFace frontSide"><span class="foldLabel">ÖN YÜZ</span><div class="foldFrontText">${esc(c.front)}</div><div class="foldMeta">${esc(c.cat||'Kart')} · ${esc(c.tag||'Genel')} · ${i+1}</div></div>
+   <div class="foldFace backSide"><span class="foldLabel">ARKA YÜZ</span><div class="foldBackText">${esc(c.back)}</div><div class="foldHint">ENGİN360 · Tekrar kartı</div></div>
+ </div>`).join('');
+ return sheet;
+}
+async function saveCardsImage(){
+ const sheet=buildCardsSheet(12);
+ sheet.classList.remove('hide');sheet.classList.remove('printOnly');
+ const canvas=await html2canvas(sheet,{scale:2,backgroundColor:'#ffffff'});
+ sheet.classList.add('hide');sheet.classList.add('printOnly');
+ const a=document.createElement('a');a.href=canvas.toDataURL('image/png');a.download='ENGIN360_flashcard_katla_yapistir_kartlari.png';a.click();
+}
+function printCards(){
+ buildCardsSheet();
+ const sheet=$('printSheet');sheet.classList.remove('hide');
+ setTimeout(()=>{window.print();setTimeout(()=>sheet.classList.add('hide'),500)},150);
+}
+
+render();
+</script>
+</body>
+</html>

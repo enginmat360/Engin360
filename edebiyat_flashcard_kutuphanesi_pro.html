@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ENGİN360 Edebiyat Flashcard Kütüphanesi PRO</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+:root{--bg:#050512;--panel:rgba(255,255,255,.075);--border:rgba(255,255,255,.16);--p:#a855f7;--b:#38bdf8;--c:#67e8f9;--pink:#ec4899;--g:#22c55e;--o:#fb923c;--r:#ef4444;--txt:#fff;--mut:#dbeafe}
+*{box-sizing:border-box;margin:0;padding:0}body{min-height:100vh;font-family:Arial,Helvetica,sans-serif;color:var(--txt);background:radial-gradient(circle at 14% 8%,rgba(168,85,247,.42),transparent 32%),radial-gradient(circle at 88% 18%,rgba(56,189,248,.28),transparent 32%),radial-gradient(circle at 50% 105%,rgba(236,72,153,.18),transparent 38%),linear-gradient(145deg,#050512,#111138);padding:18px}.wrap{max-width:1180px;margin:auto}.hero{border:1px solid var(--border);background:linear-gradient(135deg,rgba(168,85,247,.18),rgba(56,189,248,.09)),rgba(255,255,255,.05);border-radius:28px;padding:24px;box-shadow:0 18px 55px rgba(0,0,0,.32);margin-bottom:16px}.top{display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap}.logo{font-size:clamp(34px,5vw,62px);font-weight:900;font-style:italic;background:linear-gradient(90deg,#f0abfc,#a855f7,#38bdf8,#67e8f9);-webkit-background-clip:text;color:transparent;text-shadow:0 0 18px rgba(236,72,153,.55)}.hero h1{font-size:clamp(24px,3vw,38px);margin-top:8px}.hero p{margin-top:7px;color:var(--mut);line-height:1.55;max-width:850px}.pill{border:1px solid rgba(103,232,249,.35);border-radius:999px;padding:10px 14px;color:#e0f2fe;background:rgba(15,23,42,.42);font-weight:800}.toolbar{display:grid;grid-template-columns:1.2fr 1fr auto;gap:10px;margin:14px 0}.toolbar input,.toolbar select{width:100%;padding:13px;border-radius:16px;border:1px solid var(--border);background:rgba(255,255,255,.08);color:#fff;font-weight:800;outline:0}.toolbar option{color:#111}.btns{display:flex;gap:8px;flex-wrap:wrap}.btn{border:0;border-radius:14px;padding:12px 14px;font-weight:900;color:#fff;cursor:pointer;background:linear-gradient(135deg,var(--p),var(--b));box-shadow:0 0 20px rgba(56,189,248,.18)}.btn.dark{background:rgba(255,255,255,.09);border:1px solid var(--border)}.btn.green{background:linear-gradient(135deg,#16a34a,#22c55e)}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}.stat{border:1px solid var(--border);border-radius:20px;background:rgba(255,255,255,.06);padding:14px;text-align:center}.stat b{font-size:28px;display:block}.stat span{color:#dbeafe;font-size:12px;font-weight:800}.main{display:grid;grid-template-columns:1.25fr .75fr;gap:14px}.panel{border:1px solid var(--border);background:rgba(255,255,255,.06);border-radius:24px;padding:16px;box-shadow:0 14px 34px rgba(0,0,0,.23)}.cardStage{min-height:390px;display:grid;place-items:center}.flash{width:min(660px,100%);min-height:330px;perspective:1200px;cursor:pointer}.inner{position:relative;width:100%;min-height:330px;transition:transform .55s;transform-style:preserve-3d}.flash.flipped .inner{transform:rotateY(180deg)}.side{position:absolute;inset:0;border-radius:28px;padding:28px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;backface-visibility:hidden;border:1px solid rgba(255,255,255,.22);box-shadow:inset 0 0 38px rgba(255,255,255,.06),0 22px 48px rgba(0,0,0,.35);overflow:hidden}.front{background:linear-gradient(135deg,rgba(168,85,247,.72),rgba(56,189,248,.28)),#0b102b}.back{transform:rotateY(180deg);background:linear-gradient(135deg,rgba(236,72,153,.62),rgba(34,197,94,.22)),#0b102b}.period{font-size:13px;color:#cffafe;font-weight:900;letter-spacing:1px;text-transform:uppercase;margin-bottom:12px}.question{font-size:clamp(28px,5vw,54px);font-weight:900;line-height:1.08;text-shadow:0 0 20px rgba(255,255,255,.16)}.answer{font-size:clamp(24px,4vw,42px);font-weight:900;line-height:1.13}.note{margin-top:13px;color:#e0f2fe;line-height:1.45;font-weight:750}.meta{margin-top:13px;font-size:13px;color:#dbeafe}.side:after{content:'ENGİN360';position:absolute;right:22px;bottom:18px;font-size:13px;font-weight:900;opacity:.45}.nav{display:flex;gap:9px;justify-content:center;flex-wrap:wrap;margin-top:14px}.list{max-height:520px;overflow:auto;padding-right:4px}.item{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.045);border-radius:15px;padding:11px;margin-bottom:8px;cursor:pointer}.item:hover{border-color:rgba(103,232,249,.45);background:rgba(56,189,248,.08)}.item.active{border-color:#67e8f9;box-shadow:0 0 18px rgba(103,232,249,.25)}.item b{font-size:14px}.item small{display:block;color:#cbd5e1;margin-top:3px}.tagg{font-size:11px;color:#fff;background:rgba(168,85,247,.45);border:1px solid rgba(255,255,255,.14);padding:5px 7px;border-radius:999px;font-weight:900}.quiz{display:none}.quiz.show{display:block}.choices{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:13px}.choice{padding:13px;border-radius:14px;border:1px solid var(--border);background:rgba(255,255,255,.08);color:#fff;font-weight:900;cursor:pointer}.choice.correct{background:rgba(34,197,94,.35);border-color:#22c55e}.choice.wrong{background:rgba(239,68,68,.35);border-color:#ef4444}.analysis{margin-top:12px;line-height:1.55;color:#dbeafe;font-weight:800}.printArea{display:none}.printCard{border:1px dashed #999;border-radius:12px;padding:14px;height:140px;display:grid;grid-template-columns:1fr 1fr;gap:10px;break-inside:avoid;margin-bottom:12px;color:#111;background:#fff}.printCard .l,.printCard .r{display:grid;place-items:center;text-align:center;padding:8px;border-radius:10px}.printCard .l{border-right:2px dashed #999;font-size:24px;font-weight:900}.printCard .r{font-size:17px;font-weight:800}.foot{text-align:center;margin:22px;color:#cbd5e1;font-size:13px}@media(max-width:850px){.toolbar{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}.main{grid-template-columns:1fr}.choices{grid-template-columns:1fr}}@media print{body{background:#fff;color:#111;padding:0}.wrap>*:not(.printArea){display:none!important}.printArea{display:block;padding:12mm}.printTitle{text-align:center;margin-bottom:12px}.printGrid{display:grid;grid-template-columns:1fr;gap:0}.printCard{height:122px;page-break-inside:avoid}.printCard .l{font-size:22px}.printCard .r{font-size:15px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <section class="hero">
+    <div class="top"><div><div class="logo">ENGİN360</div><h1>📚 Edebiyat Flashcard Kütüphanesi PRO</h1><p>Tanzimat'tan Cumhuriyet'e dönem-yazar-eser kartları. Kartı çevir, karıştır, quiz çöz, yazdır veya görsel kaydet.</p></div><div class="pill">Hafıza Laboratuvarı</div></div>
+  </section>
+  <div class="toolbar">
+    <input id="search" placeholder="Yazar, eser, dönem ara... örn: Namık Kemal, Aşk-ı Memnu, Milli Edebiyat" oninput="applyFilter()">
+    <select id="periodFilter" onchange="applyFilter()"><option value="Tümü">Tüm dönemler</option></select>
+    <div class="btns"><button class="btn" onclick="shuffleCards()">Karıştır</button><button class="btn dark" onclick="startQuiz()">Quiz Modu</button><button class="btn green" onclick="printCards()">Yazdır</button><button class="btn dark" onclick="saveCardImage()">Kart Görseli</button></div>
+  </div>
+  <div class="stats"><div class="stat"><b id="totalCount">0</b><span>Toplam Kart</span></div><div class="stat"><b id="filteredCount">0</b><span>Aktif Kart</span></div><div class="stat"><b id="seenCount">0</b><span>Çalışılan</span></div><div class="stat"><b id="quizScore">-</b><span>Quiz Skoru</span></div></div>
+  <div class="main">
+    <section class="panel">
+      <div id="studyMode">
+        <div class="cardStage"><div class="flash" id="flash" onclick="flipCard()"><div class="inner"><div class="side front"><div class="period" id="frontPeriod"></div><div class="question" id="frontText"></div><div class="meta">Kartı çevirmek için dokun</div></div><div class="side back"><div class="period" id="backPeriod"></div><div class="answer" id="backText"></div><div class="note" id="backNote"></div><div class="meta" id="backMeta"></div></div></div></div></div>
+        <div class="nav"><button class="btn dark" onclick="prevCard(event)">← Önceki</button><button class="btn" onclick="flipCard(event)">Kartı Çevir</button><button class="btn dark" onclick="nextCard(event)">Sonraki →</button><button class="btn green" onclick="markKnown(event)">Öğrendim</button></div>
+      </div>
+      <div id="quizMode" class="quiz"><h2>🎯 10 Soruluk Edebiyat Quiz</h2><p class="note" id="quizProgress"></p><div class="cardStage" style="min-height:250px"><div><div class="period" id="quizPeriod"></div><div class="question" id="quizQuestion"></div><div class="choices" id="choices"></div><div class="analysis" id="quizFeedback"></div></div></div><div class="nav"><button class="btn dark" onclick="exitQuiz()">Çık</button><button class="btn" onclick="nextQuiz()">Sonraki</button></div></div>
+    </section>
+    <aside class="panel"><h2>🗂️ Kart Listesi</h2><p class="note">Bir karta tıklayarak doğrudan açabilirsin.</p><div class="list" id="cardList"></div></aside>
+  </div>
+  <div class="foot">ENGİN360 © 2026 · Edebiyat Flashcard Kütüphanesi</div>
+  <section class="printArea" id="printArea"><div class="printTitle"><h1>ENGİN360 Edebiyat Flashcard Kütüphanesi</h1><p>Katla - yapıştır - kes formatı</p></div><div class="printGrid" id="printGrid"></div></section>
+</div>
+<script>
+const cards = [
+// Tanzimat 1
+{p:'Tanzimat 1. Dönem',q:'İlk özel gazete',a:'Tercüman-ı Ahval',n:'Şinasi ve Agah Efendi tarafından çıkarılmıştır.',t:'ilkler'},
+{p:'Tanzimat 1. Dönem',q:'İlk makale',a:'Tercüman-ı Ahval Mukaddimesi',n:'Şinasi tarafından yazılmıştır.',t:'ilkler'},
+{p:'Tanzimat 1. Dönem',q:'İlk yerli tiyatro',a:'Şair Evlenmesi',n:'Şinasi.',t:'ilkler'},
+{p:'Tanzimat 1. Dönem',q:'Şair Evlenmesi',a:'Şinasi',n:'Batılı anlamda ilk yerli tiyatro.',t:'yazar-eser'},
+{p:'Tanzimat 1. Dönem',q:'Vatan Şairi',a:'Namık Kemal',n:'Hürriyet, vatan, millet temalarıyla bilinir.',t:'unvan'},
+{p:'Tanzimat 1. Dönem',q:'Vatan Yahut Silistre',a:'Namık Kemal',n:'Tiyatro türündedir.',t:'yazar-eser'},
+{p:'Tanzimat 1. Dönem',q:'İntibah',a:'Namık Kemal',n:'İlk edebi roman kabul edilir.',t:'yazar-eser'},
+{p:'Tanzimat 1. Dönem',q:'Cezmi',a:'Namık Kemal',n:'Tarihi roman örneği.',t:'yazar-eser'},
+{p:'Tanzimat 1. Dönem',q:'Terkib-i Bent / Terci-i Bent',a:'Ziya Paşa',n:'Eski nazım biçimleriyle yeni düşünceler.',t:'yazar-eser'},
+{p:'Tanzimat 1. Dönem',q:'Harabat',a:'Ziya Paşa',n:'Antoloji türündedir.',t:'yazar-eser'},
+{p:'Tanzimat 1. Dönem',q:'Felatun Bey ile Rakım Efendi',a:'Ahmet Mithat Efendi',n:'Yanlış Batılılaşma eleştirisi.',t:'yazar-eser'},
+{p:'Tanzimat 1. Dönem',q:'Letaif-i Rivayat',a:'Ahmet Mithat Efendi',n:'İlk hikâye örnekleri arasında sayılır.',t:'yazar-eser'},
+{p:'Tanzimat 1. Dönem',q:'Hasan Mellah / Hüseyin Fellah',a:'Ahmet Mithat Efendi',n:'Popüler roman anlayışı.',t:'yazar-eser'},
+{p:'Tanzimat 1. Dönem',q:'Taaşşuk-ı Talat ve Fitnat',a:'Şemsettin Sami',n:'İlk yerli roman kabul edilir.',t:'yazar-eser'},
+{p:'Tanzimat 1. Dönem',q:'Kamus-ı Türki',a:'Şemsettin Sami',n:'Sözlük çalışmasıdır.',t:'yazar-eser'},
+// Tanzimat 2
+{p:'Tanzimat 2. Dönem',q:'Araba Sevdası',a:'Recaizade Mahmut Ekrem',n:'İlk realist roman kabul edilir.',t:'yazar-eser'},
+{p:'Tanzimat 2. Dönem',q:'Zemzeme',a:'Recaizade Mahmut Ekrem',n:'Şiir kitabıdır.',t:'yazar-eser'},
+{p:'Tanzimat 2. Dönem',q:'Talîm-i Edebiyat',a:'Recaizade Mahmut Ekrem',n:'Edebiyat bilgisi kitabı.',t:'yazar-eser'},
+{p:'Tanzimat 2. Dönem',q:'Sergüzeşt',a:'Samipaşazade Sezai',n:'Kölelik temasını işler.',t:'yazar-eser'},
+{p:'Tanzimat 2. Dönem',q:'Küçük Şeyler',a:'Samipaşazade Sezai',n:'Modern hikâyeye yaklaşan eser.',t:'yazar-eser'},
+{p:'Tanzimat 2. Dönem',q:'Karabibik',a:'Nabizade Nazım',n:'Köy gerçekçiliğine yaklaşan roman.',t:'yazar-eser'},
+{p:'Tanzimat 2. Dönem',q:'Zehra',a:'Nabizade Nazım',n:'Natrualist-realistik etkiler taşır.',t:'yazar-eser'},
+{p:'Tanzimat 2. Dönem',q:'Makber',a:'Abdülhak Hamit Tarhan',n:'Ölüm temalı şiir.',t:'yazar-eser'},
+{p:'Tanzimat 2. Dönem',q:'Eşber',a:'Abdülhak Hamit Tarhan',n:'Tiyatro eseridir.',t:'yazar-eser'},
+{p:'Tanzimat 2. Dönem',q:'Demdeme',a:'Muallim Naci',n:'Recaizade ile eski-yeni tartışması.',t:'yazar-eser'},
+{p:'Tanzimat 2. Dönem',q:'Ateşpare',a:'Muallim Naci',n:'Şiir kitabı.',t:'yazar-eser'},
+// Servetifun
+{p:'Servetifünun',q:'Rübab-ı Şikeste',a:'Tevfik Fikret',n:'Servetifünun şiirinin güçlü örneği.',t:'yazar-eser'},
+{p:'Servetifünun',q:'Haluk’un Defteri',a:'Tevfik Fikret',n:'Oğlu Haluk üzerinden gelecek ideali.',t:'yazar-eser'},
+{p:'Servetifünun',q:'Sis',a:'Tevfik Fikret',n:'İstanbul eleştirisi içeren şiir.',t:'yazar-eser'},
+{p:'Servetifünun',q:'Mai ve Siyah',a:'Halit Ziya Uşaklıgil',n:'Servetifünun kuşağının hayal-hakikat çatışması.',t:'yazar-eser'},
+{p:'Servetifünun',q:'Aşk-ı Memnu',a:'Halit Ziya Uşaklıgil',n:'Roman türündedir.',t:'yazar-eser'},
+{p:'Servetifünun',q:'Kırık Hayatlar',a:'Halit Ziya Uşaklıgil',n:'Roman türündedir.',t:'yazar-eser'},
+{p:'Servetifünun',q:'Eylül',a:'Mehmet Rauf',n:'İlk psikolojik roman kabul edilir.',t:'yazar-eser'},
+{p:'Servetifünun',q:'Siyah İnciler',a:'Mehmet Rauf',n:'Mensur şiir örneği.',t:'yazar-eser'},
+{p:'Servetifünun',q:'Elhan-ı Şita',a:'Cenap Şahabettin',n:'Servetifünun şiiri.',t:'yazar-eser'},
+{p:'Servetifünun',q:'Hac Yolunda',a:'Cenap Şahabettin',n:'Gezi yazısı türündedir.',t:'yazar-eser'},
+{p:'Servetifünun',q:'Hayal İçinde',a:'Hüseyin Cahit Yalçın',n:'Roman türündedir.',t:'yazar-eser'},
+{p:'Servetifünun',q:'Kavgalarım',a:'Hüseyin Cahit Yalçın',n:'Eleştiri/anı çizgisinde bilinir.',t:'yazar-eser'},
+// Fecri Ati
+{p:'Fecriati',q:'Sanat şahsi ve muhteremdir.',a:'Fecriati topluluğu',n:'Topluluğun sanat anlayışını özetler.',t:'ilke'},
+{p:'Fecriati',q:'Göl Saatleri',a:'Ahmet Haşim',n:'Şiir kitabı.',t:'yazar-eser'},
+{p:'Fecriati',q:'Piyale',a:'Ahmet Haşim',n:'Şiir kitabı.',t:'yazar-eser'},
+{p:'Fecriati',q:'Bize Göre',a:'Ahmet Haşim',n:'Fıkra/deneme türündedir.',t:'yazar-eser'},
+{p:'Fecriati',q:'Memleket Hikâyeleri',a:'Refik Halit Karay',n:'Anadolu gerçekliğini işleyen hikâyeler.',t:'yazar-eser'},
+{p:'Fecriati',q:'Gurbet Hikâyeleri',a:'Refik Halit Karay',n:'Hikâye türündedir.',t:'yazar-eser'},
+{p:'Fecriati',q:'Kiralık Konak',a:'Yakup Kadri Karaosmanoğlu',n:'Kuşak çatışmasını işler.',t:'yazar-eser'},
+// Milli Edebiyat
+{p:'Milli Edebiyat',q:'Yeni Lisan',a:'Ömer Seyfettin / Genç Kalemler',n:'Dilde sadeleşme hareketi.',t:'ilke'},
+{p:'Milli Edebiyat',q:'Kaşağı',a:'Ömer Seyfettin',n:'Hikâye türündedir.',t:'yazar-eser'},
+{p:'Milli Edebiyat',q:'Bomba',a:'Ömer Seyfettin',n:'Hikâye türündedir.',t:'yazar-eser'},
+{p:'Milli Edebiyat',q:'Yüksek Ökçeler',a:'Ömer Seyfettin',n:'Hikâye türündedir.',t:'yazar-eser'},
+{p:'Milli Edebiyat',q:'Türkçülüğün Esasları',a:'Ziya Gökalp',n:'Fikir eseri.',t:'yazar-eser'},
+{p:'Milli Edebiyat',q:'Kızıl Elma',a:'Ziya Gökalp',n:'Şiir/fikir çizgisindedir.',t:'yazar-eser'},
+{p:'Milli Edebiyat',q:'Turan',a:'Ziya Gökalp',n:'Şiir.',t:'yazar-eser'},
+{p:'Milli Edebiyat',q:'Türk Sazı',a:'Mehmet Emin Yurdakul',n:'Milli duyguları işleyen şiirler.',t:'yazar-eser'},
+{p:'Milli Edebiyat',q:'Ateşten Gömlek',a:'Halide Edip Adıvar',n:'Kurtuluş Savaşı romanı.',t:'yazar-eser'},
+{p:'Milli Edebiyat',q:'Sinekli Bakkal',a:'Halide Edip Adıvar',n:'Roman.',t:'yazar-eser'},
+{p:'Milli Edebiyat',q:'Vurun Kahpeye',a:'Halide Edip Adıvar',n:'Kurtuluş Savaşı çizgisinde roman.',t:'yazar-eser'},
+{p:'Milli Edebiyat',q:'Yaban',a:'Yakup Kadri Karaosmanoğlu',n:'Aydın-köylü çatışması.',t:'yazar-eser'},
+{p:'Milli Edebiyat',q:'Ankara',a:'Yakup Kadri Karaosmanoğlu',n:'Cumhuriyet’in kuruluş yılları.',t:'yazar-eser'},
+{p:'Milli Edebiyat',q:'Panorama',a:'Yakup Kadri Karaosmanoğlu',n:'Toplumsal panoramik roman.',t:'yazar-eser'},
+{p:'Milli Edebiyat',q:'Çalıkuşu',a:'Reşat Nuri Güntekin',n:'Roman.',t:'yazar-eser'},
+{p:'Milli Edebiyat',q:'Yeşil Gece',a:'Reşat Nuri Güntekin',n:'Roman.',t:'yazar-eser'},
+{p:'Milli Edebiyat',q:'Dudaktan Kalbe',a:'Reşat Nuri Güntekin',n:'Roman.',t:'yazar-eser'},
+{p:'Milli Edebiyat',q:'Kuyruklu Yıldız Altında Bir İzdivaç',a:'Hüseyin Rahmi Gürpınar',n:'Roman.',t:'yazar-eser'},
+{p:'Milli Edebiyat',q:'Şık',a:'Hüseyin Rahmi Gürpınar',n:'Roman.',t:'yazar-eser'},
+// Cumhuriyet Roman/Hikaye
+{p:'Cumhuriyet',q:'Saatleri Ayarlama Enstitüsü',a:'Ahmet Hamdi Tanpınar',n:'Roman.',t:'yazar-eser'},
+{p:'Cumhuriyet',q:'Huzur',a:'Ahmet Hamdi Tanpınar',n:'Roman.',t:'yazar-eser'},
+{p:'Cumhuriyet',q:'Beş Şehir',a:'Ahmet Hamdi Tanpınar',n:'Deneme/gezi-anı çizgisi.',t:'yazar-eser'},
+{p:'Cumhuriyet',q:'Dokuzuncu Hariciye Koğuşu',a:'Peyami Safa',n:'Psikolojik roman.',t:'yazar-eser'},
+{p:'Cumhuriyet',q:'Fatih-Harbiye',a:'Peyami Safa',n:'Doğu-Batı çatışması.',t:'yazar-eser'},
+{p:'Cumhuriyet',q:'Kürk Mantolu Madonna',a:'Sabahattin Ali',n:'Roman.',t:'yazar-eser'},
+{p:'Cumhuriyet',q:'İçimizdeki Şeytan',a:'Sabahattin Ali',n:'Roman.',t:'yazar-eser'},
+{p:'Cumhuriyet',q:'Kuyucaklı Yusuf',a:'Sabahattin Ali',n:'Roman.',t:'yazar-eser'},
+{p:'Cumhuriyet',q:'İnce Memed',a:'Yaşar Kemal',n:'Roman.',t:'yazar-eser'},
+{p:'Cumhuriyet',q:'Yer Demir Gök Bakır',a:'Yaşar Kemal',n:'Roman.',t:'yazar-eser'},
+{p:'Cumhuriyet',q:'Bereketli Topraklar Üzerinde',a:'Orhan Kemal',n:'Toplumcu gerçekçi roman.',t:'yazar-eser'},
+{p:'Cumhuriyet',q:'Murtaza',a:'Orhan Kemal',n:'Roman.',t:'yazar-eser'},
+{p:'Cumhuriyet',q:'Esir Şehrin İnsanları',a:'Kemal Tahir',n:'Roman.',t:'yazar-eser'},
+{p:'Cumhuriyet',q:'Devlet Ana',a:'Kemal Tahir',n:'Tarihi roman.',t:'yazar-eser'},
+{p:'Cumhuriyet',q:'Küçük Ağa',a:'Tarık Buğra',n:'Kurtuluş Savaşı romanı.',t:'yazar-eser'},
+{p:'Cumhuriyet',q:'Osmancık',a:'Tarık Buğra',n:'Tarihi roman.',t:'yazar-eser'},
+{p:'Cumhuriyet',q:'Sarı Traktör',a:'Talip Apaydın',n:'Köy romanı.',t:'yazar-eser'},
+{p:'Cumhuriyet',q:'Yılanların Öcü',a:'Fakir Baykurt',n:'Köy romanı.',t:'yazar-eser'},
+{p:'Cumhuriyet',q:'Tütün Zamanı',a:'Necati Cumalı',n:'Roman.',t:'yazar-eser'},
+{p:'Cumhuriyet',q:'Aylak Adam',a:'Yusuf Atılgan',n:'Modernist roman.',t:'yazar-eser'},
+{p:'Cumhuriyet',q:'Anayurt Oteli',a:'Yusuf Atılgan',n:'Modernist roman.',t:'yazar-eser'},
+{p:'Cumhuriyet',q:'Tutunamayanlar',a:'Oğuz Atay',n:'Postmodern çizgiye yakın roman.',t:'yazar-eser'},
+{p:'Cumhuriyet',q:'Tehlikeli Oyunlar',a:'Oğuz Atay',n:'Roman.',t:'yazar-eser'},
+// Cumhuriyet Şiir
+{p:'Cumhuriyet Şiiri',q:'Çile',a:'Necip Fazıl Kısakürek',n:'Şiir kitabı.',t:'yazar-eser'},
+{p:'Cumhuriyet Şiiri',q:'Kaldırımlar',a:'Necip Fazıl Kısakürek',n:'Şiir.',t:'yazar-eser'},
+{p:'Cumhuriyet Şiiri',q:'Memleketimden İnsan Manzaraları',a:'Nazım Hikmet',n:'Şiirsel anlatı.',t:'yazar-eser'},
+{p:'Cumhuriyet Şiiri',q:'835 Satır',a:'Nazım Hikmet',n:'Şiir kitabı.',t:'yazar-eser'},
+{p:'Cumhuriyet Şiiri',q:'Otuz Beş Yaş',a:'Cahit Sıtkı Tarancı',n:'Şiir.',t:'yazar-eser'},
+{p:'Cumhuriyet Şiiri',q:'Düşten Güzel',a:'Cahit Sıtkı Tarancı',n:'Şiir kitabı.',t:'yazar-eser'},
+{p:'Cumhuriyet Şiiri',q:'Fahriye Abla',a:'Ahmet Muhip Dıranas',n:'Şiir.',t:'yazar-eser'},
+{p:'Cumhuriyet Şiiri',q:'Kar',a:'Ahmet Muhip Dıranas',n:'Şiir.',t:'yazar-eser'},
+{p:'Cumhuriyet Şiiri',q:'Ben Sana Mecburum',a:'Attila İlhan',n:'Şiir kitabı/şiir.',t:'yazar-eser'},
+{p:'Cumhuriyet Şiiri',q:'Sisler Bulvarı',a:'Attila İlhan',n:'Şiir kitabı.',t:'yazar-eser'},
+{p:'Cumhuriyet Şiiri',q:'Garip Akımı',a:'Orhan Veli - Oktay Rifat - Melih Cevdet',n:'I. Yeni şiiri.',t:'akım'},
+{p:'Cumhuriyet Şiiri',q:'İkinci Yeni',a:'Cemal Süreya - Edip Cansever - Turgut Uyar - Ece Ayhan',n:'Soyut, kapalı ve imgeci şiir.',t:'akım'},
+{p:'Cumhuriyet Şiiri',q:'Üvercinka',a:'Cemal Süreya',n:'Şiir kitabı.',t:'yazar-eser'},
+{p:'Cumhuriyet Şiiri',q:'Yerçekimli Karanfil',a:'Edip Cansever',n:'Şiir kitabı.',t:'yazar-eser'},
+{p:'Cumhuriyet Şiiri',q:'Dünyanın En Güzel Arabistanı',a:'Turgut Uyar',n:'Şiir kitabı.',t:'yazar-eser'},
+{p:'Cumhuriyet Şiiri',q:'Bakışsız Bir Kedi Kara',a:'Ece Ayhan',n:'Şiir kitabı.',t:'yazar-eser'},
+{p:'Cumhuriyet Şiiri',q:'Mona Rosa',a:'Sezai Karakoç',n:'Şiir.',t:'yazar-eser'},
+{p:'Cumhuriyet Şiiri',q:'Çocuk ve Allah',a:'Fazıl Hüsnü Dağlarca',n:'Şiir kitabı.',t:'yazar-eser'},
+// Tiyatro/deneme
+{p:'Cumhuriyet Tiyatrosu',q:'Keşanlı Ali Destanı',a:'Haldun Taner',n:'Epik tiyatro örneği.',t:'yazar-eser'},
+{p:'Cumhuriyet Tiyatrosu',q:'Gözlerimi Kaparım Vazifemi Yaparım',a:'Haldun Taner',n:'Tiyatro.',t:'yazar-eser'},
+{p:'Cumhuriyet Tiyatrosu',q:'Koçyiğit Köroğlu',a:'Ahmet Kutsi Tecer',n:'Tiyatro.',t:'yazar-eser'},
+{p:'Cumhuriyet Tiyatrosu',q:'Köşebaşı',a:'Ahmet Kutsi Tecer',n:'Tiyatro.',t:'yazar-eser'},
+{p:'Deneme / Eleştiri',q:'Mavi ve Kara',a:'Sabahattin Eyüboğlu',n:'Deneme.',t:'yazar-eser'},
+{p:'Deneme / Eleştiri',q:'Diyorlar ki',a:'Ruşen Eşref Ünaydın',n:'Mülakat türünün önemli örneği.',t:'yazar-eser'},
+{p:'Deneme / Eleştiri',q:'Günlerin Getirdiği',a:'Nurullah Ataç',n:'Deneme/eleştiri.',t:'yazar-eser'},
+{p:'Deneme / Eleştiri',q:'Karalama Defteri',a:'Nurullah Ataç',n:'Deneme.',t:'yazar-eser'},
+{p:'Deneme / Eleştiri',q:'Bizim Akdeniz',a:'Falih Rıfkı Atay',n:'Gezi yazısı.',t:'yazar-eser'},
+{p:'Deneme / Eleştiri',q:'Zeytindağı',a:'Falih Rıfkı Atay',n:'Anı türündedir.',t:'yazar-eser'}
+];
+let filtered=[...cards], idx=0, seen=new Set(), quiz=[], qi=0, qCorrect=0, qWrong=0, weak={};
+function e(id){return document.getElementById(id)}
+function uniq(a){return [...new Set(a)]}
+function init(){const sel=e('periodFilter');uniq(cards.map(c=>c.p)).forEach(p=>{let o=document.createElement('option');o.value=p;o.textContent=p;sel.appendChild(o)});applyFilter();}
+function applyFilter(){let s=e('search').value.toLowerCase().trim(), p=e('periodFilter').value;filtered=cards.filter(c=>(p==='Tümü'||c.p===p)&&(!s||(c.q+c.a+c.n+c.p+c.t).toLowerCase().includes(s)));idx=0;renderAll();}
+function renderAll(){e('totalCount').textContent=cards.length;e('filteredCount').textContent=filtered.length;e('seenCount').textContent=seen.size;if(!filtered.length){e('frontText').textContent='Kart bulunamadı';e('backText').textContent='Filtreyi temizle';e('cardList').innerHTML='';return}showCard();renderList();renderPrint();}
+function showCard(){const c=filtered[idx];e('flash').classList.remove('flipped');e('frontPeriod').textContent=c.p;e('backPeriod').textContent=c.p;e('frontText').textContent=c.q;e('backText').textContent=c.a;e('backNote').textContent=c.n;e('backMeta').textContent=`Tür: ${c.t} · Kart ${idx+1}/${filtered.length}`;renderList();}
+function flipCard(ev){if(ev)ev.stopPropagation();e('flash').classList.toggle('flipped');seen.add(cards.indexOf(filtered[idx]));e('seenCount').textContent=seen.size;}
+function nextCard(ev){if(ev)ev.stopPropagation();idx=(idx+1)%filtered.length;showCard();}
+function prevCard(ev){if(ev)ev.stopPropagation();idx=(idx-1+filtered.length)%filtered.length;showCard();}
+function markKnown(ev){if(ev)ev.stopPropagation();seen.add(cards.indexOf(filtered[idx]));e('seenCount').textContent=seen.size;nextCard(ev)}
+function shuffleCards(){filtered.sort(()=>Math.random()-.5);idx=0;showCard();renderList();}
+function renderList(){const list=e('cardList');list.innerHTML=filtered.map((c,i)=>`<div class="item ${i===idx?'active':''}" onclick="idx=${i};showCard()"><div><b>${c.q}</b><small>${c.a} · ${c.p}</small></div><span class="tagg">${c.t}</span></div>`).join('');}
+function startQuiz(){quiz=[...filtered].sort(()=>Math.random()-.5).slice(0,10);if(quiz.length<4){alert('Quiz için en az 4 kart gerekir.');return}qi=0;qCorrect=0;qWrong=0;weak={};e('studyMode').style.display='none';e('quizMode').classList.add('show');showQuiz();}
+function exitQuiz(){e('studyMode').style.display='block';e('quizMode').classList.remove('show');}
+function showQuiz(){if(qi>=quiz.length){finishQuiz();return}const c=quiz[qi];e('quizProgress').textContent=`Soru ${qi+1}/${quiz.length}`;e('quizPeriod').textContent=c.p;e('quizQuestion').textContent=c.q;let opts=[c.a,...cards.filter(x=>x.a!==c.a).sort(()=>Math.random()-.5).slice(0,3).map(x=>x.a)].sort(()=>Math.random()-.5);e('choices').innerHTML=opts.map(o=>`<button class="choice" onclick="answerQuiz(this,'${encodeURIComponent(o)}','${encodeURIComponent(c.a)}','${c.p}')">${o}</button>`).join('');e('quizFeedback').textContent='';}
+function answerQuiz(btn,oEnc,aEnc,p){const o=decodeURIComponent(oEnc),a=decodeURIComponent(aEnc);document.querySelectorAll('.choice').forEach(b=>b.disabled=true);if(o===a){btn.classList.add('correct');qCorrect++;e('quizFeedback').textContent='Doğru cevap.'}else{btn.classList.add('wrong');qWrong++;weak[p]=(weak[p]||0)+1;document.querySelectorAll('.choice').forEach(b=>{if(b.textContent===a)b.classList.add('correct')});e('quizFeedback').textContent=`Yanlış. Doğru cevap: ${a}`;}e('quizScore').textContent=`${qCorrect}/${qCorrect+qWrong}`;}
+function nextQuiz(){qi++;showQuiz();}
+function finishQuiz(){let total=qCorrect+qWrong, pct=Math.round(qCorrect*100/(total||1));let weakText=Object.keys(weak).length?Object.entries(weak).sort((a,b)=>b[1]-a[1]).map(x=>x[0]).slice(0,3).join(', '):'Belirgin eksik dönem görünmüyor';e('quizProgress').textContent='Quiz tamamlandı';e('quizQuestion').textContent=`${qCorrect} doğru · ${qWrong} yanlış · %${pct}`;e('choices').innerHTML='';e('quizFeedback').innerHTML=`<b>Eksik dönem analizi:</b> ${weakText}<br><br>${pct>=80?'Harika gidiyorsun. Karışık modda tekrar yap.':pct>=60?'Temel iyi ama yanlış yaptığın dönemleri tekrar etmelisin.':'Önce dönem dönem çalışıp sonra karışık quize geçmelisin.'}`;}
+function renderPrint(){e('printGrid').innerHTML=filtered.map(c=>`<div class="printCard"><div class="l"><div>${c.q}<br><small style="font-size:11px">${c.p}</small></div></div><div class="r"><div>${c.a}<br><small>${c.n}</small></div></div></div>`).join('')}
+function printCards(){renderPrint();window.print();}
+async function saveCardImage(){const node=e('flash');const canvas=await html2canvas(node,{scale:2,backgroundColor:null});const a=document.createElement('a');a.href=canvas.toDataURL('image/png');a.download='ENGIN360_edebiyat_flashcard.png';a.click();}
+init();
+</script>
+</body>
+</html>

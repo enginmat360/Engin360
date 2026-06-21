@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ENGİN360 Pozitif Bölen Sayısı Laboratuvarı PRO</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',Arial,sans-serif}
+body{min-height:100vh;color:#fff;padding:18px;background:radial-gradient(circle at top left,rgba(168,85,247,.34),transparent 34%),radial-gradient(circle at bottom right,rgba(14,165,233,.28),transparent 36%),linear-gradient(135deg,#05010d,#13002b,#06142f)}
+.container{max-width:1180px;margin:0 auto}.hero{text-align:center;padding:28px 18px;border-radius:28px;background:rgba(255,255,255,.075);border:1px solid rgba(255,255,255,.14);box-shadow:0 0 34px rgba(124,58,237,.32);backdrop-filter:blur(12px);margin-bottom:16px}.logo{font-size:36px;font-weight:900;background:linear-gradient(90deg,#a855f7,#38bdf8,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent}.subtitle{margin-top:9px;color:#ded9ff;line-height:1.5}.back{display:inline-block;margin-bottom:14px;text-decoration:none;color:#e9e4ff;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:999px;padding:10px 14px;font-weight:800}.grid{display:grid;grid-template-columns:1.15fr .85fr;gap:14px}.card{background:rgba(255,255,255,.075);border:1px solid rgba(255,255,255,.14);box-shadow:0 12px 26px rgba(0,0,0,.25);border-radius:24px;padding:18px;margin-bottom:14px}.card h2{font-size:21px;margin-bottom:12px;color:#f0eaff}.card p{color:#d8daf7;line-height:1.55;font-size:14px}.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:12px 0}input,select{border:1px solid rgba(255,255,255,.18);background:rgba(0,0,0,.25);color:#fff;border-radius:14px;padding:12px 14px;font-weight:800;outline:none}input{width:150px}button{border:0;border-radius:14px;padding:12px 15px;font-weight:900;cursor:pointer;color:white;background:linear-gradient(135deg,#7c3aed,#0ea5e9);box-shadow:0 8px 20px rgba(14,165,233,.18)}button.secondary{background:linear-gradient(135deg,#ec4899,#7c3aed)}.result{background:rgba(0,0,0,.22);border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:14px;margin-top:12px;line-height:1.75;color:#f5f3ff}.formula{font-size:22px;font-weight:900;color:#7dd3fc}.mini{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}.stat{text-align:center;background:rgba(255,255,255,.075);border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:14px}.stat b{display:block;font-size:27px;color:#7dd3fc}.stat span{font-size:13px;color:#d8daf7}.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.chip{background:rgba(125,211,252,.12);border:1px solid rgba(125,211,252,.28);border-radius:999px;padding:7px 10px;font-weight:800;color:#e0f2fe}.steps{display:grid;gap:10px}.step{display:flex;gap:10px;align-items:flex-start;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.11);border-radius:16px;padding:11px}.step i{font-style:normal;width:28px;height:28px;border-radius:50%;background:#7c3aed;display:grid;place-items:center;font-weight:900;flex:0 0 auto}.tree{min-height:170px;display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:10px;padding:12px}.node{background:linear-gradient(135deg,#7c3aed,#0ea5e9);border-radius:16px;padding:10px 13px;font-weight:900;box-shadow:0 8px 16px rgba(0,0,0,.22)}.quizBox{display:none}.qcard{background:rgba(255,255,255,.065);border:1px solid rgba(255,255,255,.13);border-radius:18px;padding:14px;margin:10px 0}.choices{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px;margin-top:10px}.choice{border:1px solid rgba(255,255,255,.15);background:rgba(0,0,0,.18);border-radius:13px;padding:10px;font-weight:900;cursor:pointer;text-align:center}.choice.selected{outline:2px solid #38bdf8;background:rgba(56,189,248,.16)}.analysis{white-space:pre-wrap}.ok{color:#22c55e}.bad{color:#fb7185}.warn{color:#facc15}.footer{text-align:center;color:#aaa;font-size:12px;margin:26px 0 10px}@media(max-width:850px){.grid{grid-template-columns:1fr}.mini{grid-template-columns:1fr}.hero{padding:24px 14px}.logo{font-size:30px}}
+</style>
+</head>
+<body>
+<div class="container">
+<a class="back" href="https://enginmat360.github.io/Engin360/sayilar_ve_cebir.html">← Sayılar ve Cebir Laboratuvarına Dön</a>
+<div class="hero"><div class="logo">ENGİN360</div><div class="subtitle">🔢 Pozitif Bölen Sayısı Laboratuvarı PRO<br>Asal çarpanlara ayır, üsleri bir artır, çarp ve eksiklerini quiz analiziyle gör.</div></div>
+<div class="grid">
+<main>
+<section class="card">
+<h2>🔍 Bölen Avcısı</h2>
+<p>Bir sayı gir. Sistem asal çarpanlarını, pozitif bölen sayısını, tam kare durumunu ve bölen listesini otomatik çıkarsın.</p>
+<div class="row"><input id="num" type="number" min="2" max="9999" value="360"><button onclick="analyzeNumber()">Analiz Et</button><button class="secondary" onclick="randomNumber()">Rastgele Sayı</button></div>
+<div id="mainResult" class="result"></div>
+<div class="mini"><div class="stat"><b id="factorText">-</b><span>Asal çarpanlar</span></div><div class="stat"><b id="divisorCount">-</b><span>Pozitif bölen sayısı</span></div><div class="stat"><b id="squareText">-</b><span>Tam kare kontrolü</span></div></div>
+</section>
+<section class="card">
+<h2>🌳 Çarpan Ağacı</h2>
+<p>Sayıyı asal çarpanlarına indirirken oluşan zinciri gör. Amaç ezber değil: sayı hangi asal çarpanlardan oluşuyor, onu yakalamak.</p>
+<div id="tree" class="tree"></div>
+</section>
+<section class="card">
+<h2>🎯 10 Soruluk Akıllı Quiz</h2>
+<p>Pozitif bölen sayısı, asal çarpanlara ayırma, tam kare ve formül mantığını karışık sorularla ölç.</p>
+<div class="row"><button onclick="startQuiz()">Quiz Başlat</button><button class="secondary" onclick="finishQuiz()">Quiz Bitir ve Analiz Et</button></div>
+<div id="quiz" class="quizBox"></div>
+<div id="quizResult" class="result analysis" style="display:none"></div>
+</section>
+</main>
+<aside>
+<section class="card">
+<h2>🧠 Kuralın Mantığı</h2>
+<div class="steps">
+<div class="step"><i>1</i><div><b>Sayıyı asal çarpanlarına ayır.</b><br><span style="color:#d8daf7">Örnek: 360 = 2³ · 3² · 5¹</span></div></div>
+<div class="step"><i>2</i><div><b>Üslerin her birine 1 ekle.</b><br><span style="color:#d8daf7">3 → 4, 2 → 3, 1 → 2</span></div></div>
+<div class="step"><i>3</i><div><b>Bulduğun sayıları çarp.</b><br><span style="color:#d8daf7">(3+1)(2+1)(1+1)=24</span></div></div>
+<div class="step"><i>4</i><div><b>Sonuç pozitif bölen sayısıdır.</b><br><span style="color:#d8daf7">360 sayısının 24 pozitif böleni vardır.</span></div></div>
+</div>
+</section>
+<section class="card">
+<h2>🟣 Tam Kare İpucu</h2>
+<p>Bir sayının pozitif bölen sayısı <b>tek</b> ise o sayı tam karedir. Çünkü ortada eşleşmeyen bir bölen kalır.</p>
+<div class="result"><b>Örnek:</b><br>36'nın bölenleri: 1,2,3,4,6,9,12,18,36<br><span class="formula">9 bölen → tek → tam kare</span></div>
+</section>
+<section class="card">
+<h2>📌 Hızlı Örnekler</h2>
+<div class="chips"><span class="chip">24 = 2³·3¹ → 8 bölen</span><span class="chip">72 = 2³·3² → 12 bölen</span><span class="chip">100 = 2²·5² → 9 bölen</span><span class="chip">144 = 2⁴·3² → 15 bölen</span></div>
+</section>
+</aside>
+</div>
+<div class="footer">ENGİN360 © 2026 · Pozitif Bölen Sayısı Laboratuvarı</div>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+function factorize(n){let x=n, f={}; for(let p=2;p*p<=x;p+=(p===2?1:2)){while(x%p===0){f[p]=(f[p]||0)+1; x/=p;}} if(x>1) f[x]=(f[x]||0)+1; return f;}
+function factorText(f){return Object.entries(f).map(([p,e])=> e==1?p:`${p}<sup>${e}</sup>`).join(' · ') || '1'}
+function countDivisors(f){return Object.values(f).reduce((a,e)=>a*(e+1),1)}
+function divisorsFromFactors(f){let divs=[1]; Object.entries(f).forEach(([p,e])=>{let cur=[...divs]; for(let k=1;k<=e;k++){cur.forEach(d=>divs.push(d*Math.pow(+p,k)))}}); return [...new Set(divs)].sort((a,b)=>a-b)}
+function isSquare(n){return Number.isInteger(Math.sqrt(n))}
+function analyzeNumber(){let n=Math.max(2,Math.min(9999,parseInt($('num').value)||360)); $('num').value=n; let f=factorize(n), c=countDivisors(f), ds=divisorsFromFactors(f); $('factorText').innerHTML=factorText(f); $('divisorCount').textContent=c; $('squareText').textContent=isSquare(n)?'Tam kare':'Tam kare değil'; $('mainResult').innerHTML=`<b>${n}</b> sayısının asal çarpanlara ayrılmış hali:<br><span class="formula">${n} = ${factorText(f)}</span><br><br>Üsleri bir artırıp çarpalım:<br><span class="formula">${Object.values(f).map(e=>'(' + e + '+1)').join(' · ')} = ${c}</span><br><br><b>Pozitif bölenler:</b><br>${ds.join(', ')}`; drawTree(n,f);}
+function drawTree(n,f){let html=`<div class="node">${n}</div>`; Object.entries(f).forEach(([p,e])=>{for(let i=0;i<e;i++) html+=`<div class="node">÷ ${p}</div>`}); html+=`<div class="node">1</div>`; $('tree').innerHTML=html;}
+function randomNumber(){const arr=[24,36,48,60,72,84,90,96,100,120,144,180,200,240,300,360,420,600]; $('num').value=arr[Math.floor(Math.random()*arr.length)]; analyzeNumber();}
+let quizData=[];
+function makeQuestion(){const nums=[18,24,30,36,40,48,54,60,72,80,90,96,100,108,120,144,180,200,225,240,300,360]; const n=nums[Math.floor(Math.random()*nums.length)], f=factorize(n), c=countDivisors(f); const type=Math.floor(Math.random()*4); if(type===0){return {topic:'bölen formülü', text:`${n} sayısının pozitif bölen sayısı kaçtır?`, ans:c, choices:mix([c,c+1,c+2,Math.max(1,c-2)])};}
+ if(type===1){return {topic:'asal çarpanlara ayırma', text:`${n} sayısının asal çarpanlara ayrılmış hali hangisidir?`, ans:plainFactor(f), choices:mix([plainFactor(f),wrongFactor(n),wrongFactor(n),wrongFactor(n)])};}
+ if(type===2){return {topic:'tam kare kontrolü', text:`${n} sayısının pozitif bölen sayısı ${c}. Buna göre sayı tam kare midir?`, ans:isSquare(n)?'Evet':'Hayır', choices:['Evet','Hayır']};}
+ return {topic:'üsleri bir artırma', text:`${plainFactor(f)} için bölen sayısı formülü hangisidir?`, ans:Object.values(f).map(e=>`(${e}+1)`).join('·'), choices:mix([Object.values(f).map(e=>`(${e}+1)`).join('·'),Object.values(f).map(e=>`(${e})`).join('·'),Object.values(f).map(e=>`(${e}+2)`).join('·'),Object.values(f).map(e=>`(${Math.max(1,e-1)}+1)`).join('·')])};}
+}
+function plainFactor(f){return Object.entries(f).map(([p,e])=> e==1?`${p}`:`${p}^${e}`).join('·')}
+function wrongFactor(n){let f=factorize(n+[-4,-2,2,4,6][Math.floor(Math.random()*5)]); return plainFactor(f)}
+function mix(a){return [...new Set(a)].sort(()=>Math.random()-.5)}
+function startQuiz(){quizData=[]; for(let i=0;i<10;i++) quizData.push({...makeQuestion(), selected:null}); renderQuiz(); $('quizResult').style.display='none';}
+function renderQuiz(){const q=$('quiz'); q.style.display='block'; q.innerHTML=quizData.map((item,i)=>`<div class="qcard"><b>${i+1}. ${item.text}</b><div class="choices">${item.choices.map(ch=>`<div class="choice ${item.selected==ch?'selected':''}" onclick="selectChoice(${i}, '${String(ch).replace(/'/g,"\\'")}')">${ch}</div>`).join('')}</div></div>`).join('')}
+function selectChoice(i,ch){quizData[i].selected=ch; renderQuiz();}
+function finishQuiz(){if(!quizData.length) startQuiz(); let correct=0, wrongTopics={}; quizData.forEach(q=>{if(String(q.selected)===String(q.ans)) correct++; else wrongTopics[q.topic]=(wrongTopics[q.topic]||0)+1}); let wrong=10-correct, pct=Math.round(correct*10); let weak=Object.entries(wrongTopics).sort((a,b)=>b[1]-a[1]).map(x=>x[0]); let msg=`✅ Doğru: ${correct}\n❌ Yanlış: ${wrong}\n📊 Başarı: %${pct}\n\n`; if(wrong===0) msg+=`🧠 Eksik konu tespiti: Harika. Pozitif bölen sayısı mantığını güçlü kullanıyorsun.\n\n💬 Koç Yorumu: Asal çarpanlara ayırma, üsleri bir artırma ve tam kare mantığı oturmuş görünüyor.`; else msg+=`🧠 Eksik konu tespiti:\n${weak.map(w=>'• '+w).join('\n')}\n\n💬 Koç Yorumu: ${weak[0]} tarafında hata yoğunlaşmış. Önce sayıyı asal çarpanlara doğru ayır, sonra üslerin her birine 1 ekleyip çarp. Tam kare sorularında bölen sayısının tek/çift olmasına dikkat et.`; $('quizResult').textContent=msg; $('quizResult').style.display='block';}
+document.addEventListener('DOMContentLoaded',analyzeNumber);
+</script>
+</body>
+</html>

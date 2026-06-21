@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ENGİN360 Üslü Sayılar Alıştırma Laboratuvarı</title>
+<style>
+:root{--bg:#0b1028;--card:#111a3d;--card2:#17224d;--text:#eef4ff;--muted:#aebbf0;--purple:#7c3cff;--blue:#18a0ff;--green:#21d17a;--orange:#ffb020;--red:#ff4d6d;--line:#2b3975}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:radial-gradient(circle at top,#1b2b72 0,#0b1028 45%,#060916 100%);color:var(--text)}
+.wrap{max-width:1180px;margin:auto;padding:22px}.hero{display:grid;grid-template-columns:1.2fr .8fr;gap:18px;align-items:stretch;margin-bottom:18px}.panel,.card{background:linear-gradient(145deg,rgba(17,26,61,.96),rgba(10,15,40,.96));border:1px solid var(--line);border-radius:24px;box-shadow:0 18px 45px #0008}.panel{padding:24px}.brand{display:flex;gap:14px;align-items:center}.logo{width:64px;height:64px;border-radius:20px;background:linear-gradient(135deg,var(--blue),var(--purple));display:grid;place-items:center;font-weight:900;font-size:24px}.brand h1{margin:0;font-size:31px;line-height:1.05}.brand h1 span{color:#63b8ff}.brand p{margin:6px 0 0;color:var(--muted);font-weight:700}.heroText{margin-top:18px;font-size:16px;line-height:1.6;color:#dbe6ff}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px}.stat{background:#0d1535;border:1px solid #2a3a7a;border-radius:18px;padding:14px;text-align:center}.stat b{display:block;font-size:28px}.stat span{color:var(--muted);font-size:13px;font-weight:800}.quick{padding:20px}.quick h2,.section h2{margin:0 0 12px}.rule{background:#0d1535;border-left:5px solid var(--purple);padding:12px;border-radius:14px;margin:10px 0;color:#dbe6ff;line-height:1.45}.tabs{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0}.tab{border:1px solid #334587;background:#121b42;color:white;border-radius:999px;padding:12px 15px;font-weight:900;cursor:pointer}.tab.active{background:linear-gradient(135deg,var(--purple),var(--blue));border-color:transparent}.section{display:none}.section.active{display:block}.grid{display:grid;grid-template-columns:1fr 360px;gap:16px}.card{padding:20px}.questionBox{text-align:center;padding:22px;background:#0d1535;border:1px solid #2b3975;border-radius:22px;margin:14px 0}.question{font-size:48px;font-weight:900;letter-spacing:.5px}.question sup{font-size:.58em}.hint{color:var(--muted);font-weight:700;margin-top:8px}.choices{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:16px}.choice{border:1px solid #34478b;background:#101a42;color:#fff;border-radius:18px;padding:16px;font-size:20px;font-weight:900;cursor:pointer}.choice:hover{background:#18245a}.choice.correct{background:linear-gradient(135deg,#0e8f51,#22c55e)}.choice.wrong{background:linear-gradient(135deg,#aa1233,#ff4d6d)}.controls{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}button{border:0;border-radius:14px;padding:13px 16px;color:#fff;font-weight:900;cursor:pointer;background:linear-gradient(135deg,var(--purple),var(--blue))}.btnDark{background:#202b61}.btnGreen{background:#109b59}.btnRed{background:#c62847}.answerInput{width:100%;border:1px solid #334587;background:#0c1434;color:white;border-radius:16px;padding:15px;font-size:22px;font-weight:900;text-align:center;outline:none}.feedback{min-height:72px;margin-top:12px;border-radius:18px;padding:14px;background:#0d1535;border:1px dashed #34478b;line-height:1.55;font-weight:800}.ok{color:var(--green)}.bad{color:var(--red)}.sideTitle{color:#7fc5ff;font-weight:900;margin-bottom:12px}.miniTable{width:100%;border-collapse:collapse}.miniTable td,.miniTable th{border-bottom:1px solid #2b3975;padding:10px;text-align:left}.miniTable th{color:#7fc5ff}.pill{display:inline-block;padding:5px 10px;border-radius:999px;background:#20316d;color:#cfe4ff;font-weight:900}.progress{height:12px;background:#101a42;border-radius:999px;overflow:hidden;border:1px solid #2b3975}.progress i{display:block;height:100%;background:linear-gradient(90deg,var(--green),var(--blue));width:0%}.lesson{line-height:1.7;color:#dbe6ff}.lesson h3{color:#7fc5ff}.example{background:#0d1535;border:1px solid #2b3975;border-radius:18px;padding:14px;margin:12px 0}.badgeGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.badge{background:#0d1535;border:1px solid #2b3975;border-radius:16px;padding:12px;font-weight:800;line-height:1.45}.badge strong{color:#7fc5ff}.footer{margin-top:20px;text-align:center;color:#95a5df;font-weight:800}@media(max-width:900px){.hero,.grid{grid-template-columns:1fr}.question{font-size:40px}.choices{grid-template-columns:1fr}.wrap{padding:12px}.stats{grid-template-columns:1fr 1fr 1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <div class="panel">
+      <div class="brand"><div class="logo">360</div><div><h1>ENGİN<span>360</span><br>Üslü Sayılar Alıştırma Laboratuvarı</h1><p>Çift kuvvet, negatif kuvvet, sıfırıncı kuvvet ve işaret mantığı</p></div></div>
+      <div class="heroText">Bu etkinlikte öğrenciler üslü ifadelerde işaret, çift-tek kuvvet, negatif üs ve temel kuralları alıştırmalarla pekiştirir. Amaç ezber değil, “neden böyle oluyor?” mantığını oturtmaktır.</div>
+      <div class="stats"><div class="stat"><b id="score">0</b><span>Doğru</span></div><div class="stat"><b id="wrong">0</b><span>Yanlış</span></div><div class="stat"><b id="rate">%0</b><span>Başarı</span></div></div>
+    </div>
+    <div class="quick panel">
+      <h2>⚡ Hızlı Kurallar</h2>
+      <div class="rule"><b>Negatif sayının çift kuvveti pozitiftir:</b><br>(-3)<sup>2</sup> = +9</div>
+      <div class="rule"><b>Negatif sayının tek kuvveti negatiftir:</b><br>(-3)<sup>3</sup> = -27</div>
+      <div class="rule"><b>Negatif üs ters çevirir:</b><br>2<sup>-3</sup> = 1 / 2<sup>3</sup> = 1/8</div>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="openTab('learn',this)">📘 Konu Mantığı</button>
+    <button class="tab" onclick="openTab('sign',this);newSignQ()">➕➖ İşaret Avcısı</button>
+    <button class="tab" onclick="openTab('calc',this);newCalcQ()">🎯 Değer Bul</button>
+    <button class="tab" onclick="openTab('neg',this);newNegQ()">🔁 Negatif Üs</button>
+    <button class="tab" onclick="openTab('quiz',this);newQuizQ()">🏆 Karışık Quiz</button>
+  </div>
+
+  <div id="learn" class="section active">
+    <div class="grid">
+      <div class="card lesson">
+        <h2>📘 Üslü Sayılarda Temel Mantık</h2>
+        <h3>1) Parantez çok önemlidir</h3>
+        <div class="example"><b>(-2)<sup>4</sup></b> demek: (-2)·(-2)·(-2)·(-2) = 16<br><b>-2<sup>4</sup></b> demek: -(2·2·2·2) = -16</div>
+        <h3>2) Çift kuvvet negatifi pozitife çevirir</h3>
+        <div class="example">(-5)<sup>2</sup> = 25 &nbsp;&nbsp; | &nbsp;&nbsp; (-5)<sup>4</sup> = 625</div>
+        <h3>3) Tek kuvvet işareti korur</h3>
+        <div class="example">(-4)<sup>3</sup> = -64 &nbsp;&nbsp; | &nbsp;&nbsp; (-2)<sup>5</sup> = -32</div>
+        <h3>4) Negatif üs sonucu negatif yapmaz</h3>
+        <div class="example">3<sup>-2</sup> = 1/9. Buradaki “-” işaret değil, ters çevirme komutudur.</div>
+      </div>
+      <div class="card">
+        <div class="sideTitle">🧠 Mini Özet Tablosu</div>
+        <table class="miniTable"><tr><th>İfade</th><th>Sonuç Mantığı</th></tr><tr><td>(-a)<sup>çift</sup></td><td>Pozitif</td></tr><tr><td>(-a)<sup>tek</sup></td><td>Negatif</td></tr><tr><td>-a<sup>çift</sup></td><td>Negatif</td></tr><tr><td>a<sup>0</sup></td><td>1</td></tr><tr><td>a<sup>-n</sup></td><td>1/a<sup>n</sup></td></tr></table>
+      </div>
+    </div>
+  </div>
+
+  <div id="sign" class="section"><div class="grid"><div class="card"><h2>➕➖ İşaret Avcısı</h2><div class="questionBox"><div id="signQ" class="question"></div><div class="hint">Sonuç pozitif mi negatif mi?</div></div><div class="choices"><button class="choice" onclick="checkSign('pozitif')">Pozitif</button><button class="choice" onclick="checkSign('negatif')">Negatif</button></div><div id="signFeed" class="feedback">Cevabını seç.</div><div class="controls"><button onclick="newSignQ()">Yeni Soru</button></div></div><aside class="card"><div class="sideTitle">Kural</div><div class="badgeGrid"><div class="badge"><strong>Parantez varsa</strong><br>Üs negatif sayının tamamına uygulanır.</div><div class="badge"><strong>Parantez yoksa</strong><br>Eksi işareti çoğu zaman dışarıda kalır.</div></div></aside></div></div>
+
+  <div id="calc" class="section"><div class="grid"><div class="card"><h2>🎯 Değer Bul</h2><div class="questionBox"><div id="calcQ" class="question"></div><div class="hint">Sonucu yaz.</div></div><input id="calcInput" class="answerInput" placeholder="Cevap örn: -27"><div class="controls"><button onclick="checkCalc()">Kontrol Et</button><button class="btnDark" onclick="newCalcQ()">Yeni Soru</button></div><div id="calcFeed" class="feedback">Cevabı yazıp kontrol et.</div></div><aside class="card"><div class="sideTitle">İpucu</div><div class="rule">Önce parantez var mı bak.</div><div class="rule">Sonra üs çift mi tek mi karar ver.</div><div class="rule">En son sayısal değeri hesapla.</div></aside></div></div>
+
+  <div id="neg" class="section"><div class="grid"><div class="card"><h2>🔁 Negatif Üs Alıştırması</h2><div class="questionBox"><div id="negQ" class="question"></div><div class="hint">Kesirli sonucu yaz. Örn: 1/8 veya -1/27</div></div><input id="negInput" class="answerInput" placeholder="Cevap örn: 1/16"><div class="controls"><button onclick="checkNeg()">Kontrol Et</button><button class="btnDark" onclick="newNegQ()">Yeni Soru</button></div><div id="negFeed" class="feedback">Negatif üs işareti değil, ters çevirme anlamına gelir.</div></div><aside class="card"><div class="sideTitle">Negatif Üs Mantığı</div><div class="example">a<sup>-n</sup> = 1 / a<sup>n</sup></div><div class="example">(-2)<sup>-3</sup> = 1 / (-2)<sup>3</sup> = -1/8</div></aside></div></div>
+
+  <div id="quiz" class="section"><div class="grid"><div class="card"><h2>🏆 10 Soruluk Karışık Quiz</h2><div class="progress"><i id="prog"></i></div><div class="questionBox"><div id="quizNo" class="hint">1 / 10</div><div id="quizQ" class="question"></div><div id="quizHint" class="hint">Doğru cevabı seç.</div></div><div id="quizChoices" class="choices"></div><div id="quizFeed" class="feedback">Quiz başlatıldı. Her soru bir kez cevaplanır.</div><div class="controls"><button onclick="startQuiz()">Yeni 10 Soruluk Quiz Başlat</button><button class="btnDark" onclick="showQuizAnalysis()">Analizi Göster</button><button class="btnRed" onclick="resetScore()">Genel Skoru Sıfırla</button></div><div id="quizResult" class="feedback" style="margin-top:16px;display:none"></div></div><aside class="card"><div class="sideTitle">🎓 Eksik Tespit Mantığı</div><div class="rule">Quiz sonunda sistem yanlışlarını konu başlıklarına ayırır.</div><div class="rule">Özellikle şu alanları kontrol eder:<br>• Parantez ve işaret<br>• Çift-tek kuvvet<br>• Negatif üs<br>• Sıfırıncı kuvvet</div><div class="rule">Amaç sadece puan değil, hangi kuralın eksik kaldığını görmektir.</div></aside></div></div>
+
+  <div class="footer">ENGİN360 Matematik Laboratuvarı • Başarının 360° yolu</div>
+</div>
+<script>
+let S=0,W=0,current={};
+let quiz={index:0,total:10,correct:0,wrong:0,items:[],active:false,answered:false,current:null,miss:{sign:0,paren:0,negexp:0,zero:0,calc:0}};
+function openTab(id,btn){document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));btn.classList.add('active')}
+function rnd(a,b){return Math.floor(Math.random()*(b-a+1))+a}
+function pow(a,n){return Math.pow(a,n)}
+function sup(n){return '<sup>'+n+'</sup>'}
+function $(id){return document.getElementById(id)}
+function updateScore(){let t=S+W;$('score').textContent=S;$('wrong').textContent=W;$('rate').textContent=t?('%'+Math.round(S*100/t)):'%0';let pr=$('prog'); if(pr){pr.style.width=quiz.active?Math.round((quiz.index/quiz.total)*100)+'%':(t?Math.min(100,Math.round(S*100/t))+'%':'0%')}}
+function clean(x){return String(x).replace(/\s/g,'').replace(',', '.')}function add(ok){ok?S++:W++;updateScore()}
+function newSignQ(){let base=-rnd(2,9), exp=rnd(2,6), par=Math.random()>.45; current={base,exp,par}; $('signQ').innerHTML=(par?'('+base+')':base)+sup(exp); $('signFeed').innerHTML='Cevabını seç.'; document.querySelectorAll('#sign .choice').forEach(b=>b.className='choice')}
+function signAnswer(){if(current.par){return current.exp%2===0?'pozitif':'negatif'} return 'negatif'}
+function checkSign(ans){let ok=ans===signAnswer(); add(ok); $('signFeed').innerHTML=ok?'<span class="ok">Doğru.</span> '+(current.par?'Parantez olduğu için üs negatif sayının tamamına uygulandı.':'Parantez olmadığı için eksi dışarıda kaldı.'):'<span class="bad">Tekrar bak.</span> Önce parantez var mı, sonra üs çift mi tek mi kontrol et.'}
+function newCalcQ(){let base=-rnd(2,6), exp=rnd(2,5), par=Math.random()>.35; let ans=par?pow(base,exp):-pow(Math.abs(base),exp); current={ans,base,exp,par}; $('calcQ').innerHTML=(par?'('+base+')':base)+sup(exp); $('calcInput').value=''; $('calcFeed').innerHTML='Cevabı yazıp kontrol et.'}
+function checkCalc(){let ok=Number(clean($('calcInput').value))===current.ans; add(ok); $('calcFeed').innerHTML=ok?'<span class="ok">Doğru.</span> Sonuç: '+current.ans:'<span class="bad">Olmadı.</span> Doğru sonuç '+current.ans+'. '+(current.par?'Parantez var; üs tüm negatif sayıya gider.':'Parantez yok; eksi dışarıda kalır.')}
+function newNegQ(){let base=(Math.random()>.5?-1:1)*rnd(2,5), exp=rnd(1,4); let den=Math.pow(Math.abs(base),exp); let neg=(base<0 && exp%2===1); let ans=(neg?'-':'')+'1/'+den; current={base,exp,ans}; $('negQ').innerHTML='('+base+')'+sup('-'+exp); $('negInput').value=''; $('negFeed').innerHTML='Negatif üs işareti değil, ters çevirme anlamına gelir.'}
+function checkNeg(){let val=clean($('negInput').value); let ok=val===current.ans; add(ok); $('negFeed').innerHTML=ok?'<span class="ok">Doğru.</span> '+current.ans:'<span class="bad">Tekrar dene.</span> Doğru cevap '+current.ans+'. Önce pozitife çevir: 1/('+current.base+')'+sup(current.exp)}
+function makeOptions(ans){let arr=[ans]; while(arr.length<4){let delta=rnd(-8,8); if(delta===0) continue; let v=Number(ans)+delta; if(!arr.includes(v))arr.push(v)} return arr.sort(()=>Math.random()-.5)}
+function makeQuizQuestion(){
+  let type=rnd(1,5);
+  if(type===1){let b=-rnd(2,7),e=rnd(2,6),par=Math.random()>.5;let ans=par?pow(b,e):-pow(Math.abs(b),e);return {cat:par?'sign':'paren',q:(par?'('+b+')':b)+sup(e),hint:'Sonucu seç.',ans:String(ans),opts:makeOptions(ans).map(String),explain:par?'Parantez var: üs negatif sayının tamamına uygulanır.':'Parantez yok: eksi işareti dışarıda kalır.'}}
+  if(type===2){let b=-rnd(2,8),e=rnd(2,7),ans=e%2===0?'Pozitif':'Negatif';return {cat:'sign',q:'('+b+')'+sup(e),hint:'Sonucun işaretini seç.',ans,opts:['Pozitif','Negatif'],explain:e%2===0?'Negatif sayının çift kuvveti pozitiftir.':'Negatif sayının tek kuvveti negatiftir.'}}
+  if(type===3){let b=(Math.random()>.5?-1:1)*rnd(2,5),e=rnd(1,4);let den=Math.pow(Math.abs(b),e);let ans=(b<0&&e%2===1?'-':'')+'1/'+den;let opts=[ans, ans.startsWith('-')?ans.slice(1):'-'+ans, '1/'+(den+1), String(den)].sort(()=>Math.random()-.5);return {cat:'negexp',q:'('+b+')'+sup('-'+e),hint:'Negatif üs kesirli sonucu verir.',ans,opts,explain:'Negatif üs ters çevirir: a⁻ⁿ = 1/aⁿ.'}}
+  if(type===4){let b=(Math.random()>.5?-1:1)*rnd(2,9);return {cat:'zero',q:'('+b+')'+sup(0),hint:'Sıfırıncı kuvveti seç.',ans:'1',opts:['1','0',String(b),String(-b)].sort(()=>Math.random()-.5),explain:'Sıfırdan farklı her sayının sıfırıncı kuvveti 1’dir.'}}
+  let a=rnd(2,5),m=rnd(2,4),n=rnd(1,3),ans=Math.pow(a,m+n);return {cat:'calc',q:a+sup(m)+' · '+a+sup(n),hint:'Aynı tabanlarda üsler toplanır.',ans:String(ans),opts:makeOptions(ans).map(String),explain:'Aynı tabanlı çarpımda üsler toplanır.'}
+}
+function startQuiz(){quiz={index:0,total:10,correct:0,wrong:0,items:[],active:true,answered:false,current:null,miss:{sign:0,paren:0,negexp:0,zero:0,calc:0}};$('quizResult').style.display='none';nextQuizQ()}
+function nextQuizQ(){
+  if(quiz.index>=quiz.total){finishQuiz();return}
+  quiz.current=makeQuizQuestion();quiz.answered=false;quiz.index++;
+  $('quizNo').textContent=quiz.index+' / '+quiz.total;$('quizQ').innerHTML=quiz.current.q;$('quizHint').textContent=quiz.current.hint;$('quizFeed').innerHTML='Doğru cevabı seç.';$('quizChoices').innerHTML='';
+  quiz.current.opts.forEach(o=>addQuizChoice(o));updateScore();
+}
+function addQuizChoice(o){let bt=document.createElement('button');bt.className='choice';bt.innerHTML=o;bt.onclick=()=>answerQuiz(bt,String(o));$('quizChoices').appendChild(bt)}
+function answerQuiz(btn,choice){
+  if(quiz.answered || !quiz.active) return; quiz.answered=true;
+  let q=quiz.current, ok=choice===String(q.ans); add(ok);
+  if(ok){quiz.correct++;btn.classList.add('correct');$('quizFeed').innerHTML='<span class="ok">Doğru.</span> '+q.explain}
+  else{quiz.wrong++;quiz.miss[q.cat]++;btn.classList.add('wrong');document.querySelectorAll('#quizChoices .choice').forEach(b=>{if(b.textContent===String(q.ans))b.classList.add('correct')});$('quizFeed').innerHTML='<span class="bad">Yanlış.</span> Doğru cevap: <b>'+q.ans+'</b><br>'+q.explain}
+  quiz.items.push({q:q.q,ans:q.ans,choice,ok,cat:q.cat});
+  setTimeout(()=>{ if(quiz.active) nextQuizQ(); }, ok?850:1600);
+}
+function finishQuiz(){quiz.active=false;$('quizNo').textContent='Quiz tamamlandı';$('quizQ').innerHTML='🏁';$('quizHint').textContent='10 soru bitti. Aşağıdaki analizi incele.';$('quizChoices').innerHTML='';showQuizAnalysis();updateScore()}
+function catName(c){return {sign:'Çift-tek kuvvet / işaret',paren:'Parantez kullanımı',negexp:'Negatif üs',zero:'Sıfırıncı kuvvet',calc:'Üs kuralları / işlem'}[c]||c}
+function advice(c){return {sign:'Negatif tabanlı sorularda önce kuvvet çift mi tek mi diye bakmalısın.',paren:'(-2)⁴ ile -2⁴ aynı değildir. Parantez yoksa eksi çoğu zaman dışarıda kalır.',negexp:'Negatif üs sonucu negatif yapmaz; ters çevirme komutudur.',zero:'Sıfırdan farklı her sayının 0. kuvveti 1’dir.',calc:'Aynı tabanlı çarpımda üsler toplanır; bölmede üsler çıkarılır.'}[c]||'Bu başlıkta tekrar yapmalısın.'}
+function showQuizAnalysis(){
+  let box=$('quizResult'); box.style.display='block';
+  let rate=quiz.total?Math.round(quiz.correct*100/quiz.total):0;
+  let misses=Object.entries(quiz.miss).filter(([k,v])=>v>0).sort((a,b)=>b[1]-a[1]);
+  let level=rate>=90?'Mükemmel':rate>=70?'İyi':rate>=50?'Geliştirilmeli':'Temel tekrar gerekli';
+  let html=`<h3 style="margin:0 0 10px;color:#7fc5ff">📊 Quiz Analizi</h3><b>Sonuç:</b> ${quiz.correct} doğru, ${quiz.wrong} yanlış — Başarı: %${rate} (${level})<br><br>`;
+  if(misses.length===0 && quiz.items.length){html+=`<span class="ok">Harika.</span> Bu quizde belirgin eksik görünmüyor. Hızını artırmak için yeni bir 10 soruluk quiz daha çözebilirsin.`}
+  else if(!quiz.items.length){html+='Henüz quiz çözülmedi. Önce “Yeni 10 Soruluk Quiz Başlat” butonuna bas.'}
+  else{html+='<b>Eksik görünen başlıklar:</b><br>';misses.forEach(([c,v])=>{html+=`• <b>${catName(c)}</b>: ${v} yanlış → ${advice(c)}<br>`}); html+='<br><b>Koç yorumu:</b> Yanlışların çıktığı başlığı 5 dakika tekrar edip aynı quizden bir tur daha çöz. Amaç sadece doğru sayısı değil, hatanın hangi kuraldan geldiğini yakalamak.'}
+  box.innerHTML=html;
+}
+function resetScore(){S=0;W=0;updateScore()}
+newSignQ();newCalcQ();newNegQ();startQuiz();updateScore();
+</script>
+</body>
+</html>
