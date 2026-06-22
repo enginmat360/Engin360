@@ -37,6 +37,28 @@ button:hover{transform:translateY(-2px);filter:brightness(1.08)}
 .pkg strong{display:block;color:white;margin-bottom:5px;font-size:17px}
 footer{text-align:center;color:#cbd5e1;font-size:13px;margin-top:18px}
 @media(max-width:760px){.controls,.stats,.nav,.package-grid{grid-template-columns:1fr}.hero,.panel,.face{border-radius:22px}.flashcard{height:300px}.box strong{font-size:23px}}
+
+.quiz-panel{border:1px solid var(--br);border-radius:28px;background:rgba(255,255,255,.065);box-shadow:0 20px 58px rgba(0,0,0,.30);padding:20px;margin-bottom:16px}
+.quiz-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}
+.quiz-title{font-size:clamp(22px,4vw,34px);font-weight:900;background:linear-gradient(90deg,#f0abfc,#a855f7,#38bdf8,#67e8f9);-webkit-background-clip:text;color:transparent}
+.quiz-badge{border:1px solid rgba(103,232,249,.30);border-radius:999px;padding:8px 12px;color:#e0f2fe;background:rgba(15,23,42,.38);font-size:13px;font-weight:900}
+.quiz-controls{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:12px 0}
+.quiz-box{border:1px solid rgba(255,255,255,.16);border-radius:24px;background:linear-gradient(135deg,rgba(168,85,247,.22),rgba(56,189,248,.10)),rgba(255,255,255,.055);padding:18px}
+.quiz-q{font-size:clamp(22px,4vw,34px);font-weight:900;line-height:1.25;margin-bottom:14px}
+.quiz-options{display:grid;gap:10px}
+.quiz-option{text-align:left;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.16)}
+.quiz-option.correct{background:linear-gradient(135deg,rgba(34,197,94,.70),rgba(6,182,212,.35));border-color:rgba(34,197,94,.65)}
+.quiz-option.wrong{background:linear-gradient(135deg,rgba(239,68,68,.70),rgba(236,72,153,.35));border-color:rgba(239,68,68,.65)}
+.quiz-result{display:none;margin-top:14px}.quiz-result.show{display:block}
+.result-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
+.result-card{border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);border-radius:20px;padding:14px;text-align:center}
+.result-card strong{display:block;font-size:25px}.result-card span{color:#dbeafe;font-size:12px}
+.analysis-list{display:grid;gap:8px;margin-top:12px}
+.analysis-row{border:1px solid rgba(255,255,255,.13);border-radius:16px;background:rgba(255,255,255,.055);padding:10px;color:#dbeafe}
+.mini-progress{height:9px;background:rgba(255,255,255,.10);border-radius:99px;overflow:hidden;margin:8px 0 4px;border:1px solid rgba(255,255,255,.12)}
+.mini-bar{height:100%;width:0;background:linear-gradient(90deg,#ef4444,#fb923c,#22c55e)}
+@media(max-width:760px){.quiz-controls,.result-grid{grid-template-columns:1fr 1fr}.quiz-panel{border-radius:22px}}
+
 </style>
 </head>
 <body>
@@ -75,6 +97,35 @@ footer{text-align:center;color:#cbd5e1;font-size:13px;margin-top:18px}
 <button onclick="nextCard()">Sonraki →</button>
 </div>
 <p class="note" style="margin-top:14px">Bu sürümde 4 ana paket vardır: İlk Türk Devletleri, Türk-İslam Devletleri, Osmanlı Kuruluş ve Osmanlı Yükselme. Sonraki sürümde Osmanlı Duraklama-Gerileme, Islahatlar, Kurtuluş Savaşı ve İnkılaplar eklenecek.</p>
+</section>
+
+
+<section class="quiz-panel">
+  <div class="quiz-head">
+    <div class="quiz-title">🧠 Tarih Quiz Modu</div>
+    <div class="quiz-badge" id="quizCounter">1 / 20</div>
+    <div class="quiz-badge" id="quizScore">Doğru: 0 · Yanlış: 0</div>
+  </div>
+  <p class="note">Kartlardan otomatik oluşturulan hızlı sınav modu. Sorular karışık gelir; sonuçta kategori bazlı eksik analizi gösterilir.</p>
+  <div class="quiz-controls">
+    <button onclick="startQuiz(20)">20 Soru</button>
+    <button onclick="startQuiz(50)">50 Soru</button>
+    <button onclick="nextQuiz()" class="learned">Sonraki</button>
+    <button onclick="resetQuiz()" class="orange">Sıfırla</button>
+  </div>
+  <div class="quiz-box">
+    <div class="quiz-q" id="quizQuestion">Quiz başlatılıyor...</div>
+    <div class="quiz-options" id="quizOptions"></div>
+    <div class="quiz-result" id="quizResult">
+      <div class="result-grid">
+        <div class="result-card"><strong id="resCorrect">0</strong><span>Doğru</span></div>
+        <div class="result-card"><strong id="resWrong">0</strong><span>Yanlış</span></div>
+        <div class="result-card"><strong id="resPercent">0%</strong><span>Başarı</span></div>
+        <div class="result-card"><strong id="resLevel">-</strong><span>Seviye</span></div>
+      </div>
+      <div class="analysis-list" id="analysisList"></div>
+    </div>
+  </div>
 </section>
 
 <section class="panel">
@@ -144,6 +195,63 @@ function resetProgress(){
   }
 }
 init();
+
+let quizSet = [], quizIndex = 0, quizCorrect = 0, quizWrong = 0, quizAnswered = false, quizCatStats = {};
+function shuffleArray(arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function makeQuizItems(){
+  return allCards.map(card=>{
+    let distractors=[...new Set(allCards.filter(x=>x.back!==card.back).map(x=>x.back))];
+    let options=shuffleArray([card.back,...shuffleArray(distractors).slice(0,3)]);
+    return {cat:card.cat,q:card.front,answer:card.back,options};
+  });
+}
+function startQuiz(count){
+  quizSet=shuffleArray(makeQuizItems()).slice(0,Math.min(count,allCards.length));
+  quizIndex=0;quizCorrect=0;quizWrong=0;quizAnswered=false;quizCatStats={};
+  document.getElementById("quizResult").classList.remove("show");
+  renderQuiz();
+}
+function resetQuiz(){startQuiz(20);}
+function renderQuiz(){
+  if(quizIndex>=quizSet.length){finishQuiz();return;}
+  quizAnswered=false;
+  const q=quizSet[quizIndex];
+  document.getElementById("quizQuestion").textContent=q.q;
+  document.getElementById("quizCounter").textContent=(quizIndex+1)+" / "+quizSet.length;
+  document.getElementById("quizScore").textContent="Doğru: "+quizCorrect+" · Yanlış: "+quizWrong;
+  document.getElementById("quizOptions").innerHTML=q.options.map((opt,i)=>`<button class="quiz-option" onclick="answerQuiz(${i})">${String.fromCharCode(65+i)}) ${opt}</button>`).join("");
+}
+function answerQuiz(i){
+  if(quizAnswered)return;
+  quizAnswered=true;
+  const q=quizSet[quizIndex];
+  const chosen=q.options[i];
+  const buttons=[...document.querySelectorAll(".quiz-option")];
+  buttons.forEach((btn,k)=>{if(q.options[k]===q.answer)btn.classList.add("correct"); if(k===i && chosen!==q.answer)btn.classList.add("wrong");});
+  if(!quizCatStats[q.cat])quizCatStats[q.cat]={c:0,t:0};
+  quizCatStats[q.cat].t++;
+  if(chosen===q.answer){quizCorrect++;quizCatStats[q.cat].c++;}else{quizWrong++;}
+  document.getElementById("quizScore").textContent="Doğru: "+quizCorrect+" · Yanlış: "+quizWrong;
+}
+function nextQuiz(){if(!quizAnswered && quizIndex<quizSet.length)return;quizIndex++;renderQuiz();}
+function finishQuiz(){
+  const total=quizCorrect+quizWrong, percent=total?Math.round((quizCorrect/total)*100):0;
+  document.getElementById("quizQuestion").textContent="Quiz tamamlandı.";
+  document.getElementById("quizOptions").innerHTML="";
+  document.getElementById("quizCounter").textContent="Bitti";
+  document.getElementById("quizScore").textContent="Doğru: "+quizCorrect+" · Yanlış: "+quizWrong;
+  document.getElementById("quizResult").classList.add("show");
+  document.getElementById("resCorrect").textContent=quizCorrect;
+  document.getElementById("resWrong").textContent=quizWrong;
+  document.getElementById("resPercent").textContent=percent+"%";
+  document.getElementById("resLevel").textContent=percent>=85?"Çok iyi":percent>=65?"İyi":percent>=45?"Tekrar":"Kritik";
+  document.getElementById("analysisList").innerHTML=Object.entries(quizCatStats).map(([cat,v])=>{
+    const p=Math.round((v.c/v.t)*100);
+    return `<div class="analysis-row"><strong>${cat} · %${p}</strong><div class="mini-progress"><div class="mini-bar" style="width:${p}%"></div></div><small>${v.c} / ${v.t} doğru</small></div>`;
+  }).join("");
+}
+setTimeout(()=>startQuiz(20),0);
+
 </script>
 </body>
 </html>
