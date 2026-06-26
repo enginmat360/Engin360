@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ENGİN360 | 7 Günlük Disiplin Meydan Okuması</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+:root{--bg:#05020f;--card:rgba(255,255,255,.075);--line:rgba(255,255,255,.16);--txt:#f8fbff;--muted:#c9d4ff;--blue:#38bdf8;--purple:#a855f7;--pink:#ec4899;--orange:#fb923c;--green:#22c55e;--navy:#07164a}
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',Arial,sans-serif}
+body{min-height:100vh;color:var(--txt);padding:18px;background:radial-gradient(circle at 15% 5%,rgba(168,85,247,.34),transparent 32%),radial-gradient(circle at 82% 18%,rgba(56,189,248,.23),transparent 34%),radial-gradient(circle at 50% 100%,rgba(236,72,153,.19),transparent 34%),linear-gradient(135deg,#05010d,#100029 48%,#06142f)}
+.wrap{max-width:1180px;margin:auto}.top{display:flex;gap:12px;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap}.brand{font-size:28px;font-weight:900;letter-spacing:1px;background:linear-gradient(90deg,#fff,#38bdf8,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent}.btns{display:flex;gap:8px;flex-wrap:wrap}.btn{border:0;border-radius:14px;padding:11px 14px;color:white;font-weight:800;background:linear-gradient(135deg,var(--purple),var(--pink));box-shadow:0 0 20px rgba(236,72,153,.3);cursor:pointer}.btn.secondary{background:linear-gradient(135deg,#0ea5e9,#2563eb)}
+.sheet{background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.055));border:1px solid var(--line);border-radius:28px;padding:18px;box-shadow:0 0 45px rgba(56,189,248,.18);backdrop-filter:blur(12px)}
+.hero{text-align:center;border-radius:24px;padding:18px 16px;background:linear-gradient(135deg,rgba(15,23,42,.9),rgba(30,12,68,.82));border:1px solid rgba(255,255,255,.16);position:relative;overflow:hidden}.hero:before{content:"";position:absolute;inset:-60px;background:radial-gradient(circle at left,rgba(251,146,60,.22),transparent 35%),radial-gradient(circle at right,rgba(56,189,248,.18),transparent 32%)}.hero>*{position:relative}.logo{font-weight:900;font-size:22px;color:white}.logo span{color:#fb923c}.title{font-size:clamp(34px,6vw,70px);font-weight:1000;line-height:.95;color:#fff;text-shadow:0 0 22px rgba(56,189,248,.35)}.title em{display:block;font-style:normal;color:#fb923c;font-size:.48em;letter-spacing:1px;margin-top:8px}.slogan{display:inline-block;margin-top:12px;padding:10px 18px;border-radius:15px;background:#082064;border:1px solid rgba(255,255,255,.2);font-weight:900;letter-spacing:.5px}.cup{position:absolute;right:25px;top:20px;font-size:72px;filter:drop-shadow(0 0 14px rgba(251,146,60,.5))}.rocket{font-size:30px}
+.info{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:14px 0}.field{padding:13px;border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.06);font-weight:800;color:#eaf1ff}.field input{width:70%;margin-left:8px;border:0;border-bottom:2px solid rgba(255,255,255,.45);background:transparent;color:white;outline:0;font-weight:800}.note{display:flex;gap:16px;align-items:center;margin-bottom:12px;border:1px solid rgba(251,146,60,.28);background:linear-gradient(90deg,rgba(251,146,60,.13),rgba(255,255,255,.05));border-radius:18px;padding:14px}.star{font-size:42px}.note b{color:#fff}.sticky{margin-left:auto;background:#facc15;color:#1e1b4b;padding:13px 18px;border-radius:10px;transform:rotate(2deg);box-shadow:0 10px 18px rgba(0,0,0,.25);font-weight:800;max-width:260px;text-align:center}
+table{width:100%;border-collapse:separate;border-spacing:0;overflow:hidden;border-radius:18px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.93);color:#07164a}th{background:#061855;color:white;padding:12px 8px;font-size:14px}td{border-top:1px solid #d7dceb;border-right:1px solid #d7dceb;padding:10px;vertical-align:middle}td:last-child,th:last-child{border-right:0}.day{font-size:25px;font-weight:1000;text-align:center;width:92px}.day small{display:block;font-size:13px}.day .ico{display:block;font-size:30px;margin-top:5px}.theme{text-align:center;font-weight:900}.theme small{display:block;margin-top:8px;font-weight:700;color:#1d2b60;line-height:1.35}.tasks{font-size:14px;line-height:1.75}.tasks ol{padding-left:22px}.checks{text-align:center}.checks input{display:block;margin:6px auto;width:18px;height:18px}.rate{text-align:center;min-width:190px}.rate label{display:inline-flex;flex-direction:column;align-items:center;margin:0 6px;font-weight:900}.rate input{width:20px;height:20px;margin-top:7px}.c1{color:#2563eb}.c2{color:#16a34a}.c3{color:#f97316}.c4{color:#7c3aed}.c5{color:#059669}.c6{color:#ea580c}.c7{color:#2563eb}
+.bottom{display:grid;grid-template-columns:1fr 1.2fr;gap:12px;margin-top:12px}.box{border:1px solid var(--line);border-radius:18px;padding:14px;background:rgba(255,255,255,.07)}.box h3{font-size:18px;margin-bottom:10px;color:#fff}.lines label{display:block;color:#dbe7ff;font-size:13px;font-weight:800;margin:10px 0 4px}.lines input,.lines textarea{width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.18);border-radius:12px;color:white;padding:9px;outline:0}.eval{display:grid;gap:8px}.eval label{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.06);padding:10px;border-radius:13px}.eval input{margin-left:auto;width:18px;height:18px}.score{display:flex;gap:10px;align-items:center;margin-top:12px;font-weight:900}.score input{width:110px;text-align:center}.footer{margin-top:14px;text-align:center;background:#061855;border-radius:18px;padding:15px;font-weight:1000;letter-spacing:.6px}.footer span{color:#fb923c}.capture-clean{background:white!important;color:#07164a!important}.capture-clean .box{background:white;color:#07164a;border-color:#cbd5e1}.capture-clean .box h3,.capture-clean .field{color:#07164a}.capture-clean .field,.capture-clean .note{background:#fff;color:#07164a}.capture-clean input,.capture-clean textarea{color:#07164a!important;border-color:#94a3b8!important;background:white!important}
+@media(max-width:760px){body{padding:10px}.sheet{padding:10px;border-radius:20px}.cup{position:static;font-size:48px}.info,.bottom{grid-template-columns:1fr}.sticky{display:none}table{font-size:12px}th{font-size:12px;padding:8px 5px}td{padding:7px 5px}.tasks{font-size:12px}.rate{min-width:150px}.rate label{margin:0 3px}.day{width:62px;font-size:18px}.day .ico{font-size:23px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top no-capture">
+    <div class="brand">ENGİN360 · Rehberlik Laboratuvarı</div>
+    <div class="btns"><button class="btn" onclick="savePlan()">📸 Planı Görsel Kaydet</button><button class="btn secondary" onclick="copyWhatsApp()">📋 WhatsApp Metnini Kopyala</button></div>
+  </div>
+  <main class="sheet" id="captureArea">
+    <section class="hero">
+      <div class="logo">ENGİN<span>360</span> <small>PLANLA • ÇALIŞ • BAŞAR</small></div>
+      <div class="cup">🏆</div>
+      <h1 class="title">7 GÜNLÜK <em>DİSİPLİN MEYDAN OKUMASI</em></h1>
+      <div class="slogan">KÜÇÜK ADIMLAR, BÜYÜK SONUÇLAR! <span class="rocket">🚀</span></div>
+    </section>
+    <section class="info">
+      <div class="field">📅 Başlangıç Tarihi: <input id="start" placeholder="__/__/____"></div>
+      <div class="field">🎯 Hedefim: <input id="goal" placeholder="Hedefini yaz"></div>
+      <div class="field">🏁 Bitiş Tarihi: <input id="end" placeholder="__/__/____"></div>
+    </section>
+    <section class="note"><div class="star">⭐</div><div><b>7 gün boyunca her günün görevlerini tamamla, disiplin kasını güçlendir!</b><br>Unutma: Mükemmel olmak değil, istikrarlı olmak kazandırır.</div><div class="sticky">Bugünün en iyi halin, yarının başarısını getirir!</div></section>
+    <table>
+      <thead><tr><th>GÜN</th><th>GÜNÜN TEMASI</th><th>GÜNLÜK GÖREVLER</th><th>TAMAMLANDI<br>(✓)</th><th>GÜN SONU DEĞERLENDİRME<br>(1 = Zor · 5 = Çok İyi)</th></tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+    <section class="bottom">
+      <div class="box lines"><h3>✍️ Meydan Okuma Sonunda Kendime Notum</h3><label>Bu 7 gün bana ne kattı?</label><textarea rows="3"></textarea><label>Kendimle gurur duyduğum şey:</label><input><label>Gelecek haftaya mesajım:</label><input></div>
+      <div class="box"><h3>⭐ Genel Değerlendirme</h3><div class="eval"><label>😊 <b>HARİKA!</b> Görevlerin çoğunu yaptım, disiplinim çok iyi güçlendi. <input type="checkbox"></label><label>🙂 <b>İYİ!</b> Bazı günler zorlandım ama pes etmedim, devam ettim. <input type="checkbox"></label><label>😟 <b>GELİŞTİRİLEBİLİR!</b> İstediğim gibi olmadı ama tekrar deneyeceğim. <input type="checkbox"></label></div><div class="score">Toplam Puanım: <input id="score" placeholder="___ / 35"> Tebrikler! Kendine inan ve devam et! 🚀</div></div>
+    </section>
+    <div class="footer">DİSİPLİN, BAŞARININ KÖPRÜSÜDÜR! <span>DEVAM ET, KAZANACAKSIN!</span> 🚀</div>
+  </main>
+</div>
+<script>
+const data=[['1','BAŞLANGIÇ GÜNÜ','Bugün başlıyorum, kendime söz veriyorum.','🎯',['Planımı yaptım.','Bugünkü ders çalışma hedefimi belirledim.','En az 3 saat odaklı çalıştım.','Telefonu belirli saatlerde kullandım.'],'c1'],['2','ODAK GÜNÜ','Dikkatim dağılmadan çalışmaya odaklanıyorum.','🧠',['Dikkat dağıtıcıları minimuma indirdim.','Pomodoro tekniğini uyguladım.','Planladığım konuları bitirdim.','Gün sonunda tekrar yaptım.'],'c2'],['3','VERİMLİLİK GÜNÜ','Daha akıllı çalışıyor, daha çok öğreniyorum.','📊',['Zorlandığım konulara odaklandım.','Soru çözümünde verimli oldum.','Notlarımı düzenledim.','Bugün yeni bir şey öğrendim.'],'c3'],['4','DAYANIKLILIK GÜNÜ','Zorlandığımda bile vazgeçmiyorum.','🏃‍♂️',['Zor konulardan kaçmadım.','Moralim düşük hissettiğimde devam ettim.','Bugün kendimi geliştiren bir şey yaptım.','Günümü tamamlamaktan gurur duydum.'],'c4'],['5','İLERLEME GÜNÜ','Küçük ilerlemelerimi kutluyorum.','⛰️',['Hedeflerime göre ilerlememi kontrol ettim.','Eksiklerimi fark edip çözüm ürettim.','Deneme/mini test çözdüm.','Kendime bugün için teşekkür ettim.'],'c5'],['6','GÜÇLENME GÜNÜ','Disiplinim her geçen gün güçleniyor.','💪',['Ertelediğim işleri tamamladım.','Daha uzun süre odaklanarak çalıştım.','Yanlışlarımı analiz ettim.','Yarın için plan yaptım.'],'c6'],['7','ZAFER GÜNÜ','Bir haftayı tamamladım, bu benim zaferim!','🏆',['Tüm görevlerimi elimden gelen en iyi şekilde yaptım.','Kendimdeki değişimi fark ettim.','Gelecek haftanın hedeflerini belirledim.','Kendimi ödüllendirdim! 🎉'],'c7']];
+const tbody=document.getElementById('rows');
+data.forEach((d,i)=>{let tr=document.createElement('tr');tr.innerHTML=`<td class="day ${d[5]}">${d[0]}<small>.GÜN</small><span class="ico">${d[3]}</span></td><td class="theme ${d[5]}">${d[1]}<small>${d[2]}</small></td><td class="tasks"><ol>${d[4].map(x=>`<li>${x}</li>`).join('')}</ol></td><td class="checks">${[1,2,3,4].map(()=>'<input type="checkbox">').join('')}</td><td class="rate">${[1,2,3,4,5].map(n=>`<label>${n}<input name="r${i}" type="radio"></label>`).join('')}</td>`;tbody.appendChild(tr)});
+function todayName(){return new Date().toISOString().slice(0,10)}
+async function savePlan(){const el=document.getElementById('captureArea');el.classList.add('capture-clean');await new Promise(r=>setTimeout(r,120));html2canvas(el,{scale:2,backgroundColor:'#ffffff',useCORS:true}).then(canvas=>{el.classList.remove('capture-clean');const a=document.createElement('a');a.download='ENGIN360_7_Gunluk_Disiplin_Meydan_Okumasi_'+todayName()+'.png';a.href=canvas.toDataURL('image/png');a.click();}).catch(()=>{el.classList.remove('capture-clean');alert('Görsel oluşturulamadı. İnternet bağlantısını ve tarayıcı izinlerini kontrol et.');});}
+function copyWhatsApp(){const g=document.getElementById('goal').value||'Belirtilmedi';const s=document.getElementById('score').value||'___ / 35';const msg=`ENGİN360 7 Günlük Disiplin Meydan Okuması\nHedefim: ${g}\nToplam puanım: ${s}\nDisiplin, başarının köprüsüdür. Devam et, kazanacaksın!`;navigator.clipboard.writeText(msg).then(()=>alert('WhatsApp metni kopyalandı.'));}
+</script>
+</body>
+</html>
