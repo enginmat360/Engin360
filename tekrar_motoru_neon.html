@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ENGİN360 | Tekrar Motoru</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#080A1F; --card:#10163A; --card2:#151D4F; --line:rgba(255,255,255,.14);
+  --blue:#20D4FF; --purple:#8B5CFF; --pink:#FF3DF2; --green:#49F27B; --yellow:#FFE45C;
+  --text:#F5F7FF; --muted:#B9C3FF;
+}
+*{box-sizing:border-box} body{margin:0;font-family:Inter,Arial,sans-serif;background:radial-gradient(circle at top left,#17205a 0,#080A1F 35%,#050613 100%);color:var(--text)}
+.wrap{max-width:1220px;margin:0 auto;padding:24px 16px 40px}.hero{position:relative;border:1px solid var(--line);border-radius:28px;padding:26px;background:linear-gradient(135deg,rgba(32,212,255,.16),rgba(139,92,255,.14),rgba(255,61,242,.10));box-shadow:0 0 35px rgba(32,212,255,.18), inset 0 0 25px rgba(255,255,255,.04);overflow:hidden}.hero:after{content:"";position:absolute;right:-80px;top:-80px;width:260px;height:260px;background:radial-gradient(circle,rgba(255,61,242,.35),transparent 65%)}
+.brand{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}.logo{font-size:28px;font-weight:900;letter-spacing:.5px}.logo span{color:#ff8a00}.title{font-size:clamp(36px,7vw,78px);font-weight:900;line-height:.92;margin:18px 0 8px;background:linear-gradient(90deg,#fff,var(--blue),var(--green));-webkit-background-clip:text;color:transparent}.subtitle{display:inline-block;background:#061859;border:1px solid rgba(32,212,255,.45);padding:10px 18px;border-radius:999px;color:#fff;font-weight:800;box-shadow:0 0 18px rgba(32,212,255,.25)}
+.grid{display:grid;grid-template-columns:1fr 1.05fr;gap:16px;margin-top:18px}.card{background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.03));border:1px solid var(--line);border-radius:22px;padding:18px;box-shadow:0 0 22px rgba(139,92,255,.12)}.card h3,.section-title{margin:0 0 12px;font-size:18px;color:#fff}.input-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}.field{background:rgba(0,0,0,.22);border:1px solid rgba(255,255,255,.16);border-radius:16px;padding:12px}.field label{display:block;color:var(--muted);font-size:12px;font-weight:800;margin-bottom:6px}.field input{width:100%;background:transparent;border:0;border-bottom:1px solid rgba(255,255,255,.28);outline:0;color:#fff;font-size:15px;padding:4px}
+.curve{height:170px;position:relative}.curve svg{width:100%;height:100%}.pill{display:inline-flex;align-items:center;gap:8px;background:rgba(73,242,123,.12);border:1px solid rgba(73,242,123,.35);color:var(--green);padding:8px 12px;border-radius:999px;font-weight:800}.table-card{margin-top:16px;overflow:auto}.repeat-table{width:100%;min-width:1050px;border-collapse:separate;border-spacing:0}.repeat-table th{background:rgba(32,212,255,.12);color:#fff;font-size:12px;padding:12px;border:1px solid rgba(255,255,255,.12)}.repeat-table td{border:1px solid rgba(255,255,255,.10);padding:10px;background:rgba(255,255,255,.035);vertical-align:middle}.repeat-table input[type=text],.repeat-table input[type=date]{width:100%;background:rgba(0,0,0,.22);border:1px solid rgba(255,255,255,.14);border-radius:10px;color:#fff;padding:8px}.repeat-table input[type=checkbox]{width:18px;height:18px;accent-color:#20d4ff}.mini{font-size:12px;color:var(--muted);font-weight:800}.stars{letter-spacing:2px;color:#FFE45C;font-size:18px}.bottom{display:grid;grid-template-columns:1fr 1.1fr 1fr;gap:16px;margin-top:16px}.checkline{display:flex;gap:10px;align-items:center;padding:10px;border-bottom:1px dashed rgba(255,255,255,.12)}.dot{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-weight:900}.d1{background:#1fd65f}.d3{background:#ff9d1b}.d7{background:#28a8ff}.d21{background:#7b3dff}.d30{background:#2bbf67}.today-row{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;margin:10px 0}.today-row input[type=text]{background:rgba(0,0,0,.2);border:1px solid rgba(255,255,255,.16);border-radius:10px;color:#fff;padding:9px}.note textarea{width:100%;height:175px;resize:vertical;background:rgba(0,0,0,.2);border:1px solid rgba(255,255,255,.16);border-radius:14px;color:#fff;padding:12px;line-height:1.5}.tips{margin-top:16px;display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.tip{border:1px solid rgba(255,255,255,.13);border-radius:18px;padding:14px;background:rgba(255,255,255,.04);min-height:92px}.tip b{color:var(--yellow)}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.btn{border:0;border-radius:14px;padding:12px 16px;font-weight:900;color:#fff;cursor:pointer;background:linear-gradient(90deg,var(--blue),var(--purple));box-shadow:0 0 18px rgba(32,212,255,.25)}.btn.alt{background:linear-gradient(90deg,var(--green),#0ea85e)}.btn.pink{background:linear-gradient(90deg,var(--pink),var(--purple))}.footer{margin-top:18px;text-align:center;color:var(--muted);font-weight:800}.hide-print{display:block}
+@media(max-width:900px){.grid,.bottom,.tips,.input-row{grid-template-columns:1fr}.title{font-size:42px}.hero{padding:18px}.wrap{padding:12px}}
+@media print{body{background:#fff;color:#111}.hero,.card{box-shadow:none;background:#fff;color:#111;border-color:#ccc}.title{color:#111;background:none;-webkit-text-fill-color:#111}.subtitle,.pill,.btn{color:#111}.hide-print{display:none}.repeat-table input,.field input,.today-row input,.note textarea{color:#111;border-color:#aaa}.mini,.footer,.field label{color:#333}.repeat-table td,.repeat-table th{background:#fff;color:#111;border-color:#ddd}}
+</style>
+</head>
+<body>
+<div class="wrap" id="report">
+  <section class="hero">
+    <div class="brand"><div class="logo">ENGİN<span>360</span><div class="mini">PLANLA • ÇALIŞ • BAŞAR</div></div><div class="subtitle">🚀 Unutmamak için tekrarla, kalıcı öğren!</div></div>
+    <div class="title">TEKRAR MOTORU</div>
+    <div class="input-row">
+      <div class="field"><label>👤 İSİM</label><input id="student" placeholder="Öğrenci adı" /></div>
+      <div class="field"><label>📅 TARİH</label><input type="date" id="date" /></div>
+      <div class="field"><label>🎯 HEDEFİM</label><input placeholder="Bu hafta tekrar hedefim" /></div>
+    </div>
+  </section>
+
+  <div class="grid">
+    <div class="card">
+      <h3>🧠 Tekrar Mantığı</h3>
+      <p>Beynimiz öğrendiği bilgileri zamanla unutmaya başlar. Doğru aralıklarla yapılan tekrar, bilgiyi kısa süreli hafızadan uzun süreli hafızaya taşır.</p>
+      <div class="pill">TEKRAR = KALICILIK = BAŞARI</div>
+    </div>
+    <div class="card">
+      <h3>📉 Unutma Eğrisi</h3>
+      <div class="curve">
+        <svg viewBox="0 0 500 170" preserveAspectRatio="none">
+          <line x1="40" y1="135" x2="470" y2="135" stroke="rgba(255,255,255,.45)"/><line x1="40" y1="20" x2="40" y2="135" stroke="rgba(255,255,255,.45)"/>
+          <path d="M55 35 C110 52,140 70,185 88 S280 112,350 121 S430 130,460 132" fill="none" stroke="#ff4040" stroke-width="4"/>
+          <g fill="#ff4040"><circle cx="70" cy="42" r="6"/><circle cx="170" cy="82" r="6"/><circle cx="260" cy="107" r="6"/><circle cx="360" cy="123" r="6"/><circle cx="450" cy="131" r="6"/></g>
+          <g fill="#fff" font-size="13" font-weight="700"><text x="60" y="158">1 gün</text><text x="155" y="158">3 gün</text><text x="245" y="158">7 gün</text><text x="335" y="158">21 gün</text><text x="425" y="158">30 gün</text></g>
+        </svg>
+      </div>
+      <p class="mini">Tekrar edilmezse bilgi hızla unutulur. Zamanında tekrar bilgiyi kalıcı hale getirir.</p>
+    </div>
+  </div>
+
+  <div class="card table-card">
+    <h3>1️⃣ Tekrar Planım <span class="mini">Konu ilk öğrenildiği gün “Gün 0” kabul edilir.</span></h3>
+    <table class="repeat-table" id="planTable">
+      <thead><tr><th>No</th><th>Konu / Ünite</th><th>Öğrendiğim Tarih</th><th>1. Tekrar<br><span class="mini">1 gün sonra</span></th><th>2. Tekrar<br><span class="mini">3 gün sonra</span></th><th>3. Tekrar<br><span class="mini">7 gün sonra</span></th><th>4. Tekrar<br><span class="mini">21 gün sonra</span></th><th>5. Tekrar<br><span class="mini">30 gün sonra</span></th><th>Kalıcılık</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <div class="bottom">
+    <div class="card"><h3>2️⃣ Tekrar Kontrol Paneli</h3>
+      <div class="checkline"><span class="dot d1">✓</span><b>1 gün sonra:</b> Bilgi taze kalır.</div>
+      <div class="checkline"><span class="dot d3">✓</span><b>3 gün sonra:</b> Unutma riski azalır.</div>
+      <div class="checkline"><span class="dot d7">✓</span><b>7 gün sonra:</b> Uzun süreli hafıza başlar.</div>
+      <div class="checkline"><span class="dot d21">✓</span><b>21 gün sonra:</b> Bilgi kalıcılaşır.</div>
+      <div class="checkline"><span class="dot d30">✓</span><b>30 gün sonra:</b> Öğrenme tamamlanır.</div>
+    </div>
+    <div class="card"><h3>3️⃣ Bugün Hangi Tekrarları Yapacağım?</h3>
+      <div id="todayList"></div>
+      <div class="field"><label>TOPLAM TEKRAR SAYIM</label><input id="totalRepeat" readonly /></div>
+    </div>
+    <div class="card note"><h3>4️⃣ Kendime Not</h3><textarea placeholder="Bugün öğrendiğim ve tekrar edeceğim konularla ilgili notlarım..."></textarea></div>
+  </div>
+
+  <div class="tips">
+    <div class="tip">🎯 <b>Zamanında tekrar</b>, daha az çalışmayla daha çok öğrenme sağlar.</div>
+    <div class="tip">🧠 Tekrarlar kısa sürer ama etkisi büyüktür.</div>
+    <div class="tip">⏳ Bugün 10 dakika tekrar, yarın saatlerce çalışmaktan değerlidir.</div>
+    <div class="tip">👑 Disiplinli tekrar eden kazanır.</div>
+  </div>
+  <div class="actions hide-print">
+    <button class="btn" onclick="fillDates()">Tarihleri Otomatik Hesapla</button>
+    <button class="btn alt" onclick="saveLocal()">Kaydet</button>
+    <button class="btn pink" onclick="window.print()">PDF / Yazdır</button>
+    <button class="btn" onclick="saveAsImage()">Sadece Tabloyu Görsel Kaydet</button>
+    <button class="btn" onclick="copyWhatsApp()">WhatsApp Metnini Kopyala</button>
+  </div>
+  <div class="footer">ENGİN360 • Planla • Çalış • Başar</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script>
+const tbody=document.querySelector('#planTable tbody');
+const offsets=[1,3,7,21,30];
+for(let i=1;i<=10;i++){
+  const tr=document.createElement('tr');
+  tr.innerHTML=`<td><b>${i}</b></td><td><input type="text" class="topic" placeholder="Konu yaz" /></td><td><input type="date" class="learned" /></td>`+
+  offsets.map((_,k)=>`<td><input type="date" class="rep rep${k}"><br><label class="mini"><input type="checkbox" class="done"> Yaptım</label></td>`).join('')+
+  `<td class="stars">☆☆☆☆☆</td>`;
+  tbody.appendChild(tr);
+}
+const todayList=document.getElementById('todayList');
+['1 gün sonra tekrarlarım','3 gün sonra tekrarlarım','7 gün sonra tekrarlarım','21 gün sonra tekrarlarım','30 gün sonra tekrarlarım'].forEach((t,i)=>{
+  todayList.innerHTML+=`<div class="today-row"><input placeholder="${t}"/><input type="checkbox" class="todayCheck"></div>`;
+});
+document.addEventListener('change',()=>{updateStars();countToday();});
+function addDays(date,days){let d=new Date(date);d.setDate(d.getDate()+days);return d.toISOString().slice(0,10)}
+function fillDates(){document.querySelectorAll('#planTable tbody tr').forEach(tr=>{const base=tr.querySelector('.learned').value;if(!base)return;tr.querySelectorAll('.rep').forEach((r,i)=>r.value=addDays(base,offsets[i]));});saveLocal();}
+function updateStars(){document.querySelectorAll('#planTable tbody tr').forEach(tr=>{const n=[...tr.querySelectorAll('.done')].filter(x=>x.checked).length;tr.querySelector('.stars').textContent='★'.repeat(n)+'☆'.repeat(5-n);});}
+function countToday(){document.getElementById('totalRepeat').value=[...document.querySelectorAll('.todayCheck')].filter(x=>x.checked).length;}
+function saveLocal(){localStorage.setItem('engin360_tekrar_motoru',document.getElementById('report').innerHTML);alert('Tekrar Motoru bu cihazda kaydedildi.');}
+
+async function saveAsImage(){
+  const tableCard=document.querySelector('.table-card');
+
+  // Form değerlerini klona aktarabilmek için mevcut input durumlarını HTML'e işler.
+  document.querySelectorAll('input, textarea').forEach(el=>{
+    if(el.type==='checkbox'){
+      if(el.checked) el.setAttribute('checked','checked');
+      else el.removeAttribute('checked');
+    }else{
+      el.setAttribute('value', el.value || '');
+      if(el.tagName==='TEXTAREA') el.textContent=el.value || '';
+    }
+  });
+
+  // Telefonda yatay kaydırma yüzünden kırpılma olmaması için sadece tablo kartını klonlayıp tam genişlikte yakalar.
+  const clone=tableCard.cloneNode(true);
+  clone.style.position='fixed';
+  clone.style.left='-10000px';
+  clone.style.top='0';
+  clone.style.width=Math.max(tableCard.scrollWidth, 1120)+'px';
+  clone.style.overflow='visible';
+  clone.style.background='linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.03))';
+  clone.style.border='1px solid rgba(255,255,255,.14)';
+  clone.style.borderRadius='22px';
+  clone.style.padding='18px';
+  document.body.appendChild(clone);
+
+  try{
+    const canvas=await html2canvas(clone,{scale:2,backgroundColor:'#080A1F',useCORS:true,scrollX:0,scrollY:0,width:clone.scrollWidth,height:clone.scrollHeight});
+    const link=document.createElement('a');
+    const name=(document.getElementById('student').value||'engin360_tekrar_tablosu').trim().replace(/\s+/g,'_').toLowerCase();
+    link.download=name+'_tekrar_tablosu.png';
+    link.href=canvas.toDataURL('image/png');
+    link.click();
+  }catch(e){
+    alert('Tablo görseli oluşturulamadı. Sayfayı yenileyip tekrar deneyin.');
+  }finally{
+    clone.remove();
+  }
+}
+
+function copyWhatsApp(){const name=document.getElementById('student').value||'Öğrenci';let topics=[...document.querySelectorAll('.topic')].map(x=>x.value).filter(Boolean).slice(0,10).join(', ');const txt=`ENGİN360 Tekrar Motoru\nÖğrenci: ${name}\nBugünkü tekrar konuları: ${topics||'Henüz konu girilmedi'}\nHedef: Tekrarları zamanında tamamlamak.`;navigator.clipboard.writeText(txt);alert('WhatsApp metni kopyalandı.');}
+document.getElementById('date').value=new Date().toISOString().slice(0,10);
+</script>
+</body>
+</html>
