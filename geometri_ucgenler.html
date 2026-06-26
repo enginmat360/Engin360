@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ENGİN360 | Üçgenler Laboratuvarı</title>
+<style>
+:root{
+  --text:#fff;--muted:#ded9ff;--p:#a855f7;--m:#ec4899;--c:#38bdf8;--g:#22c55e;--y:#ffd60a;--r:#fb7185;--orange:#fb923c;
+}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial,sans-serif}
+body{
+  min-height:100vh;color:var(--text);padding:18px;
+  background:
+    radial-gradient(circle at top left,rgba(168,85,247,.40),transparent 34%),
+    radial-gradient(circle at bottom right,rgba(14,165,233,.32),transparent 34%),
+    radial-gradient(circle at 50% 108%,rgba(236,72,153,.22),transparent 40%),
+    linear-gradient(135deg,#05010d,#120024,#06142f);
+}
+.container{max-width:1200px;margin:0 auto}
+.back{display:inline-block;margin-bottom:14px;color:#e9d5ff;text-decoration:none;font-weight:850;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);padding:9px 13px;border-radius:13px}
+.hero{text-align:center;padding:30px 18px;border-radius:30px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);box-shadow:0 0 38px rgba(124,58,237,.34);backdrop-filter:blur(12px);margin-bottom:16px}
+.logo{font-size:clamp(36px,7vw,76px);font-weight:1000;letter-spacing:1px;background:linear-gradient(90deg,#fff,#a855f7,#38bdf8,#ec4899,#fff);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 14px rgba(168,85,247,.42))}
+.subtitle{margin-top:10px;color:#ded9ff;font-size:15px;line-height:1.55}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:16px 0}
+.stat{border:1px solid rgba(255,255,255,.13);border-radius:18px;background:rgba(255,255,255,.065);padding:13px;text-align:center}
+.stat b{display:block;font-size:25px;color:#67e8f9}.stat span{font-size:12px;color:#efe7ff;font-weight:800}
+.tabs{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:14px 0}
+.tab{border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.075);color:white;border-radius:18px;padding:13px 8px;font-weight:950;cursor:pointer;transition:.18s}
+.tab:hover{transform:translateY(-2px);box-shadow:0 0 22px rgba(56,189,248,.22)}
+.tab.active{background:linear-gradient(135deg,var(--p),var(--m));box-shadow:0 0 26px rgba(236,72,153,.32)}
+.main{display:grid;grid-template-columns:1.12fr .88fr;gap:16px}
+.card{border:1px solid rgba(255,255,255,.15);border-radius:28px;background:linear-gradient(145deg,rgba(255,255,255,.085),rgba(255,255,255,.045));box-shadow:0 18px 55px rgba(0,0,0,.35),inset 0 0 28px rgba(255,255,255,.025);backdrop-filter:blur(12px);padding:16px}
+.boardTop{display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px}
+.chip{font-size:12px;font-weight:900;color:#f5f3ff;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.08);padding:8px 11px;border-radius:999px}
+.chip.yellow{color:#fffbe6;background:rgba(255,214,10,.14);border-color:rgba(255,214,10,.35)}
+canvas{width:100%;height:500px;border-radius:24px;background:rgba(2,6,23,.46);border:1px solid rgba(255,255,255,.11);box-shadow:inset 0 0 36px rgba(56,189,248,.05);touch-action:none}
+.buttons{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
+.btn{border:0;border-radius:17px;padding:13px 10px;color:white;font-weight:950;cursor:pointer;background:linear-gradient(135deg,var(--p),var(--m));box-shadow:0 12px 28px rgba(168,85,247,.25)}
+.btn.alt{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.14);box-shadow:none}
+.btn.lock{background:linear-gradient(135deg,#0ea5e9,#22c55e)}
+.sideTitle{font-size:24px;margin-bottom:8px}.hint{color:var(--muted);line-height:1.5;font-size:14px;margin-bottom:12px}
+.infoGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:12px}
+.info{border:1px solid rgba(255,255,255,.13);background:rgba(255,255,255,.065);border-radius:18px;padding:12px}
+.info b{font-size:22px;color:#fff176;display:block;text-shadow:0 0 12px rgba(255,214,10,.65)}
+.info span{font-size:12px;color:#efe7ff}
+.q{border:1px solid rgba(255,255,255,.13);background:rgba(255,255,255,.065);border-radius:20px;padding:13px;margin-bottom:11px}
+.q b{display:block;margin-bottom:9px}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.opt{text-align:left;border:1px solid rgba(255,255,255,.13);background:rgba(255,255,255,.07);border-radius:14px;padding:10px;color:white;font-weight:850;cursor:pointer}
+.opt.correct{background:rgba(34,197,94,.25);border-color:rgba(34,197,94,.8)}
+.opt.wrong{background:rgba(251,113,133,.25);border-color:rgba(251,113,133,.85)}
+.feedback{margin-top:10px;border-radius:18px;padding:12px;background:rgba(255,255,255,.075);border:1px solid rgba(255,255,255,.13);color:#e8e6ff;line-height:1.5}
+.lessonGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
+.lesson{border:1px solid rgba(255,255,255,.13);background:rgba(255,255,255,.06);border-radius:20px;padding:14px;line-height:1.5;color:#e8e6ff}
+.lesson h3{font-size:16px;margin-bottom:7px;color:#fff}
+.footer{text-align:center;color:#aaa;font-size:12px;margin:32px 0 10px}
+@media(max-width:950px){.main,.stats,.tabs,.lessonGrid{grid-template-columns:1fr}.buttons,.infoGrid{grid-template-columns:1fr}canvas{height:390px}.opts{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="container">
+<a class="back" href="geometri_guncel.html">← Geometri Laboratuvarına dön</a>
+
+<section class="hero">
+  <div class="logo">ENGİN360</div>
+  <div class="subtitle">📐 Üçgenler Laboratuvarı · LAB PRO v1.1<br>Köşeleri sürükle, açıları ve kenarları canlı gör. Kenar ölçüleri küçük birim referanslıdır; dik üçgen modunda diklik kilitli kalır.</div>
+</section>
+
+<div class="stats">
+  <div class="stat"><b id="total">0</b><span>Cevaplanan</span></div>
+  <div class="stat"><b id="correct">0</b><span>Doğru</span></div>
+  <div class="stat"><b id="wrong">0</b><span>Yanlış</span></div>
+  <div class="stat"><b id="score">0%</b><span>Üçgen sezgisi</span></div>
+</div>
+
+<div class="tabs">
+  <button class="tab active" onclick="setMode('kesif',this)">Üçgen Keşfi</button>
+  <button class="tab" onclick="setMode('tur',this)">Tür Dedektifi</button>
+  <button class="tab" onclick="setMode('pisagor',this)">Pisagor</button>
+  <button class="tab" onclick="setMode('cizgiler',this)">Açıortay-Kenarortay</button>
+  <button class="tab" onclick="setMode('quiz',this)">Challenge</button>
+</div>
+
+<section class="main">
+  <div class="card">
+    <div class="boardTop">
+      <div>
+        <span class="chip" id="modeName">Üçgen Keşfi</span>
+        <span class="chip yellow" id="lockChip">Serbest üçgen</span>
+      </div>
+      <span class="chip" id="ruleChip">İç açı toplamı 180°</span>
+    </div>
+    <canvas id="canvas" width="900" height="610"></canvas>
+    <div class="buttons">
+      <button class="btn" onclick="preset('random')">Rastgele Üçgen</button>
+      <button class="btn lock" onclick="preset('right')">Dikliği Kilitle</button>
+      <button class="btn alt" onclick="preset('isosceles')">İkizkenar</button>
+      <button class="btn alt" onclick="toggleLabels()">Etiketleri Gizle/Göster</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2 class="sideTitle" id="taskTitle">Üçgen Keşfi</h2>
+    <p class="hint" id="hint">Köşeleri sürükle. Kenar uzunlukları küçük birim referansıyla gösterilir; örneğin 240 px ≈ 8 birim.</p>
+    <div class="infoGrid">
+      <div class="info"><b id="angleA">0°</b><span>A açısı</span></div>
+      <div class="info"><b id="angleB">0°</b><span>B açısı</span></div>
+      <div class="info"><b id="angleC">0°</b><span>C açısı</span></div>
+      <div class="info"><b id="sumAngles">180°</b><span>İç açı toplamı</span></div>
+      <div class="info"><b id="sideAB">0 br</b><span>AB uzunluğu</span></div>
+      <div class="info"><b id="sideBC">0 br</b><span>BC uzunluğu</span></div>
+      <div class="info"><b id="sideCA">0 br</b><span>CA uzunluğu</span></div>
+      <div class="info"><b id="areaText">0 br²</b><span>Alan</span></div>
+      <div class="info"><b id="angleType">-</b><span>Açılarına göre</span></div>
+      <div class="info"><b id="sideType">-</b><span>Kenarlarına göre</span></div>
+    </div>
+    <div id="questions"></div>
+    <div class="feedback" id="feedback">Üçgenin köşelerini tutup sürükleyebilirsin.</div>
+  </div>
+</section>
+
+<section class="card" style="margin-top:16px">
+  <h2>Mini Kural Defteri</h2>
+  <div class="lessonGrid">
+    <div class="lesson"><h3>Küçük Birim Ölçümü</h3><p>Kenarlar piksel olarak değil, sade “br” ölçüsüyle gösterilir. Böylece 8, 10, 12 gibi okunabilir değerler oluşur.</p></div>
+    <div class="lesson"><h3>Dik Üçgen Kilidi</h3><p>Pisagor modunda B noktası 90° sabit kalır. A yukarı-aşağı, C sağa-sola hareket eder; diklik bozulmaz.</p></div>
+    <div class="lesson"><h3>Pisagor</h3><p>Dik üçgende dik kenarların kareleri toplamı hipotenüsün karesine eşittir: a² + b² = c².</p></div>
+  </div>
+</section>
+
+<section class="card" style="margin-top:16px">
+  <h2>Ek Üçgen Laboratuvarı</h2>
+  <div class="lessonGrid">
+    <a class="lesson" href="geometri_benzerlik_eslik.html" style="text-decoration:none;display:block">
+      <h3>🔁 Benzerlik ve Eşlik Laboratuvarı</h3>
+      <p>Karşılıklı kenar oranları, eş üçgenler, benzerlik oranı ve KKK mantığını keşfet.</p>
+    </a>
+  </div>
+</section>
+<div class="footer">ENGİN360 © 2026 · Üçgenler Laboratuvarı</div>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+const canvas=$('canvas'), ctx=canvas.getContext('2d');
+const UNIT=30;
+let mode='kesif', labels=true, rightLocked=false, drag=null, total=0, correct=0, wrong=0, pulse=0;
+let P={A:{x:270,y:170},B:{x:170,y:455},C:{x:690,y:450}};
+let data={};
+
+function dist(p,q){return Math.hypot(p.x-q.x,p.y-q.y)}
+function br(n){return +(n/UNIT).toFixed(1)}
+function area2(a,b,c){return Math.abs((b.x-a.x)*(c.y-a.y)-(b.y-a.y)*(c.x-a.x))}
+function angleAt(p,q,r){
+  let v1={x:q.x-p.x,y:q.y-p.y}, v2={x:r.x-p.x,y:r.y-p.y};
+  let dot=v1.x*v2.x+v1.y*v2.y;
+  let m1=Math.hypot(v1.x,v1.y),m2=Math.hypot(v2.x,v2.y);
+  let cos=Math.max(-1,Math.min(1,dot/(m1*m2)));
+  return Math.acos(cos)*180/Math.PI;
+}
+function calc(){
+  let AB=dist(P.A,P.B), BC=dist(P.B,P.C), CA=dist(P.C,P.A);
+  let A=angleAt(P.A,P.B,P.C), B=angleAt(P.B,P.A,P.C), C=angleAt(P.C,P.A,P.B);
+  let area=area2(P.A,P.B,P.C)/2;
+  let angles=[A,B,C];
+  let angleType = angles.some(x=>Math.abs(x-90)<1.8) ? "Dik açılı" : (angles.some(x=>x>90) ? "Geniş açılı" : "Dar açılı");
+  let eps=0.45;
+  let sAB=br(AB), sBC=br(BC), sCA=br(CA);
+  let sideType = (Math.abs(sAB-sBC)<eps && Math.abs(sBC-sCA)<eps) ? "Eşkenar" : ((Math.abs(sAB-sBC)<eps || Math.abs(sBC-sCA)<eps || Math.abs(sCA-sAB)<eps) ? "İkizkenar" : "Çeşitkenar");
+  data={AB,BC,CA,A,B,C,area,angleType,sideType,sAB,sBC,sCA,sArea:+(area/(UNIT*UNIT)).toFixed(1)};
+  $('angleA').textContent=Math.round(A)+"°"; $('angleB').textContent=Math.round(B)+"°"; $('angleC').textContent=Math.round(C)+"°";
+  $('sumAngles').textContent=Math.round(A+B+C)+"°";
+  $('sideAB').textContent=sAB+" br"; $('sideBC').textContent=sBC+" br"; $('sideCA').textContent=sCA+" br";
+  $('areaText').textContent=data.sArea+" br²";
+  $('angleType').textContent=angleType; $('sideType').textContent=sideType;
+  $('lockChip').textContent=rightLocked ? "Diklik kilitli · B=90°" : "Serbest üçgen";
+}
+function bg(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  let g=ctx.createLinearGradient(0,0,canvas.width,canvas.height);g.addColorStop(0,"rgba(15,23,42,.98)");g.addColorStop(1,"rgba(35,5,52,.92)");
+  ctx.fillStyle=g;ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.strokeStyle="rgba(255,255,255,.08)";ctx.lineWidth=1;
+  for(let x=60;x<canvas.width;x+=60){ctx.beginPath();ctx.moveTo(x,30);ctx.lineTo(x,canvas.height-30);ctx.stroke()}
+  for(let y=60;y<canvas.height;y+=60){ctx.beginPath();ctx.moveTo(30,y);ctx.lineTo(canvas.width-30,y);ctx.stroke()}
+}
+function drawTriangle(){
+  ctx.save();
+  ctx.fillStyle="rgba(56,189,248,.10)";
+  ctx.strokeStyle="#38bdf8";ctx.lineWidth=6;ctx.lineJoin="round";ctx.shadowColor="#38bdf8";ctx.shadowBlur=16;
+  ctx.beginPath();ctx.moveTo(P.A.x,P.A.y);ctx.lineTo(P.B.x,P.B.y);ctx.lineTo(P.C.x,P.C.y);ctx.closePath();ctx.fill();ctx.stroke();
+  ctx.restore();
+  drawAngle(P.A,P.B,P.C,"A",data.A,72);
+  drawAngle(P.B,P.C,P.A,"B",data.B,72);
+  drawAngle(P.C,P.A,P.B,"C",data.C,72);
+  if(rightLocked) drawRightMark();
+  drawSides();
+  if(mode==='pisagor') drawPythagoras();
+  if(mode==='cizgiler') drawSpecialLines();
+  drawPoints();
+}
+function drawRightMark(){
+  // fixed at B, with BA vertical and BC horizontal in locked mode
+  ctx.save();
+  ctx.strokeStyle="#fff176";ctx.lineWidth=5;ctx.shadowColor="#ffd60a";ctx.shadowBlur=14;
+  let size=34, bx=P.B.x, by=P.B.y;
+  let sx = P.C.x > P.B.x ? 1 : -1;
+  let sy = P.A.y < P.B.y ? -1 : 1;
+  ctx.beginPath();
+  ctx.moveTo(bx+sx*size,by);
+  ctx.lineTo(bx+sx*size,by+sy*size);
+  ctx.lineTo(bx,by+sy*size);
+  ctx.stroke();
+  ctx.fillStyle="#fff176";ctx.font="900 18px Arial";ctx.textAlign="center";ctx.fillText("90°",bx+sx*48,by+sy*48);
+  ctx.restore();
+}
+function ang(p,q){return Math.atan2(q.y-p.y,q.x-p.x)}
+function normalizeRad(a){while(a<0)a+=Math.PI*2; while(a>=Math.PI*2)a-=Math.PI*2; return a}
+function drawAngle(p,q,r,label,value,rad){
+  let a1=normalizeRad(ang(p,q)), a2=normalizeRad(ang(p,r));
+  let diff=a2-a1; if(diff<0)diff+=Math.PI*2; if(diff>Math.PI){let t=a1;a1=a2;a2=t;diff=Math.PI*2-diff;}
+  let glow=.23+Math.sin(pulse)*.04;
+  ctx.save();
+  ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.arc(p.x,p.y,rad,a1,a2);ctx.closePath();
+  ctx.fillStyle=`rgba(255,214,10,${glow})`;ctx.fill();
+  ctx.strokeStyle="#ffd60a";ctx.lineWidth=7;ctx.lineCap="round";ctx.shadowColor="#ffd60a";ctx.shadowBlur=18;
+  ctx.beginPath();ctx.arc(p.x,p.y,rad,a1,a2);ctx.stroke();
+  if(labels){
+    let mid=a1+diff/2;
+    ctx.fillStyle="#fff9b0";ctx.font="900 21px Arial";ctx.textAlign="center";ctx.textBaseline="middle";
+    ctx.shadowBlur=13;ctx.fillText(label+"="+Math.round(value)+"°",p.x+Math.cos(mid)*(rad+40),p.y+Math.sin(mid)*(rad+40));
+  }
+  ctx.restore();
+}
+function drawSides(){
+  if(!labels) return;
+  labelMid(P.A,P.B,"AB="+data.sAB+" br","#67e8f9",-15);
+  labelMid(P.B,P.C,"BC="+data.sBC+" br","#67e8f9",22);
+  labelMid(P.C,P.A,"CA="+data.sCA+" br","#67e8f9",-15);
+}
+function labelMid(p,q,text,color,off){
+  ctx.save();ctx.fillStyle=color;ctx.font="900 17px Arial";ctx.textAlign="center";ctx.shadowColor=color;ctx.shadowBlur=10;
+  ctx.fillText(text,(p.x+q.x)/2,(p.y+q.y)/2+off);ctx.restore();
+}
+function drawPoints(){
+  [["A",P.A],["B",P.B],["C",P.C]].forEach(([n,p])=>{
+    ctx.save();ctx.fillStyle="#ec4899";ctx.shadowColor="#ec4899";ctx.shadowBlur=18;ctx.beginPath();ctx.arc(p.x,p.y,10,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle="#fff";ctx.font="900 22px Arial";ctx.textAlign="center";ctx.fillText(n,p.x,p.y-20);ctx.restore();
+  });
+}
+function drawPythagoras(){
+  let a=data.sAB,b=data.sBC,c=data.sCA;
+  let hyp = Math.max(data.AB,data.BC,data.CA);
+  let arr=[["AB",P.A,P.B,data.AB],["BC",P.B,P.C,data.BC],["CA",P.C,P.A,data.CA]].sort((x,y)=>y[3]-x[3]);
+  drawSquareOnSide(arr[0][1],arr[0][2],"rgba(236,72,153,.16)","#ec4899","c²");
+  drawSquareOnSide(arr[1][1],arr[1][2],"rgba(34,197,94,.15)","#22c55e","a²");
+  drawSquareOnSide(arr[2][1],arr[2][2],"rgba(255,214,10,.15)","#ffd60a","b²");
+  if(labels){
+    ctx.save();ctx.fillStyle="#fffbe6";ctx.font="900 21px Arial";ctx.textAlign="center";ctx.shadowColor="#ffd60a";ctx.shadowBlur=12;
+    ctx.fillText("Diklik kilitli: B = 90°  ·  a² + b² = c²",canvas.width/2,48);ctx.restore();
+  }
+}
+function drawSquareOnSide(p,q,fill,stroke,label){
+  let dx=q.x-p.x, dy=q.y-p.y, len=Math.hypot(dx,dy); if(len<1)return;
+  let nx=-dy/len, ny=dx/len;
+  let h=Math.min(len*.32,92);
+  let p2={x:p.x+nx*h,y:p.y+ny*h}, q2={x:q.x+nx*h,y:q.y+ny*h};
+  ctx.save();ctx.fillStyle=fill;ctx.strokeStyle=stroke;ctx.lineWidth=3;ctx.shadowColor=stroke;ctx.shadowBlur=10;
+  ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.lineTo(q2.x,q2.y);ctx.lineTo(p2.x,p2.y);ctx.closePath();ctx.fill();ctx.stroke();
+  if(labels){ctx.fillStyle="#fff";ctx.font="900 17px Arial";ctx.textAlign="center";ctx.fillText(label,(p2.x+q2.x)/2,(p2.y+q2.y)/2);}
+  ctx.restore();
+}
+function drawSpecialLines(){
+  let midBC={x:(P.B.x+P.C.x)/2,y:(P.B.y+P.C.y)/2};
+  drawLine(P.A,midBC,"#ffd60a","Kenarortay");
+  let foot=project(P.A,P.B,P.C);
+  drawLine(P.A,foot,"#22c55e","Yükseklik");
+  let u=unit(P.A,P.B), v=unit(P.A,P.C), dir={x:u.x+v.x,y:u.y+v.y}; let m=Math.hypot(dir.x,dir.y); if(m>0){dir.x/=m;dir.y/=m; let end={x:P.A.x+dir.x*170,y:P.A.y+dir.y*170}; drawLine(P.A,end,"#ec4899","Açıortay");}
+}
+function drawLine(p,q,color,text){
+  ctx.save();ctx.strokeStyle=color;ctx.lineWidth=4;ctx.setLineDash([10,8]);ctx.shadowColor=color;ctx.shadowBlur=12;
+  ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.stroke();ctx.setLineDash([]);
+  if(labels){ctx.fillStyle=color;ctx.font="900 15px Arial";ctx.textAlign="center";ctx.fillText(text,(p.x+q.x)/2,(p.y+q.y)/2-8)}
+  ctx.restore();
+}
+function unit(p,q){let dx=q.x-p.x,dy=q.y-p.y,l=Math.hypot(dx,dy);return{x:dx/l,y:dy/l}}
+function project(p,a,b){let ap={x:p.x-a.x,y:p.y-a.y}, ab={x:b.x-a.x,y:b.y-a.y};let t=(ap.x*ab.x+ap.y*ab.y)/(ab.x*ab.x+ab.y*ab.y);return{x:a.x+ab.x*t,y:a.y+ab.y*t}}
+function draw(){calc(); bg(); drawTriangle();}
+function setMode(m,btn){
+  mode=m; document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active')); btn.classList.add('active');
+  const names={kesif:"Üçgen Keşfi",tur:"Tür Dedektifi",pisagor:"Pisagor",cizgiler:"Açıortay-Kenarortay",quiz:"Challenge"};
+  $('modeName').textContent=names[m]; $('taskTitle').textContent=names[m];
+  if(m==='pisagor'){ rightLocked=true; preset('right', true); $('hint').textContent="Pisagor modunda diklik kilitlidir. A noktası sadece dikey, C noktası sadece yatay hareket eder; B açısı 90° kalır."; $('ruleChip').textContent="B açısı sabit 90°"; }
+  else { rightLocked=false; $('ruleChip').textContent=m==='kesif' ? "İç açı toplamı 180°" : (m==='tur' ? "Üçgen türünü keşfet" : (m==='cizgiler' ? "Özel çizgiler" : "Üçgen Challenge")); }
+  if(m==='kesif') $('hint').textContent="Köşeleri sürükle. Kenarlar küçük birimle ölçülür; iç açı toplamı 180° kalır.";
+  if(m==='tur') $('hint').textContent="Üçgeni farklı şekillere getir. Açılarına ve kenarlarına göre türü otomatik değişir.";
+  if(m==='cizgiler') $('hint').textContent="Açıortay, kenarortay ve yükseklik aynı üçgende farklı çizgilerdir. Renkleri takip et.";
+  if(m==='quiz') $('hint').textContent="Üçgeni incele ve soruları cevapla.";
+  draw(); makeQuestions(true);
+}
+function preset(t, keepMode){
+  if(t==='right'){
+    rightLocked=true;
+    P={A:{x:220,y:190},B:{x:220,y:470},C:{x:610,y:470}};
+    if(!keepMode){mode='pisagor';document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.tab')[2].classList.add('active');$('modeName').textContent="Pisagor";$('taskTitle').textContent="Pisagor";$('hint').textContent="Diklik kilitli. A sadece dikey, C sadece yatay hareket eder; B=90° sabit kalır.";$('ruleChip').textContent="B açısı sabit 90°";}
+  }
+  else if(t==='isosceles'){rightLocked=false;P={A:{x:450,y:145},B:{x:220,y:465},C:{x:680,y:465}};}
+  else{rightLocked=false;P={A:{x:180+Math.random()*260,y:110+Math.random()*170},B:{x:120+Math.random()*240,y:400+Math.random()*90},C:{x:560+Math.random()*220,y:360+Math.random()*120}};}
+  draw(); makeQuestions(true); $('feedback').textContent= rightLocked ? "Dik üçgen kilitlendi. B açısı 90° kalır." : "Yeni üçgen oluşturuldu.";
+}
+function toggleLabels(){labels=!labels;draw()}
+function mix(correct,pool){return [...new Set([String(correct),...pool.map(String)])].sort(()=>Math.random()-.5).slice(0,4)}
+function q(title,correct,pool){
+  let opts=mix(correct,pool);
+  return `<div class="q"><b>${title}</b><div class="opts">${opts.map(o=>`<button class="opt" onclick="answer(this,'${encodeURIComponent(o)}','${encodeURIComponent(String(correct))}')">${o}</button>`).join("")}</div></div>`;
+}
+function makeQuestions(force){
+  let html="";
+  if(mode==='kesif'){
+    html+=q("İç açıların toplamı kaç derecedir?","180°",["90°","120°","360°"]);
+    html+=q("A açısı yaklaşık kaç derecedir?",Math.round(data.A)+"°",[Math.round(data.B)+"°",Math.round(data.C)+"°","90°"]);
+  }else if(mode==='tur'){
+    html+=q("Bu üçgen açılarına göre nedir?",data.angleType,["Dar açılı","Dik açılı","Geniş açılı"]);
+    html+=q("Bu üçgen kenarlarına göre nedir?",data.sideType,["Eşkenar","İkizkenar","Çeşitkenar"]);
+  }else if(mode==='pisagor'){
+    html+=q("Diklik hangi noktada sabitlenmiştir?","B noktasında",["A noktasında","C noktasında","Hiçbiri"]);
+    html+=q("Pisagor bağıntısı hangisidir?","a² + b² = c²",["a+b=c","a²-b²=c²","2a+b=c"]);
+    html+=q("En uzun kenara ne denir?","Hipotenüs",["Kenarortay","Dik kenar","Açıortay"]);
+  }else if(mode==='cizgiler'){
+    html+=q("Kenarın orta noktasına giden doğru parçası nedir?","Kenarortay",["Açıortay","Yükseklik","Hipotenüs"]);
+    html+=q("Karşı kenara dik inen doğru parçası nedir?","Yükseklik",["Kenarortay","Açıortay","Kenar"]);
+  }else{
+    html+=q("Şu anki üçgenin kenar türü nedir?",data.sideType,["Eşkenar","İkizkenar","Çeşitkenar"]);
+    html+=q("Şu anki üçgenin açı türü nedir?",data.angleType,["Dar açılı","Dik açılı","Geniş açılı"]);
+    html+=q("Alan yaklaşık kaç br²dir?",data.sArea,[Math.max(1,+(data.sArea-3).toFixed(1)),+(data.sArea+4).toFixed(1),+(data.sArea+7).toFixed(1)]);
+  }
+  $('questions').innerHTML=html;
+}
+function answer(btn,val,cor){
+  val=decodeURIComponent(val);cor=decodeURIComponent(cor);
+  [...btn.parentElement.children].forEach(b=>b.disabled=true);
+  total++;
+  if(val===cor){correct++;btn.classList.add("correct");$('feedback').innerHTML="✅ Doğru. Üçgen okuma sezgin güçleniyor."}
+  else{wrong++;btn.classList.add("wrong");[...btn.parentElement.children].forEach(b=>{if(b.textContent===cor)b.classList.add("correct")});$('feedback').innerHTML="❌ Yanlış. Doğru cevap işaretlendi; şekli tekrar incele."}
+  updateStats();
+}
+function updateStats(){
+  $('total').textContent=total;$('correct').textContent=correct;$('wrong').textContent=wrong;
+  $('score').textContent=total?Math.round(correct/total*100)+"%":"0%";
+}
+canvas.addEventListener('pointerdown',e=>{
+  let rect=canvas.getBoundingClientRect(), x=(e.clientX-rect.left)*canvas.width/rect.width, y=(e.clientY-rect.top)*canvas.height/rect.height;
+  for(let k of ["A","B","C"]){if(Math.hypot(P[k].x-x,P[k].y-y)<30){drag=k;canvas.setPointerCapture(e.pointerId);break;}}
+});
+canvas.addEventListener('pointermove',e=>{
+  if(!drag)return;
+  let rect=canvas.getBoundingClientRect(), x=(e.clientX-rect.left)*canvas.width/rect.width, y=(e.clientY-rect.top)*canvas.height/rect.height;
+  x=Math.max(70,Math.min(canvas.width-70,x)); y=Math.max(70,Math.min(canvas.height-70,y));
+  if(rightLocked){
+    if(drag==="A"){P.A.x=P.B.x; P.A.y=Math.min(P.B.y-80, y);}
+    else if(drag==="C"){P.C.x=Math.max(P.B.x+100, x); P.C.y=P.B.y;}
+    else if(drag==="B"){
+      // move the whole right triangle while keeping vertical/horizontal structure
+      let dx=x-P.B.x, dy=y-P.B.y;
+      P.A.x+=dx; P.A.y+=dy; P.B.x+=dx; P.B.y+=dy; P.C.x+=dx; P.C.y+=dy;
+      ["A","B","C"].forEach(k=>{P[k].x=Math.max(70,Math.min(canvas.width-70,P[k].x));P[k].y=Math.max(70,Math.min(canvas.height-70,P[k].y));});
+      P.A.x=P.B.x; P.C.y=P.B.y;
+    }
+  }else{
+    P[drag].x=x; P[drag].y=y;
+  }
+  draw(); makeQuestions(false);
+});
+canvas.addEventListener('pointerup',e=>{drag=null});
+function animate(){pulse+=0.035;draw();requestAnimationFrame(animate)}
+draw();makeQuestions(true);animate();
+</script>
+</body>
+</html>

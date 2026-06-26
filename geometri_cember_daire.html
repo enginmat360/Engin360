@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ENGİN360 | Çember ve Daire Laboratuvarı</title>
+<style>
+:root{--text:#fff;--muted:#ded9ff;--p:#a855f7;--m:#ec4899;--c:#38bdf8;--g:#22c55e;--y:#ffd60a;--r:#fb7185}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial,sans-serif}
+body{min-height:100vh;color:var(--text);padding:18px;background:radial-gradient(circle at top left,rgba(168,85,247,.40),transparent 34%),radial-gradient(circle at bottom right,rgba(14,165,233,.32),transparent 34%),radial-gradient(circle at 50% 108%,rgba(236,72,153,.22),transparent 40%),linear-gradient(135deg,#05010d,#120024,#06142f)}
+.container{max-width:1200px;margin:0 auto}
+.back{display:inline-block;margin-bottom:14px;color:#e9d5ff;text-decoration:none;font-weight:850;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);padding:9px 13px;border-radius:13px}
+.hero{text-align:center;padding:30px 18px;border-radius:30px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);box-shadow:0 0 38px rgba(124,58,237,.34);backdrop-filter:blur(12px);margin-bottom:16px}
+.logo{font-size:clamp(36px,7vw,76px);font-weight:1000;letter-spacing:1px;background:linear-gradient(90deg,#fff,#a855f7,#38bdf8,#ec4899,#fff);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 14px rgba(168,85,247,.42))}
+.subtitle{margin-top:10px;color:#ded9ff;font-size:15px;line-height:1.55}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:16px 0}
+.stat{border:1px solid rgba(255,255,255,.13);border-radius:18px;background:rgba(255,255,255,.065);padding:13px;text-align:center}
+.stat b{display:block;font-size:25px;color:#67e8f9}.stat span{font-size:12px;color:#efe7ff;font-weight:800}
+.tabs{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:14px 0}
+.tab{border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.075);color:white;border-radius:18px;padding:13px 8px;font-weight:950;cursor:pointer;transition:.18s}
+.tab:hover{transform:translateY(-2px);box-shadow:0 0 22px rgba(56,189,248,.22)}
+.tab.active{background:linear-gradient(135deg,var(--p),var(--m));box-shadow:0 0 26px rgba(236,72,153,.32)}
+.main{display:grid;grid-template-columns:1.12fr .88fr;gap:16px}
+.card{border:1px solid rgba(255,255,255,.15);border-radius:28px;background:linear-gradient(145deg,rgba(255,255,255,.085),rgba(255,255,255,.045));box-shadow:0 18px 55px rgba(0,0,0,.35),inset 0 0 28px rgba(255,255,255,.025);backdrop-filter:blur(12px);padding:16px}
+.boardTop{display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px}
+.chip{font-size:12px;font-weight:900;color:#f5f3ff;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.08);padding:8px 11px;border-radius:999px}
+.chip.yellow{color:#fffbe6;background:rgba(255,214,10,.14);border-color:rgba(255,214,10,.35)}
+canvas{width:100%;height:500px;border-radius:24px;background:rgba(2,6,23,.46);border:1px solid rgba(255,255,255,.11);box-shadow:inset 0 0 36px rgba(56,189,248,.05);touch-action:none}
+.buttons{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
+.btn{border:0;border-radius:17px;padding:13px 10px;color:white;font-weight:950;cursor:pointer;background:linear-gradient(135deg,var(--p),var(--m));box-shadow:0 12px 28px rgba(168,85,247,.25)}
+.btn.alt{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.14);box-shadow:none}
+.sideTitle{font-size:24px;margin-bottom:8px}.hint{color:var(--muted);line-height:1.5;font-size:14px;margin-bottom:12px}
+.infoGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:12px}
+.info{border:1px solid rgba(255,255,255,.13);background:rgba(255,255,255,.065);border-radius:18px;padding:12px}
+.info b{font-size:22px;color:#fff176;display:block;text-shadow:0 0 12px rgba(255,214,10,.65)}
+.info span{font-size:12px;color:#efe7ff}
+.q{border:1px solid rgba(255,255,255,.13);background:rgba(255,255,255,.065);border-radius:20px;padding:13px;margin-bottom:11px}
+.q b{display:block;margin-bottom:9px}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.opt{text-align:left;border:1px solid rgba(255,255,255,.13);background:rgba(255,255,255,.07);border-radius:14px;padding:10px;color:white;font-weight:850;cursor:pointer}
+.opt.correct{background:rgba(34,197,94,.25);border-color:rgba(34,197,94,.8)}
+.opt.wrong{background:rgba(251,113,133,.25);border-color:rgba(251,113,133,.85)}
+.feedback{margin-top:10px;border-radius:18px;padding:12px;background:rgba(255,255,255,.075);border:1px solid rgba(255,255,255,.13);color:#e8e6ff;line-height:1.5}
+.lessonGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
+.lesson{border:1px solid rgba(255,255,255,.13);background:rgba(255,255,255,.06);border-radius:20px;padding:14px;line-height:1.5;color:#e8e6ff}
+.lesson h3{font-size:16px;margin-bottom:7px;color:#fff}
+.footer{text-align:center;color:#aaa;font-size:12px;margin:32px 0 10px}
+@media(max-width:950px){.main,.stats,.tabs,.lessonGrid{grid-template-columns:1fr}.buttons,.infoGrid{grid-template-columns:1fr}canvas{height:390px}.opts{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="container">
+<a class="back" href="geometri_guncel.html">← Geometri Laboratuvarına dön</a>
+
+<section class="hero">
+  <div class="logo">ENGİN360</div>
+  <div class="subtitle">⭕ Çember ve Daire Laboratuvarı · LAB PRO v1.0<br>Noktaları sürükle, merkez açı–çevre açı ilişkisini gör, kiriş-teğet-yay-daire alanı mantığını keşfet.</div>
+</section>
+
+<div class="stats">
+  <div class="stat"><b id="total">0</b><span>Cevaplanan</span></div>
+  <div class="stat"><b id="correct">0</b><span>Doğru</span></div>
+  <div class="stat"><b id="wrong">0</b><span>Yanlış</span></div>
+  <div class="stat"><b id="score">0%</b><span>Çember sezgisi</span></div>
+</div>
+
+<div class="tabs">
+  <button class="tab active" onclick="setMode('aci',this)">Merkez-Çevre Açı</button>
+  <button class="tab" onclick="setMode('kiris',this)">Kiriş ve Yay</button>
+  <button class="tab" onclick="setMode('teget',this)">Teğet</button>
+  <button class="tab" onclick="setMode('alan',this)">Daire Alanı</button>
+  <button class="tab" onclick="setMode('quiz',this)">Çember Challenge</button>
+</div>
+
+<section class="main">
+  <div class="card">
+    <div class="boardTop">
+      <div>
+        <span class="chip" id="modeName">Merkez-Çevre Açı</span>
+        <span class="chip yellow">Noktaları sürükle</span>
+      </div>
+      <span class="chip" id="ruleChip">Merkez açı = 2 × çevre açı</span>
+    </div>
+    <canvas id="canvas" width="900" height="610"></canvas>
+    <div class="buttons">
+      <button class="btn" onclick="randomize()">Rastgele Noktalar</button>
+      <button class="btn alt" onclick="toggleLabels()">Etiketleri Gizle/Göster</button>
+      <button class="btn alt" onclick="resetStats()">Puanı Sıfırla</button>
+      <button class="btn alt" onclick="toggleSector()">Sektör Göster/Gizle</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2 class="sideTitle" id="taskTitle">Merkez-Çevre Açı</h2>
+    <p class="hint" id="hint">A ve B aynı yayı belirler. O merkezindeki açı, çember üzerindeki C noktasından görülen çevre açının iki katıdır.</p>
+    <div class="infoGrid">
+      <div class="info"><b id="centralText">0°</b><span>Merkez açı ∠AOB</span></div>
+      <div class="info"><b id="inscribedText">0°</b><span>Çevre açı ∠ACB</span></div>
+      <div class="info"><b id="arcText">0°</b><span>Küçük yay ölçüsü</span></div>
+      <div class="info"><b id="chordText">0 br</b><span>Kiriş uzunluğu AB</span></div>
+      <div class="info"><b id="radiusText">0 br</b><span>Yarıçap</span></div>
+      <div class="info"><b id="areaText">0 br²</b><span>Daire alanı yaklaşık</span></div>
+    </div>
+    <div id="questions"></div>
+    <div class="feedback" id="feedback">A, B veya C noktasını tutup çember üzerinde sürükleyebilirsin.</div>
+  </div>
+</section>
+
+<section class="card" style="margin-top:16px">
+  <h2>Mini Kural Defteri</h2>
+  <div class="lessonGrid">
+    <div class="lesson"><h3>Merkez Açı</h3><p>Köşesi çemberin merkezinde olan açıdır. Gördüğü yayın ölçüsüne eşittir.</p></div>
+    <div class="lesson"><h3>Çevre Açı</h3><p>Köşesi çember üzerinde olan açıdır. Gördüğü yayın yarısı kadardır.</p></div>
+    <div class="lesson"><h3>Teğet</h3><p>Çembere tek noktada dokunan doğruya teğet denir. Teğet, değme noktasındaki yarıçapa diktir.</p></div>
+  </div>
+</section>
+
+<div class="footer">ENGİN360 © 2026 · Çember ve Daire Laboratuvarı</div>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+const canvas=$('canvas'), ctx=canvas.getContext('2d');
+const O={x:450,y:305}, R=205, UNIT=35;
+let mode='aci', labels=true, showSector=true, drag=null, total=0, correct=0, wrong=0, pulse=0;
+let angs={A:210,B:330,C:80,T:25};
+let data={};
+function rad(d){return d*Math.PI/180}
+function deg(r){return r*180/Math.PI}
+function pt(angle){return{x:O.x+R*Math.cos(rad(angle)),y:O.y+R*Math.sin(rad(angle))}}
+function norm(d){d%=360;if(d<0)d+=360;return d}
+function smallArc(a,b){let d=Math.abs(norm(b-a));return d>180?360-d:d}
+function angleBetween(p,q,rp){
+  let a1=Math.atan2(q.y-p.y,q.x-p.x), a2=Math.atan2(rp.y-p.y,rp.x-p.x);
+  let d=Math.abs(deg(a2-a1)); if(d>180)d=360-d; return d;
+}
+function calc(){
+  const A=pt(angs.A),B=pt(angs.B),C=pt(angs.C);
+  let central=smallArc(angs.A,angs.B);
+  let ins=angleBetween(C,A,B);
+  if(Math.abs(ins-central/2)>2) ins=(360-central)/2; // keeps relation visually stable for opposite arc situations
+  let chord=Math.hypot(A.x-B.x,A.y-B.y)/UNIT;
+  data={A,B,C,T:pt(angs.T),central:Math.round(central),inscribed:Math.round(central/2),arc:Math.round(central),chord:+chord.toFixed(1),radius:+(R/UNIT).toFixed(1),area:+(Math.PI*Math.pow(R/UNIT,2)).toFixed(1)};
+  $('centralText').textContent=data.central+"°";
+  $('inscribedText').textContent=data.inscribed+"°";
+  $('arcText').textContent=data.arc+"°";
+  $('chordText').textContent=data.chord+" br";
+  $('radiusText').textContent=data.radius+" br";
+  $('areaText').textContent=data.area+" br²";
+}
+function bg(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  let g=ctx.createLinearGradient(0,0,canvas.width,canvas.height);g.addColorStop(0,"rgba(15,23,42,.98)");g.addColorStop(1,"rgba(35,5,52,.92)");
+  ctx.fillStyle=g;ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.strokeStyle="rgba(255,255,255,.08)";ctx.lineWidth=1;
+  for(let x=60;x<canvas.width;x+=60){ctx.beginPath();ctx.moveTo(x,30);ctx.lineTo(x,canvas.height-30);ctx.stroke()}
+  for(let y=60;y<canvas.height;y+=60){ctx.beginPath();ctx.moveTo(30,y);ctx.lineTo(canvas.width-30,y);ctx.stroke()}
+}
+function drawCircle(){
+  ctx.save();
+  ctx.strokeStyle="#38bdf8";ctx.lineWidth=6;ctx.shadowColor="#38bdf8";ctx.shadowBlur=18;
+  ctx.beginPath();ctx.arc(O.x,O.y,R,0,Math.PI*2);ctx.stroke();
+  ctx.fillStyle="rgba(56,189,248,.04)";ctx.beginPath();ctx.arc(O.x,O.y,R,0,Math.PI*2);ctx.fill();
+  ctx.restore();
+}
+function drawArcHighlight(){
+  let a=rad(angs.A), b=rad(angs.B);
+  let start=angs.A,end=angs.B;
+  let diff=norm(end-start); if(diff>180){let temp=start;start=end;end=temp;diff=norm(end-start);}
+  if(showSector && (mode==='aci'||mode==='kiris'||mode==='alan'||mode==='quiz')){
+    ctx.save();
+    ctx.beginPath();ctx.moveTo(O.x,O.y);ctx.arc(O.x,O.y,R,rad(start),rad(start+diff));ctx.closePath();
+    ctx.fillStyle=`rgba(255,214,10,${0.16+Math.sin(pulse)*0.035})`;ctx.fill();
+    ctx.strokeStyle="#ffd60a";ctx.lineWidth=8;ctx.shadowColor="#ffd60a";ctx.shadowBlur=20;
+    ctx.beginPath();ctx.arc(O.x,O.y,R,rad(start),rad(start+diff));ctx.stroke();
+    ctx.restore();
+  }
+}
+function line(p,q,color,w=4,dash=false){
+  ctx.save();ctx.strokeStyle=color;ctx.lineWidth=w;ctx.lineCap="round";ctx.shadowColor=color;ctx.shadowBlur=12;
+  if(dash)ctx.setLineDash([10,8]);
+  ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.stroke();ctx.restore();
+}
+function drawCore(){
+  const {A,B,C}=data;
+  drawArcHighlight();
+  line(O,A,"#67e8f9",4); line(O,B,"#67e8f9",4);
+  line(A,B,"#ec4899",5);
+  if(mode==='aci'||mode==='quiz'){
+    line(C,A,"#22c55e",4); line(C,B,"#22c55e",4);
+    drawAngle(O,A,B,"∠AOB",data.central,62,"#ffd60a");
+    drawAngle(C,A,B,"∠ACB",data.inscribed,56,"#22c55e");
+  }
+  if(mode==='kiris'){
+    line(A,B,"#ffd60a",7);
+    if(labels) text("Kiriş AB = "+data.chord+" br",(A.x+B.x)/2,(A.y+B.y)/2-18,"#fff176",18);
+  }
+  if(mode==='teget') drawTangent();
+  if(mode==='alan') drawAreaMode();
+  drawPoint("O",O,"#fff",false);
+  drawPoint("A",A,"#ec4899",true);
+  drawPoint("B",B,"#ec4899",true);
+  if(mode==='aci'||mode==='quiz') drawPoint("C",C,"#22c55e",true);
+}
+function drawAngle(vertex,p1,p2,label,val,r,color){
+  let a1=Math.atan2(p1.y-vertex.y,p1.x-vertex.x), a2=Math.atan2(p2.y-vertex.y,p2.x-vertex.x);
+  let d=a2-a1; while(d<0)d+=Math.PI*2; if(d>Math.PI){let t=a1;a1=a2;a2=t;d=Math.PI*2-d;}
+  ctx.save();
+  ctx.strokeStyle=color;ctx.lineWidth=7;ctx.shadowColor=color;ctx.shadowBlur=16;
+  ctx.beginPath();ctx.arc(vertex.x,vertex.y,r,a1,a2);ctx.stroke();
+  if(labels){let mid=a1+d/2;text(label+"="+val+"°",vertex.x+Math.cos(mid)*(r+36),vertex.y+Math.sin(mid)*(r+36),color,18);}
+  ctx.restore();
+}
+function drawTangent(){
+  const T=pt(angs.T); data.T=T;
+  let theta=rad(angs.T), tx=-Math.sin(theta), ty=Math.cos(theta);
+  let p1={x:T.x-tx*240,y:T.y-ty*240}, p2={x:T.x+tx*240,y:T.y+ty*240};
+  line(p1,p2,"#ffd60a",6);
+  line(O,T,"#67e8f9",4);
+  drawPoint("T",T,"#ffd60a",true);
+  // right angle marker
+  ctx.save();ctx.strokeStyle="#fff176";ctx.lineWidth=5;ctx.shadowColor="#ffd60a";ctx.shadowBlur=14;
+  ctx.beginPath();ctx.arc(T.x,T.y,32,theta,theta+Math.PI/2);ctx.stroke();ctx.restore();
+  if(labels){
+    text("Teğet, yarıçapa diktir",O.x,52,"#fff176",21);
+    text("OT ⟂ teğet",T.x+80,T.y-35,"#fff176",18);
+  }
+}
+function drawAreaMode(){
+  if(labels){
+    text("Daire alanı ≈ πr² = "+data.area+" br²",O.x,52,"#fff176",21);
+    text("r = "+data.radius+" br",O.x+70,O.y-50,"#67e8f9",18);
+  }
+}
+function drawPoint(label,p,color,draggable){
+  ctx.save();ctx.fillStyle=color;ctx.shadowColor=color;ctx.shadowBlur=18;ctx.beginPath();ctx.arc(p.x,p.y,draggable?10:7,0,Math.PI*2);ctx.fill();
+  if(labels){ctx.fillStyle="#fff";ctx.font="900 22px Arial";ctx.textAlign="center";ctx.fillText(label,p.x,p.y-18);}
+  ctx.restore();
+}
+function text(t,x,y,color,size){
+  ctx.save();ctx.fillStyle=color;ctx.font="900 "+size+"px Arial";ctx.textAlign="center";ctx.shadowColor=color;ctx.shadowBlur=12;ctx.fillText(t,x,y);ctx.restore();
+}
+function draw(){
+  calc(); bg(); drawCircle(); drawCore();
+}
+function setMode(m,btn){
+  mode=m; document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active')); btn.classList.add('active');
+  const names={aci:"Merkez-Çevre Açı",kiris:"Kiriş ve Yay",teget:"Teğet",alan:"Daire Alanı",quiz:"Çember Challenge"};
+  $('modeName').textContent=names[m]; $('taskTitle').textContent=names[m];
+  if(m==='aci'){ $('hint').textContent="A ve B aynı yayı belirler. O merkezindeki açı, C çevre açısından iki kat büyüktür."; $('ruleChip').textContent="Merkez açı = 2 × çevre açı"; }
+  if(m==='kiris'){ $('hint').textContent="A ve B arasındaki doğru parçası kiriştir. Aynı zamanda AB yayı vurgulanır."; $('ruleChip').textContent="Kiriş iki çember noktasını birleştirir"; }
+  if(m==='teget'){ $('hint').textContent="T noktasındaki teğet doğru, OT yarıçapına diktir."; $('ruleChip').textContent="Teğet ⟂ yarıçap"; }
+  if(m==='alan'){ $('hint').textContent="Daire alanı yarıçapa bağlıdır. Alan yaklaşık olarak πr² ile hesaplanır."; $('ruleChip').textContent="Alan = πr²"; }
+  if(m==='quiz'){ $('hint').textContent="Şekli incele ve çember kurallarını cevapla."; $('ruleChip').textContent="Çember Challenge"; }
+  draw(); makeQuestions(true);
+}
+function randomize(){
+  angs.A=180+Math.random()*95;
+  angs.B=285+Math.random()*60;
+  angs.C=40+Math.random()*100;
+  angs.T=Math.random()*360;
+  draw(); makeQuestions(true); $('feedback').textContent="Yeni noktalar geldi.";
+}
+function toggleLabels(){labels=!labels;draw()}
+function toggleSector(){showSector=!showSector;draw()}
+function resetStats(){total=correct=wrong=0;updateStats();$('feedback').textContent="Puan sıfırlandı."}
+function mix(correct,pool){return [...new Set([String(correct),...pool.map(String)])].sort(()=>Math.random()-.5).slice(0,4)}
+function q(title,correct,pool){
+  let opts=mix(correct,pool);
+  return `<div class="q"><b>${title}</b><div class="opts">${opts.map(o=>`<button class="opt" onclick="answer(this,'${encodeURIComponent(o)}','${encodeURIComponent(String(correct))}')">${o}</button>`).join("")}</div></div>`;
+}
+function makeQuestions(force){
+  let html="";
+  if(mode==='aci'){
+    html+=q("Merkez açı kaç derecedir?",data.central+"°",[data.inscribed+"°","90°","180°"]);
+    html+=q("Çevre açı kaç derecedir?",data.inscribed+"°",[data.central+"°","90°","180°"]);
+    html+=q("Merkez açı ile çevre açı ilişkisi nedir?","Merkez açı çevre açının 2 katıdır",["Eşittir","Çevre açı 2 katıdır","Toplamları 90°"]);
+  }else if(mode==='kiris'){
+    html+=q("AB doğru parçasına ne denir?","Kiriş",["Teğet","Yarıçap","Çap olmayan yay"]);
+    html+=q("Küçük yay ölçüsü kaç derecedir?",data.arc+"°",[data.inscribed+"°","90°","180°"]);
+  }else if(mode==='teget'){
+    html+=q("Teğet ile değme noktasındaki yarıçap arasındaki açı kaçtır?","90°",["45°","180°","360°"]);
+    html+=q("Teğet çembere kaç noktada değer?","1",["2","0","Sonsuz"]);
+  }else if(mode==='alan'){
+    html+=q("Daire alanı formülü nedir?","πr²",["2πr","πd","r²"]);
+    html+=q("Yarıçap yaklaşık kaç br?",data.radius+" br",[data.chord+" br","10 br","2 br"]);
+  }else{
+    html+=q("Merkez açı kaç derecedir?",data.central+"°",[data.inscribed+"°","90°","180°"]);
+    html+=q("Çevre açı merkez açının ne kadarıdır?","Yarısıdır",["İki katıdır","Eşittir","Üç katıdır"]);
+    html+=q("Teğet-yarıçap ilişkisi nedir?","Diktir",["Paraleldir","Eşittir","Kesişmez"]);
+  }
+  $('questions').innerHTML=html;
+}
+function answer(btn,val,cor){
+  val=decodeURIComponent(val);cor=decodeURIComponent(cor);
+  [...btn.parentElement.children].forEach(b=>b.disabled=true);
+  total++;
+  if(val===cor){correct++;btn.classList.add("correct");$('feedback').innerHTML="✅ Doğru. Çember sezgin güçleniyor."}
+  else{wrong++;btn.classList.add("wrong");[...btn.parentElement.children].forEach(b=>{if(b.textContent===cor)b.classList.add("correct")});$('feedback').innerHTML="❌ Yanlış. Doğru cevap işaretlendi; yayı ve açıları tekrar incele."}
+  updateStats();
+}
+function updateStats(){
+  $('total').textContent=total;$('correct').textContent=correct;$('wrong').textContent=wrong;
+  $('score').textContent=total?Math.round(correct/total*100)+"%":"0%";
+}
+canvas.addEventListener('pointerdown',e=>{
+  let rect=canvas.getBoundingClientRect(), x=(e.clientX-rect.left)*canvas.width/rect.width, y=(e.clientY-rect.top)*canvas.height/rect.height;
+  calc();
+  const pts={A:data.A,B:data.B,C:data.C,T:data.T};
+  for(let k of Object.keys(pts)){ if(Math.hypot(pts[k].x-x,pts[k].y-y)<30){ drag=k; canvas.setPointerCapture(e.pointerId); break; } }
+});
+canvas.addEventListener('pointermove',e=>{
+  if(!drag)return;
+  let rect=canvas.getBoundingClientRect(), x=(e.clientX-rect.left)*canvas.width/rect.width, y=(e.clientY-rect.top)*canvas.height/rect.height;
+  let a=deg(Math.atan2(y-O.y,x-O.x)); if(a<0)a+=360;
+  if(drag==='T') angs.T=a; else angs[drag]=a;
+  draw(); makeQuestions(false);
+});
+canvas.addEventListener('pointerup',e=>{drag=null});
+function animate(){pulse+=0.035;draw();requestAnimationFrame(animate)}
+draw();makeQuestions(true);animate();
+</script>
+</body>
+</html>

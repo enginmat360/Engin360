@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ENGİN360 | Doğru ve Açılar Laboratuvarı</title>
+<style>
+:root{
+  --text:#fff;--muted:#ded9ff;--p:#a855f7;--m:#ec4899;--c:#38bdf8;--g:#22c55e;--y:#ffd60a;--y2:#fff176;--r:#fb7185;
+}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial,sans-serif}
+body{
+  min-height:100vh;color:var(--text);padding:18px;
+  background:
+    radial-gradient(circle at top left,rgba(168,85,247,.40),transparent 34%),
+    radial-gradient(circle at bottom right,rgba(14,165,233,.32),transparent 34%),
+    radial-gradient(circle at 50% 108%,rgba(236,72,153,.22),transparent 40%),
+    linear-gradient(135deg,#05010d,#120024,#06142f);
+}
+.container{max-width:1190px;margin:0 auto}
+.back{display:inline-block;margin-bottom:14px;color:#e9d5ff;text-decoration:none;font-weight:850;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);padding:9px 13px;border-radius:13px}
+.hero{
+  text-align:center;padding:30px 18px;border-radius:30px;background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.14);box-shadow:0 0 38px rgba(124,58,237,.34);backdrop-filter:blur(12px);margin-bottom:16px
+}
+.logo{
+  font-size:clamp(36px,7vw,76px);font-weight:1000;letter-spacing:1px;
+  background:linear-gradient(90deg,#fff,#a855f7,#38bdf8,#ec4899,#fff);
+  -webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 14px rgba(168,85,247,.42))
+}
+.subtitle{margin-top:10px;color:#ded9ff;font-size:15px;line-height:1.55}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:16px 0}
+.stat{border:1px solid rgba(255,255,255,.13);border-radius:18px;background:rgba(255,255,255,.065);padding:13px;text-align:center}
+.stat b{display:block;font-size:25px;color:#67e8f9}.stat span{font-size:12px;color:#efe7ff;font-weight:800}
+.tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:14px 0}
+.tab{border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.075);color:white;border-radius:18px;padding:13px 8px;font-weight:950;cursor:pointer;transition:.18s}
+.tab:hover{transform:translateY(-2px);box-shadow:0 0 22px rgba(56,189,248,.22)}
+.tab.active{background:linear-gradient(135deg,var(--p),var(--m));box-shadow:0 0 26px rgba(236,72,153,.32)}
+.main{display:grid;grid-template-columns:1.12fr .88fr;gap:16px}
+.card{
+  border:1px solid rgba(255,255,255,.15);border-radius:28px;background:linear-gradient(145deg,rgba(255,255,255,.085),rgba(255,255,255,.045));
+  box-shadow:0 18px 55px rgba(0,0,0,.35),inset 0 0 28px rgba(255,255,255,.025);backdrop-filter:blur(12px);padding:16px
+}
+.boardTop{display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px}
+.chip{font-size:12px;font-weight:900;color:#f5f3ff;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.08);padding:8px 11px;border-radius:999px}
+.chip.yellow{color:#fffbe6;background:rgba(255,214,10,.14);border-color:rgba(255,214,10,.35)}
+canvas{width:100%;height:485px;border-radius:24px;background:rgba(2,6,23,.46);border:1px solid rgba(255,255,255,.11);box-shadow:inset 0 0 36px rgba(56,189,248,.05);touch-action:none}
+.controls{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.control{border:1px solid rgba(255,255,255,.13);background:rgba(255,255,255,.06);border-radius:18px;padding:12px}
+.control label{display:flex;justify-content:space-between;font-size:13px;color:#e9d5ff;font-weight:900;margin-bottom:7px}
+.control label b{color:var(--y2);font-size:16px;text-shadow:0 0 10px rgba(255,214,10,.65)}
+input[type=range]{width:100%;accent-color:#ffd60a}
+.buttons{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+.btn{border:0;border-radius:17px;padding:13px 10px;color:white;font-weight:950;cursor:pointer;background:linear-gradient(135deg,var(--p),var(--m));box-shadow:0 12px 28px rgba(168,85,247,.25)}
+.btn.alt{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.14);box-shadow:none}
+.sideTitle{font-size:24px;margin-bottom:8px}.hint{color:var(--muted);line-height:1.5;font-size:14px;margin-bottom:12px}
+.angleBox{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:12px}
+.angle{border:1px solid rgba(255,255,255,.13);background:rgba(255,255,255,.065);border-radius:18px;padding:12px}
+.angle b{font-size:25px;color:#fff176;display:block;text-shadow:0 0 12px rgba(255,214,10,.85)}
+.angle span{font-size:12px;color:#efe7ff}
+.q{border:1px solid rgba(255,255,255,.13);background:rgba(255,255,255,.065);border-radius:20px;padding:13px;margin-bottom:11px}
+.q b{display:block;margin-bottom:9px}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.opt{text-align:left;border:1px solid rgba(255,255,255,.13);background:rgba(255,255,255,.07);border-radius:14px;padding:10px;color:white;font-weight:850;cursor:pointer}
+.opt.correct{background:rgba(34,197,94,.25);border-color:rgba(34,197,94,.8)}
+.opt.wrong{background:rgba(251,113,133,.25);border-color:rgba(251,113,133,.85)}
+.feedback{margin-top:10px;border-radius:18px;padding:12px;background:rgba(255,255,255,.075);border:1px solid rgba(255,255,255,.13);color:#e8e6ff;line-height:1.5}
+.lessonGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
+.lesson{border:1px solid rgba(255,255,255,.13);background:rgba(255,255,255,.06);border-radius:20px;padding:14px;line-height:1.5;color:#e8e6ff}
+.lesson h3{font-size:16px;margin-bottom:7px;color:#fff}
+.footer{text-align:center;color:#aaa;font-size:12px;margin:32px 0 10px}
+@media(max-width:950px){.main,.stats,.tabs,.lessonGrid{grid-template-columns:1fr}.controls,.buttons,.angleBox{grid-template-columns:1fr}canvas{height:380px}.opts{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="container">
+<a class="back" href="geometri_guncel.html">← Geometri Laboratuvarına dön</a>
+
+<section class="hero">
+  <div class="logo">ENGİN360</div>
+  <div class="subtitle">📏 Doğru ve Açılar Laboratuvarı<br>Doğruları hareket ettir, açı bölgelerini gör, ters-yöndeş-iç ters-bütünler mantığını sez.</div>
+</section>
+
+<div class="stats">
+  <div class="stat"><b id="total">0</b><span>Cevaplanan</span></div>
+  <div class="stat"><b id="correct">0</b><span>Doğru</span></div>
+  <div class="stat"><b id="wrong">0</b><span>Yanlış</span></div>
+  <div class="stat"><b id="score">0%</b><span>Açı sezgisi</span></div>
+</div>
+
+<div class="tabs">
+  <button class="tab active" onclick="setMode('kesisen',this)">Kesişen Doğrular</button>
+  <button class="tab" onclick="setMode('paralel',this)">Paralel Doğrular</button>
+  <button class="tab" onclick="setMode('tumler',this)">Tümler-Bütünler</button>
+  <button class="tab" onclick="setMode('quiz',this)">Açı Avcısı</button>
+</div>
+
+<section class="main">
+  <div class="card">
+    <div class="boardTop">
+      <div>
+        <span class="chip" id="modeName">Kesişen Doğrular</span>
+        <span class="chip yellow">Açı bölgeleri açık sarı vurgulu</span>
+      </div>
+      <span class="chip" id="ruleChip">Ters açılar eşittir</span>
+    </div>
+    <canvas id="canvas" width="900" height="590"></canvas>
+    <div class="controls">
+      <div class="control">
+        <label><span>1. doğru açısı</span><b id="a1Text">25°</b></label>
+        <input id="a1" type="range" min="0" max="170" value="25" oninput="updateFromInputs()">
+      </div>
+      <div class="control">
+        <label><span>2. doğru / kesen açısı</span><b id="a2Text">115°</b></label>
+        <input id="a2" type="range" min="10" max="179" value="115" oninput="updateFromInputs()">
+      </div>
+    </div>
+    <div class="buttons">
+      <button class="btn" onclick="randomize()">Rastgele Açı</button>
+      <button class="btn alt" onclick="toggleLabels()">Etiketleri Göster/Gizle</button>
+      <button class="btn alt" onclick="resetStats()">Puanı Sıfırla</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2 class="sideTitle" id="taskTitle">Kesişen Doğrular</h2>
+    <p class="hint" id="hint">İki doğru kesiştiğinde karşılıklı açılar eşit, komşu açılar bütünlerdir. Açık sarı bölgeler açı alanlarını belirgin gösterir.</p>
+    <div class="angleBox">
+      <div class="angle"><b id="angA">0°</b><span>α</span></div>
+      <div class="angle"><b id="angB">0°</b><span>β</span></div>
+      <div class="angle"><b id="angC">0°</b><span>γ</span></div>
+      <div class="angle"><b id="angD">0°</b><span>δ</span></div>
+    </div>
+    <div id="questions"></div>
+    <div class="feedback" id="feedback">Doğruları hareket ettir. Sarı açı bölgelerinin nasıl değiştiğini izle.</div>
+  </div>
+</section>
+
+<section class="card" style="margin-top:16px">
+  <h2>Mini Kural Defteri</h2>
+  <div class="lessonGrid">
+    <div class="lesson"><h3>Ters Açılar</h3><p>İki doğru kesiştiğinde karşılıklı oluşan açılar eşittir. α = γ ve β = δ.</p></div>
+    <div class="lesson"><h3>Komşu Bütünler</h3><p>Aynı doğru üzerinde yan yana duran iki açı toplamı 180° olur.</p></div>
+    <div class="lesson"><h3>Paralel Doğrular</h3><p>Paralel doğruları kesen bir doğru varsa yöndeş ve iç ters açılar eşittir.</p></div>
+  </div>
+</section>
+
+<div class="footer">ENGİN360 © 2026 · Doğru ve Açılar Laboratuvarı</div>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+let mode='kesisen', labels=true, total=0, correct=0, wrong=0;
+let vals={alpha:65,beta:115,gamma:65,delta:115};
+let pulse=0;
+function degToRad(d){return d*Math.PI/180}
+function normalizeSmall(d){d=Math.abs(d)%180; if(d>90)d=180-d; return Math.round(d)}
+function updateFromInputs(){
+  $('a1Text').textContent=$('a1').value+"°";
+  $('a2Text').textContent=$('a2').value+"°";
+  computeAngles(); draw(); makeQuestions(false);
+}
+function setMode(m,btn){
+  mode=m;
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+  btn.classList.add('active');
+  const names={kesisen:"Kesişen Doğrular",paralel:"Paralel Doğrular",tumler:"Tümler-Bütünler",quiz:"Açı Avcısı"};
+  $('modeName').textContent=names[m]; $('taskTitle').textContent=names[m];
+  if(m==='kesisen'){ $('hint').textContent="İki doğru kesiştiğinde karşılıklı açılar eşit, komşu açılar bütünlerdir. Sarı bölgeler açı alanlarını belirgin gösterir."; $('ruleChip').textContent="Ters açılar eşittir"; }
+  if(m==='paralel'){ $('hint').textContent="Paralel iki doğruyu kesen doğru oluştuğunda yöndeş ve iç ters açılar eşit olur."; $('ruleChip').textContent="Yöndeş ve iç ters açılar eşittir"; }
+  if(m==='tumler'){ $('hint').textContent="Tümler açılar 90°, bütünler açılar 180° yapar. Sarı alan hedef açıyı vurgular."; $('ruleChip').textContent="Tümler 90° · Bütünler 180°"; }
+  if(m==='quiz'){ $('hint').textContent="Verilen açı ilişkisini en hızlı şekilde seç. Eşit açılar aynı renk mantığıyla gösterilir."; $('ruleChip').textContent="Açı Avcısı"; }
+  computeAngles(); draw(); makeQuestions(true);
+}
+function computeAngles(){
+  let a1=+$('a1').value, a2=+$('a2').value;
+  let small=normalizeSmall(a2-a1);
+  if(small<8) small=8;
+  vals.alpha=small; vals.beta=180-small; vals.gamma=small; vals.delta=180-small;
+  $('angA').textContent=vals.alpha+"°";
+  $('angB').textContent=vals.beta+"°";
+  $('angC').textContent=vals.gamma+"°";
+  $('angD').textContent=vals.delta+"°";
+}
+function lineThrough(ctx,cx,cy,angle,color,width=6){
+  let r=560, rad=degToRad(angle);
+  ctx.save();ctx.strokeStyle=color;ctx.lineWidth=width;ctx.lineCap="round";ctx.shadowColor=color;ctx.shadowBlur=18;
+  ctx.beginPath();ctx.moveTo(cx-r*Math.cos(rad),cy-r*Math.sin(rad));ctx.lineTo(cx+r*Math.cos(rad),cy+r*Math.sin(rad));ctx.stroke();ctx.restore();
+}
+function sector(ctx,cx,cy,r,start,end,fill,stroke,label,value){
+  ctx.save();
+  ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,r,degToRad(start),degToRad(end));ctx.closePath();
+  ctx.fillStyle=fill;ctx.fill();
+  ctx.strokeStyle=stroke;ctx.lineWidth=8;ctx.lineCap="round";ctx.shadowColor=stroke;ctx.shadowBlur=20;
+  ctx.beginPath();ctx.arc(cx,cy,r,degToRad(start),degToRad(end));ctx.stroke();
+  if(labels){
+    let mid=degToRad((start+end)/2);
+    ctx.shadowBlur=12;ctx.shadowColor="rgba(255,214,10,.95)";
+    ctx.fillStyle="#fff9b0";ctx.font="900 25px Arial";ctx.textAlign="center";ctx.textBaseline="middle";
+    ctx.fillText(label+" = "+value+"°",cx+Math.cos(mid)*(r+42),cy+Math.sin(mid)*(r+42));
+  }
+  ctx.restore();
+}
+function draw(){
+  const c=$('canvas'),ctx=c.getContext('2d');
+  ctx.clearRect(0,0,c.width,c.height);
+  let bg=ctx.createLinearGradient(0,0,c.width,c.height); bg.addColorStop(0,"rgba(15,23,42,.98)"); bg.addColorStop(1,"rgba(35,5,52,.92)");
+  ctx.fillStyle=bg;ctx.fillRect(0,0,c.width,c.height);
+  ctx.strokeStyle="rgba(255,255,255,.08)";ctx.lineWidth=1;
+  for(let x=50;x<c.width;x+=50){ctx.beginPath();ctx.moveTo(x,30);ctx.lineTo(x,c.height-30);ctx.stroke()}
+  for(let y=50;y<c.height;y+=50){ctx.beginPath();ctx.moveTo(30,y);ctx.lineTo(c.width-30,y);ctx.stroke()}
+  if(mode==='paralel') drawParallel(ctx,c); else drawIntersect(ctx,c);
+}
+function drawIntersect(ctx,c){
+  let cx=c.width/2,cy=c.height/2,a1=+$('a1').value,a2=+$('a2').value;
+  let start=Math.min(a1,a2), end=Math.max(a1,a2);
+  if(end-start>180){let tmp=start;start=end;end=tmp+180}
+  const glow = 0.22 + Math.sin(pulse)*0.04;
+  sector(ctx,cx,cy,84,start,end,`rgba(255,214,10,${glow})`,"#ffd60a","α",vals.alpha);
+  sector(ctx,cx,cy,126,end,start+180,"rgba(56,189,248,.16)","#67e8f9","β",vals.beta);
+  sector(ctx,cx,cy,168,start+180,end+180,`rgba(255,214,10,${glow})`,"#ffd60a","γ",vals.gamma);
+  sector(ctx,cx,cy,210,end+180,start+360,"rgba(56,189,248,.16)","#67e8f9","δ",vals.delta);
+  lineThrough(ctx,cx,cy,a1,"#38bdf8");
+  lineThrough(ctx,cx,cy,a2,"#ec4899");
+  ctx.save();ctx.fillStyle="#fff";ctx.shadowColor="#fff";ctx.shadowBlur=14;ctx.beginPath();ctx.arc(cx,cy,7,0,Math.PI*2);ctx.fill();ctx.restore();
+  if(labels){
+    ctx.fillStyle="#fffbe6";ctx.font="900 20px Arial";ctx.textAlign="center";
+    ctx.fillText("Sarı bölgeler: ters eş açı çifti",cx,38);
+    ctx.fillStyle="#dffbff";ctx.fillText("Turkuaz bölgeler: komşu bütünler",cx,c.height-34);
+  }
+}
+function drawParallel(ctx,c){
+  let a=+$('a1').value, cut=+$('a2').value, cx=c.width/2, cy=c.height/2;
+  let rad=degToRad(a), nx=-Math.sin(rad), ny=Math.cos(rad), gap=105;
+  lineThrough(ctx,cx+nx*gap,cy+ny*gap,a,"#38bdf8");
+  lineThrough(ctx,cx-nx*gap,cy-ny*gap,a,"#38bdf8");
+  lineThrough(ctx,cx,cy,cut,"#ec4899");
+  let p1={x:cx+nx*gap,y:cy+ny*gap}, p2={x:cx-nx*gap,y:cy-ny*gap};
+  drawParallelMarker(ctx,p1.x,p1.y,vals.alpha,"α");
+  drawParallelMarker(ctx,p2.x,p2.y,vals.alpha,"iç ters");
+  drawParallelMarker(ctx,p2.x+110,p2.y-58,vals.alpha,"yöndeş");
+  if(labels){
+    ctx.fillStyle="#fffbe6";ctx.font="900 22px Arial";ctx.textAlign="center";
+    ctx.fillText("Paralel doğrularda eş açılar aynı sarı vurguyla gösterilir",cx,48);
+  }
+}
+function drawParallelMarker(ctx,x,y,val,label){
+  ctx.save();
+  ctx.fillStyle="rgba(255,214,10,.25)";ctx.strokeStyle="#ffd60a";ctx.lineWidth=6;ctx.shadowColor="#ffd60a";ctx.shadowBlur=18;
+  ctx.beginPath();ctx.arc(x,y,44,0,Math.PI*1.55);ctx.lineTo(x,y);ctx.closePath();ctx.fill();
+  ctx.beginPath();ctx.arc(x,y,44,0,Math.PI*1.55);ctx.stroke();
+  if(labels){ctx.fillStyle="#fff9b0";ctx.font="900 20px Arial";ctx.textAlign="center";ctx.fillText(label+" "+val+"°",x,y-58);}
+  ctx.restore();
+}
+function toggleLabels(){labels=!labels;draw()}
+function randomize(){
+  $('a1').value=Math.floor(Math.random()*120)+10;
+  $('a2').value=Math.floor(Math.random()*150)+20;
+  updateFromInputs(); makeQuestions(true);
+}
+function mix(correct,pool){return [...new Set([correct,...pool])].sort(()=>Math.random()-.5).slice(0,4)}
+function q(title,correct,pool){
+  let opts=mix(String(correct),pool.map(String));
+  return `<div class="q"><b>${title}</b><div class="opts">${opts.map(o=>`<button class="opt" onclick="answer(this,'${encodeURIComponent(o)}','${encodeURIComponent(String(correct))}')">${o}</button>`).join("")}</div></div>`;
+}
+function makeQuestions(force){
+  let html="";
+  if(mode==='kesisen'){
+    html+=q("α kaç derecedir?", vals.alpha+"°", [vals.beta+"°","90°","180°"]);
+    html+=q("α'nın ters açısı hangisidir?", "γ", ["β","δ","Komşu açı"]);
+    html+=q("α + β toplamı kaçtır?", "180°", ["90°","120°",vals.alpha+"°"]);
+  }else if(mode==='paralel'){
+    html+=q("Paralel doğrularda iç ters açı kaç derecedir?", vals.alpha+"°", [vals.beta+"°","90°","180°"]);
+    html+=q("Yöndeş açılar için doğru ifade hangisi?", "Eşittir", ["Toplamı 90°","Toplamı 360°","Her zaman 45°"]);
+    html+=q("Komşu bütünler toplamı kaçtır?", "180°", ["90°","100°","360°"]);
+  }else if(mode==='tumler'){
+    let a=vals.alpha;
+    html+=q(a+"° açısının bütünleri kaçtır?", (180-a)+"°", [Math.abs(90-a)+"°",a+"°","180°"]);
+    html+=q("Tümler açılar toplamı kaç derecedir?", "90°", ["180°","360°","45°"]);
+    html+=q("Bütünler açılar toplamı kaç derecedir?", "180°", ["90°","270°","360°"]);
+  }else{
+    html+=q("Ters açılar için doğru ifade hangisidir?", "Karşılıklı açılar eşittir", ["Yan yana açılar eşittir","Toplamları 90° olur","Sadece paralelde oluşur"]);
+    html+=q("İç ters açılar hangi durumda eşit olur?", "Paralel doğrularda", ["Her üçgende","Sadece çemberde","Sadece dik açıda"]);
+    html+=q("Yan yana iki açı bir doğru oluşturuyorsa toplamları kaçtır?", "180°", ["90°","270°","360°"]);
+  }
+  $('questions').innerHTML=html;
+}
+function answer(btn,val,cor){
+  val=decodeURIComponent(val);cor=decodeURIComponent(cor);
+  [...btn.parentElement.children].forEach(b=>b.disabled=true);
+  total++;
+  if(val===cor){correct++;btn.classList.add("correct");$('feedback').innerHTML="✅ Doğru. Açı ilişkisini yakaladın."}
+  else{wrong++;btn.classList.add("wrong");[...btn.parentElement.children].forEach(b=>{if(b.textContent===cor)b.classList.add("correct")});$('feedback').innerHTML="❌ Yanlış. Doğru cevap işaretlendi; sarı açı bölgesine tekrar bak."}
+  updateStats();
+}
+function updateStats(){
+  $('total').textContent=total;$('correct').textContent=correct;$('wrong').textContent=wrong;
+  $('score').textContent=total?Math.round(correct/total*100)+"%":"0%";
+}
+function resetStats(){total=correct=wrong=0;updateStats();$('feedback').textContent="Puan sıfırlandı. Yeni açılarla devam edebilirsin."}
+function animate(){pulse+=0.035;draw();requestAnimationFrame(animate)}
+computeAngles();makeQuestions(true);animate();
+</script>
+</body>
+</html>

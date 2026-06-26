@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ENGİN360 | Katı Cisimler Laboratuvarı</title>
+<style>
+:root{--text:#fff;--muted:#ded9ff;--p:#a855f7;--m:#ec4899;--c:#38bdf8;--g:#22c55e;--y:#ffd60a;--r:#fb7185}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial,sans-serif}
+body{min-height:100vh;color:var(--text);padding:18px;background:radial-gradient(circle at top left,rgba(168,85,247,.40),transparent 34%),radial-gradient(circle at bottom right,rgba(14,165,233,.32),transparent 34%),radial-gradient(circle at 50% 108%,rgba(236,72,153,.22),transparent 40%),linear-gradient(135deg,#05010d,#120024,#06142f)}
+.container{max-width:1200px;margin:0 auto}.back{display:inline-block;margin-bottom:14px;color:#e9d5ff;text-decoration:none;font-weight:850;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);padding:9px 13px;border-radius:13px}
+.hero{text-align:center;padding:30px 18px;border-radius:30px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);box-shadow:0 0 38px rgba(124,58,237,.34);backdrop-filter:blur(12px);margin-bottom:16px}
+.logo{font-size:clamp(36px,7vw,76px);font-weight:1000;letter-spacing:1px;background:linear-gradient(90deg,#fff,#a855f7,#38bdf8,#ec4899,#fff);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 14px rgba(168,85,247,.42))}
+.subtitle{margin-top:10px;color:#ded9ff;font-size:15px;line-height:1.55}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:16px 0}.stat{border:1px solid rgba(255,255,255,.13);border-radius:18px;background:rgba(255,255,255,.065);padding:13px;text-align:center}.stat b{display:block;font-size:25px;color:#67e8f9}.stat span{font-size:12px;color:#efe7ff;font-weight:800}
+.tabs{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:14px 0}.tab{border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.075);color:white;border-radius:18px;padding:13px 8px;font-weight:950;cursor:pointer;transition:.18s}.tab:hover{transform:translateY(-2px);box-shadow:0 0 22px rgba(56,189,248,.22)}.tab.active{background:linear-gradient(135deg,var(--p),var(--m));box-shadow:0 0 26px rgba(236,72,153,.32)}
+.main{display:grid;grid-template-columns:1.12fr .88fr;gap:16px}.card{border:1px solid rgba(255,255,255,.15);border-radius:28px;background:linear-gradient(145deg,rgba(255,255,255,.085),rgba(255,255,255,.045));box-shadow:0 18px 55px rgba(0,0,0,.35),inset 0 0 28px rgba(255,255,255,.025);backdrop-filter:blur(12px);padding:16px}
+.boardTop{display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px}.chip{font-size:12px;font-weight:900;color:#f5f3ff;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.08);padding:8px 11px;border-radius:999px}.chip.yellow{color:#fffbe6;background:rgba(255,214,10,.14);border-color:rgba(255,214,10,.35)}
+canvas{width:100%;height:500px;border-radius:24px;background:rgba(2,6,23,.46);border:1px solid rgba(255,255,255,.11);box-shadow:inset 0 0 36px rgba(56,189,248,.05)}
+.controls{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}.control{border:1px solid rgba(255,255,255,.13);background:rgba(255,255,255,.06);border-radius:18px;padding:12px}.control label{display:flex;justify-content:space-between;font-size:13px;color:#e9d5ff;font-weight:900;margin-bottom:7px}.control b{color:#fff176;text-shadow:0 0 10px rgba(255,214,10,.65)}input[type=range]{width:100%;accent-color:#ffd60a}
+.buttons{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}.btn{border:0;border-radius:17px;padding:13px 10px;color:white;font-weight:950;cursor:pointer;background:linear-gradient(135deg,var(--p),var(--m));box-shadow:0 12px 28px rgba(168,85,247,.25)}.btn.alt{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.14);box-shadow:none}
+.sideTitle{font-size:24px;margin-bottom:8px}.hint{color:var(--muted);line-height:1.5;font-size:14px;margin-bottom:12px}
+.infoGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:12px}.info{border:1px solid rgba(255,255,255,.13);background:rgba(255,255,255,.065);border-radius:18px;padding:12px}.info b{font-size:22px;color:#fff176;display:block;text-shadow:0 0 12px rgba(255,214,10,.65)}.info span{font-size:12px;color:#efe7ff}
+.q{border:1px solid rgba(255,255,255,.13);background:rgba(255,255,255,.065);border-radius:20px;padding:13px;margin-bottom:11px}.q b{display:block;margin-bottom:9px}.opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}.opt{text-align:left;border:1px solid rgba(255,255,255,.13);background:rgba(255,255,255,.07);border-radius:14px;padding:10px;color:white;font-weight:850;cursor:pointer}.opt.correct{background:rgba(34,197,94,.25);border-color:rgba(34,197,94,.8)}.opt.wrong{background:rgba(251,113,133,.25);border-color:rgba(251,113,133,.85)}
+.feedback{margin-top:10px;border-radius:18px;padding:12px;background:rgba(255,255,255,.075);border:1px solid rgba(255,255,255,.13);color:#e8e6ff;line-height:1.5}
+.lessonGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}.lesson{border:1px solid rgba(255,255,255,.13);background:rgba(255,255,255,.06);border-radius:20px;padding:14px;line-height:1.5;color:#e8e6ff}.lesson h3{font-size:16px;margin-bottom:7px;color:#fff}
+.footer{text-align:center;color:#aaa;font-size:12px;margin:32px 0 10px}
+@media(max-width:950px){.main,.stats,.tabs,.lessonGrid{grid-template-columns:1fr}.buttons,.controls,.infoGrid{grid-template-columns:1fr}canvas{height:390px}.opts{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="container">
+<a class="back" href="geometri_guncel.html">← Geometri Laboratuvarına dön</a>
+<section class="hero"><div class="logo">ENGİN360</div><div class="subtitle">📦 Katı Cisimler Laboratuvarı · LAB PRO v1.0<br>Küp, prizma, silindir, koni ve kürede hacim-yüzey alanı ilişkisini görsel olarak keşfet.</div></section>
+<div class="stats"><div class="stat"><b id="total">0</b><span>Cevaplanan</span></div><div class="stat"><b id="correct">0</b><span>Doğru</span></div><div class="stat"><b id="wrong">0</b><span>Yanlış</span></div><div class="stat"><b id="score">0%</b><span>Katı cisim sezgisi</span></div></div>
+<div class="tabs"><button class="tab active" onclick="setShape('cube',this)">Küp</button><button class="tab" onclick="setShape('prism',this)">Prizma</button><button class="tab" onclick="setShape('cylinder',this)">Silindir</button><button class="tab" onclick="setShape('cone',this)">Koni</button><button class="tab" onclick="setShape('sphere',this)">Küre</button></div>
+
+<section class="main">
+<div class="card">
+<div class="boardTop"><div><span class="chip" id="shapeName">Küp</span><span class="chip yellow">Ölçüleri değiştir</span></div><span class="chip" id="ruleChip">Hacim = a³</span></div>
+<canvas id="canvas" width="900" height="610"></canvas>
+<div class="controls">
+<div class="control"><label><span>Genişlik / a</span><b id="wText">6</b></label><input id="w" type="range" min="2" max="12" value="6" oninput="update()"></div>
+<div class="control"><label><span>Derinlik / r</span><b id="dText">6</b></label><input id="d" type="range" min="2" max="12" value="6" oninput="update()"></div>
+<div class="control"><label><span>Yükseklik</span><b id="hText">6</b></label><input id="h" type="range" min="2" max="12" value="6" oninput="update()"></div>
+</div>
+<div class="buttons"><button class="btn" onclick="randomize()">Rastgele Ölçü</button><button class="btn alt" onclick="toggleNet()">Açınım Göster/Gizle</button><button class="btn alt" onclick="resetStats()">Puanı Sıfırla</button></div>
+</div>
+<div class="card">
+<h2 class="sideTitle" id="taskTitle">Küp</h2>
+<p class="hint" id="hint">Küpün tüm ayrıtları eşittir. Ayrıt büyüdükçe hacim çok hızlı artar.</p>
+<div class="infoGrid">
+<div class="info"><b id="vText">0</b><span>Hacim</span></div><div class="info"><b id="sText">0</b><span>Yüzey alanı</span></div>
+<div class="info"><b id="baseText">0</b><span>Taban alanı</span></div><div class="info"><b id="latText">0</b><span>Yan alan / eğik bilgi</span></div>
+<div class="info"><b id="formulaV">-</b><span>Hacim formülü</span></div><div class="info"><b id="formulaS">-</b><span>Alan formülü</span></div>
+</div>
+<div id="questions"></div>
+<div class="feedback" id="feedback">Ölçü sürgülerini değiştirerek hacim ve alanın nasıl değiştiğini izle.</div>
+</div>
+</section>
+
+<section class="card" style="margin-top:16px">
+<h2>Mini Kural Defteri</h2>
+<div class="lessonGrid">
+<div class="lesson"><h3>Hacim</h3><p>Bir cismin kapladığı yerdir. Prizmada genellikle taban alanı × yükseklik mantığı kullanılır.</p></div>
+<div class="lesson"><h3>Yüzey Alanı</h3><p>Cismin dış yüzeylerinin toplam alanıdır. Açınım mantığı yüzey alanını anlamayı kolaylaştırır.</p></div>
+<div class="lesson"><h3>Yuvarlak Cisimler</h3><p>Silindir, koni ve kürede yarıçap çok etkilidir; r iki katına çıkarsa alan ve hacim güçlü biçimde artar.</p></div>
+</div>
+</section>
+<section class="card" style="margin-top:16px">
+  <h2>Ek Katı Cisim Laboratuvarı</h2>
+  <div class="lessonGrid">
+    <a class="lesson" href="geometri_acinimlari.html" style="text-decoration:none;display:block">
+      <h3>🧩 Açınımlar Laboratuvarı</h3>
+      <p>Küp, prizma, silindir ve koni açınımlarını incele; yüzey alanı mantığını gör.</p>
+    </a>
+  </div>
+</section>
+<div class="footer">ENGİN360 © 2026 · Katı Cisimler Laboratuvarı</div>
+</div>
+
+<script>
+const $=id=>document.getElementById(id), canvas=$('canvas'), ctx=canvas.getContext('2d');
+let shape='cube', showNet=false,total=0,correct=0,wrong=0,data={};
+function val(id){return +$(id).value}
+function round(n){return Math.round(n*10)/10}
+function calc(){
+ let w=val('w'),d=val('d'),h=val('h'), V=0,S=0,B=0,L=0,fv='',fs='';
+ if(shape==='cube'){d=w;h=w;V=w*w*w;S=6*w*w;B=w*w;L=4*w*w;fv='a³';fs='6a²'}
+ if(shape==='prism'){V=w*d*h;S=2*(w*d+w*h+d*h);B=w*d;L=2*h*(w+d);fv='a·b·h';fs='2(ab+ah+bh)'}
+ if(shape==='cylinder'){let r=d;V=Math.PI*r*r*h;S=2*Math.PI*r*(r+h);B=Math.PI*r*r;L=2*Math.PI*r*h;fv='πr²h';fs='2πr(r+h)'}
+ if(shape==='cone'){let r=d,l=Math.sqrt(r*r+h*h);V=Math.PI*r*r*h/3;S=Math.PI*r*(r+l);B=Math.PI*r*r;L=Math.PI*r*l;fv='πr²h/3';fs='πr(r+l)'}
+ if(shape==='sphere'){let r=d;V=4*Math.PI*r*r*r/3;S=4*Math.PI*r*r;B='-';L='-';fv='4πr³/3';fs='4πr²'}
+ data={w,d,h,V:round(V),S:round(S),B:typeof B==='number'?round(B):B,L:typeof L==='number'?round(L):L,fv,fs};
+ $('wText').textContent=w; $('dText').textContent=d; $('hText').textContent=h;
+ $('vText').textContent=data.V+' br³'; $('sText').textContent=data.S+' br²'; $('baseText').textContent=data.B+(data.B==='-'?'':' br²'); $('latText').textContent=data.L+(data.L==='-'?'':' br²');
+ $('formulaV').textContent=fv; $('formulaS').textContent=fs;
+}
+function bg(){ctx.clearRect(0,0,canvas.width,canvas.height);let g=ctx.createLinearGradient(0,0,canvas.width,canvas.height);g.addColorStop(0,"rgba(15,23,42,.98)");g.addColorStop(1,"rgba(35,5,52,.92)");ctx.fillStyle=g;ctx.fillRect(0,0,canvas.width,canvas.height);ctx.strokeStyle="rgba(255,255,255,.07)";for(let x=60;x<canvas.width;x+=60){ctx.beginPath();ctx.moveTo(x,30);ctx.lineTo(x,canvas.height-30);ctx.stroke()}for(let y=60;y<canvas.height;y+=60){ctx.beginPath();ctx.moveTo(30,y);ctx.lineTo(canvas.width-30,y);ctx.stroke()}}
+function text(t,x,y,color='#fff176',size=20){ctx.save();ctx.fillStyle=color;ctx.font='900 '+size+'px Arial';ctx.textAlign='center';ctx.shadowColor=color;ctx.shadowBlur=12;ctx.fillText(t,x,y);ctx.restore()}
+function draw(){calc();bg(); if(shape==='cube'||shape==='prism')drawBox(); if(shape==='cylinder')drawCylinder(); if(shape==='cone')drawCone(); if(shape==='sphere')drawSphere(); if(showNet)drawNet(); makeQuestions(false)}
+function poly(points,fill,stroke){ctx.save();ctx.fillStyle=fill;ctx.strokeStyle=stroke;ctx.lineWidth=4;ctx.shadowColor=stroke;ctx.shadowBlur=12;ctx.beginPath();points.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));ctx.closePath();ctx.fill();ctx.stroke();ctx.restore()}
+function drawBox(){let cx=450,cy=310,s=24, w=data.w*s,h=data.h*s,d=(shape==='cube'?data.w:data.d)*s*.55;let x=cx-w/2,y=cy-h/2;let dx=d,dy=-d*.55;poly([{x,y},{x:x+w,y},{x:x+w,y:y+h},{x,y:y+h}],'rgba(56,189,248,.16)','#38bdf8');poly([{x,y},{x:x+dx,y:y+dy},{x:x+w+dx,y:y+dy},{x:x+w,y}],'rgba(255,214,10,.16)','#ffd60a');poly([{x:x+w,y},{x:x+w+dx,y:y+dy},{x:x+w+dx,y:y+h+dy},{x:x+w,y:y+h}],'rgba(236,72,153,.15)','#ec4899');text((shape==='cube'?'a':'genişlik')+'='+data.w,x+w/2,y+h+35);text('h='+data.h,x-45,y+h/2,'#67e8f9');text((shape==='cube'?'a':'derinlik')+'='+(shape==='cube'?data.w:data.d),x+w+dx/2+38,y+dy/2,'#fff176')}
+function drawCylinder(){let cx=450,cy=315,r=data.d*18,h=data.h*25;ctx.save();ctx.strokeStyle='#38bdf8';ctx.lineWidth=5;ctx.shadowColor='#38bdf8';ctx.shadowBlur=16;ctx.fillStyle='rgba(56,189,248,.13)';ctx.beginPath();ctx.ellipse(cx,cy-h/2,r,r*.32,0,0,Math.PI*2);ctx.fill();ctx.stroke();ctx.beginPath();ctx.moveTo(cx-r,cy-h/2);ctx.lineTo(cx-r,cy+h/2);ctx.moveTo(cx+r,cy-h/2);ctx.lineTo(cx+r,cy+h/2);ctx.stroke();ctx.beginPath();ctx.ellipse(cx,cy+h/2,r,r*.32,0,0,Math.PI*2);ctx.fill();ctx.stroke();ctx.restore();text('r='+data.d,cx+r/2,cy+h/2+38);text('h='+data.h,cx+r+50,cy,'#67e8f9')}
+function drawCone(){let cx=450,cy=330,r=data.d*20,h=data.h*27,top={x:cx,y:cy-h/2};ctx.save();ctx.fillStyle='rgba(236,72,153,.13)';ctx.strokeStyle='#ec4899';ctx.lineWidth=5;ctx.shadowColor='#ec4899';ctx.shadowBlur=16;ctx.beginPath();ctx.moveTo(top.x,top.y);ctx.lineTo(cx-r,cy+h/2);ctx.ellipse(cx,cy+h/2,r,r*.32,0,Math.PI,0,true);ctx.lineTo(top.x,top.y);ctx.fill();ctx.stroke();ctx.beginPath();ctx.ellipse(cx,cy+h/2,r,r*.32,0,0,Math.PI*2);ctx.stroke();ctx.restore();text('r='+data.d,cx+r/2,cy+h/2+38);text('h='+data.h,cx+35,cy,'#67e8f9')}
+function drawSphere(){let cx=450,cy=305,r=data.d*24;ctx.save();let g=ctx.createRadialGradient(cx-r*.35,cy-r*.35,10,cx,cy,r);g.addColorStop(0,'rgba(255,255,255,.7)');g.addColorStop(.25,'rgba(56,189,248,.42)');g.addColorStop(1,'rgba(168,85,247,.15)');ctx.fillStyle=g;ctx.strokeStyle='#38bdf8';ctx.lineWidth=5;ctx.shadowColor='#38bdf8';ctx.shadowBlur=18;ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.fill();ctx.stroke();ctx.beginPath();ctx.ellipse(cx,cy,r,r*.28,0,0,Math.PI*2);ctx.stroke();ctx.restore();text('r='+data.d,cx+r/2,cy-20)}
+function drawNet(){text('Açınım fikri: yüzey alanı dış yüzeylerin toplamıdır',450,570,'#fff176',18)}
+function setShape(s,btn){shape=s;document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));btn.classList.add('active');const n={cube:'Küp',prism:'Dikdörtgen Prizma',cylinder:'Silindir',cone:'Koni',sphere:'Küre'};$('shapeName').textContent=n[s];$('taskTitle').textContent=n[s];$('ruleChip').textContent={cube:'Hacim = a³',prism:'Hacim = a·b·h',cylinder:'Hacim = πr²h',cone:'Hacim = πr²h/3',sphere:'Hacim = 4πr³/3'}[s];$('hint').textContent={cube:'Küpün tüm ayrıtları eşittir.',prism:'Dikdörtgen prizmada hacim üç boyutun çarpımıdır.',cylinder:'Silindirde taban alanı πr², hacim πr²h olur.',cone:'Koni hacmi aynı taban-yükseklikteki silindirin üçte biridir.',sphere:'Kürede hacim ve alan yalnızca yarıçapa bağlıdır.'}[s];draw()}
+function update(){draw()}
+function randomize(){['w','d','h'].forEach(id=>$(id).value=Math.floor(Math.random()*9)+3);draw()}
+function toggleNet(){showNet=!showNet;draw()}
+function resetStats(){total=correct=wrong=0;updateStats();$('feedback').textContent='Puan sıfırlandı.'}
+function mix(correct,pool){return [...new Set([String(correct),...pool.map(String)])].sort(()=>Math.random()-.5).slice(0,4)}
+function q(title,correct,pool){let opts=mix(correct,pool);return `<div class="q"><b>${title}</b><div class="opts">${opts.map(o=>`<button class="opt" onclick="answer(this,'${encodeURIComponent(o)}','${encodeURIComponent(String(correct))}')">${o}</button>`).join('')}</div></div>`}
+function makeQuestions(){let html='';html+=q('Bu cismin hacim formülü nedir?',data.fv,['a²','2πr','πr²','a+b+h']);html+=q('Yaklaşık hacim kaçtır?',data.V+' br³',[round(data.V+10)+' br³',round(Math.max(1,data.V-10))+' br³',data.S+' br²']);html+=q('Yüzey alanı hangi fikre dayanır?','Dış yüzeylerin toplamı',['Sadece taban alanı','Sadece yükseklik','Kenar sayısı']);$('questions').innerHTML=html}
+function answer(btn,val,cor){val=decodeURIComponent(val);cor=decodeURIComponent(cor);[...btn.parentElement.children].forEach(b=>b.disabled=true);total++;if(val===cor){correct++;btn.classList.add('correct');$('feedback').innerHTML='✅ Doğru. Katı cisim sezgin güçleniyor.'}else{wrong++;btn.classList.add('wrong');[...btn.parentElement.children].forEach(b=>{if(b.textContent===cor)b.classList.add('correct')});$('feedback').innerHTML='❌ Yanlış. Doğru cevap işaretlendi; formülü ve şekli tekrar incele.'}updateStats()}
+function updateStats(){$('total').textContent=total;$('correct').textContent=correct;$('wrong').textContent=wrong;$('score').textContent=total?Math.round(correct/total*100)+'%':'0%'}
+draw();
+</script>
+</body>
+</html>

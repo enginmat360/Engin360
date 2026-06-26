@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ENGİN360 | Geometri Laboratuvarı</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial,sans-serif}
+body{min-height:100vh;color:#fff;padding:18px;background:radial-gradient(circle at top left,rgba(168,85,247,.36),transparent 34%),radial-gradient(circle at bottom right,rgba(14,165,233,.30),transparent 34%),radial-gradient(circle at 50% 105%,rgba(236,72,153,.18),transparent 40%),linear-gradient(135deg,#05010d,#120024,#06142f)}
+.container{max-width:1060px;margin:0 auto}
+.hero{text-align:center;padding:30px 18px;border-radius:28px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);box-shadow:0 0 34px rgba(124,58,237,.34);backdrop-filter:blur(12px);margin-bottom:24px}
+.logo{font-size:38px;font-weight:900;letter-spacing:1.5px;background:linear-gradient(90deg,#a855f7,#38bdf8,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.subtitle{margin-top:10px;color:#ded9ff;font-size:15px;line-height:1.5}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.card{display:block;text-decoration:none;color:white;min-height:136px;padding:18px;border-radius:22px;background:linear-gradient(135deg,rgba(124,58,237,.25),rgba(14,165,233,.13));border:1px solid rgba(255,255,255,.13);box-shadow:0 12px 26px rgba(0,0,0,.27);transition:.2s ease;position:relative;overflow:hidden}
+.card:before{content:"";position:absolute;inset:-90px;background:radial-gradient(circle,rgba(255,255,255,.10),transparent 58%);transform:translateX(-48%);pointer-events:none}
+.card:hover{transform:translateY(-4px);box-shadow:0 0 28px rgba(236,72,153,.35)}
+.icon{font-size:31px;margin-bottom:10px;position:relative}
+.card h3{font-size:17px;margin-bottom:8px;position:relative}
+.card p{font-size:13.5px;color:#d8daf7;line-height:1.45;position:relative}
+.badge{display:inline-block;margin-top:11px;padding:6px 9px;border-radius:999px;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.12);font-size:11px;font-weight:900;color:#e0f2fe;position:relative}
+.footer{text-align:center;color:#aaa;font-size:12px;margin:32px 0 10px}
+.toplink{display:inline-block;margin-top:13px;color:#e9d5ff;text-decoration:none;font-size:13px;font-weight:800}
+@media(max-width:520px){body{padding:13px}.hero{padding:26px 15px}.logo{font-size:32px}.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="hero">
+    <div class="logo">ENGİN360</div>
+    <div class="subtitle">Geometri Laboratuvarı<br>Doğru, açı, üçgen, çember, analitik geometri, katı cisim ve dönüşüm etkinlikleri</div>
+    <a class="toplink" href="matematik_kategori.html">← Geri dön</a>
+  </div>
+  <div class="grid">
+<a class="card" href="geometri_dogru_acilar.html">
+<div class="icon">📏</div>
+<h3>Doğru ve Açılar</h3>
+<p>Ters açılar, yöndeş açılar, iç-dış ters açılar, tümler-bütünler ve paralel doğru mantığı.</p>
+<span class="badge">Temel geometri</span>
+</a>
+<a class="card" href="geometri_ucgenler.html">
+<div class="icon">📐</div>
+<h3>Üçgenler</h3>
+<p>Üçgen çeşitleri, iç-dış açı, Pisagor, eşlik, benzerlik, açıortay, kenarortay ve alan.</p>
+<span class="badge">TYT-AYT güçlü konu</span>
+</a>
+<a class="card" href="geometri_cember_daire.html">
+<div class="icon">⭕</div>
+<h3>Çember ve Daire</h3>
+<p>Merkez açı, çevre açı, kiriş, teğet, kesen, yay ve daire alanı etkinlikleri.</p>
+<span class="badge">Premium hedef</span>
+</a>
+<a class="card" href="geometri_analitik.html">
+<div class="icon">📍</div>
+<h3>Analitik Geometri</h3>
+<p>Koordinat sistemi, eğim, uzaklık, orta nokta ve doğru denklemi etkinlikleri.</p>
+<span class="badge">Grafik bağlantılı</span>
+</a>
+<a class="card" href="geometri_kati_cisimler.html">
+<div class="icon">📦</div>
+<h3>Katı Cisimler</h3>
+<p>Küp, prizma, silindir, koni, küre, hacim, alan ve açınım mantığı.</p>
+<span class="badge">3D geliştirilebilir</span>
+</a>
+<a class="card" href="geometri_donusum.html">
+<div class="icon">🔄</div>
+<h3>Dönüşüm Geometrisi</h3>
+<p>Öteleme, yansıma, dönme, simetri ve koordinat dönüşümleri.</p>
+<span class="badge">Oynayarak keşfet</span>
+</a>
+<a class="card" href="geometri_oyunlari.html">
+<div class="icon">🎮</div>
+<h3>Geometri Oyunları</h3>
+<p>Açı avcısı, şekil dedektifi, doğru-yanlış yarışı ve geometri escape room fikirleri.</p>
+<span class="badge">Oyunlaştırma</span>
+</a>
+  </div>
+  <div class="footer">ENGİN360 © 2026 · Geometri Laboratuvarı</div>
+</div>
+</body>
+</html>
