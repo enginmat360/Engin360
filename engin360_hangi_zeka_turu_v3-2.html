@@ -241,6 +241,14 @@ button{
   .question{grid-template-columns:1fr}
   .title{font-size:22px}.title span{font-size:28px}
 }
+
+.shareBtns{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.shareBtns button{margin:0;font-size:14px;padding:13px;border-radius:15px}
+.reportPreview{display:none;margin-top:12px;text-align:center}
+.reportPreview canvas{max-width:100%;border-radius:18px;border:1px solid #dfe6ff;box-shadow:0 8px 24px rgba(0,41,120,.14)}
+.smallHelp{font-size:12px;line-height:1.45;color:#243c82;background:#f2f5ff;border:1px solid #dfe6ff;border-radius:14px;padding:10px;margin-top:10px}
+@media(max-width:650px){.shareBtns{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
@@ -294,12 +302,19 @@ button{
     <div class="analysis" id="grafik"></div>
 
     <div class="cards" id="kartlar"></div>
-    <div class="footer">ENGİN360 Öğrenci Koçluk Sistemi tarafından oluşturulmuştur.</div>
+    <div class="shareBtns">
+<button onclick="raporGorseliOlustur()">Rapor Görselini Oluştur / Kaydet</button>
+<button onclick="whatsappMetniKopyala()">WhatsApp Metnini Kopyala</button>
+</div>
+<div class="smallHelp">Gönderme yöntemi: Öğrenci sonucu oluşturur, rapor görselini kaydeder ve WhatsApp’tan sana görsel olarak gönderir. İsterse kısa özet metnini de kopyalayıp mesaj olarak atabilir.</div>
+<div class="reportPreview" id="raporOnizleme"></div>
+<div class="footer">ENGİN360 Öğrenci Koçluk Sistemi tarafından oluşturulmuştur.</div>
   </div>
 </div>
 </div>
 
 <script>
+let sonRapor=null;
 const veri={
 gorsel:{ad:"Görsel – Uzamsal",renk:"#7c3db6",kisa:"Görseller, şekiller ve mekânla düşünme",yorum:"Görsel hafızan güçlüdür. Harita, tablo, grafik, renkli not, çizim ve şemalarla daha kalıcı öğrenirsin.",calisma:"Konuları şema, zihin haritası, renkli not ve görsel özetlerle çalış. Matematikte şekil çiz, fen derslerinde tablo kullan.",meslek:"Mimarlık, tasarım, mühendislik, grafik tasarım, şehir planlama, animasyon, harita, görsel iletişim."},
 isitsel:{ad:"İşitsel – Müziksel",renk:"#1474d4",kisa:"Sesleri, ritimleri ve müziği algılama",yorum:"Dinleyerek, ritimle ve sesli tekrar ederek daha iyi öğrenirsin. Anlatılanları hatırlama gücün yüksektir.",calisma:"Konuları sesli tekrar et, kendine anlat, kısa ses kayıtları oluştur. Yabancı dil ve sözel derslerde dinleme çalışmalarını artır.",meslek:"Müzik, dil, sunuculuk, öğretmenlik, iletişim, ses teknolojileri, psikolojik danışmanlık."},
@@ -366,10 +381,142 @@ function hesapla(){
     kart+=`<div class="mini"><b>${x.ad}</b><br>${x.yorum}<br><br><b>Güçlü yön:</b> ${x.kisa}</div>`;
   });
   document.getElementById("kartlar").innerHTML=kart;
+  sonRapor={
+    ad:document.getElementById("ad").value.trim()||"Öğrenci",
+    sinif:document.getElementById("sinif").value.trim()||"-",
+    tarih:new Date().toLocaleDateString("tr-TR"),
+    sirali:sirali,
+    ana:sirali[0],
+    ikinci:sirali[1],
+    ucuncu:sirali[2],
+    yorum:document.getElementById("yorum").innerText,
+    calisma:document.getElementById("calisma").innerText,
+    meslek:document.getElementById("meslek").innerText
+  };
+
 
   document.getElementById("sonuc").style.display="block";
   document.getElementById("sonuc").scrollIntoView({behavior:"smooth"});
 }
+
+function yuvarlakDikdortgen(ctx,x,y,w,h,r){
+ ctx.beginPath();
+ ctx.moveTo(x+r,y);
+ ctx.arcTo(x+w,y,x+w,y+h,r);
+ ctx.arcTo(x+w,y+h,x,y+h,r);
+ ctx.arcTo(x,y+h,x,y,r);
+ ctx.arcTo(x,y,x+w,y,r);
+ ctx.closePath();
+}
+function metinSatirlari(ctx,text,x,y,maxWidth,lineHeight){
+ const words=String(text).split(' ');
+ let line='',lines=[];
+ for(let n=0;n<words.length;n++){
+   let test=line+words[n]+' ';
+   if(ctx.measureText(test).width>maxWidth && n>0){lines.push(line.trim());line=words[n]+' '}
+   else line=test;
+ }
+ lines.push(line.trim());
+ lines.forEach((l,i)=>ctx.fillText(l,x,y+i*lineHeight));
+ return y+lines.length*lineHeight;
+}
+function raporGorseliOlustur(){
+ if(!sonRapor){alert('Önce sonuç analizi oluştur.');return;}
+ const c=document.createElement('canvas');
+ c.width=1080;c.height=1650;
+ const ctx=c.getContext('2d');
+
+ let g=ctx.createLinearGradient(0,0,c.width,c.height);
+ g.addColorStop(0,'#eef4ff');g.addColorStop(1,'#dfe9ff');
+ ctx.fillStyle=g;ctx.fillRect(0,0,c.width,c.height);
+ ctx.fillStyle='#0648b8';ctx.beginPath();ctx.arc(-80,-80,260,0,Math.PI*2);ctx.fill();
+ ctx.fillStyle='#ff8500';ctx.beginPath();ctx.arc(1120,1660,330,0,Math.PI*2);ctx.fill();
+
+ ctx.fillStyle='white';yuvarlakDikdortgen(ctx,70,70,940,1510,34);ctx.fill();
+ ctx.strokeStyle='#d8e2ff';ctx.lineWidth=3;ctx.stroke();
+
+ ctx.fillStyle='#003b96';ctx.font='900 56px Arial';ctx.fillText('ENGİN',120,150);
+ ctx.fillStyle='#ff8500';ctx.fillText('360',300,150);
+ ctx.fillStyle='#003b96';ctx.font='800 22px Arial';ctx.fillText('PLANLA • ÇALIŞ • BAŞAR',122,184);
+ ctx.fillStyle='#063b9d';ctx.font='900 26px Arial';ctx.textAlign='right';ctx.fillText('ZEKA TÜRÜ RAPORU',940,155);
+
+ ctx.textAlign='center';
+ ctx.fillStyle='#063b9d';ctx.font='900 44px Arial';ctx.fillText('HANGİ ZEKA TÜRÜNE SAHİBİM?',540,255);
+ ctx.fillStyle='#263f85';ctx.font='700 25px Arial';ctx.fillText(sonRapor.ad+'  •  '+sonRapor.sinif+'  •  '+sonRapor.tarih,540,300);
+
+ ctx.fillStyle='#f9fbff';yuvarlakDikdortgen(ctx,120,340,840,250,26);ctx.fill();
+ ctx.strokeStyle='#d7def8';ctx.stroke();
+
+ ctx.fillStyle='#ff8500';ctx.font='900 48px Arial';ctx.fillText(sonRapor.ana.ad,540,425);
+ ctx.fillStyle='#063b9d';ctx.font='900 30px Arial';ctx.fillText('Baskın Alan: '+sonRapor.ana.puan+' / 25',540,480);
+ ctx.fillStyle='#1d367d';ctx.font='800 24px Arial';ctx.fillText(sonRapor.ana.kisa,540,525);
+
+ const top3=[sonRapor.ana,sonRapor.ikinci,sonRapor.ucuncu];
+ let y=640;
+ ctx.textAlign='left';
+ ctx.fillStyle='#063b9d';ctx.font='900 32px Arial';ctx.fillText('İlk 3 Güçlü Alan',120,y);
+ y+=35;
+ top3.forEach((x,i)=>{
+   ctx.fillStyle='#e8eeff';yuvarlakDikdortgen(ctx,120,y,840,46,23);ctx.fill();
+   ctx.fillStyle=x.renk;yuvarlakDikdortgen(ctx,120,y,840*(x.puan/25),46,23);ctx.fill();
+   ctx.fillStyle='white';ctx.font='900 24px Arial';ctx.fillText((i+1)+'. '+x.ad+'  '+x.puan+'/25',145,y+31);
+   y+=68;
+ });
+
+ ctx.fillStyle='#063b9d';ctx.font='900 32px Arial';ctx.fillText('Kısa Analiz',120,y+20);
+ ctx.fillStyle='#1d367d';ctx.font='700 24px Arial';
+ y=metinSatirlari(ctx,sonRapor.yorum,120,y+65,840,34);
+
+ ctx.fillStyle='#f2f5ff';yuvarlakDikdortgen(ctx,120,y+35,840,250,24);ctx.fill();
+ ctx.fillStyle='#063b9d';ctx.font='900 30px Arial';ctx.fillText('Çalışma Stratejisi',150,y+85);
+ ctx.fillStyle='#1d367d';ctx.font='700 23px Arial';
+ let yy=metinSatirlari(ctx,sonRapor.calisma,150,y+125,780,32);
+
+ ctx.fillStyle='#f9fbff';yuvarlakDikdortgen(ctx,120,yy+45,840,210,24);ctx.fill();
+ ctx.strokeStyle='#dfe6ff';ctx.stroke();
+ ctx.fillStyle='#063b9d';ctx.font='900 30px Arial';ctx.fillText('Uygun Olabilecek Alanlar',150,yy+95);
+ ctx.fillStyle='#1d367d';ctx.font='700 23px Arial';
+ metinSatirlari(ctx,sonRapor.meslek,150,yy+135,780,32);
+
+ ctx.textAlign='center';
+ ctx.fillStyle='#4c5f99';ctx.font='800 24px Arial';
+ ctx.fillText('ENGİN360 Öğrenci Koçluk Sistemi',540,1540);
+
+ const box=document.getElementById('raporOnizleme');
+ box.style.display='block';
+ box.innerHTML='';
+ box.appendChild(c);
+
+ const link=document.createElement('a');
+ const temizAd=(sonRapor.ad||'ogrenci').replace(/[^a-zA-Z0-9ğüşöçıİĞÜŞÖÇ_-]/g,'_');
+ link.download='ENGIN360_Zeka_Turu_Raporu_'+temizAd+'.png';
+ link.href=c.toDataURL('image/png');
+ link.click();
+}
+function whatsappMetniKopyala(){
+ if(!sonRapor){alert('Önce sonuç analizi oluştur.');return;}
+ const metin=`ENGİN360 Hangi Zeka Türüne Sahibim?
+
+Ad: ${sonRapor.ad}
+Sınıf: ${sonRapor.sinif}
+Tarih: ${sonRapor.tarih}
+
+1. Alan: ${sonRapor.ana.ad} / ${sonRapor.ana.puan}/25
+2. Alan: ${sonRapor.ikinci.ad} / ${sonRapor.ikinci.puan}/25
+3. Alan: ${sonRapor.ucuncu.ad} / ${sonRapor.ucuncu.puan}/25
+
+Kısa analiz: ${sonRapor.yorum}
+
+Çalışma stratejisi: ${sonRapor.calisma}
+
+Alan önerileri: ${sonRapor.meslek}`;
+ if(navigator.clipboard){
+   navigator.clipboard.writeText(metin).then(()=>alert('WhatsApp metni kopyalandı.'));
+ }else{
+   const t=document.createElement('textarea');t.value=metin;document.body.appendChild(t);t.select();document.execCommand('copy');document.body.removeChild(t);alert('WhatsApp metni kopyalandı.');
+ }
+}
+
 yukle();
 </script>
 </body>

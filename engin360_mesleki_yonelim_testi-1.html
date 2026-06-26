@@ -6,6 +6,14 @@
 <title>ENGİN360 Mesleki Yönelim Testi</title>
 <style>
 *{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:radial-gradient(circle at top,#5b21ff 0,#160032 38%,#050510 100%);color:white;padding:16px}.app{max-width:620px;margin:auto;background:rgba(255,255,255,.085);border:1px solid rgba(255,255,255,.17);border-radius:28px;padding:20px;box-shadow:0 0 38px rgba(107,55,255,.42)}.logo{text-align:center;font-size:32px;font-weight:900}.logo span{color:#00eaff}.sub{text-align:center;color:#ded8ff;font-size:13px;line-height:1.4;margin:6px 0 18px}.card{background:rgba(0,0,0,.27);border:1px solid rgba(255,255,255,.11);border-radius:21px;padding:15px;margin-bottom:14px}h3{margin:0 0 10px;font-size:16px}.question{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.10);border-radius:16px;padding:12px;margin:10px 0}.qtext{font-size:14px;line-height:1.45;margin-bottom:8px}select,input{width:100%;padding:12px;border:0;outline:0;border-radius:13px;font-size:15px;background:#fff;color:#111}button{width:100%;border:0;border-radius:18px;padding:15px;margin-top:8px;background:linear-gradient(90deg,#8a2cff,#00cfff);color:white;font-size:17px;font-weight:900;box-shadow:0 0 22px rgba(0,207,255,.27)}.result{display:none;margin-top:15px;padding:16px;border-radius:23px;background:linear-gradient(160deg,rgba(0,234,255,.16),rgba(138,44,255,.22));border:1px solid rgba(255,255,255,.22)}.big{text-align:center;font-size:27px;font-weight:900;color:#7df9ff;margin:7px 0 13px}.row{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid rgba(255,255,255,.13);padding:8px 0;font-size:14px}.row:last-child{border-bottom:0}.analysis{margin-top:12px;background:rgba(0,0,0,.22);border-radius:16px;padding:12px;font-size:13px;line-height:1.58}.badge{display:inline-block;background:rgba(255,255,255,.14);padding:6px 10px;border-radius:999px;font-size:12px;margin:4px 3px}.barWrap{margin:10px 0;background:rgba(255,255,255,.12);border-radius:999px;overflow:hidden;height:18px}.bar{height:18px;width:0%;background:linear-gradient(90deg,#00eaff,#8a2cff)}.footer{margin-top:14px;text-align:center;font-size:12px;color:#cfc8ff}.small{font-size:12px;color:#ded8ff;line-height:1.45}
+
+.shareBtns{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.shareBtns button{margin:0;font-size:14px;padding:13px;border-radius:15px}
+.reportPreview{display:none;margin-top:12px;text-align:center}
+.reportPreview canvas{max-width:100%;border-radius:18px;border:1px solid rgba(255,255,255,.22);box-shadow:0 8px 24px rgba(0,0,0,.24)}
+.smallHelp{font-size:12px;line-height:1.45;color:#ded8ff;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:10px;margin-top:10px}
+@media(max-width:650px){.shareBtns{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
@@ -21,13 +29,152 @@
 <div class="row"><span>2. Alan</span><b id="ikinci">-</b></div>
 <div class="row"><span>3. Alan</span><b id="ucuncu">-</b></div>
 <div class="analysis" id="yorum"></div><div class="analysis" id="meslekler"></div><div class="analysis" id="oneriler"></div><div id="grafikler"></div>
+<div class="shareBtns">
+<button onclick="raporGorseliOlustur()">Rapor Görselini Oluştur / Kaydet</button>
+<button onclick="whatsappMetniKopyala()">WhatsApp Metnini Kopyala</button>
+</div>
+<div class="smallHelp">Gönderme yöntemi: Öğrenci sonucu oluşturur, rapor görselini kaydeder ve WhatsApp’tan sana görsel olarak gönderir. İsterse kısa özet metnini de kopyalayıp mesaj olarak atabilir.</div>
+<div class="reportPreview" id="raporOnizleme"></div>
 <div class="footer">ENGİN360 Öğrenci Koçluk Sistemi tarafından oluşturulmuştur.</div>
 </div></div>
 <script>
+let sonRapor=null;
 const alanlar={arastirmaci:{ad:"Araştırmacı / Bilimsel",meslek:"Tıp, mühendislik, yazılım, psikoloji, akademisyenlik, veri bilimi, biyoloji, fizik, kimya, matematik.",oneri:"Proje, deney, problem çözme ve araştırma ödevleri iyi gelir."},sosyal:{ad:"Sosyal / Yardım Odaklı",meslek:"Öğretmenlik, psikolojik danışmanlık, psikoloji, hemşirelik, sosyal hizmet, hukuk, çocuk gelişimi.",oneri:"Anlatınca öğrenir. Grup çalışması ve sunum tarzı öğrenme verimli olur."},girisimci:{ad:"Girişimci / Lider",meslek:"İşletme, ekonomi, hukuk, yönetim, pazarlama, girişimcilik, siyaset bilimi, uluslararası ilişkiler.",oneri:"Hedef, sorumluluk ve sonuç odaklı görevler iyi gelir."},sanatsal:{ad:"Sanatsal / Yaratıcı",meslek:"Mimarlık, grafik tasarım, müzik, sinema, iletişim, reklamcılık, endüstriyel tasarım, iç mimarlık.",oneri:"Üretim, tasarım ve özgün fikir içeren görevler iyi gelir."},duzenli:{ad:"Düzenli / Sistematik",meslek:"Muhasebe, finans, bankacılık, istatistik, yönetim bilişim, lojistik, kamu yönetimi.",oneri:"Liste, tablo, plan ve kontrol sistemiyle daha verimli çalışır."},teknik:{ad:"Teknik / Uygulamalı",meslek:"Mühendislik, teknik öğretmenlik, otomasyon, mekatronik, elektrik-elektronik, endüstriyel alanlar.",oneri:"Uygulayarak ve somut örneklerle daha iyi öğrenir."}};
 const sorular=[["Bir problemin nedenini araştırmak hoşuma gider.","arastirmaci"],["Bilimsel konular veya teknolojik gelişmeler ilgimi çeker.","arastirmaci"],["Zor bir soruyu çözene kadar uğraşmak beni motive eder.","arastirmaci"],["İnsanlara bir şey öğretmek veya yardımcı olmak beni mutlu eder.","sosyal"],["Arkadaşlarım sorun yaşadığında beni dinleyici olarak görür.","sosyal"],["İletişim kurmak ve insanlarla çalışmak bana uygundur.","sosyal"],["Bir grupta liderlik almak bana zor gelmez.","girisimci"],["İnsanları ikna etme ve fikir savunma konusunda iyiyimdir.","girisimci"],["Hedef koyup o hedefe göre hareket etmeyi severim.","girisimci"],["Resim, müzik, tasarım, yazı veya sahne işleri ilgimi çeker.","sanatsal"],["Yeni ve farklı fikirler üretmekten hoşlanırım.","sanatsal"],["Tekdüze işler yerine yaratıcı işler bana daha uygundur.","sanatsal"],["Planlı, düzenli ve sistemli çalışmayı severim.","duzenli"],["Tablo, liste, dosya veya kayıt tutmak bana zor gelmez.","duzenli"],["Ayrıntıları kontrol etmekte dikkatliyimdir.","duzenli"],["Alet, cihaz, makine veya teknik sistemlerle uğraşmak hoşuma gider.","teknik"],["Bir şeyi söküp takmak, yapmak veya tamir etmek ilgimi çeker.","teknik"],["Somut, uygulamalı ve pratik işlerde daha rahat ederim.","teknik"]];
 function yukle(){let a=document.getElementById("sorular");a.innerHTML="";sorular.forEach((s,i)=>{a.innerHTML+=`<div class="question"><div class="qtext">${i+1}. ${s[0]}</div><select id="q_${i}"><option value="1">1 - Bana hiç uygun değil</option><option value="2">2 - Az uygun</option><option value="3" selected>3 - Kararsızım / orta</option><option value="4">4 - Uygun</option><option value="5">5 - Bana çok uygun</option></select></div>`})}
-function hesapla(){let p={arastirmaci:0,sosyal:0,girisimci:0,sanatsal:0,duzenli:0,teknik:0};sorular.forEach((s,i)=>p[s[1]]+=Number(document.getElementById("q_"+i).value));let sirali=Object.keys(p).map(k=>({kod:k,puan:p[k],...alanlar[k]})).sort((a,b)=>b.puan-a.puan);let ad=document.getElementById("ad").value.trim();document.getElementById("anaSonuc").innerText=sirali[0].ad;document.getElementById("birinci").innerText=sirali[0].ad+" / "+sirali[0].puan+" puan";document.getElementById("ikinci").innerText=sirali[1].ad+" / "+sirali[1].puan+" puan";document.getElementById("ucuncu").innerText=sirali[2].ad+" / "+sirali[2].puan+" puan";document.getElementById("yorum").innerText=(ad?ad+" için ":"")+"baskın yönelim "+sirali[0].ad+" alanında görünüyor. Bu sonuç kesin meslek seçimi değildir; ilgi, beceri ve çalışma tarzı hakkında yön gösterir. İkinci güçlü alan "+sirali[1].ad+" olduğu için iki alan birlikte değerlendirilmelidir.";document.getElementById("meslekler").innerText="Uygun olabilecek alanlar: "+sirali[0].meslek;document.getElementById("oneriler").innerText="Koçluk önerisi: "+sirali[0].oneri+" Ayrıca ikinci güçlü alan için: "+sirali[1].oneri;let g="<div class='analysis'><b>Alan Puanları</b>";sirali.forEach(x=>{let y=Math.round((x.puan/15)*100);g+=`<div style="margin-top:10px">${x.ad} - ${x.puan}/15</div><div class="barWrap"><div class="bar" style="width:${y}%"></div></div>`});g+="</div>";document.getElementById("grafikler").innerHTML=g;document.getElementById("sonuc").style.display="block";}
+function hesapla(){let p={arastirmaci:0,sosyal:0,girisimci:0,sanatsal:0,duzenli:0,teknik:0};sorular.forEach((s,i)=>p[s[1]]+=Number(document.getElementById("q_"+i).value));let sirali=Object.keys(p).map(k=>({kod:k,puan:p[k],...alanlar[k]})).sort((a,b)=>b.puan-a.puan);let ad=document.getElementById("ad").value.trim();document.getElementById("anaSonuc").innerText=sirali[0].ad;document.getElementById("birinci").innerText=sirali[0].ad+" / "+sirali[0].puan+" puan";document.getElementById("ikinci").innerText=sirali[1].ad+" / "+sirali[1].puan+" puan";document.getElementById("ucuncu").innerText=sirali[2].ad+" / "+sirali[2].puan+" puan";document.getElementById("yorum").innerText=(ad?ad+" için ":"")+"baskın yönelim "+sirali[0].ad+" alanında görünüyor. Bu sonuç kesin meslek seçimi değildir; ilgi, beceri ve çalışma tarzı hakkında yön gösterir. İkinci güçlü alan "+sirali[1].ad+" olduğu için iki alan birlikte değerlendirilmelidir.";document.getElementById("meslekler").innerText="Uygun olabilecek alanlar: "+sirali[0].meslek;document.getElementById("oneriler").innerText="Koçluk önerisi: "+sirali[0].oneri+" Ayrıca ikinci güçlü alan için: "+sirali[1].oneri;let g="<div class='analysis'><b>Alan Puanları</b>";sirali.forEach(x=>{let y=Math.round((x.puan/15)*100);g+=`<div style="margin-top:10px">${x.ad} - ${x.puan}/15</div><div class="barWrap"><div class="bar" style="width:${y}%"></div></div>`});g+="</div>";document.getElementById("grafikler").innerHTML=g;
+sonRapor={
+ ad:document.getElementById("ad").value.trim()||"Öğrenci",
+ tarih:new Date().toLocaleDateString("tr-TR"),
+ sirali:sirali,
+ ana:sirali[0],
+ ikinci:sirali[1],
+ ucuncu:sirali[2],
+ yorum:document.getElementById("yorum").innerText,
+ meslekler:document.getElementById("meslekler").innerText,
+ oneriler:document.getElementById("oneriler").innerText
+};
+document.getElementById("sonuc").style.display="block";}
+
+function yuvarlakDikdortgen(ctx,x,y,w,h,r){
+ ctx.beginPath();
+ ctx.moveTo(x+r,y);
+ ctx.arcTo(x+w,y,x+w,y+h,r);
+ ctx.arcTo(x+w,y+h,x,y+h,r);
+ ctx.arcTo(x,y+h,x,y,r);
+ ctx.arcTo(x,y,x+w,y,r);
+ ctx.closePath();
+}
+function metinSatirlari(ctx,text,x,y,maxWidth,lineHeight){
+ const words=String(text).split(' ');
+ let line='',lines=[];
+ for(let n=0;n<words.length;n++){
+   let test=line+words[n]+' ';
+   if(ctx.measureText(test).width>maxWidth && n>0){lines.push(line.trim());line=words[n]+' '}
+   else line=test;
+ }
+ lines.push(line.trim());
+ lines.forEach((l,i)=>ctx.fillText(l,x,y+i*lineHeight));
+ return y+lines.length*lineHeight;
+}
+function raporGorseliOlustur(){
+ if(!sonRapor){alert('Önce sonucu göster.');return;}
+ const c=document.createElement('canvas');
+ c.width=1080;c.height=1600;
+ const ctx=c.getContext('2d');
+
+ let bg=ctx.createLinearGradient(0,0,c.width,c.height);
+ bg.addColorStop(0,'#5b21ff');bg.addColorStop(.48,'#160032');bg.addColorStop(1,'#050510');
+ ctx.fillStyle=bg;ctx.fillRect(0,0,c.width,c.height);
+ ctx.fillStyle='rgba(0,234,255,.18)';ctx.beginPath();ctx.arc(80,70,260,0,Math.PI*2);ctx.fill();
+ ctx.fillStyle='rgba(138,44,255,.35)';ctx.beginPath();ctx.arc(1040,1560,330,0,Math.PI*2);ctx.fill();
+
+ ctx.fillStyle='rgba(255,255,255,.10)';
+ yuvarlakDikdortgen(ctx,70,70,940,1460,34);ctx.fill();
+ ctx.strokeStyle='rgba(255,255,255,.22)';ctx.lineWidth=3;ctx.stroke();
+
+ ctx.fillStyle='white';ctx.font='900 56px Arial';ctx.textAlign='left';ctx.fillText('ENGİN',120,150);
+ ctx.fillStyle='#00eaff';ctx.fillText('360',300,150);
+ ctx.fillStyle='#ded8ff';ctx.font='800 22px Arial';ctx.fillText('PLANLA • ÇALIŞ • BAŞAR',122,184);
+
+ ctx.textAlign='center';
+ ctx.fillStyle='white';ctx.font='900 46px Arial';ctx.fillText('MESLEKİ YÖNELİM RAPORU',540,260);
+ ctx.fillStyle='#ded8ff';ctx.font='700 25px Arial';ctx.fillText(sonRapor.ad+'  •  '+sonRapor.tarih,540,305);
+
+ ctx.fillStyle='rgba(0,234,255,.14)';yuvarlakDikdortgen(ctx,120,350,840,230,26);ctx.fill();
+ ctx.strokeStyle='rgba(255,255,255,.22)';ctx.stroke();
+
+ ctx.fillStyle='#7df9ff';ctx.font='900 46px Arial';ctx.fillText(sonRapor.ana.ad,540,430);
+ ctx.fillStyle='white';ctx.font='900 31px Arial';ctx.fillText('Baskın Yönelim: '+sonRapor.ana.puan+' / 15',540,485);
+
+ const top3=[sonRapor.ana,sonRapor.ikinci,sonRapor.ucuncu];
+ let y=640;
+ ctx.textAlign='left';
+ ctx.fillStyle='white';ctx.font='900 32px Arial';ctx.fillText('İlk 3 Güçlü Alan',120,y);
+ y+=35;
+ top3.forEach((x,i)=>{
+   ctx.fillStyle='rgba(255,255,255,.12)';yuvarlakDikdortgen(ctx,120,y,840,46,23);ctx.fill();
+   let gr=ctx.createLinearGradient(120,y,960,y);
+   gr.addColorStop(0,'#00eaff');gr.addColorStop(1,'#8a2cff');
+   ctx.fillStyle=gr;yuvarlakDikdortgen(ctx,120,y,840*(x.puan/15),46,23);ctx.fill();
+   ctx.fillStyle='white';ctx.font='900 24px Arial';ctx.fillText((i+1)+'. '+x.ad+'  '+x.puan+'/15',145,y+31);
+   y+=68;
+ });
+
+ ctx.fillStyle='white';ctx.font='900 32px Arial';ctx.fillText('Kısa Analiz',120,y+20);
+ ctx.fillStyle='#e9e5ff';ctx.font='700 24px Arial';
+ y=metinSatirlari(ctx,sonRapor.yorum,120,y+65,840,34);
+
+ ctx.fillStyle='rgba(255,255,255,.10)';yuvarlakDikdortgen(ctx,120,y+35,840,260,24);ctx.fill();
+ ctx.strokeStyle='rgba(255,255,255,.16)';ctx.stroke();
+ ctx.fillStyle='#7df9ff';ctx.font='900 30px Arial';ctx.fillText('Uygun Olabilecek Alanlar',150,y+88);
+ ctx.fillStyle='#e9e5ff';ctx.font='700 23px Arial';
+ let yy=metinSatirlari(ctx,sonRapor.meslekler,150,y+128,780,32);
+
+ ctx.fillStyle='rgba(255,255,255,.10)';yuvarlakDikdortgen(ctx,120,yy+45,840,220,24);ctx.fill();
+ ctx.strokeStyle='rgba(255,255,255,.16)';ctx.stroke();
+ ctx.fillStyle='#7df9ff';ctx.font='900 30px Arial';ctx.fillText('Koçluk Önerisi',150,yy+95);
+ ctx.fillStyle='#e9e5ff';ctx.font='700 23px Arial';
+ metinSatirlari(ctx,sonRapor.oneriler,150,yy+135,780,32);
+
+ ctx.textAlign='center';
+ ctx.fillStyle='#cfc8ff';ctx.font='800 24px Arial';
+ ctx.fillText('ENGİN360 Öğrenci Koçluk Sistemi',540,1480);
+
+ const box=document.getElementById('raporOnizleme');
+ box.style.display='block';
+ box.innerHTML='';
+ box.appendChild(c);
+
+ const link=document.createElement('a');
+ const temizAd=(sonRapor.ad||'ogrenci').replace(/[^a-zA-Z0-9ğüşöçıİĞÜŞÖÇ_-]/g,'_');
+ link.download='ENGIN360_Mesleki_Yonelim_Raporu_'+temizAd+'.png';
+ link.href=c.toDataURL('image/png');
+ link.click();
+}
+function whatsappMetniKopyala(){
+ if(!sonRapor){alert('Önce sonucu göster.');return;}
+ const metin=`ENGİN360 Mesleki Yönelim Testi
+
+Ad: ${sonRapor.ad}
+Tarih: ${sonRapor.tarih}
+
+1. Alan: ${sonRapor.ana.ad} / ${sonRapor.ana.puan}/15
+2. Alan: ${sonRapor.ikinci.ad} / ${sonRapor.ikinci.puan}/15
+3. Alan: ${sonRapor.ucuncu.ad} / ${sonRapor.ucuncu.puan}/15
+
+Kısa analiz: ${sonRapor.yorum}
+
+Meslek alanları: ${sonRapor.meslekler}
+
+Koçluk önerisi: ${sonRapor.oneriler}`;
+ if(navigator.clipboard){
+   navigator.clipboard.writeText(metin).then(()=>alert('WhatsApp metni kopyalandı.'));
+ }else{
+   const t=document.createElement('textarea');t.value=metin;document.body.appendChild(t);t.select();document.execCommand('copy');document.body.removeChild(t);alert('WhatsApp metni kopyalandı.');
+ }
+}
+
 yukle();
 </script>
 </body></html>
