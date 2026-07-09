@@ -30,7 +30,7 @@ canvas{width:100%;height:500px;border-radius:24px;background:rgba(2,6,23,.46);bo
 <body>
 <div class="container">
 <a class="back" href="geometri_guncel.html">← Geometri Laboratuvarına dön</a>
-<section class="hero"><div class="logo">ENGİN360</div><div class="subtitle">📍 Analitik Geometri Laboratuvarı · LAB PRO v1.0<br>Noktaları sürükle; eğim, uzaklık, orta nokta ve doğru denklemini canlı keşfet.</div></section>
+<section class="hero"><div class="logo">ENGİN360</div><div class="subtitle">📍 Analitik Geometri Laboratuvarı · LAB PRO v2.0<br>Noktaları sürükle; eğim, uzaklık, orta nokta ve doğru denklemini MEB/TYT-AYT mantığıyla, kesirli ve sadeleştirilmiş biçimde keşfet.</div></section>
 <div class="stats"><div class="stat"><b id="total">0</b><span>Cevaplanan</span></div><div class="stat"><b id="correct">0</b><span>Doğru</span></div><div class="stat"><b id="wrong">0</b><span>Yanlış</span></div><div class="stat"><b id="score">0%</b><span>Analitik sezgi</span></div></div>
 <div class="tabs"><button class="tab active" onclick="setMode('egim',this)">Eğim</button><button class="tab" onclick="setMode('uzaklik',this)">Uzaklık</button><button class="tab" onclick="setMode('orta',this)">Orta Nokta</button><button class="tab" onclick="setMode('denklem',this)">Doğru Denklemi</button><button class="tab" onclick="setMode('quiz',this)">Analitik Challenge</button></div>
 
@@ -61,9 +61,9 @@ canvas{width:100%;height:500px;border-radius:24px;background:rgba(2,6,23,.46);bo
 <section class="card" style="margin-top:16px">
 <h2>Mini Kural Defteri</h2>
 <div class="lessonGrid">
-<div class="lesson"><h3>Eğim</h3><p>m = (y₂-y₁)/(x₂-x₁). Pozitif eğim yükselir, negatif eğim düşer.</p></div>
-<div class="lesson"><h3>Uzaklık</h3><p>İki nokta arası uzaklık Pisagor’dan gelir: √((Δx)²+(Δy)²).</p></div>
-<div class="lesson"><h3>Orta Nokta</h3><p>x ve y değerlerinin ortalaması alınır: ((x₁+x₂)/2, (y₁+y₂)/2).</p></div>
+<div class="lesson"><h3>Eğim</h3><p>m = (y₂-y₁)/(x₂-x₁). Eğim ondalık yazılmaz; mümkünse sadeleştirilmiş kesir olarak kalır. Örn: 3/9 = 1/3.</p></div>
+<div class="lesson"><h3>Uzaklık</h3><p>İki nokta arası uzaklık Pisagor’dan gelir: √((Δx)²+(Δy)²). Kök tam çıkmıyorsa yaklaşık değil, köklü ifade korunur.</p></div>
+<div class="lesson"><h3>Orta Nokta</h3><p>x ve y değerlerinin ortalaması alınır: ((x₁+x₂)/2, (y₁+y₂)/2). Yarım değerler 0,5 değil 1/2 biçiminde gösterilir.</p></div>
 </div>
 </section>
 <div class="footer">ENGİN360 © 2026 · Analitik Geometri Laboratuvarı</div>
@@ -78,83 +78,137 @@ function sx(x){return 60+(x-xmin)/(xmax-xmin)*(canvas.width-120)}
 function sy(y){return canvas.height-60-(y-ymin)/(ymax-ymin)*(canvas.height-120)}
 function wx(X){return Math.round((xmin+(X-60)/(canvas.width-120)*(xmax-xmin))*10)/10}
 function wy(Y){return Math.round((ymin+(canvas.height-60-Y)/(canvas.height-120)*(ymax-ymin))*10)/10}
-function fmt(n){if(!isFinite(n))return "tanımsız"; if(Math.abs(n-Math.round(n))<.01)return String(Math.round(n)); return (Math.round(n*10)/10).toString()}
+function gcd(a,b){a=Math.abs(Math.round(a));b=Math.abs(Math.round(b));while(b){let t=b;b=a%b;a=t}return a||1}
+function simplify(num,den=1){
+ num=Math.round(num);den=Math.round(den);
+ if(den===0)return {num:num,den:0};
+ if(num===0)return {num:0,den:1};
+ if(den<0){num=-num;den=-den}
+ let g=gcd(num,den);return {num:num/g,den:den/g};
+}
+function fracText(num,den=1){
+ let f=simplify(num,den); if(f.den===0)return 'tanımsız';
+ if(f.den===1)return String(f.num); return `${f.num}/${f.den}`;
+}
+function absFracText(f){return fracText(Math.abs(f.num),f.den)}
+function valueToFracText(v){
+ if(!isFinite(v))return 'tanımsız';
+ let den=1000, num=Math.round(v*den); return fracText(num,den);
+}
+function slopeRawText(){return `${data.dy}/${data.dx}`}
+function slopeText(){return data.dx===0?'tanımsız':fracText(data.dy,data.dx)}
+function distText(){
+ let n=data.dx*data.dx+data.dy*data.dy, r=Math.sqrt(n);
+ if(Number.isInteger(r))return String(r);
+ return `√${n}`;
+}
+function distApproxText(){return Math.round(data.dist*100)/100}
+function midpointText(){return `(${fracText(A.x+B.x,2)},${fracText(A.y+B.y,2)})`}
+function pointText(p){return `(${fracText(p.x)},${fracText(p.y)})`}
+function equationText(){
+ if(data.dx===0)return `x=${fracText(A.x)}`;
+ let m=simplify(data.dy,data.dx);
+ let n=simplify(A.y*m.den-m.num*A.x,m.den);
+ let xpart='';
+ if(m.num===0)xpart='0';
+ else if(m.den===1 && m.num===1)xpart='x';
+ else if(m.den===1 && m.num===-1)xpart='-x';
+ else xpart=`${fracText(m.num,m.den)}x`;
+ if(m.num===0)return `y=${fracText(n.num,n.den)}`;
+ if(n.num===0)return `y=${xpart}`;
+ return `y=${xpart}${n.num>0?'+':'-'}${absFracText(n)}`;
+}
 function calc(){
  let dx=B.x-A.x, dy=B.y-A.y, slope=dx===0?Infinity:dy/dx, dist=Math.hypot(dx,dy), mid={x:(A.x+B.x)/2,y:(A.y+B.y)/2};
- let n=isFinite(slope)? A.y-slope*A.x : null;
- data={dx,dy,slope,dist,mid,n};
- $('aText').textContent=`(${fmt(A.x)},${fmt(A.y)})`; $('bText').textContent=`(${fmt(B.x)},${fmt(B.y)})`;
- $('dxText').textContent=fmt(dx); $('dyText').textContent=fmt(dy); $('slopeText').textContent=fmt(slope); $('distText').textContent=fmt(dist);
- $('midText').textContent=`(${fmt(mid.x)},${fmt(mid.y)})`;
- $('eqText').textContent=isFinite(slope)?`y=${fmt(slope)}x${n>=0?"+":""}${fmt(n)}`:`x=${fmt(A.x)}`;
+ let m=dx===0?{num:1,den:0}:simplify(dy,dx);
+ let n=dx===0?null:simplify(A.y*m.den-m.num*A.x,m.den);
+ data={dx,dy,slope,dist,mid,m,n};
+ $('aText').textContent=pointText(A); $('bText').textContent=pointText(B);
+ $('dxText').textContent=fracText(dx); $('dyText').textContent=fracText(dy); $('slopeText').textContent=slopeText(); $('distText').textContent=distText();
+ $('midText').textContent=midpointText(); $('eqText').textContent=equationText();
 }
 function bg(){
- ctx.clearRect(0,0,canvas.width,canvas.height); let g=ctx.createLinearGradient(0,0,canvas.width,canvas.height);g.addColorStop(0,"rgba(15,23,42,.98)");g.addColorStop(1,"rgba(35,5,52,.92)");ctx.fillStyle=g;ctx.fillRect(0,0,canvas.width,canvas.height);
- ctx.strokeStyle="rgba(255,255,255,.09)";ctx.lineWidth=1;
+ ctx.clearRect(0,0,canvas.width,canvas.height); let g=ctx.createLinearGradient(0,0,canvas.width,canvas.height);g.addColorStop(0,'rgba(15,23,42,.98)');g.addColorStop(1,'rgba(35,5,52,.92)');ctx.fillStyle=g;ctx.fillRect(0,0,canvas.width,canvas.height);
+ ctx.strokeStyle='rgba(255,255,255,.09)';ctx.lineWidth=1;
  for(let x=xmin;x<=xmax;x++){ctx.beginPath();ctx.moveTo(sx(x),60);ctx.lineTo(sx(x),canvas.height-60);ctx.stroke()}
  for(let y=ymin;y<=ymax;y++){ctx.beginPath();ctx.moveTo(60,sy(y));ctx.lineTo(canvas.width-60,sy(y));ctx.stroke()}
- ctx.save();ctx.strokeStyle="#38bdf8";ctx.lineWidth=3;ctx.shadowColor="#38bdf8";ctx.shadowBlur=12;ctx.beginPath();ctx.moveTo(60,sy(0));ctx.lineTo(canvas.width-60,sy(0));ctx.stroke();ctx.beginPath();ctx.moveTo(sx(0),60);ctx.lineTo(sx(0),canvas.height-60);ctx.stroke();ctx.restore();
- ctx.fillStyle="rgba(255,255,255,.70)";ctx.font="12px Arial";ctx.textAlign="center";
+ ctx.save();ctx.strokeStyle='#38bdf8';ctx.lineWidth=3;ctx.shadowColor='#38bdf8';ctx.shadowBlur=12;ctx.beginPath();ctx.moveTo(60,sy(0));ctx.lineTo(canvas.width-60,sy(0));ctx.stroke();ctx.beginPath();ctx.moveTo(sx(0),60);ctx.lineTo(sx(0),canvas.height-60);ctx.stroke();ctx.restore();
+ ctx.fillStyle='rgba(255,255,255,.70)';ctx.font='12px Arial';ctx.textAlign='center';
  for(let x=xmin;x<=xmax;x+=2)if(x!==0)ctx.fillText(x,sx(x),sy(0)+18);
- ctx.textAlign="right";for(let y=ymin;y<=ymax;y+=2)if(y!==0)ctx.fillText(y,sx(0)-8,sy(y)+4);
+ ctx.textAlign='right';for(let y=ymin;y<=ymax;y+=2)if(y!==0)ctx.fillText(y,sx(0)-8,sy(y)+4);
 }
-function line(p,q,color,w=5,dash=false){
- ctx.save();ctx.strokeStyle=color;ctx.lineWidth=w;ctx.lineCap="round";ctx.shadowColor=color;ctx.shadowBlur=14;if(dash)ctx.setLineDash([10,8]);ctx.beginPath();ctx.moveTo(sx(p.x),sy(p.y));ctx.lineTo(sx(q.x),sy(q.y));ctx.stroke();ctx.restore();
-}
-function drawPoint(name,p,color){
- ctx.save();ctx.fillStyle=color;ctx.shadowColor=color;ctx.shadowBlur=18;ctx.beginPath();ctx.arc(sx(p.x),sy(p.y),10,0,Math.PI*2);ctx.fill();ctx.fillStyle="#fff";ctx.font="900 20px Arial";ctx.textAlign="center";ctx.fillText(name+"("+fmt(p.x)+","+fmt(p.y)+")",sx(p.x),sy(p.y)-18);ctx.restore();
-}
+function line(p,q,color,w=5,dash=false){ctx.save();ctx.strokeStyle=color;ctx.lineWidth=w;ctx.lineCap='round';ctx.shadowColor=color;ctx.shadowBlur=14;if(dash)ctx.setLineDash([10,8]);ctx.beginPath();ctx.moveTo(sx(p.x),sy(p.y));ctx.lineTo(sx(q.x),sy(q.y));ctx.stroke();ctx.restore()}
+function drawPoint(name,p,color){ctx.save();ctx.fillStyle=color;ctx.shadowColor=color;ctx.shadowBlur=18;ctx.beginPath();ctx.arc(sx(p.x),sy(p.y),10,0,Math.PI*2);ctx.fill();ctx.fillStyle='#fff';ctx.font='900 20px Arial';ctx.textAlign='center';ctx.fillText(name+pointText(p),sx(p.x),sy(p.y)-18);ctx.restore()}
 function draw(){
  calc(); bg();
- // extend line
- if(isFinite(data.slope)){
-   let p1={x:xmin,y:data.slope*xmin+data.n}, p2={x:xmax,y:data.slope*xmax+data.n}; line(p1,p2,"rgba(56,189,248,.75)",3,true);
- } else line({x:A.x,y:ymin},{x:A.x,y:ymax},"rgba(56,189,248,.75)",3,true);
- line(A,B,"#ec4899",6);
- if(mode==='egim'||mode==='denklem'||mode==='quiz'){drawSlopeTriangle();}
- if(mode==='uzaklik'){drawDistance();}
- if(mode==='orta'){drawMid();}
- drawPoint("A",A,"#ffd60a"); drawPoint("B",B,"#22c55e");
+ if(data.dx!==0){let p1={x:xmin,y:data.slope*xmin+(data.n.num/data.n.den)}, p2={x:xmax,y:data.slope*xmax+(data.n.num/data.n.den)}; line(p1,p2,'rgba(56,189,248,.75)',3,true)}
+ else line({x:A.x,y:ymin},{x:A.x,y:ymax},'rgba(56,189,248,.75)',3,true);
+ line(A,B,'#ec4899',6);
+ if(mode==='egim'||mode==='denklem'||mode==='quiz')drawSlopeTriangle();
+ if(mode==='uzaklik')drawDistance();
+ if(mode==='orta')drawMid();
+ drawPoint('A',A,'#ffd60a'); drawPoint('B',B,'#22c55e');
 }
 function drawSlopeTriangle(){
- let C={x:B.x,y:A.y}; line(A,C,"#ffd60a",4); line(C,B,"#67e8f9",4);
- text("Δx="+fmt(data.dx),(sx(A.x)+sx(C.x))/2,sy(A.y)+30,"#ffd60a",18);
- text("Δy="+fmt(data.dy),sx(C.x)+45,(sy(C.y)+sy(B.y))/2,"#67e8f9",18);
- text("m = Δy / Δx = "+fmt(data.slope),canvas.width/2,45,"#fff176",22);
+ let C={x:B.x,y:A.y}; line(A,C,'#ffd60a',4); line(C,B,'#67e8f9',4);
+ text('Δx='+fracText(data.dx),(sx(A.x)+sx(C.x))/2,sy(A.y)+30,'#ffd60a',18);
+ text('Δy='+fracText(data.dy),sx(C.x)+45,(sy(C.y)+sy(B.y))/2,'#67e8f9',18);
+ let raw = data.dx===0?'tanımsız':slopeRawText();
+ let simp = slopeText();
+ let label = data.dx===0 ? 'm = tanımsız' : (raw===simp ? `m = Δy / Δx = ${simp}` : `m = Δy / Δx = ${raw} = ${simp}`);
+ text(label,canvas.width/2,45,'#fff176',22);
 }
-function drawDistance(){text("Uzaklık = √(Δx² + Δy²) = "+fmt(data.dist),canvas.width/2,45,"#fff176",22)}
-function drawMid(){let m=data.mid;ctx.save();ctx.fillStyle="#38bdf8";ctx.shadowColor="#38bdf8";ctx.shadowBlur=18;ctx.beginPath();ctx.arc(sx(m.x),sy(m.y),9,0,Math.PI*2);ctx.fill();ctx.restore();text("M"+`(${fmt(m.x)},${fmt(m.y)})`,sx(m.x),sy(m.y)-22,"#67e8f9",20)}
-function text(t,x,y,color,size){ctx.save();ctx.fillStyle=color;ctx.font="900 "+size+"px Arial";ctx.textAlign="center";ctx.shadowColor=color;ctx.shadowBlur=12;ctx.fillText(t,x,y);ctx.restore()}
+function drawDistance(){text('Uzaklık = √(Δx² + Δy²) = '+distText(),canvas.width/2,45,'#fff176',22)}
+function drawMid(){let m=data.mid;ctx.save();ctx.fillStyle='#38bdf8';ctx.shadowColor='#38bdf8';ctx.shadowBlur=18;ctx.beginPath();ctx.arc(sx(m.x),sy(m.y),9,0,Math.PI*2);ctx.fill();ctx.restore();text('M'+midpointText(),sx(m.x),sy(m.y)-22,'#67e8f9',20)}
+function text(t,x,y,color,size){ctx.save();ctx.fillStyle=color;ctx.font='900 '+size+'px Arial';ctx.textAlign='center';ctx.shadowColor=color;ctx.shadowBlur=12;ctx.fillText(t,x,y);ctx.restore()}
 function setMode(m,btn){
  mode=m;document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));btn.classList.add('active');
- const names={egim:"Eğim",uzaklik:"Uzaklık",orta:"Orta Nokta",denklem:"Doğru Denklemi",quiz:"Analitik Challenge"};
+ const names={egim:'Eğim',uzaklik:'Uzaklık',orta:'Orta Nokta',denklem:'Doğru Denklemi',quiz:'Analitik Challenge'};
  $('modeName').textContent=names[m];$('taskTitle').textContent=names[m];
- if(m==='egim'){$('hint').textContent="Dikey değişim / yatay değişim eğimi verir.";$('ruleChip').textContent="m = Δy / Δx";}
- if(m==='uzaklik'){$('hint').textContent="İki nokta arasındaki uzaklık Pisagor mantığıyla bulunur.";$('ruleChip').textContent="d = √(Δx²+Δy²)";}
- if(m==='orta'){$('hint').textContent="Orta nokta x ve y değerlerinin ortalamasıdır.";$('ruleChip').textContent="M = ortalama nokta";}
- if(m==='denklem'){$('hint').textContent="Doğrunun denklemi eğim ve y-kesişiminden okunur.";$('ruleChip').textContent="y = mx+n";}
- if(m==='quiz'){$('hint').textContent="Şekli incele ve analitik geometri sorularını cevapla.";$('ruleChip').textContent="Challenge";}
+ if(m==='egim'){$('hint').textContent='Dikey değişim / yatay değişim eğimi verir. Sonuç ondalık değil, sade kesir olarak yazılır.';$('ruleChip').textContent='m = Δy / Δx'}
+ if(m==='uzaklik'){$('hint').textContent='İki nokta arasındaki uzaklık Pisagor mantığıyla bulunur. Kök tam çıkmıyorsa köklü ifade korunur.';$('ruleChip').textContent='d = √(Δx²+Δy²)'}
+ if(m==='orta'){$('hint').textContent='Orta nokta x ve y değerlerinin ortalamasıdır. 0,5 yerine 1/2 yazılır.';$('ruleChip').textContent='M = ortalama nokta'}
+ if(m==='denklem'){$('hint').textContent='Doğrunun denklemi eğim ve y-kesişiminden bulunur. Katsayılar sade kesir olarak kalır.';$('ruleChip').textContent='y = mx+n'}
+ if(m==='quiz'){$('hint').textContent='Şekli incele; eğim, orta nokta, uzaklık ve denklem sorularını kesirli mantıkla cevapla.';$('ruleChip').textContent='Challenge'}
  draw();makeQuestions(true);
 }
 function randomize(){A={x:Math.floor(Math.random()*13)-7,y:Math.floor(Math.random()*11)-5};B={x:Math.floor(Math.random()*13)-2,y:Math.floor(Math.random()*11)-5};if(A.x===B.x)B.x+=3;draw();makeQuestions(true)}
-function preset(t){if(t==='positive'){A={x:-6,y:-3};B={x:5,y:4}}else{A={x:-6,y:4};B={x:5,y:-3}}draw();makeQuestions(true)}
+function preset(t){if(t==='positive'){A={x:-6,y:-3};B={x:3,y:0}}else{A={x:-6,y:4};B={x:3,y:1}}draw();makeQuestions(true)}
 function mix(correct,pool){return [...new Set([String(correct),...pool.map(String)])].sort(()=>Math.random()-.5).slice(0,4)}
-function q(title,correct,pool){let opts=mix(correct,pool);return `<div class="q"><b>${title}</b><div class="opts">${opts.map(o=>`<button class="opt" onclick="answer(this,'${encodeURIComponent(o)}','${encodeURIComponent(String(correct))}')">${o}</button>`).join("")}</div></div>`}
+function q(title,correct,pool){let opts=mix(correct,pool);return `<div class="q"><b>${title}</b><div class="opts">${opts.map(o=>`<button class="opt" onclick="answer(this,'${encodeURIComponent(o)}','${encodeURIComponent(String(correct))}')">${o}</button>`).join('')}</div></div>`}
 function makeQuestions(){
- let html="";
- if(mode==='egim'){html+=q("Δx kaçtır?",fmt(data.dx),[fmt(data.dy),fmt(data.dist),0]);html+=q("Eğim kaçtır?",fmt(data.slope),[fmt(-data.slope),fmt(data.dx),fmt(data.dy)]);}
- else if(mode==='uzaklik'){html+=q("İki nokta arası uzaklık yaklaşık kaçtır?",fmt(data.dist),[fmt(Math.abs(data.dx)),fmt(Math.abs(data.dy)),fmt(data.dist+2)]);html+=q("Uzaklık formülü hangi mantıktan gelir?","Pisagor",["Ortalama","Çarpanlara ayırma","Kareköklü eşitsizlik"]);}
- else if(mode==='orta'){html+=q("Orta noktanın x değeri kaçtır?",fmt(data.mid.x),[fmt(A.x),fmt(B.x),fmt(data.mid.y)]);html+=q("Orta nokta hangisidir?",`(${fmt(data.mid.x)},${fmt(data.mid.y)})`,[`(${fmt(A.x)},${fmt(A.y)})`,`(${fmt(B.x)},${fmt(B.y)})`,`(${fmt(data.mid.y)},${fmt(data.mid.x)})`]);}
- else if(mode==='denklem'){html+=q("Doğrunun eğimi kaçtır?",fmt(data.slope),[fmt(data.n),fmt(data.dx),fmt(data.dy)]);html+=q("Doğrunun denklemi hangisidir?",$('eqText').textContent,["y=x","y=-x","x="+fmt(A.x)]);}
- else{html+=q("Eğim kaçtır?",fmt(data.slope),[fmt(data.dx),fmt(data.dy),fmt(-data.slope)]);html+=q("Orta nokta hangisidir?",`(${fmt(data.mid.x)},${fmt(data.mid.y)})`,[`(${fmt(A.x)},${fmt(A.y)})`,`(${fmt(B.x)},${fmt(B.y)})`,`(${fmt(data.mid.y)},${fmt(data.mid.x)})`]);html+=q("Uzaklık yaklaşık kaçtır?",fmt(data.dist),[fmt(Math.abs(data.dx)),fmt(Math.abs(data.dy)),fmt(data.dist+3)]);}
+ let html='';
+ let wrongSlope1=data.dx===0?'0':fracText(-data.dy,data.dx), wrongSlope2=fracText(data.dx||1,data.dy||1);
+ if(mode==='egim'){
+   html+=q('Δx kaçtır?',fracText(data.dx),[fracText(data.dy),distText(),fracText(-data.dx)]);
+   html+=q('Eğim kaçtır? Ondalık değil, sade kesir yazımı aranır.',slopeText(),[wrongSlope1,fracText(data.dy),fracText(data.dx)]);
+ }
+ else if(mode==='uzaklik'){
+   html+=q('İki nokta arası uzaklık kaçtır?',distText(),[fracText(Math.abs(data.dx)),fracText(Math.abs(data.dy)),`√${Math.abs(data.dx*data.dy)}`]);
+   html+=q('Uzaklık formülü hangi mantıktan gelir?','Pisagor',['Ortalama','Eğim sadeleştirme','Denklem çözme']);
+ }
+ else if(mode==='orta'){
+   html+=q('Orta noktanın x değeri kaçtır?',fracText(A.x+B.x,2),[fracText(A.x),fracText(B.x),fracText(A.y+B.y,2)]);
+   html+=q('Orta nokta hangisidir?',midpointText(),[pointText(A),pointText(B),`(${fracText(A.y+B.y,2)},${fracText(A.x+B.x,2)})`]);
+ }
+ else if(mode==='denklem'){
+   html+=q('Doğrunun eğimi kaçtır?',slopeText(),[data.n?fracText(data.n.num,data.n.den):'0',fracText(data.dx),fracText(data.dy)]);
+   html+=q('Doğrunun denklemi hangisidir?',equationText(),['y=x','y=-x','x='+fracText(A.x)]);
+ }
+ else{
+   html+=q('Eğim kaçtır?',slopeText(),[fracText(data.dx),fracText(data.dy),wrongSlope1]);
+   html+=q('Orta nokta hangisidir?',midpointText(),[pointText(A),pointText(B),`(${fracText(A.y+B.y,2)},${fracText(A.x+B.x,2)})`]);
+   html+=q('Uzaklık kaçtır?',distText(),[fracText(Math.abs(data.dx)),fracText(Math.abs(data.dy)),distApproxText()]);
+   html+=q('Doğru denklemi hangisidir?',equationText(),['y=x','y=-x','x='+fracText(A.x)]);
+ }
  $('questions').innerHTML=html;
 }
-function answer(btn,val,cor){val=decodeURIComponent(val);cor=decodeURIComponent(cor);[...btn.parentElement.children].forEach(b=>b.disabled=true);total++;if(val===cor){correct++;btn.classList.add("correct");$('feedback').innerHTML="✅ Doğru. Analitik sezgin güçleniyor."}else{wrong++;btn.classList.add("wrong");[...btn.parentElement.children].forEach(b=>{if(b.textContent===cor)b.classList.add("correct")});$('feedback').innerHTML="❌ Yanlış. Doğru cevap işaretlendi; koordinatları tekrar oku."}updateStats()}
-function updateStats(){$('total').textContent=total;$('correct').textContent=correct;$('wrong').textContent=wrong;$('score').textContent=total?Math.round(correct/total*100)+"%":"0%"}
-function resetStats(){total=correct=wrong=0;updateStats();$('feedback').textContent="Puan sıfırlandı."}
-canvas.addEventListener('pointerdown',e=>{let r=canvas.getBoundingClientRect(),X=(e.clientX-r.left)*canvas.width/r.width,Y=(e.clientY-r.top)*canvas.height/r.height;if(Math.hypot(sx(A.x)-X,sy(A.y)-Y)<30)drag='A';else if(Math.hypot(sx(B.x)-X,sy(B.y)-Y)<30)drag='B';});
+function answer(btn,val,cor){val=decodeURIComponent(val);cor=decodeURIComponent(cor);[...btn.parentElement.children].forEach(b=>b.disabled=true);total++;if(val===cor){correct++;btn.classList.add('correct');$('feedback').innerHTML='✅ Doğru. Kesirli analitik geometri mantığı oturuyor.'}else{wrong++;btn.classList.add('wrong');[...btn.parentElement.children].forEach(b=>{if(b.textContent===cor)b.classList.add('correct')});$('feedback').innerHTML='❌ Yanlış. Doğru cevap işaretlendi; özellikle eğimi ondalığa çevirmeden sadeleştirerek oku.'}updateStats()}
+function updateStats(){$('total').textContent=total;$('correct').textContent=correct;$('wrong').textContent=wrong;$('score').textContent=total?Math.round(correct/total*100)+'%':'0%'}
+function resetStats(){total=correct=wrong=0;updateStats();$('feedback').textContent='Puan sıfırlandı.'}
+canvas.addEventListener('pointerdown',e=>{let r=canvas.getBoundingClientRect(),X=(e.clientX-r.left)*canvas.width/r.width,Y=(e.clientY-r.top)*canvas.height/r.height;if(Math.hypot(sx(A.x)-X,sy(A.y)-Y)<30)drag='A';else if(Math.hypot(sx(B.x)-X,sy(B.y)-Y)<30)drag='B'});
 canvas.addEventListener('pointermove',e=>{if(!drag)return;let r=canvas.getBoundingClientRect(),X=(e.clientX-r.left)*canvas.width/r.width,Y=(e.clientY-r.top)*canvas.height/r.height;let p={x:Math.max(xmin,Math.min(xmax,Math.round(wx(X)))),y:Math.max(ymin,Math.min(ymax,Math.round(wy(Y))))};if(drag==='A')A=p;else B=p;draw();makeQuestions(false)});
-canvas.addEventListener('pointerup',()=>drag=null);
+canvas.addEventListener('pointerup',()=>drag=null);canvas.addEventListener('pointerleave',()=>drag=null);
 draw();makeQuestions(true);
 </script>
 </body>
