@@ -64,7 +64,7 @@ canvas{width:100%;height:500px;border-radius:24px;background:rgba(2,6,23,.46);bo
 
 <section class="hero">
   <div class="logo">ENGİN360</div>
-  <div class="subtitle">📐 Üçgenler Laboratuvarı · LAB PRO v1.1<br>Köşeleri sürükle, açıları ve kenarları canlı gör. Kenar ölçüleri küçük birim referanslıdır; dik üçgen modunda diklik kilitli kalır.</div>
+  <div class="subtitle">📐 Üçgenler Laboratuvarı · LAB PRO v1.2<br>Köşeleri sürükle, açıları ve kenarları canlı gör. Açı yuvarlamaları 180° toplamını korur; ikizkenarda eş kenarın karşı açıları eşit gösterilir; dik üçgen modunda diklik kilitli kalır.</div>
 </section>
 
 <div class="stats">
@@ -159,18 +159,55 @@ function angleAt(p,q,r){
   let cos=Math.max(-1,Math.min(1,dot/(m1*m2)));
   return Math.acos(cos)*180/Math.PI;
 }
+function displayedEqual(x,y){return Math.abs(x-y)<0.0001}
+function sideClassFromDisplayed(sAB,sBC,sCA){
+  const ab_bc=displayedEqual(sAB,sBC), bc_ca=displayedEqual(sBC,sCA), ca_ab=displayedEqual(sCA,sAB);
+  if(ab_bc && bc_ca) return "Eşkenar";
+  if(ab_bc || bc_ca || ca_ab) return "İkizkenar";
+  return "Çeşitkenar";
+}
+function roundedTriangleAngles(A,B,C,sAB,sBC,sCA){
+  // Ekrandaki kenar eşitliği ile açı eşitliği aynı mantığa bağlandı.
+  // AB karşısı C, BC karşısı A, CA karşısı B'dir.
+  if(displayedEqual(sAB,sBC) && displayedEqual(sBC,sCA)) return {A:60,B:60,C:60};
+  if(displayedEqual(sAB,sBC)){
+    let eq=Math.round((A+C)/2);
+    return {A:eq,B:180-2*eq,C:eq};
+  }
+  if(displayedEqual(sBC,sCA)){
+    let eq=Math.round((A+B)/2);
+    return {A:eq,B:eq,C:180-2*eq};
+  }
+  if(displayedEqual(sCA,sAB)){
+    let eq=Math.round((B+C)/2);
+    return {A:180-2*eq,B:eq,C:eq};
+  }
+
+  // Çeşitkenarda yuvarlama hatasını dağıt: ekrandaki toplam daima 180° olsun.
+  let vals=[A,B,C];
+  let floors=vals.map(Math.floor);
+  let remain=180-floors.reduce((a,b)=>a+b,0);
+  let order=vals.map((v,i)=>({i,frac:v-Math.floor(v)})).sort((x,y)=>y.frac-x.frac);
+  for(let k=0;k<remain;k++) floors[order[k%3].i]++;
+  return {A:floors[0],B:floors[1],C:floors[2]};
+}
+function angleClassFromRounded(rA,rB,rC){
+  let angles=[rA,rB,rC];
+  if(angles.some(x=>x===90)) return "Dik açılı";
+  if(angles.some(x=>x>90)) return "Geniş açılı";
+  return "Dar açılı";
+}
 function calc(){
   let AB=dist(P.A,P.B), BC=dist(P.B,P.C), CA=dist(P.C,P.A);
   let A=angleAt(P.A,P.B,P.C), B=angleAt(P.B,P.A,P.C), C=angleAt(P.C,P.A,P.B);
   let area=area2(P.A,P.B,P.C)/2;
-  let angles=[A,B,C];
-  let angleType = angles.some(x=>Math.abs(x-90)<1.8) ? "Dik açılı" : (angles.some(x=>x>90) ? "Geniş açılı" : "Dar açılı");
-  let eps=0.45;
   let sAB=br(AB), sBC=br(BC), sCA=br(CA);
-  let sideType = (Math.abs(sAB-sBC)<eps && Math.abs(sBC-sCA)<eps) ? "Eşkenar" : ((Math.abs(sAB-sBC)<eps || Math.abs(sBC-sCA)<eps || Math.abs(sCA-sAB)<eps) ? "İkizkenar" : "Çeşitkenar");
-  data={AB,BC,CA,A,B,C,area,angleType,sideType,sAB,sBC,sCA,sArea:+(area/(UNIT*UNIT)).toFixed(1)};
-  $('angleA').textContent=Math.round(A)+"°"; $('angleB').textContent=Math.round(B)+"°"; $('angleC').textContent=Math.round(C)+"°";
-  $('sumAngles').textContent=Math.round(A+B+C)+"°";
+  let r=roundedTriangleAngles(A,B,C,sAB,sBC,sCA);
+  let angleType = angleClassFromRounded(r.A,r.B,r.C);
+  let sideType = sideClassFromDisplayed(sAB,sBC,sCA);
+  data={AB,BC,CA,A,B,C,rA:r.A,rB:r.B,rC:r.C,area,angleType,sideType,sAB,sBC,sCA,sArea:+(area/(UNIT*UNIT)).toFixed(1)};
+  $('angleA').textContent=data.rA+"°"; $('angleB').textContent=data.rB+"°"; $('angleC').textContent=data.rC+"°";
+  $('sumAngles').textContent=(data.rA+data.rB+data.rC)+"°";
   $('sideAB').textContent=sAB+" br"; $('sideBC').textContent=sBC+" br"; $('sideCA').textContent=sCA+" br";
   $('areaText').textContent=data.sArea+" br²";
   $('angleType').textContent=angleType; $('sideType').textContent=sideType;
@@ -190,9 +227,9 @@ function drawTriangle(){
   ctx.strokeStyle="#38bdf8";ctx.lineWidth=6;ctx.lineJoin="round";ctx.shadowColor="#38bdf8";ctx.shadowBlur=16;
   ctx.beginPath();ctx.moveTo(P.A.x,P.A.y);ctx.lineTo(P.B.x,P.B.y);ctx.lineTo(P.C.x,P.C.y);ctx.closePath();ctx.fill();ctx.stroke();
   ctx.restore();
-  drawAngle(P.A,P.B,P.C,"A",data.A,72);
-  drawAngle(P.B,P.C,P.A,"B",data.B,72);
-  drawAngle(P.C,P.A,P.B,"C",data.C,72);
+  drawAngle(P.A,P.B,P.C,"A",data.rA,72);
+  drawAngle(P.B,P.C,P.A,"B",data.rB,72);
+  drawAngle(P.C,P.A,P.B,"C",data.rC,72);
   if(rightLocked) drawRightMark();
   drawSides();
   if(mode==='pisagor') drawPythagoras();
@@ -298,14 +335,36 @@ function setMode(m,btn){
   if(m==='quiz') $('hint').textContent="Üçgeni incele ve soruları cevapla.";
   draw(); makeQuestions(true);
 }
+function activateTab(index){
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.tab')[index].classList.add('active');
+}
+function setFreeExploreText(title){
+  $('modeName').textContent=title; $('taskTitle').textContent=title;
+  $('hint').textContent="Köşeleri sürükle. Kenarlar küçük birimle ölçülür; iç açı toplamı 180° kalır.";
+  $('ruleChip').textContent="İç açı toplamı 180°";
+}
 function preset(t, keepMode){
   if(t==='right'){
     rightLocked=true;
     P={A:{x:220,y:190},B:{x:220,y:470},C:{x:610,y:470}};
-    if(!keepMode){mode='pisagor';document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.tab')[2].classList.add('active');$('modeName').textContent="Pisagor";$('taskTitle').textContent="Pisagor";$('hint').textContent="Diklik kilitli. A sadece dikey, C sadece yatay hareket eder; B=90° sabit kalır.";$('ruleChip').textContent="B açısı sabit 90°";}
+    if(!keepMode){mode='pisagor';activateTab(2);$('modeName').textContent="Pisagor";$('taskTitle').textContent="Pisagor";$('hint').textContent="Diklik kilitli. A sadece dikey, C sadece yatay hareket eder; B=90° sabit kalır.";$('ruleChip').textContent="B açısı sabit 90°";}
   }
-  else if(t==='isosceles'){rightLocked=false;P={A:{x:450,y:145},B:{x:220,y:465},C:{x:680,y:465}};}
-  else{rightLocked=false;P={A:{x:180+Math.random()*260,y:110+Math.random()*170},B:{x:120+Math.random()*240,y:400+Math.random()*90},C:{x:560+Math.random()*220,y:360+Math.random()*120}};}
+  else if(t==='isosceles'){
+    rightLocked=false;
+    P={A:{x:450,y:145},B:{x:220,y:465},C:{x:680,y:465}};
+    if(mode==='pisagor'){mode='kesif';activateTab(0);setFreeExploreText("Üçgen Keşfi");}
+  }
+  else{
+    if(mode==='pisagor'){
+      rightLocked=true;
+      let h=190+Math.random()*160, w=260+Math.random()*210;
+      P={A:{x:230,y:470-h},B:{x:230,y:470},C:{x:230+w,y:470}};
+    }else{
+      rightLocked=false;
+      P={A:{x:180+Math.random()*260,y:110+Math.random()*170},B:{x:120+Math.random()*240,y:400+Math.random()*90},C:{x:560+Math.random()*220,y:360+Math.random()*120}};
+    }
+  }
   draw(); makeQuestions(true); $('feedback').textContent= rightLocked ? "Dik üçgen kilitlendi. B açısı 90° kalır." : "Yeni üçgen oluşturuldu.";
 }
 function toggleLabels(){labels=!labels;draw()}
@@ -318,7 +377,7 @@ function makeQuestions(force){
   let html="";
   if(mode==='kesif'){
     html+=q("İç açıların toplamı kaç derecedir?","180°",["90°","120°","360°"]);
-    html+=q("A açısı yaklaşık kaç derecedir?",Math.round(data.A)+"°",[Math.round(data.B)+"°",Math.round(data.C)+"°","90°"]);
+    html+=q("A açısı yaklaşık kaç derecedir?",data.rA+"°",[data.rB+"°",data.rC+"°","90°"]);
   }else if(mode==='tur'){
     html+=q("Bu üçgen açılarına göre nedir?",data.angleType,["Dar açılı","Dik açılı","Geniş açılı"]);
     html+=q("Bu üçgen kenarlarına göre nedir?",data.sideType,["Eşkenar","İkizkenar","Çeşitkenar"]);
@@ -372,8 +431,30 @@ canvas.addEventListener('pointermove',e=>{
   draw(); makeQuestions(false);
 });
 canvas.addEventListener('pointerup',e=>{drag=null});
+
+function runGeometryAudit(){
+  const samples=[
+    {name:"ikizkenar", A:{x:450,y:145},B:{x:220,y:465},C:{x:680,y:465}},
+    {name:"dik", A:{x:220,y:190},B:{x:220,y:470},C:{x:610,y:470}},
+    {name:"eşkenar", A:{x:450,y:150},B:{x:250,y:496.41},C:{x:650,y:496.41}},
+    {name:"çeşitkenar", A:{x:310,y:140},B:{x:160,y:455},C:{x:720,y:420}}
+  ];
+  let oldP=JSON.parse(JSON.stringify(P));
+  samples.forEach(s=>{
+    P={A:{...s.A},B:{...s.B},C:{...s.C}}; calc();
+    console.assert(data.rA+data.rB+data.rC===180, s.name+" açı toplamı 180 değil");
+    if(data.sideType==="İkizkenar"){
+      if(displayedEqual(data.sAB,data.sBC)) console.assert(data.rA===data.rC, s.name+" AB=BC iken A ve C eşit değil");
+      if(displayedEqual(data.sBC,data.sCA)) console.assert(data.rA===data.rB, s.name+" BC=CA iken A ve B eşit değil");
+      if(displayedEqual(data.sCA,data.sAB)) console.assert(data.rB===data.rC, s.name+" CA=AB iken B ve C eşit değil");
+    }
+    if(data.sideType==="Eşkenar") console.assert(data.rA===60 && data.rB===60 && data.rC===60, s.name+" eşkenar 60-60-60 değil");
+  });
+  P=oldP; calc();
+}
+
 function animate(){pulse+=0.035;draw();requestAnimationFrame(animate)}
-draw();makeQuestions(true);animate();
+runGeometryAudit();draw();makeQuestions(true);animate();
 </script>
 </body>
 </html>
