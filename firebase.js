@@ -1,7 +1,4 @@
-// ENGİN360 Firebase bağlantısı
-// Bu dosya tüm Firebase kullanan sayfalarda ortak kullanılacaktır.
-
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
@@ -15,8 +12,8 @@ const firebaseConfig = {
   measurementId: "G-1DVGR3MD40"
 };
 
-const app = initializeApp(firebaseConfig);
+const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-export { app, auth, db };
+export { app, auth, db, firebaseConfig };
