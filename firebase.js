@@ -6,7 +6,7 @@ import { getAuth } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth
 import { getFirestore } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
 const firebaseConfig = {
-  apiKey: "AlzaSyDj5Pnv0lNeChf_t2XGdhiru5hjwKb6ilw",
+  apiKey: "AIzaSyDj5Pnv0lNeChf_t2XGdhiru5hjwKb6iIw",
   authDomain: "engin360-56474.firebaseapp.com",
   projectId: "engin360-56474",
   storageBucket: "engin360-56474.firebasestorage.app",
