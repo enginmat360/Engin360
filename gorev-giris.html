@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ENGİN360 | Görev Merkezi Giriş</title>
+  <meta name="robots" content="noindex,nofollow">
+  <style>
+    :root{--bg1:#050512;--bg2:#111138;--purple:#a855f7;--blue:#38bdf8;--pink:#ec4899}
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100vh;font-family:Arial,Helvetica,sans-serif;color:#fff;background:
+      radial-gradient(circle at 15% 10%,rgba(168,85,247,.45),transparent 30%),
+      radial-gradient(circle at 90% 15%,rgba(56,189,248,.28),transparent 32%),
+      linear-gradient(145deg,var(--bg1),var(--bg2));display:grid;place-items:center;padding:20px}
+    .wrap{width:min(980px,100%);display:grid;grid-template-columns:1.05fr .95fr;gap:18px}
+    .hero,.card{border:1px solid rgba(255,255,255,.18);border-radius:28px;background:rgba(255,255,255,.065);
+      box-shadow:0 20px 60px rgba(0,0,0,.35);backdrop-filter:blur(12px)}
+    .hero{padding:32px;display:flex;flex-direction:column;justify-content:center}
+    .hero h1{font-size:clamp(38px,7vw,70px);margin:0 0 12px;background:linear-gradient(90deg,#f0abfc,#a855f7,#38bdf8);
+      -webkit-background-clip:text;color:transparent;font-style:italic}
+    .hero p{color:#dbeafe;line-height:1.65;margin:0 0 20px}
+    .hero a{color:#67e8f9;text-decoration:none;font-weight:800}
+    .card{padding:24px}
+    .tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:18px}
+    .tab{border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.07);color:#fff;border-radius:16px;padding:12px;cursor:pointer;font-weight:900}
+    .tab.active{background:linear-gradient(135deg,rgba(168,85,247,.85),rgba(56,189,248,.78))}
+    .panel{display:none}.panel.active{display:block}
+    label{display:block;color:#dbeafe;font-size:13px;font-weight:800;margin:12px 0 7px}
+    input{width:100%;border:1px solid rgba(255,255,255,.18);background:rgba(15,23,42,.72);color:#fff;border-radius:16px;padding:14px;outline:none}
+    input:focus{border-color:#67e8f9;box-shadow:0 0 0 3px rgba(103,232,249,.12)}
+    .primary{width:100%;border:none;border-radius:16px;padding:14px;margin-top:16px;cursor:pointer;color:#fff;font-weight:900;
+      background:linear-gradient(135deg,#a855f7,#38bdf8);box-shadow:0 0 24px rgba(56,189,248,.22)}
+    .linkbtn{display:block;width:100%;border:none;background:none;color:#67e8f9;font-weight:800;cursor:pointer;margin-top:14px}
+    .message{min-height:42px;margin-top:14px;border-radius:14px;padding:11px 12px;background:rgba(255,255,255,.06);color:#dbeafe;font-size:13px;line-height:1.45}
+    .message.error{background:rgba(239,68,68,.14);color:#fecaca;border:1px solid rgba(239,68,68,.25)}
+    .message.success{background:rgba(34,197,94,.14);color:#dcfce7;border:1px solid rgba(34,197,94,.25)}
+    @media(max-width:760px){.wrap{grid-template-columns:1fr}.hero{padding:24px}.card{padding:18px}}
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="hero">
+      <h1>ENGİN360</h1>
+      <p>Görevlerini sırayla gör, teslim et ve öğretmen onayıyla bir sonraki aşamaya geç. Bu sayfa görev sisteminin giriş kapısıdır.</p>
+      <a href="index.html">← Ana sayfaya dön</a>
+    </section>
+
+    <section class="card">
+      <div class="tabs">
+        <button class="tab active" data-target="loginPanel">Giriş Yap</button>
+        <button class="tab" data-target="registerPanel">Hesap Oluştur</button>
+      </div>
+
+      <form id="loginPanel" class="panel active">
+        <label for="loginEmail">E-posta</label>
+        <input id="loginEmail" type="email" autocomplete="email" required>
+        <label for="loginPassword">Şifre</label>
+        <input id="loginPassword" type="password" autocomplete="current-password" minlength="6" required>
+        <button class="primary" type="submit">Giriş Yap</button>
+        <button class="linkbtn" id="resetPassword" type="button">Şifremi unuttum</button>
+      </form>
+
+      <form id="registerPanel" class="panel">
+        <label for="registerEmail">E-posta</label>
+        <input id="registerEmail" type="email" autocomplete="email" required>
+        <label for="registerPassword">Şifre</label>
+        <input id="registerPassword" type="password" autocomplete="new-password" minlength="6" required>
+        <label for="registerPassword2">Şifreyi tekrar yaz</label>
+        <input id="registerPassword2" type="password" autocomplete="new-password" minlength="6" required>
+        <button class="primary" type="submit">Hesap Oluştur</button>
+      </form>
+
+      <div id="message" class="message">E-posta ve şifrenizle giriş yapabilirsiniz.</div>
+    </section>
+  </main>
+
+  <script type="module">
+    import { auth } from "./firebase.js";
+    import {
+      createUserWithEmailAndPassword,
+      signInWithEmailAndPassword,
+      sendPasswordResetEmail,
+      onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+
+    const tabs = document.querySelectorAll(".tab");
+    const panels = document.querySelectorAll(".panel");
+    const message = document.getElementById("message");
+
+    function showMessage(text, type="") {
+      message.textContent = text;
+      message.className = "message" + (type ? " " + type : "");
+    }
+
+    function friendlyError(error) {
+      const code = error?.code || "";
+      const map = {
+        "auth/invalid-credential": "E-posta veya şifre hatalı.",
+        "auth/email-already-in-use": "Bu e-posta adresiyle daha önce hesap oluşturulmuş.",
+        "auth/invalid-email": "Geçerli bir e-posta adresi yazın.",
+        "auth/weak-password": "Şifre en az 6 karakter olmalıdır.",
+        "auth/too-many-requests": "Çok fazla deneme yapıldı. Bir süre sonra tekrar deneyin."
+      };
+      return map[code] || ("İşlem tamamlanamadı: " + (error.message || "Bilinmeyen hata"));
+    }
+
+    tabs.forEach(tab => {
+      tab.addEventListener("click", () => {
+        tabs.forEach(t => t.classList.remove("active"));
+        panels.forEach(p => p.classList.remove("active"));
+        tab.classList.add("active");
+        document.getElementById(tab.dataset.target).classList.add("active");
+        showMessage(tab.dataset.target === "loginPanel"
+          ? "E-posta ve şifrenizle giriş yapabilirsiniz."
+          : "Öğrenci hesabı oluşturmak için e-posta ve en az 6 karakterli şifre girin.");
+      });
+    });
+
+    document.getElementById("loginPanel").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      showMessage("Giriş yapılıyor…");
+      try {
+        await signInWithEmailAndPassword(
+          auth,
+          document.getElementById("loginEmail").value.trim(),
+          document.getElementById("loginPassword").value
+        );
+        showMessage("Giriş başarılı. Yönlendiriliyorsunuz…", "success");
+        setTimeout(() => location.href = "ogrenci-paneli.html", 500);
+      } catch (error) {
+        showMessage(friendlyError(error), "error");
+      }
+    });
+
+    document.getElementById("registerPanel").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const p1 = document.getElementById("registerPassword").value;
+      const p2 = document.getElementById("registerPassword2").value;
+      if (p1 !== p2) {
+        showMessage("Şifreler birbiriyle aynı değil.", "error");
+        return;
+      }
+      showMessage("Hesap oluşturuluyor…");
+      try {
+        await createUserWithEmailAndPassword(
+          auth,
+          document.getElementById("registerEmail").value.trim(),
+          p1
+        );
+        showMessage("Hesabınız oluşturuldu. Yönlendiriliyorsunuz…", "success");
+        setTimeout(() => location.href = "ogrenci-paneli.html", 500);
+      } catch (error) {
+        showMessage(friendlyError(error), "error");
+      }
+    });
+
+    document.getElementById("resetPassword").addEventListener("click", async () => {
+      const email = document.getElementById("loginEmail").value.trim();
+      if (!email) {
+        showMessage("Önce e-posta adresinizi yazın.", "error");
+        return;
+      }
+      try {
+        await sendPasswordResetEmail(auth, email);
+        showMessage("Şifre yenileme bağlantısı e-posta adresinize gönderildi.", "success");
+      } catch (error) {
+        showMessage(friendlyError(error), "error");
+      }
+    });
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        showMessage("Bu tarayıcıda zaten giriş yapılmış: " + user.email, "success");
+      }
+    });
+  </script>
+</body>
+</html>

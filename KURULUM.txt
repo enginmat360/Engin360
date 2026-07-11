@@ -1,0 +1,20 @@
+ENGİN360 Firebase Başlangıç Paketi
+
+Dosyalar:
+- index.html: Ana sayfanın Firebase giriş durumunu gösteren güncel sürümü
+- firebase.js: Ortak Firebase bağlantı dosyası
+- gorev-giris.html: Giriş, kayıt ve şifre sıfırlama sayfası
+- ogrenci-paneli.html: İlk test öğrenci paneli
+
+GitHub'a bu dört dosyayı aynı klasöre yükleyin.
+Mevcut index.html dosyasını yeni index.html ile değiştirin.
+Diğer mevcut HTML dosyalarınıza dokunmayın.
+
+İlk test:
+1. engin360.com/gorev-giris.html adresini açın.
+2. Deneme hesabı oluşturun.
+3. Öğrenci paneline yönlendirilip yönlendirilmediğini kontrol edin.
+
+Not:
+Bu ilk paket yalnızca Authentication bağlantısını test eder.
+Görev veritabanı, öğretmen rolü, kilit ve teslim sistemi sonraki aşamada eklenecektir.

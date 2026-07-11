@@ -527,6 +527,63 @@
         font-size:19px;
       }
     }
+
+    .auth-panel{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+
+    .auth-status{
+      border:1px solid rgba(103,232,249,.28);
+      background:rgba(15,23,42,.55);
+      color:#e0f2fe;
+      border-radius:999px;
+      padding:10px 14px;
+      font-size:12.5px;
+      font-weight:800;
+      max-width:240px;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+    }
+
+    .auth-button{
+      border:none;
+      cursor:pointer;
+      text-decoration:none;
+      color:#fff;
+      border-radius:999px;
+      padding:10px 15px;
+      font-size:12.5px;
+      font-weight:900;
+      background:linear-gradient(135deg,rgba(168,85,247,.95),rgba(56,189,248,.95));
+      box-shadow:0 0 20px rgba(56,189,248,.22);
+      transition:.2s ease;
+    }
+
+    .auth-button:hover{
+      transform:translateY(-2px);
+      filter:brightness(1.08);
+    }
+
+    .auth-button.secondary{
+      background:rgba(255,255,255,.09);
+      border:1px solid rgba(255,255,255,.20);
+      box-shadow:none;
+    }
+
+    .task{box-shadow:0 0 22px rgba(103,232,249,.24), inset 0 0 42px rgba(168,85,247,.15)}
+    .task::before{background:linear-gradient(135deg,rgba(14,165,233,.50),rgba(168,85,247,.30),rgba(34,197,94,.18))}
+    .task:hover{box-shadow:0 0 34px rgba(56,189,248,.58),0 0 62px rgba(168,85,247,.24)}
+
+    @media(max-width:900px){
+      .auth-panel{justify-content:flex-start}
+      .auth-status{max-width:100%}
+    }
+
   </style>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-XJSBBQD3CC"></script>
@@ -591,7 +648,13 @@
           <p>EĞİTİM KOÇLUĞU REHBERİNİZ</p>
         </div>
       </div>
-      <div class="tag">Matematik • Rehberlik • Koçluk • Hedef Takip</div>
+      
+      <div class="auth-panel">
+        <div class="auth-status" id="authStatus">Oturum kontrol ediliyor…</div>
+        <a class="auth-button" id="loginButton" href="gorev-giris.html">Giriş Yap</a>
+        <button class="auth-button secondary" id="logoutButton" type="button" hidden>Çıkış Yap</button>
+      </div>
+
     </header>
 
     <section class="welcome">
@@ -602,7 +665,13 @@
       </p>
     </section>
 
+    
     <section class="button-grid">
+      <a class="btn task" href="gorev-giris.html">
+        <span class="icon">🔒</span>
+        <span><strong>Öğrenci Görev Merkezi</strong><small>Sıralı görevler, teslim, öğretmen onayı ve kontrollü ilerleme</small></span>
+      </a>
+
       <a class="btn mat" href="matematik_kategori.html">
         <span class="icon">🧪</span>
         <span><strong>Matematik Laboratuvarı</strong><small>Grafikler, fonksiyonlar, türev ve integral</small></span>
@@ -702,5 +771,37 @@
     <span class="bubble">✍️</span>
     <span>Bugün kaç soru çözdüm?<small>Günlük soru kaydı</small></span>
   </a>
+
+  <script type="module">
+    import { auth } from "./firebase.js";
+    import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+
+    const authStatus = document.getElementById("authStatus");
+    const loginButton = document.getElementById("loginButton");
+    const logoutButton = document.getElementById("logoutButton");
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        authStatus.textContent = user.email || "Giriş yapıldı";
+        loginButton.textContent = "Görev Merkezine Git";
+        loginButton.href = "ogrenci-paneli.html";
+        logoutButton.hidden = false;
+      } else {
+        authStatus.textContent = "Henüz giriş yapılmadı";
+        loginButton.textContent = "Giriş Yap";
+        loginButton.href = "gorev-giris.html";
+        logoutButton.hidden = true;
+      }
+    });
+
+    logoutButton.addEventListener("click", async () => {
+      try {
+        await signOut(auth);
+      } catch (error) {
+        alert("Çıkış yapılamadı: " + error.message);
+      }
+    });
+  </script>
+
 </body>
 </html>
