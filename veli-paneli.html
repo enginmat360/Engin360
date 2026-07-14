@@ -1,0 +1,30 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ENGİN360 | Veli Paneli</title><meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="gorev-app.css">
+<style>
+.progress{height:12px;border-radius:999px;background:rgba(255,255,255,.09);overflow:hidden}.progress>span{display:block;height:100%;background:linear-gradient(90deg,#7c3aed,#06b6d4)}
+.parent-note{padding:16px;border-radius:16px;background:rgba(124,58,237,.12);border:1px solid rgba(167,139,250,.3)}
+</style></head>
+<body data-role="veli"><main class="page">
+<header class="topbar"><div class="brand"><h1>Veli Takip Paneli</h1><p id="parentInfo">Kullanıcı kontrol ediliyor…</p></div>
+<div class="actions"><a class="btn secondary" href="index.html">Ana Sayfa</a><button class="btn danger" id="logoutBtn">Çıkış</button></div></header>
+<section class="stats">
+<div class="stat"><strong id="totalCount">0</strong><small>Toplam görev</small></div>
+<div class="stat"><strong id="doneCount">0</strong><small>Tamamlanan</small></div>
+<div class="stat"><strong id="activeCount">0</strong><small>Devam eden</small></div>
+<div class="stat"><strong id="rateCount">%0</strong><small>Tamamlama oranı</small></div>
+</section>
+<section class="grid">
+<article class="card"><h2>Öğrenci Özeti</h2><div id="studentSummary" class="message">Öğrenci bilgileri yükleniyor…</div>
+<div class="progress" style="margin-top:14px"><span id="progressBar" style="width:0%"></span></div>
+<div id="teacherNotes" class="list" style="margin-top:16px"></div></article>
+<article class="card"><h2>Son Durum</h2><div id="statusSummary" class="list"></div></article>
+</section>
+<section class="card" style="margin-top:16px"><h2>Görev Takibi</h2><div id="tasksList" class="list"></div></section>
+</main>
+<script type="module" src="veli.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-messaging-compat.js"></script>
+<script src="notifications.js"></script>
+</body></html>

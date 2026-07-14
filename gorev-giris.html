@@ -1,10 +1,10 @@
 <!doctype html><html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ENGİN360 | Görev Merkezi Giriş</title><meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="gorev-app.css"></head>
 <body><main class="page" style="max-width:860px">
-<section class="topbar"><div class="brand"><h1>ENGİN360</h1><p>Kontrollü Görev Merkezi</p></div><div class="actions"><a class="btn secondary" href="index.html">Ana Sayfa</a></div></section>
+<section class="topbar"><div class="brand"><h1>ENGİN360</h1><p>Öğrenci ve Veli Takip Merkezi</p></div><div class="actions"><a class="btn secondary" href="index.html">Ana Sayfa</a></div></section>
 <section class="grid" style="grid-template-columns:1fr 1fr">
-<article class="card"><h2>Görevlerini sırayla tamamla</h2><p class="muted">Saatinde açılan görevleri gör, teslim et ve öğretmen onayıyla ilerle. Öğrenci hesapları öğretmen tarafından oluşturulur.</p>
-<div class="notice">Bu sayfada yeni hesap oluşturma yoktur. Hesabını öğretmenin verir.</div></article>
+<article class="card"><h2>Tek merkezden takip</h2><p class="muted">Öğrenciler görevlerini görür; veliler kendi öğrencilerinin çalışma ve görev durumunu takip eder.</p>
+<div class="notice">Hesaplar öğretmen tarafından oluşturulur. Yeni hesap açma işlemi bu sayfada yapılmaz.</div></article>
 <article class="card"><h2>Giriş Yap</h2><form id="loginForm"><label>E-posta</label><input id="email" type="email" required autocomplete="email">
 <label>Şifre</label><input id="password" type="password" minlength="6" required autocomplete="current-password">
 <button class="btn" style="width:100%;margin-top:15px" type="submit">Giriş Yap</button></form>
@@ -12,7 +12,7 @@
 <div id="message" class="message">Öğretmeninizin verdiği hesapla giriş yapın.</div></article></section></main>
 <script type="module">
 import {auth,db} from "./firebase.js";
-import {signInWithEmailAndPassword,sendPasswordResetEmail,onAuthStateChanged} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+import {signInWithEmailAndPassword,sendPasswordResetEmail,onAuthStateChanged,signOut} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
 import {doc,getDoc} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 const TEACHER_UID="lwC5kkGoomRsKINiWRVwEVGd0J03";
 const msg=document.getElementById("message");
@@ -21,8 +21,11 @@ async function route(user){
  if(!user)return;
  if(user.uid===TEACHER_UID){location.replace("ogretmen-paneli.html");return;}
  const snap=await getDoc(doc(db,"users",user.uid));
- if(snap.exists()&&snap.data().role==="student"&&snap.data().active!==false){location.replace("ogrenci-paneli.html");}
- else show("Bu hesap henüz öğrenci olarak yetkilendirilmemiş.","error");
+ if(!snap.exists()||snap.data().active===false){await signOut(auth);show("Bu hesap aktif değil.","error");return;}
+ const role=snap.data().role;
+ if(role==="student"){location.replace("ogrenci-paneli.html");return;}
+ if(role==="parent"){location.replace("veli-paneli.html");return;}
+ await signOut(auth);show("Bu hesap öğrenci veya veli olarak yetkilendirilmemiş.","error");
 }
 document.getElementById("loginForm").addEventListener("submit",async e=>{e.preventDefault();show("Giriş yapılıyor…");
  try{const c=await signInWithEmailAndPassword(auth,email.value.trim(),password.value);await route(c.user)}

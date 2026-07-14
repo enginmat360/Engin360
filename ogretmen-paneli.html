@@ -3,19 +3,26 @@
 <body><main class="page">
 <header class="topbar"><div class="brand"><h1>Öğretmen Paneli</h1><p id="teacherEmail">Yetki kontrol ediliyor…</p></div>
 <div class="actions"><a class="btn secondary" href="index.html">Ana Sayfa</a><button class="btn danger" id="logoutBtn">Çıkış</button></div></header>
-<section class="stats"><div class="stat"><strong id="studentCount">0</strong><small>Öğrenci</small></div><div class="stat"><strong id="taskCount">0</strong><small>Toplam görev</small></div>
-<div class="stat"><strong id="waitingCount">0</strong><small>Onay bekleyen</small></div><div class="stat"><strong id="approvedCount">0</strong><small>Onaylanan</small></div></section>
+<section class="stats"><div class="stat"><strong id="studentCount">0</strong><small>Öğrenci</small></div><div class="stat"><strong id="parentCount">0</strong><small>Veli</small></div>
+<div class="stat"><strong id="taskCount">0</strong><small>Toplam görev</small></div><div class="stat"><strong id="approvedCount">0</strong><small>Tamamlanan</small></div></section>
 <section class="grid">
-<article class="card"><h2>Yeni Öğrenci Oluştur</h2><p class="muted">Bu işlem Authentication hesabını ve Firestore öğrenci kaydını birlikte oluşturur.</p>
-<form id="studentForm"><label>Ad Soyad</label><input id="studentName" required><label>E-posta</label><input id="studentEmail" type="email" required>
+<article class="card"><h2>Yeni Öğrenci Oluştur</h2><form id="studentForm"><label>Ad Soyad</label><input id="studentName" required><label>E-posta</label><input id="studentEmail" type="email" required>
 <label>Geçici Şifre</label><input id="studentPassword" type="text" minlength="6" required>
 <button class="btn success" type="submit" style="width:100%;margin-top:14px">Öğrenciyi Oluştur</button></form><div id="studentMsg" class="message"></div></article>
+<article class="card"><h2>Yeni Veli Hesabı</h2><p class="muted">Veli yalnızca seçilen öğrencinin bilgilerini görür.</p>
+<form id="parentForm"><label>Veli Ad Soyad</label><input id="parentName" required><label>Veli E-posta</label><input id="parentEmail" type="email" required>
+<label>Geçici Şifre</label><input id="parentPassword" type="text" minlength="6" required><label>Bağlanacak Öğrenci</label><select id="parentStudent" required><option value="">Öğrenci seçin</option></select>
+<button class="btn success" type="submit" style="width:100%;margin-top:14px">Veli Hesabını Oluştur</button></form><div id="parentMsg" class="message"></div></article>
+</section>
+<section class="grid">
 <article class="card"><h2>Yeni Görev Oluştur</h2><form id="taskForm"><label>Öğrenci</label><select id="taskStudent" required><option value="">Öğrenci seçin</option></select>
 <label>Görev Başlığı</label><input id="taskTitle" required><label>Açıklama</label><textarea id="taskDescription"></textarea>
 <div class="form-row"><div><label>Tarih</label><input id="taskDate" type="date" required></div><div><label>Sıra</label><input id="taskOrder" type="number" min="1" value="1" required></div></div>
 <div class="form-row"><div><label>Başlangıç</label><input id="taskStart" type="time" required></div><div><label>Bitiş</label><input id="taskEnd" type="time" required></div></div>
 <label><input id="taskApproval" type="checkbox" checked style="width:auto"> Öğretmen onayı olmadan sonraki görev açılmasın</label>
-<button class="btn" type="submit" style="width:100%;margin-top:14px">Görevi Kaydet</button></form><div id="taskMsg" class="message"></div></article></section>
+<button class="btn" type="submit" style="width:100%;margin-top:14px">Görevi Kaydet</button></form><div id="taskMsg" class="message"></div></article>
+<article class="card"><h2>Veliler</h2><div id="parentsList" class="list"></div></article>
+</section>
 <section class="grid"><article class="card"><h2>Öğrenciler</h2><div id="studentsList" class="list"></div></article>
-<article class="card"><h2>Görevler ve Teslimler</h2><div id="tasksList" class="list"></div></article></section>
+<article class="card"><h2>Görevler</h2><div id="tasksList" class="list"></div></article></section>
 </main><script type="module" src="ogretmen.js"></script></body></html>

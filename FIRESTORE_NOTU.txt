@@ -1,0 +1,15 @@
+ENGİN360 VELİ PANELİ İÇİN ÖNERİLEN KURAL MANTIĞI
+
+Mevcut kurallarınız şu anda tüm giriş yapan kullanıcılara read/write veriyorsa panel çalışır;
+ancak güvenlik için daha sonra kullanıcı rolüne göre sıkılaştıracağız.
+
+Veli kullanıcı belgesi örneği:
+users/{veliUid}
+{
+  role: "parent",
+  studentId: "ÖĞRENCİ_UID",
+  active: true
+}
+
+Veli yalnızca kendi bağlı öğrencisini görmelidir. Sonraki güvenlik sürümünde
+Firestore Rules bu ilişkiye göre sınırlandırılacaktır.
