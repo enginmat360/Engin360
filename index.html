@@ -773,25 +773,114 @@
   </a>
 
   <script type="module">
-    import { auth } from "./firebase.js";
+    import { auth, db } from "./firebase.js";
     import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+    import { doc, getDoc } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+
+    const TEACHER_UID = "lwC5kkGoomRsKINiWRVwEVGd0J03";
 
     const authStatus = document.getElementById("authStatus");
     const loginButton = document.getElementById("loginButton");
     const logoutButton = document.getElementById("logoutButton");
 
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        authStatus.textContent = user.email || "Giriş yapıldı";
-        loginButton.textContent = "Görev Merkezine Git";
-        loginButton.href = "ogrenci-paneli.html";
-        logoutButton.hidden = false;
-      } else {
+    let notificationFilesLoaded = false;
+
+    function loadNotificationFiles(role) {
+      if (notificationFilesLoaded || !["student", "parent"].includes(role)) return;
+
+      document.body.dataset.role = role === "parent" ? "veli" : "ogrenci";
+
+      const sources = [
+        "https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js",
+        "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth-compat.js",
+        "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore-compat.js",
+        "https://www.gstatic.com/firebasejs/10.13.2/firebase-messaging-compat.js",
+        "notifications.js"
+      ];
+
+      const loadNext = (index = 0) => {
+        if (index >= sources.length) {
+          notificationFilesLoaded = true;
+          return;
+        }
+
+        const script = document.createElement("script");
+        script.src = sources[index];
+        script.onload = () => loadNext(index + 1);
+        script.onerror = () => console.warn("Bildirim dosyası yüklenemedi:", sources[index]);
+        document.body.appendChild(script);
+      };
+
+      loadNext();
+    }
+
+    async function getUserRoute(user) {
+      if (user.uid === TEACHER_UID) {
+        return {
+          role: "teacher",
+          label: "Öğretmen Paneline Git",
+          href: "ogretmen-paneli.html"
+        };
+      }
+
+      try {
+        const userSnap = await getDoc(doc(db, "users", user.uid));
+
+        if (!userSnap.exists() || userSnap.data().active === false) {
+          return {
+            role: "unknown",
+            label: "Giriş Sayfasına Git",
+            href: "gorev-giris.html"
+          };
+        }
+
+        const role = userSnap.data().role;
+
+        if (role === "parent") {
+          return {
+            role,
+            label: "Veli Paneline Git",
+            href: "veli-paneli.html"
+          };
+        }
+
+        if (role === "student") {
+          return {
+            role,
+            label: "Öğrenci Paneline Git",
+            href: "ogrenci-paneli.html"
+          };
+        }
+      } catch (error) {
+        console.error("Kullanıcı rolü okunamadı:", error);
+      }
+
+      return {
+        role: "unknown",
+        label: "Giriş Sayfasına Git",
+        href: "gorev-giris.html"
+      };
+    }
+
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
         authStatus.textContent = "Henüz giriş yapılmadı";
         loginButton.textContent = "Giriş Yap";
         loginButton.href = "gorev-giris.html";
         logoutButton.hidden = true;
+        return;
       }
+
+      authStatus.textContent = "Oturum kontrol ediliyor…";
+      logoutButton.hidden = false;
+
+      const route = await getUserRoute(user);
+
+      authStatus.textContent = user.email || "Giriş yapıldı";
+      loginButton.textContent = route.label;
+      loginButton.href = route.href;
+
+      loadNotificationFiles(route.role);
     });
 
     logoutButton.addEventListener("click", async () => {
