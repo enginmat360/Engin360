@@ -14,7 +14,7 @@
   };
 
   // Firebase Console > Proje ayarları > Cloud Messaging > Web Push sertifikaları
-  const VAPID_KEY = "VAPID_ANAHTARINI_BURAYA_YAPISTIR";
+  const VAPID_KEY = "BLLgwsmJxoAUdCAGX4S21nedb2XLkcr6wGb6tu9PvHJ2UONmlrUs2MQ0cSBCNf_wiKJlJlK42zIFRpHn5xQ3u5s";
 
   const role = document.body.dataset.role || "ogrenci";
   let app;
