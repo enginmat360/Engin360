@@ -23,7 +23,7 @@ function evaluate(t,index){const now=new Date();const start=t.startAt?.toDate?t.
 function render(){const list=$("tasksList");if(!tasks.length){$("studentMessage").textContent="Henüz sana atanmış görev yok.";list.innerHTML="";return}
  $("studentMessage").textContent="Görevler sırayla açılır. Teslim ettiğin görev öğretmen onayından sonra tamamlanır.";
  let done=0,active=0,locked=0;
- list.innerHTML=tasks.map((t,i)=>{const ev=evaluate(t,i);if(ev.state==="done")done++;if(ev.state==="active")active++;if(ev.state==="locked"||ev.state==="upcoming")locked++;
+ list.innerHTML=tasks.map((t,i)=>{const ev=evaluate(t,i);if(ev.state==="done")done++;if(ev.state==="active")active++;if(ev.state==="locked"||ev.state==="upcoming"){locked++;return "";}
  return `<div class="item ${ev.state==="locked"?"locked-overlay":""}"><div class="item-head"><div><h3>${esc(t.title||t.baslik)}</h3><div class="muted">${esc(t.description||"")}</div></div>
  <span class="badge ${ev.state==="done"?"approved":ev.state}">${esc(ev.label)}</span></div>
  <div class="meta"><span>${esc(t.date||"")}</span><span>${esc(t.startTime||"")}–${esc(t.endTime||"")}</span><span>Sıra ${t.order||1}</span></div>

@@ -1,6 +1,6 @@
 import { initializeApp, deleteApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
 import { getAuth, onAuthStateChanged, signOut, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
-import { collection,doc,setDoc,addDoc,getDocs,updateDoc,serverTimestamp,Timestamp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+import { collection,doc,setDoc,addDoc,getDocs,updateDoc,deleteDoc,serverTimestamp,Timestamp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 import { auth,db,firebaseConfig } from "./firebase.js";
 const TEACHER_UID="lwC5kkGoomRsKINiWRVwEVGd0J03";
 const $=id=>document.getElementById(id);
@@ -19,7 +19,7 @@ async function loadTasks(){const snap=await getDocs(collection(db,"gorevler"));t
  ${t.submissionText?`<div class="notice"><b>Öğrenci teslimi:</b><br>${esc(t.submissionText)}</div>`:""}
  ${t.teacherNote?`<p class="muted"><b>Öğretmen notu:</b> ${esc(t.teacherNote)}</p>`:""}
  <div class="item-actions">${t.status==="submitted"?`<button class="btn success" data-action="approve" data-id="${t.id}">Onayla</button><button class="btn danger" data-action="revision" data-id="${t.id}">Tekrar Yap</button>`:""}
- <button class="btn secondary" data-action="unlock" data-id="${t.id}">Kilidi Aç</button><button class="btn secondary" data-action="skip" data-id="${t.id}">Görevi Geç</button></div></div>`).join(""):'<div class="notice">Henüz görev yok.</div>';
+ <button class="btn secondary" data-action="unlock" data-id="${t.id}">Kilidi Aç</button><button class="btn secondary" data-action="skip" data-id="${t.id}">Görevi Geç</button><button class="btn danger" data-action="delete" data-id="${t.id}">Görevi Sil</button></div></div>`).join(""):'<div class="notice">Henüz görev yok.</div>';
  document.querySelectorAll("[data-action]").forEach(b=>b.onclick=()=>handleTaskAction(b.dataset.action,b.dataset.id))}
 function statusText(s){return({pending:"Bekliyor",submitted:"Onay bekliyor",approved:"Onaylandı",revision:"Tekrar yap",skipped:"Geçildi"}[s]||"Bekliyor")}
 function renderStats(){$("taskCount").textContent=tasks.length;$("waitingCount").textContent=tasks.filter(t=>t.status==="submitted").length;$("approvedCount").textContent=tasks.filter(t=>t.status==="approved"||t.status==="skipped").length}
@@ -36,7 +36,22 @@ $("taskForm").addEventListener("submit",async e=>{e.preventDefault();const sid=$
  order:Number($("taskOrder").value),requiresApproval:$("taskApproval").checked,status:"pending",unlockedOverride:false,submissionText:"",teacherNote:"",createdAt:serverTimestamp(),updatedAt:serverTimestamp()});
  e.target.reset();$("taskOrder").value=1;$("taskApproval").checked=true;msg("taskMsg","Görev kaydedildi.","success");await loadTasks();renderStats()}
  catch(err){msg("taskMsg","Kaydedilemedi: "+err.message,"error")}});
-async function handleTaskAction(action,id){const ref=doc(db,"gorevler",id);let patch={updatedAt:serverTimestamp()};
+async function handleTaskAction(action,id){
+ const task=tasks.find(t=>t.id===id);
+ if(action==="delete"){
+   if(!task)return;
+   const ok=confirm(`"${task.title||task.baslik}" görevini kalıcı olarak silmek istiyor musun?\n\nBu işlem geri alınamaz.`);
+   if(!ok)return;
+   try{
+     await deleteDoc(doc(db,"gorevler",id));
+     await loadTasks();
+     renderStats();
+   }catch(err){
+     alert("Görev silinemedi: "+err.message);
+   }
+   return;
+ }
+ const ref=doc(db,"gorevler",id);let patch={updatedAt:serverTimestamp()};
  if(action==="approve"){patch.status="approved";patch.approvedAt=serverTimestamp()}
  if(action==="revision"){const note=prompt("Öğrenciye notunuz:","Eksikleri tamamlayıp tekrar gönder.");if(note===null)return;patch.status="revision";patch.teacherNote=note}
  if(action==="unlock"){patch.unlockedOverride=true}
