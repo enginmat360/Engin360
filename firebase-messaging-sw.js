@@ -14,18 +14,17 @@ firebase.initializeApp({
 const messaging = firebase.messaging();
 
 messaging.onBackgroundMessage((payload) => {
-  const notification = payload.notification || {};
-  const data = payload.data || {};
+  const n = payload.notification || {};
+  const d = payload.data || {};
 
   return self.registration.showNotification(
-    notification.title || data.title || "ENGİN360",
+    n.title || d.title || "ENGİN360",
     {
-      body: notification.body || data.body || "Yeni bildiriminiz var.",
-      icon: data.icon || "/icon-512.png",
-      badge: data.badge || "/favicon-32x32.png",
-      data: {
-        url: data.url || "/ogrenci-paneli.html"
-      }
+      body: n.body || d.body || "Yeni bildiriminiz var.",
+      icon: d.icon || "/icon-512.png",
+      badge: d.badge || "/favicon-32x32.png",
+      tag: d.tag || "engin360",
+      data: { url: d.url || "/ogrenci-paneli.html" }
     }
   );
 });
@@ -33,10 +32,18 @@ messaging.onBackgroundMessage((payload) => {
 self.addEventListener("notificationclick", (event) => {
   event.notification.close();
   const targetUrl =
-    (event.notification &&
-      event.notification.data &&
-      event.notification.data.url) ||
+    (event.notification && event.notification.data && event.notification.data.url) ||
     "/ogrenci-paneli.html";
 
-  event.waitUntil(clients.openWindow(targetUrl));
+  event.waitUntil(
+    clients.matchAll({ type: "window", includeUncontrolled: true }).then((list) => {
+      for (const client of list) {
+        if ("focus" in client) {
+          client.navigate(targetUrl);
+          return client.focus();
+        }
+      }
+      return clients.openWindow ? clients.openWindow(targetUrl) : null;
+    })
+  );
 });
