@@ -1,7 +1,8 @@
 import { initializeApp, deleteApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
 import { getAuth, onAuthStateChanged, signOut, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
 import { collection,doc,setDoc,addDoc,getDocs,updateDoc,deleteDoc,serverTimestamp,Timestamp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
-import { auth,db,firebaseConfig } from "./firebase.js";
+import { httpsCallable } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-functions.js";
+import { auth,db,functions,firebaseConfig } from "./firebase.js";
 const TEACHER_UID="lwC5kkGoomRsKINiWRVwEVGd0J03";
 const $=id=>document.getElementById(id);
 let students=[],parents=[],tasks=[];
@@ -40,10 +41,21 @@ $("parentForm").addEventListener("submit",async e=>{e.preventDefault();const sid
  catch(err){msg("parentMsg","Oluşturulamadı: "+err.message,"error")}});
 $("taskForm").addEventListener("submit",async e=>{e.preventDefault();const sid=$("taskStudent").value;const s=students.find(x=>x.id===sid);if(!s)return;
  msg("taskMsg","Görev kaydediliyor…");const date=$("taskDate").value,start=$("taskStart").value,end=$("taskEnd").value;
- try{await addDoc(collection(db,"gorevler"),{studentId:sid,studentName:s.name,studentEmail:s.email,title:$("taskTitle").value.trim(),description:$("taskDescription").value.trim(),
+ try{
+ const gorevRef=await addDoc(collection(db,"gorevler"),{studentId:sid,studentName:s.name,studentEmail:s.email,title:$("taskTitle").value.trim(),description:$("taskDescription").value.trim(),
  date,startTime:start,endTime:end,startAt:Timestamp.fromDate(new Date(`${date}T${start}:00`)),endAt:Timestamp.fromDate(new Date(`${date}T${end}:00`)),
  order:Number($("taskOrder").value),requiresApproval:$("taskApproval").checked,status:"pending",unlockedOverride:false,teacherNote:"",createdAt:serverTimestamp(),updatedAt:serverTimestamp()});
- e.target.reset();$("taskOrder").value=1;$("taskApproval").checked=true;msg("taskMsg","Görev kaydedildi.","success");await loadTasks();renderStats()}
+ const gorevBildirimiGonder=httpsCallable(functions,"gorevBildirimiGonder");
+ let bildirimNotu="";
+ try{
+  const sonuc=await gorevBildirimiGonder({taskId:gorevRef.id});
+  const toplam=(sonuc.data?.studentResult?.total||0)+(sonuc.data?.parentResult?.total||0);
+  bildirimNotu=toplam>0?` Bildirim ${toplam} cihaza gönderildi.`:" Kayıt tamamlandı; aktif bildirim cihazı bulunamadı.";
+ }catch(bildirimHatasi){
+  console.error("Görev kaydedildi fakat bildirim gönderilemedi:",bildirimHatasi);
+  bildirimNotu=" Görev kaydedildi ancak bildirim gönderilemedi.";
+ }
+ e.target.reset();$("taskOrder").value=1;$("taskApproval").checked=true;msg("taskMsg","Görev kaydedildi."+bildirimNotu,"success");await loadTasks();renderStats()}
  catch(err){msg("taskMsg","Kaydedilemedi: "+err.message,"error")}});
 async function handleTaskAction(action,id){
  const task=tasks.find(t=>t.id===id);
