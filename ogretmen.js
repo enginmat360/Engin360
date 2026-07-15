@@ -1,8 +1,7 @@
 import { initializeApp, deleteApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
 import { getAuth, onAuthStateChanged, signOut, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
 import { collection,doc,setDoc,addDoc,getDocs,updateDoc,deleteDoc,serverTimestamp,Timestamp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
-import { httpsCallable } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-functions.js";
-import { auth,db,functions,firebaseConfig } from "./firebase.js";
+import { auth,db,firebaseConfig } from "./firebase.js";
 const TEACHER_UID="lwC5kkGoomRsKINiWRVwEVGd0J03";
 const $=id=>document.getElementById(id);
 let students=[],parents=[],tasks=[];
@@ -24,7 +23,12 @@ async function loadTasks(){const snap=await getDocs(collection(db,"gorevler"));t
  $("tasksList").innerHTML=tasks.length?tasks.map(t=>`<div class="item"><div class="item-head"><div><h3>${esc(t.title||t.baslik)}</h3><div class="muted">${esc(t.studentName||t.studentEmail||"")}</div></div><span class="badge ${t.status||"pending"}">${statusText(t.status)}</span></div>
  <div class="meta"><span>${esc(t.date||"")}</span><span>${esc(t.startTime||"")}–${esc(t.endTime||"")}</span><span>Sıra ${t.order||1}</span></div>
  ${t.teacherNote?`<p class="muted"><b>Öğretmen notu:</b> ${esc(t.teacherNote)}</p>`:""}
- <div class="item-actions"><button class="btn secondary" data-action="unlock" data-id="${t.id}">Kilidi Aç</button><button class="btn secondary" data-action="skip" data-id="${t.id}">Görevi Geç</button><button class="btn danger" data-action="delete" data-id="${t.id}">Görevi Sil</button></div></div>`).join(""):'<div class="notice">Henüz görev yok.</div>';
+ <div class="item-actions">
+ ${t.status==="submitted"?`<button class="btn success" data-action="approve" data-id="${t.id}">Onayla</button><button class="btn secondary" data-action="revision" data-id="${t.id}">Tekrar İste</button>`:""}
+ <button class="btn secondary" data-action="unlock" data-id="${t.id}">Kilidi Aç</button>
+ <button class="btn secondary" data-action="skip" data-id="${t.id}">Görevi Geç</button>
+ <button class="btn danger" data-action="delete" data-id="${t.id}">Görevi Sil</button>
+ </div></div>`).join(""):'<div class="notice">Henüz görev yok.</div>';
  document.querySelectorAll("[data-action]").forEach(b=>b.onclick=()=>handleTaskAction(b.dataset.action,b.dataset.id))}
 function statusText(s){return({pending:"Bekliyor",submitted:"Onay bekliyor",approved:"Onaylandı",revision:"Tekrar yap",skipped:"Geçildi"}[s]||"Bekliyor")}
 function renderStats(){$("taskCount").textContent=tasks.length;$("approvedCount").textContent=tasks.filter(t=>t.status==="approved"||t.status==="skipped").length}
@@ -41,26 +45,28 @@ $("parentForm").addEventListener("submit",async e=>{e.preventDefault();const sid
  catch(err){msg("parentMsg","Oluşturulamadı: "+err.message,"error")}});
 $("taskForm").addEventListener("submit",async e=>{e.preventDefault();const sid=$("taskStudent").value;const s=students.find(x=>x.id===sid);if(!s)return;
  msg("taskMsg","Görev kaydediliyor…");const date=$("taskDate").value,start=$("taskStart").value,end=$("taskEnd").value;
- try{
- const gorevRef=await addDoc(collection(db,"gorevler"),{studentId:sid,studentName:s.name,studentEmail:s.email,title:$("taskTitle").value.trim(),description:$("taskDescription").value.trim(),
+ try{await addDoc(collection(db,"gorevler"),{studentId:sid,studentName:s.name,studentEmail:s.email,title:$("taskTitle").value.trim(),description:$("taskDescription").value.trim(),
  date,startTime:start,endTime:end,startAt:Timestamp.fromDate(new Date(`${date}T${start}:00`)),endAt:Timestamp.fromDate(new Date(`${date}T${end}:00`)),
  order:Number($("taskOrder").value),requiresApproval:$("taskApproval").checked,status:"pending",unlockedOverride:false,teacherNote:"",createdAt:serverTimestamp(),updatedAt:serverTimestamp()});
- const gorevBildirimiGonder=httpsCallable(functions,"gorevBildirimiGonder");
- let bildirimNotu="";
- try{
-  const sonuc=await gorevBildirimiGonder({taskId:gorevRef.id});
-  const toplam=(sonuc.data?.studentResult?.total||0)+(sonuc.data?.parentResult?.total||0);
-  bildirimNotu=toplam>0?` Bildirim ${toplam} cihaza gönderildi.`:" Kayıt tamamlandı; aktif bildirim cihazı bulunamadı.";
- }catch(bildirimHatasi){
-  console.error("Görev kaydedildi fakat bildirim gönderilemedi:",bildirimHatasi);
-  bildirimNotu=" Görev kaydedildi ancak bildirim gönderilemedi.";
- }
- e.target.reset();$("taskOrder").value=1;$("taskApproval").checked=true;msg("taskMsg","Görev kaydedildi."+bildirimNotu,"success");await loadTasks();renderStats()}
+ e.target.reset();$("taskOrder").value=1;$("taskApproval").checked=true;msg("taskMsg","Görev kaydedildi.","success");await loadTasks();renderStats()}
  catch(err){msg("taskMsg","Kaydedilemedi: "+err.message,"error")}});
 async function handleTaskAction(action,id){
  const task=tasks.find(t=>t.id===id);
  if(action==="delete"){if(!task||!confirm(`"${task.title||task.baslik}" görevini kalıcı olarak silmek istiyor musun?`))return;await deleteDoc(doc(db,"gorevler",id));await loadTasks();renderStats();return}
  const ref=doc(db,"gorevler",id);let patch={updatedAt:serverTimestamp()};
+ if(action==="approve"){
+  patch.status="approved";
+  patch.approvedAt=serverTimestamp();
+  patch.teacherNote="";
+  patch.unlockedOverride=true;
+ }
+ if(action==="revision"){
+  const note=prompt("Öğrenciye gönderilecek düzeltme notunu yazın:","Eksiklerini tamamlayıp tekrar gönder.");
+  if(note===null)return;
+  patch.status="revision";
+  patch.teacherNote=note.trim();
+  patch.unlockedOverride=false;
+ }
  if(action==="unlock")patch.unlockedOverride=true;
  if(action==="skip"){patch.status="skipped";patch.unlockedOverride=true}
  await updateDoc(ref,patch);await loadTasks();renderStats();
