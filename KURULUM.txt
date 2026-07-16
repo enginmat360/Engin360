@@ -1,63 +1,17 @@
-ENGİN360 OTOMATİK BİLDİRİM SİSTEMİ v2.3
+ENGİN360 HAZIR DÜZELTME PAKETİ
 
-BU SÜRÜM NE YAPAR?
-- Firestore'da gorevler koleksiyonuna yeni görev eklendiğinde otomatik çalışır.
-- Öğrencinin bildirimTokenlari kayıtlarını bulur.
-- Öğrenciye “Yeni görev eklendi” bildirimi gönderir.
-- O öğrenciye bağlı aktif veli hesaplarını bulur.
-- Veli bildirim izni verdiyse veliye de bildirim gönderir.
-- Geçersiz tokenları otomatik olarak pasif yapar.
-- Görev belgesine bildirimDurumu alanını kaydeder.
-- bildirim-test.html üzerinden öğretmen tek kullanıcıya test bildirimi gönderebilir.
+Bu pakette:
+- Öğrenci panelinde çift Firebase yüklemesi kaldırıldı.
+- Görevler daha hızlı yüklenir.
+- Onay gerektiren görev öğretmen onaylamadan sonraki görev açılmaz.
+- Görev sırası tarih + sıra + oluşturulma zamanına göre sabitlendi.
+- Öğretmen panelinde bildirim sonucu açıkça görünür.
+- Ön plan ve arka plan bildirim kodu tek yapıda toplandı.
 
-ÖNEMLİ MALİYET NOTU
-- Firebase Cloud Messaging bildirimin kendisi ücretsizdir.
-- Cloud Functions kurmak için Firebase projesini Blaze planına geçirmek gerekebilir.
-- Blaze “her bildirimde sabit ücret” anlamına gelmez; kullanım kadar ücretlendirme ve ücretsiz kotalar vardır.
-- Bütçe uyarısı koymadan kuruluma devam etmeyin.
-
-KURULUM
-
-1) ZIP dosyasını açın.
-
-2) İçindeki şu öğeleri bilgisayarınızdaki Engin360 ana klasörüne kopyalayın:
-   - functions klasörü
-   - firebase.json
-   - bildirim-test.html
-
-3) Mevcut firebase.json için üzerine yazmayı onaylayın.
-   Bu dosyada hem Hosting hem Functions ayarları birlikte korunmuştur.
-
-4) CMD'yi Engin360 klasöründe açın.
-
-5) Functions paketlerini yükleyin:
-   cd functions
-   npm install
-   cd ..
-
-6) Firebase projesi Spark plandaysa Firebase Console'dan:
-   Usage and billing → Details & settings → Modify plan → Blaze
-   adımına ihtiyaç çıkabilir.
-
-7) Fonksiyonları yayınlayın:
-   firebase.cmd deploy --only functions
-
-8) Test sayfasını GitHub'a yükleyin veya Hosting'e de göndermek için:
-   firebase.cmd deploy --only hosting
-
-9) Test:
-   - Telefonda öğrenci hesabının Bildirimler Açık olduğundan emin olun.
-   - Bilgisayarda öğretmen hesabıyla giriş yapın.
-   - https://engin360.com/bildirim-test.html sayfasını açın.
-   - Firestore users koleksiyonundaki öğrenci belge UID'sini yazın.
-   - Test Bildirimi Gönder düğmesine basın.
-   - Bildirim geldiyse sistem uçtan uca çalışıyor demektir.
-
-10) Otomatik görev testi:
-   - Öğretmen panelinden öğrenciye yeni görev ekleyin.
-   - Görev Firestore'a kaydedildiği anda öğrencinin telefonuna bildirim gitmelidir.
-
-GÜVENLİK
-- FCM sunucu anahtarı veya servis hesabı dosyası web sayfasına konmamıştır.
-- Bildirim gönderme yalnızca Cloud Functions içinden yapılır.
-- Test fonksiyonu yalnızca TEACHER_UID hesabına izin verir.
+KURULUM:
+1. ZIP içindeki 5 dosyayı Engin360 ana klasörüne kopyalayın.
+2. Aynı adlı dosyaları değiştirin.
+3. GitHub'a yükleyin.
+4. Telefonda Chrome > engin360.com > site ayarları > bildirimler izin verildi olsun.
+5. Öğrenci panelinde Bildirimleri Aç düğmesine bir kez basın.
+6. Sonra öğretmen panelinden test görevi gönderin.

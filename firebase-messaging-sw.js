@@ -1,4 +1,4 @@
-/* ENGİN360 Firebase Cloud Messaging Service Worker v2 */
+/* ENGİN360 Firebase Cloud Messaging Service Worker */
 importScripts("https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js");
 importScripts("https://www.gstatic.com/firebasejs/10.13.2/firebase-messaging-compat.js");
 
@@ -14,13 +14,9 @@ firebase.initializeApp({
 const messaging = firebase.messaging();
 
 self.addEventListener("install", () => self.skipWaiting());
-self.addEventListener("activate", (event) => {
-  event.waitUntil(self.clients.claim());
-});
+self.addEventListener("activate", (event) => event.waitUntil(self.clients.claim()));
 
 messaging.onBackgroundMessage((payload) => {
-  console.log("ENGİN360 arka plan bildirimi:", payload);
-
   const n = payload.notification || {};
   const d = payload.data || {};
   const title = n.title || d.title || "ENGİN360";
@@ -31,34 +27,21 @@ messaging.onBackgroundMessage((payload) => {
     badge: d.badge || "/favicon-32x32.png",
     tag: d.tag || `engin360-${Date.now()}`,
     renotify: true,
-    requireInteraction: false,
-    data: {
-      url: d.url || "/ogrenci-paneli.html"
-    }
+    data: { url: d.url || "/ogrenci-paneli.html" }
   });
 });
 
 self.addEventListener("notificationclick", (event) => {
   event.notification.close();
-
-  const targetUrl =
-    event.notification?.data?.url ||
-    "/ogrenci-paneli.html";
+  const targetUrl = event.notification?.data?.url || "/ogrenci-paneli.html";
 
   event.waitUntil(
     clients.matchAll({ type: "window", includeUncontrolled: true }).then((list) => {
       for (const client of list) {
-        if ("navigate" in client) {
-          client.navigate(targetUrl);
-        }
-        if ("focus" in client) {
-          return client.focus();
-        }
+        if ("navigate" in client) client.navigate(targetUrl);
+        if ("focus" in client) return client.focus();
       }
-
-      return clients.openWindow
-        ? clients.openWindow(targetUrl)
-        : null;
+      return clients.openWindow ? clients.openWindow(targetUrl) : null;
     })
   );
 });

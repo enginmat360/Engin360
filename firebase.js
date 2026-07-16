@@ -2,6 +2,7 @@ import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebase
 import { getAuth } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 import { getFunctions } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-functions.js";
+import { getMessaging, isSupported } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-messaging.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDj5Pnv0lNeChf_t2XGdhiru5hjwKb6iIw",
@@ -18,4 +19,8 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 const functions = getFunctions(app, "europe-west1");
 
-export { app, auth, db, functions, firebaseConfig };
+async function getMessagingSafe() {
+  return (await isSupported()) ? getMessaging(app) : null;
+}
+
+export { app, auth, db, functions, firebaseConfig, getMessagingSafe };

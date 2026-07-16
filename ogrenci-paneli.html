@@ -7,7 +7,6 @@
   <meta name="robots" content="noindex,nofollow">
   <link rel="stylesheet" href="gorev-app.css">
 </head>
-
 <body data-role="ogrenci">
   <main class="page">
     <header class="topbar">
@@ -15,33 +14,18 @@
         <h1>Öğrenci Görev Merkezi</h1>
         <p id="studentInfo">Kullanıcı kontrol ediliyor…</p>
       </div>
-
       <div class="actions">
+        <button class="btn secondary" id="notificationBtn" type="button">🔔 Bildirimleri Aç</button>
         <a class="btn secondary" href="index.html">Ana Sayfa</a>
         <button class="btn danger" id="logoutBtn">Çıkış</button>
       </div>
     </header>
 
     <section class="stats">
-      <div class="stat">
-        <strong id="totalCount">0</strong>
-        <small>Toplam görev</small>
-      </div>
-
-      <div class="stat">
-        <strong id="doneCount">0</strong>
-        <small>Tamamlanan</small>
-      </div>
-
-      <div class="stat">
-        <strong id="activeCount">0</strong>
-        <small>Aktif görev</small>
-      </div>
-
-      <div class="stat">
-        <strong id="lockedCount">0</strong>
-        <small>Kilitli görev</small>
-      </div>
+      <div class="stat"><strong id="totalCount">0</strong><small>Toplam görev</small></div>
+      <div class="stat"><strong id="doneCount">0</strong><small>Tamamlanan</small></div>
+      <div class="stat"><strong id="activeCount">0</strong><small>Aktif görev</small></div>
+      <div class="stat"><strong id="lockedCount">0</strong><small>Kilitli görev</small></div>
     </section>
 
     <section class="card" style="margin-top:16px">
@@ -52,12 +36,5 @@
   </main>
 
   <script type="module" src="ogrenci.js"></script>
-
-  <!-- ENGİN360 web bildirim sistemi -->
-  <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-messaging-compat.js"></script>
-  <script src="notifications.js"></script>
 </body>
 </html>
