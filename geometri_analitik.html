@@ -3,213 +3,553 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080614">
 <title>ENGİN360 | Analitik Geometri Laboratuvarı</title>
 <style>
-:root{--text:#fff;--muted:#ded9ff;--p:#a855f7;--m:#ec4899;--c:#38bdf8;--g:#22c55e;--y:#ffd60a;--r:#fb7185}
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial,sans-serif}
-body{min-height:100vh;color:var(--text);padding:18px;background:radial-gradient(circle at top left,rgba(168,85,247,.40),transparent 34%),radial-gradient(circle at bottom right,rgba(14,165,233,.32),transparent 34%),radial-gradient(circle at 50% 108%,rgba(236,72,153,.22),transparent 40%),linear-gradient(135deg,#05010d,#120024,#06142f)}
-.container{max-width:1200px;margin:0 auto}.back{display:inline-block;margin-bottom:14px;color:#e9d5ff;text-decoration:none;font-weight:850;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);padding:9px 13px;border-radius:13px}
-.hero{text-align:center;padding:30px 18px;border-radius:30px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);box-shadow:0 0 38px rgba(124,58,237,.34);backdrop-filter:blur(12px);margin-bottom:16px}
-.logo{font-size:clamp(36px,7vw,76px);font-weight:1000;letter-spacing:1px;background:linear-gradient(90deg,#fff,#a855f7,#38bdf8,#ec4899,#fff);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 14px rgba(168,85,247,.42))}
-.subtitle{margin-top:10px;color:#ded9ff;font-size:15px;line-height:1.55}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:16px 0}.stat{border:1px solid rgba(255,255,255,.13);border-radius:18px;background:rgba(255,255,255,.065);padding:13px;text-align:center}.stat b{display:block;font-size:25px;color:#67e8f9}.stat span{font-size:12px;color:#efe7ff;font-weight:800}
-.tabs{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:14px 0}.tab{border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.075);color:white;border-radius:18px;padding:13px 8px;font-weight:950;cursor:pointer;transition:.18s}.tab:hover{transform:translateY(-2px);box-shadow:0 0 22px rgba(56,189,248,.22)}.tab.active{background:linear-gradient(135deg,var(--p),var(--m));box-shadow:0 0 26px rgba(236,72,153,.32)}
-.main{display:grid;grid-template-columns:1.12fr .88fr;gap:16px}.card{border:1px solid rgba(255,255,255,.15);border-radius:28px;background:linear-gradient(145deg,rgba(255,255,255,.085),rgba(255,255,255,.045));box-shadow:0 18px 55px rgba(0,0,0,.35),inset 0 0 28px rgba(255,255,255,.025);backdrop-filter:blur(12px);padding:16px}
-.boardTop{display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px}.chip{font-size:12px;font-weight:900;color:#f5f3ff;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.08);padding:8px 11px;border-radius:999px}.chip.yellow{color:#fffbe6;background:rgba(255,214,10,.14);border-color:rgba(255,214,10,.35)}
-canvas{width:100%;height:500px;border-radius:24px;background:rgba(2,6,23,.46);border:1px solid rgba(255,255,255,.11);box-shadow:inset 0 0 36px rgba(56,189,248,.05);touch-action:none}
-.buttons{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}.btn{border:0;border-radius:17px;padding:13px 10px;color:white;font-weight:950;cursor:pointer;background:linear-gradient(135deg,var(--p),var(--m));box-shadow:0 12px 28px rgba(168,85,247,.25)}.btn.alt{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.14);box-shadow:none}
-.sideTitle{font-size:24px;margin-bottom:8px}.hint{color:var(--muted);line-height:1.5;font-size:14px;margin-bottom:12px}
-.infoGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:12px}.info{border:1px solid rgba(255,255,255,.13);background:rgba(255,255,255,.065);border-radius:18px;padding:12px}.info b{font-size:22px;color:#fff176;display:block;text-shadow:0 0 12px rgba(255,214,10,.65)}.info span{font-size:12px;color:#efe7ff}
-.q{border:1px solid rgba(255,255,255,.13);background:rgba(255,255,255,.065);border-radius:20px;padding:13px;margin-bottom:11px}.q b{display:block;margin-bottom:9px}.opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}.opt{text-align:left;border:1px solid rgba(255,255,255,.13);background:rgba(255,255,255,.07);border-radius:14px;padding:10px;color:white;font-weight:850;cursor:pointer}.opt.correct{background:rgba(34,197,94,.25);border-color:rgba(34,197,94,.8)}.opt.wrong{background:rgba(251,113,133,.25);border-color:rgba(251,113,133,.85)}
-.feedback{margin-top:10px;border-radius:18px;padding:12px;background:rgba(255,255,255,.075);border:1px solid rgba(255,255,255,.13);color:#e8e6ff;line-height:1.5}
-.lessonGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}.lesson{border:1px solid rgba(255,255,255,.13);background:rgba(255,255,255,.06);border-radius:20px;padding:14px;line-height:1.5;color:#e8e6ff}.lesson h3{font-size:16px;margin-bottom:7px;color:#fff}
-.footer{text-align:center;color:#aaa;font-size:12px;margin:32px 0 10px}
-@media(max-width:950px){.main,.stats,.tabs,.lessonGrid{grid-template-columns:1fr}.buttons,.infoGrid{grid-template-columns:1fr}canvas{height:390px}.opts{grid-template-columns:1fr}}
+:root{
+  --bg:#06050f;--bg2:#130d30;--panel:rgba(255,255,255,.065);
+  --line:rgba(255,255,255,.14);--text:#f8fafc;--muted:#cbd5e1;
+  --purple:#a855f7;--blue:#38bdf8;--pink:#ec4899;--yellow:#fde047;
+  --green:#22c55e;--red:#fb7185;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  min-height:100vh;font-family:Inter,"Segoe UI",Arial,sans-serif;color:var(--text);
+  background:
+    radial-gradient(circle at 10% 8%,rgba(168,85,247,.30),transparent 29%),
+    radial-gradient(circle at 90% 10%,rgba(56,189,248,.21),transparent 28%),
+    radial-gradient(circle at 50% 102%,rgba(236,72,153,.17),transparent 36%),
+    linear-gradient(145deg,var(--bg),var(--bg2));
+  padding:16px 0 42px;overflow-x:hidden
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;opacity:.22;
+  background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+  linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+  background-size:34px 34px
+}
+.page{width:min(1200px,94%);margin:auto;position:relative;z-index:1}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}
+.back,.ghost{
+  color:white;text-decoration:none;font-weight:900;padding:11px 14px;border-radius:15px;
+  border:1px solid var(--line);background:rgba(255,255,255,.07);backdrop-filter:blur(14px)
+}
+.hero{
+  border:1px solid var(--line);border-radius:30px;padding:25px;position:relative;overflow:hidden;
+  background:linear-gradient(145deg,rgba(255,255,255,.085),rgba(255,255,255,.035));
+  box-shadow:0 24px 72px rgba(0,0,0,.32),inset 0 0 52px rgba(139,92,246,.055)
+}
+.hero::after{
+  content:"";position:absolute;width:310px;height:310px;border-radius:50%;right:-115px;top:-155px;
+  background:radial-gradient(circle,rgba(56,189,248,.26),transparent 68%)
+}
+.brand{display:flex;align-items:center;gap:12px;margin-bottom:14px;position:relative;z-index:2}
+.logo{
+  width:58px;height:58px;border-radius:18px;display:grid;place-items:center;font-weight:1000;
+  background:linear-gradient(135deg,#7c3aed,#2563eb);box-shadow:0 0 30px rgba(99,102,241,.37)
+}
+.brand small{display:block;color:#c4b5fd;font-weight:900;letter-spacing:1.4px}
+.hero h1{
+  font-size:clamp(31px,6vw,64px);font-weight:1000;font-style:italic;line-height:.98;
+  background:linear-gradient(90deg,#f0abfc,#c084fc,#38bdf8,#67e8f9);
+  -webkit-background-clip:text;color:transparent;filter:drop-shadow(0 0 14px rgba(168,85,247,.42));
+  position:relative;z-index:2;margin-bottom:12px
+}
+.hero p{max-width:880px;color:#dbeafe;line-height:1.65;font-size:15px;position:relative;z-index:2}
+.notice{
+  margin-top:14px;display:inline-flex;gap:8px;align-items:center;padding:9px 12px;border-radius:999px;
+  border:1px solid rgba(253,224,71,.28);background:rgba(253,224,71,.08);color:#fff7ae;font-size:12px;font-weight:900;position:relative;z-index:2
+}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:18px;position:relative;z-index:2}
+.stat{padding:13px;border:1px solid var(--line);border-radius:17px;background:rgba(2,6,23,.38)}
+.stat b{display:block;font-size:24px}.stat span{font-size:11px;color:var(--muted)}
+
+.modules{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:18px 0}
+.module{
+  border:1px solid var(--line);border-radius:18px;padding:14px;background:var(--panel);
+  color:white;cursor:pointer;text-align:left;transition:.2s
+}
+.module:hover,.module.active{transform:translateY(-3px);border-color:rgba(103,232,249,.5);box-shadow:0 0 24px rgba(56,189,248,.15)}
+.module span{font-size:25px}.module b{display:block;margin:7px 0 3px;font-size:14px}.module small{color:var(--muted)}
+
+.lesson{
+  border:1px solid var(--line);border-radius:28px;padding:20px;
+  background:linear-gradient(145deg,rgba(255,255,255,.07),rgba(255,255,255,.03));
+  box-shadow:0 22px 60px rgba(0,0,0,.3)
+}
+.lesson-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;margin-bottom:15px}
+.lesson-head h2{font-size:27px}.lesson-head p{color:var(--muted);font-size:13px;margin-top:5px;line-height:1.5}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn{
+  border:0;border-radius:14px;padding:11px 14px;color:white;font-weight:900;cursor:pointer;
+  background:linear-gradient(135deg,#7c3aed,#2563eb)
+}
+.btn.secondary{background:rgba(255,255,255,.08);border:1px solid var(--line)}
+.workspace{display:grid;grid-template-columns:1.15fr .85fr;gap:16px}
+.visual,.teaching{
+  border:1px solid var(--line);border-radius:23px;background:rgba(2,6,23,.36);padding:16px
+}
+.svgwrap{
+  width:100%;aspect-ratio:1.3;border-radius:18px;overflow:hidden;
+  background:linear-gradient(180deg,rgba(15,23,42,.82),rgba(2,6,23,.90));
+  border:1px solid rgba(255,255,255,.09)
+}
+svg{width:100%;height:100%;display:block}
+.controls{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
+.control{border:1px solid var(--line);border-radius:16px;padding:11px;background:rgba(255,255,255,.045)}
+.control label{display:flex;justify-content:space-between;font-size:12px;color:#e2e8f0;margin-bottom:7px}
+.control b{color:var(--yellow)}
+input[type=range]{width:100%;accent-color:#a855f7}
+
+.step{
+  border:1px solid var(--line);border-radius:17px;padding:13px;margin-bottom:10px;
+  background:rgba(255,255,255,.045)
+}
+.step strong{display:block;font-size:14px;margin-bottom:5px;color:#fff}
+.step p{font-size:13px;color:var(--muted);line-height:1.5}
+.rule{
+  border:1px solid rgba(253,224,71,.28);border-radius:17px;padding:13px;margin-bottom:12px;
+  background:rgba(253,224,71,.075)
+}
+.rule b{display:block;color:#fff7ae;margin-bottom:5px}.rule span{font-size:13px;color:#e9e5c8;line-height:1.5}
+.math{
+  font-family:"Times New Roman",serif;font-size:18px;letter-spacing:.2px
+}
+.frac{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1;margin:0 3px}
+.frac .top{border-bottom:1.5px solid currentColor;padding:0 3px 2px}
+.frac .bottom{padding:2px 3px 0}
+
+.resultbox{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin-bottom:12px}
+.result{border:1px solid var(--line);border-radius:15px;padding:11px;background:rgba(255,255,255,.05)}
+.result b{display:block;font-size:19px;color:#fde68a;min-height:25px}.result span{font-size:11px;color:var(--muted)}
+.question{border:1px solid var(--line);border-radius:18px;padding:13px;background:rgba(255,255,255,.045)}
+.question h4{font-size:15px;margin-bottom:9px}.answers{display:grid;gap:8px}
+.answer{
+  border:1px solid var(--line);border-radius:12px;padding:10px 11px;background:rgba(255,255,255,.055);
+  color:white;text-align:left;font-weight:800;cursor:pointer
+}
+.answer.correct{background:rgba(34,197,94,.18);border-color:rgba(34,197,94,.58)}
+.answer.wrong{background:rgba(251,113,133,.18);border-color:rgba(251,113,133,.60)}
+.feedback{margin-top:10px;min-height:46px;border-radius:14px;padding:11px;background:rgba(255,255,255,.045);color:#dbeafe;font-size:13px;line-height:1.45}
+
+.summary{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:18px}
+.card{border:1px solid var(--line);border-radius:20px;padding:15px;background:var(--panel)}
+.card h3{font-size:16px;margin-bottom:7px}.card p{color:var(--muted);font-size:13px;line-height:1.5}
+.mastery{
+  margin-top:18px;border:1px solid var(--line);border-radius:24px;padding:18px;background:rgba(2,6,23,.34)
+}
+.mastery-head{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:12px}
+.mastery h2{font-size:22px}.mastery p{color:var(--muted);font-size:13px}
+.progress{height:10px;background:rgba(255,255,255,.08);border-radius:99px;overflow:hidden}
+.progress span{display:block;height:100%;width:0;background:linear-gradient(90deg,#a855f7,#38bdf8);transition:.25s}
+
+.contact-trigger{
+  position:fixed;left:12px;bottom:12px;z-index:80;border:1px solid rgba(139,92,246,.5);
+  border-radius:14px;padding:8px 10px;color:white;font-weight:900;font-size:11px;
+  background:linear-gradient(135deg,#6d28d9,#2563eb);box-shadow:0 12px 30px rgba(0,0,0,.38);cursor:pointer
+}
+.contact-panel{
+  position:fixed;left:12px;bottom:58px;z-index:81;width:min(335px,calc(100vw - 24px));
+  padding:16px;border-radius:21px;background:linear-gradient(145deg,rgba(15,22,48,.97),rgba(7,13,30,.98));
+  border:1px solid rgba(99,102,241,.38);box-shadow:0 24px 60px rgba(0,0,0,.5);backdrop-filter:blur(18px);transition:.22s
+}
+.contact-panel.hidden{opacity:0;transform:translateY(15px);visibility:hidden;pointer-events:none}
+.contact-close{position:absolute;right:9px;top:9px;width:28px;height:28px;border-radius:9px;border:1px solid var(--line);background:rgba(255,255,255,.06);color:white}
+.contact-panel h3{font-size:15px;margin:0 30px 7px 0}.contact-panel p{font-size:11px;color:var(--muted);line-height:1.55}
+.contact-buttons{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}.contact-buttons a{text-align:center;text-decoration:none;color:white;font-weight:900;font-size:11px;padding:11px;border-radius:12px}
+.wa{background:linear-gradient(135deg,#16a34a,#059669)}.ig{background:linear-gradient(135deg,#7c3aed,#d946ef,#f97316)}
+footer{text-align:center;color:#94a3b8;font-size:12px;margin-top:20px}
+
+@media(max-width:980px){.workspace{grid-template-columns:1fr}.modules{grid-template-columns:repeat(2,1fr)}.summary{grid-template-columns:repeat(2,1fr)}.controls{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:620px){
+  .page{width:95%}.hero,.lesson{padding:16px;border-radius:23px}.topbar .ghost{display:none}
+  .stats{grid-template-columns:repeat(2,1fr)}.modules,.summary,.controls{grid-template-columns:1fr}
+  .lesson-head{flex-direction:column}
+  .contact-trigger{left:8px;bottom:8px}.contact-panel{left:8px;bottom:52px;width:calc(100vw - 16px)}
+}
 </style>
 </head>
 <body>
-<div class="container">
-<a class="back" href="geometri_guncel.html">← Geometri Laboratuvarına dön</a>
-<section class="hero"><div class="logo">ENGİN360</div><div class="subtitle">📍 Analitik Geometri Laboratuvarı · LAB PRO v2.0<br>Noktaları sürükle; eğim, uzaklık, orta nokta ve doğru denklemini MEB/TYT-AYT mantığıyla, kesirli ve sadeleştirilmiş biçimde keşfet.</div></section>
-<div class="stats"><div class="stat"><b id="total">0</b><span>Cevaplanan</span></div><div class="stat"><b id="correct">0</b><span>Doğru</span></div><div class="stat"><b id="wrong">0</b><span>Yanlış</span></div><div class="stat"><b id="score">0%</b><span>Analitik sezgi</span></div></div>
-<div class="tabs"><button class="tab active" onclick="setMode('egim',this)">Eğim</button><button class="tab" onclick="setMode('uzaklik',this)">Uzaklık</button><button class="tab" onclick="setMode('orta',this)">Orta Nokta</button><button class="tab" onclick="setMode('denklem',this)">Doğru Denklemi</button><button class="tab" onclick="setMode('quiz',this)">Analitik Challenge</button></div>
+<main class="page">
+  <div class="topbar">
+    <a class="back" href="geometri_guncel.html">← Geometri Laboratuvarı</a>
+    <a class="ghost" href="geometri_cember_daire.html">⭕ Çember ve Daire</a>
+  </div>
 
-<section class="main">
-<div class="card">
-<div class="boardTop"><div><span class="chip" id="modeName">Eğim</span><span class="chip yellow">Noktaları sürükle</span></div><span class="chip" id="ruleChip">m = Δy / Δx</span></div>
-<canvas id="canvas" width="900" height="610"></canvas>
-<div class="buttons"><button class="btn" onclick="randomize()">Rastgele Noktalar</button><button class="btn alt" onclick="preset('positive')">Pozitif Eğim</button><button class="btn alt" onclick="preset('negative')">Negatif Eğim</button><button class="btn alt" onclick="resetStats()">Puanı Sıfırla</button></div>
-</div>
-<div class="card">
-<h2 class="sideTitle" id="taskTitle">Eğim</h2>
-<p class="hint" id="hint">A ve B noktalarını sürükle. Dikey değişim / yatay değişim oranı eğimi verir.</p>
-<div class="infoGrid">
-<div class="info"><b id="aText">(0,0)</b><span>A noktası</span></div>
-<div class="info"><b id="bText">(0,0)</b><span>B noktası</span></div>
-<div class="info"><b id="dxText">0</b><span>Δx</span></div>
-<div class="info"><b id="dyText">0</b><span>Δy</span></div>
-<div class="info"><b id="slopeText">0</b><span>Eğim</span></div>
-<div class="info"><b id="distText">0</b><span>Uzaklık</span></div>
-<div class="info"><b id="midText">(0,0)</b><span>Orta nokta</span></div>
-<div class="info"><b id="eqText">y = mx+n</b><span>Doğru denklemi</span></div>
-</div>
-<div id="questions"></div>
-<div class="feedback" id="feedback">A veya B noktasını tutup koordinat düzleminde sürükleyebilirsin.</div>
-</div>
-</section>
+  <section class="hero">
+    <div class="brand"><div class="logo">E360</div><div><small>ENGİN360</small><strong>Analitik Geometri Laboratuvarı</strong></div></div>
+    <h1>Analitik Geometriyi Tam Değerle Öğren</h1>
+    <p>İki noktadan eğim, uzaklık, orta nokta ve doğru denklemini adım adım oluştur. Sonuçlar ondalığa çevrilmez; kesirler sade kesir, köklü ifadeler sade kök biçiminde gösterilir.</p>
+    <div class="notice">✓ Yuvarlama yok • ✓ Kesirler sade • ✓ Köklü ifadeler korunur</div>
+    <div class="stats">
+      <div class="stat"><b id="answered">0</b><span>Cevaplanan</span></div>
+      <div class="stat"><b id="correct">0</b><span>Doğru</span></div>
+      <div class="stat"><b id="streak">0</b><span>Doğru Seri</span></div>
+      <div class="stat"><b id="best">0%</b><span>En İyi Başarı</span></div>
+    </div>
+  </section>
 
-<section class="card" style="margin-top:16px">
-<h2>Mini Kural Defteri</h2>
-<div class="lessonGrid">
-<div class="lesson"><h3>Eğim</h3><p>m = (y₂-y₁)/(x₂-x₁). Eğim ondalık yazılmaz; mümkünse sadeleştirilmiş kesir olarak kalır. Örn: 3/9 = 1/3.</p></div>
-<div class="lesson"><h3>Uzaklık</h3><p>İki nokta arası uzaklık Pisagor’dan gelir: √((Δx)²+(Δy)²). Kök tam çıkmıyorsa yaklaşık değil, köklü ifade korunur.</p></div>
-<div class="lesson"><h3>Orta Nokta</h3><p>x ve y değerlerinin ortalaması alınır: ((x₁+x₂)/2, (y₁+y₂)/2). Yarım değerler 0,5 değil 1/2 biçiminde gösterilir.</p></div>
-</div>
-</section>
-<div class="footer">ENGİN360 © 2026 · Analitik Geometri Laboratuvarı</div>
-</div>
+  <section class="modules">
+    <button class="module active" onclick="setMode('slope',this)"><span>📈</span><b>Eğim</b><small>Δy/Δx oranını sade kesirle bul.</small></button>
+    <button class="module" onclick="setMode('distance',this)"><span>📏</span><b>Uzaklık</b><small>Kökü sadeleştir, ondalığa geçme.</small></button>
+    <button class="module" onclick="setMode('midpoint',this)"><span>🎯</span><b>Orta Nokta</b><small>Koordinatların tam ortalamasını al.</small></button>
+    <button class="module" onclick="setMode('equation',this)"><span>🧮</span><b>Doğru Denklemi</b><small>y = mx + n biçimini kur.</small></button>
+    <button class="module" onclick="setMode('relations',this)"><span>⊥</span><b>Paralel–Dik</b><small>Eğim ilişkilerini karşılaştır.</small></button>
+  </section>
+
+  <section class="lesson">
+    <div class="lesson-head">
+      <div><h2 id="lessonTitle">İki Noktadan Eğim</h2><p id="lessonDesc">Dikey değişimi yatay değişime böl ve sonucu sade kesir olarak yaz.</p></div>
+      <div class="actions">
+        <button class="btn secondary" onclick="resetLesson()">Sıfırla</button>
+        <button class="btn" onclick="randomize()">Rastgele Noktalar</button>
+      </div>
+    </div>
+
+    <div class="workspace">
+      <div class="visual">
+        <div class="svgwrap"><svg id="scene" viewBox="0 0 600 460"></svg></div>
+        <div class="controls">
+          <div class="control"><label><span>A noktasının x'i</span><b id="x1v">-3</b></label><input id="x1" type="range" min="-6" max="5" value="-3" oninput="updatePoint()"></div>
+          <div class="control"><label><span>A noktasının y'si</span><b id="y1v">-1</b></label><input id="y1" type="range" min="-5" max="5" value="-1" oninput="updatePoint()"></div>
+          <div class="control"><label><span>B noktasının x'i</span><b id="x2v">3</b></label><input id="x2" type="range" min="-5" max="6" value="3" oninput="updatePoint()"></div>
+          <div class="control"><label><span>B noktasının y'si</span><b id="y2v">3</b></label><input id="y2" type="range" min="-5" max="5" value="3" oninput="updatePoint()"></div>
+        </div>
+      </div>
+
+      <aside class="teaching">
+        <div class="step"><strong>1. Değişimleri Bul</strong><p id="step1">Δx = x₂ − x₁ ve Δy = y₂ − y₁ değerlerini hesapla.</p></div>
+        <div class="step"><strong>2. Formülü Kur</strong><p id="step2">Eğim, dikey değişimin yatay değişime oranıdır.</p></div>
+        <div class="step"><strong>3. Tam Değeri Yaz</strong><p id="step3">Kesir varsa sadeleştir; ondalık karşılık kullanma.</p></div>
+
+        <div class="rule"><b id="ruleTitle">Eğim Formülü</b><span id="ruleText" class="math"></span></div>
+
+        <div class="resultbox">
+          <div class="result"><b id="r1">—</b><span id="r1l">Δx</span></div>
+          <div class="result"><b id="r2">—</b><span id="r2l">Δy</span></div>
+          <div class="result"><b id="r3">—</b><span id="r3l">Tam sonuç</span></div>
+          <div class="result"><b id="r4">—</b><span id="r4l">Yorum</span></div>
+        </div>
+
+        <div class="question">
+          <h4 id="questionText"></h4>
+          <div class="answers" id="answers"></div>
+          <div class="feedback" id="feedback">Önce işlemi incele, sonra cevapla.</div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="summary">
+    <article class="card"><h3>📈 Eğim</h3><p>m = Δy/Δx. Sonuç 2/3 ise 0,67 yazılmaz; 2/3 olarak korunur.</p></article>
+    <article class="card"><h3>📏 Uzaklık</h3><p>√(Δx²+Δy²) tam kare değilse köklü ifade sadeleştirilerek bırakılır.</p></article>
+    <article class="card"><h3>🎯 Orta Nokta</h3><p>Koordinatlar ayrı ayrı ortalanır. Sonuç yarım ise 1/2 biçiminde gösterilir.</p></article>
+    <article class="card"><h3>🧮 Doğru Denklemi</h3><p>Eğim ve sabit terim kesirli kalabilir; katsayılar yuvarlanmaz.</p></article>
+  </section>
+
+  <section class="mastery">
+    <div class="mastery-head"><div><h2>Analitik Geometri Ustalığı</h2><p>Doğru cevap verdikçe ilerleme çubuğu dolacaktır.</p></div><strong id="masteryText">0%</strong></div>
+    <div class="progress"><span id="progressBar"></span></div>
+  </section>
+
+  <footer>ENGİN360 • Analitik Geometri Laboratuvarı • Engin Özcan</footer>
+</main>
+
+<button class="contact-trigger" onclick="openContact()">E360 Koçluk</button>
+<aside class="contact-panel hidden" id="contactPanel">
+  <button class="contact-close" onclick="closeContact()">×</button>
+  <h3>Analitik geometride sağlam temel ister misin?</h3>
+  <p>Sana özel çalışma planı, takip ve eğitim koçluğu desteği için iletişime geçebilirsin.</p>
+  <div class="contact-buttons">
+    <a class="wa" href="https://wa.me/905348165015" target="_blank" rel="noopener">WhatsApp</a>
+    <a class="ig" href="https://www.instagram.com/www_engin360_com/" target="_blank" rel="noopener">Instagram</a>
+  </div>
+</aside>
 
 <script>
-const $=id=>document.getElementById(id), canvas=$('canvas'), ctx=canvas.getContext('2d');
-let mode='egim', drag=null,total=0,correct=0,wrong=0;
-let A={x:-4,y:2},B={x:5,y:5}, data={};
-const xmin=-10,xmax=10,ymin=-8,ymax=8;
-function sx(x){return 60+(x-xmin)/(xmax-xmin)*(canvas.width-120)}
-function sy(y){return canvas.height-60-(y-ymin)/(ymax-ymin)*(canvas.height-120)}
-function wx(X){return Math.round((xmin+(X-60)/(canvas.width-120)*(xmax-xmin))*10)/10}
-function wy(Y){return Math.round((ymin+(canvas.height-60-Y)/(canvas.height-120)*(ymax-ymin))*10)/10}
-function gcd(a,b){a=Math.abs(Math.round(a));b=Math.abs(Math.round(b));while(b){let t=b;b=a%b;a=t}return a||1}
-function simplify(num,den=1){
- num=Math.round(num);den=Math.round(den);
- if(den===0)return {num:num,den:0};
- if(num===0)return {num:0,den:1};
- if(den<0){num=-num;den=-den}
- let g=gcd(num,den);return {num:num/g,den:den/g};
+const $=id=>document.getElementById(id);
+let mode='slope',answered=0,correct=0,streak=0,current=null;
+const bestKey='e360_analytic_best';
+$('best').textContent=(localStorage.getItem(bestKey)||0)+'%';
+
+function gcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){[a,b]=[b,a%b]}return a||1}
+function fracObj(n,d=1){
+  if(d===0)return {n:1,d:0};
+  if(d<0){n=-n;d=-d}
+  const g=gcd(n,d);return {n:n/g,d:d/g}
 }
-function fracText(num,den=1){
- let f=simplify(num,den); if(f.den===0)return 'tanımsız';
- if(f.den===1)return String(f.num); return `${f.num}/${f.den}`;
+function fracText(n,d=1){
+  const f=fracObj(n,d);
+  if(f.d===0)return 'tanımsız';
+  if(f.n===0)return '0';
+  if(f.d===1)return String(f.n);
+  return `${f.n}/${f.d}`;
 }
-function absFracText(f){return fracText(Math.abs(f.num),f.den)}
-function valueToFracText(v){
- if(!isFinite(v))return 'tanımsız';
- let den=1000, num=Math.round(v*den); return fracText(num,den);
+function fracHTML(n,d=1){
+  const f=fracObj(n,d);
+  if(f.d===0)return 'tanımsız';
+  if(f.n===0)return '0';
+  if(f.d===1)return String(f.n);
+  const sign=f.n<0?'-':'';
+  return `${sign}<span class="frac"><span class="top">${Math.abs(f.n)}</span><span class="bottom">${f.d}</span></span>`;
 }
-function slopeRawText(){return `${data.dy}/${data.dx}`}
-function slopeText(){return data.dx===0?'tanımsız':fracText(data.dy,data.dx)}
-function distText(){
- let n=data.dx*data.dx+data.dy*data.dy, r=Math.sqrt(n);
- if(Number.isInteger(r))return String(r);
- return `√${n}`;
+function addFrac(a,b){return fracObj(a.n*b.d+b.n*a.d,a.d*b.d)}
+function subFrac(a,b){return fracObj(a.n*b.d-b.n*a.d,a.d*b.d)}
+function mulFrac(a,b){return fracObj(a.n*b.n,a.d*b.d)}
+function divFrac(a,b){return fracObj(a.n*b.d,a.d*b.n)}
+function radicalSimplify(n){
+  if(n===0)return {coef:0,rad:1};
+  let coef=1,rad=n;
+  for(let k=Math.floor(Math.sqrt(n));k>=2;k--){
+    if(n%(k*k)===0){coef=k;rad=n/(k*k);break}
+  }
+  return {coef,rad}
 }
-function distApproxText(){return Math.round(data.dist*100)/100}
-function midpointText(){return `(${fracText(A.x+B.x,2)},${fracText(A.y+B.y,2)})`}
-function pointText(p){return `(${fracText(p.x)},${fracText(p.y)})`}
-function equationText(){
- if(data.dx===0)return `x=${fracText(A.x)}`;
- let m=simplify(data.dy,data.dx);
- let n=simplify(A.y*m.den-m.num*A.x,m.den);
- let xpart='';
- if(m.num===0)xpart='0';
- else if(m.den===1 && m.num===1)xpart='x';
- else if(m.den===1 && m.num===-1)xpart='-x';
- else xpart=`${fracText(m.num,m.den)}x`;
- if(m.num===0)return `y=${fracText(n.num,n.den)}`;
- if(n.num===0)return `y=${xpart}`;
- return `y=${xpart}${n.num>0?'+':'-'}${absFracText(n)}`;
+function radicalText(n){
+  const r=radicalSimplify(n);
+  if(r.coef===0)return '0';
+  if(r.rad===1)return String(r.coef);
+  return (r.coef===1?'':r.coef)+'√'+r.rad;
+}
+function radicalHTML(n){
+  return radicalText(n);
+}
+
+function pointData(){
+  return {A:{x:+x1.value,y:+y1.value},B:{x:+x2.value,y:+y2.value}}
 }
 function calc(){
- let dx=B.x-A.x, dy=B.y-A.y, slope=dx===0?Infinity:dy/dx, dist=Math.hypot(dx,dy), mid={x:(A.x+B.x)/2,y:(A.y+B.y)/2};
- let m=dx===0?{num:1,den:0}:simplify(dy,dx);
- let n=dx===0?null:simplify(A.y*m.den-m.num*A.x,m.den);
- data={dx,dy,slope,dist,mid,m,n};
- $('aText').textContent=pointText(A); $('bText').textContent=pointText(B);
- $('dxText').textContent=fracText(dx); $('dyText').textContent=fracText(dy); $('slopeText').textContent=slopeText(); $('distText').textContent=distText();
- $('midText').textContent=midpointText(); $('eqText').textContent=equationText();
+  const {A,B}=pointData(),dx=B.x-A.x,dy=B.y-A.y;
+  const slope=fracObj(dy,dx);
+  const distN=dx*dx+dy*dy;
+  const midX=fracObj(A.x+B.x,2),midY=fracObj(A.y+B.y,2);
+  let intercept=null;
+  if(dx!==0){
+    const m=fracObj(dy,dx);
+    intercept=subFrac(fracObj(A.y,1),mulFrac(m,fracObj(A.x,1)));
+  }
+  return {A,B,dx,dy,slope,distN,midX,midY,intercept};
 }
-function bg(){
- ctx.clearRect(0,0,canvas.width,canvas.height); let g=ctx.createLinearGradient(0,0,canvas.width,canvas.height);g.addColorStop(0,'rgba(15,23,42,.98)');g.addColorStop(1,'rgba(35,5,52,.92)');ctx.fillStyle=g;ctx.fillRect(0,0,canvas.width,canvas.height);
- ctx.strokeStyle='rgba(255,255,255,.09)';ctx.lineWidth=1;
- for(let x=xmin;x<=xmax;x++){ctx.beginPath();ctx.moveTo(sx(x),60);ctx.lineTo(sx(x),canvas.height-60);ctx.stroke()}
- for(let y=ymin;y<=ymax;y++){ctx.beginPath();ctx.moveTo(60,sy(y));ctx.lineTo(canvas.width-60,sy(y));ctx.stroke()}
- ctx.save();ctx.strokeStyle='#38bdf8';ctx.lineWidth=3;ctx.shadowColor='#38bdf8';ctx.shadowBlur=12;ctx.beginPath();ctx.moveTo(60,sy(0));ctx.lineTo(canvas.width-60,sy(0));ctx.stroke();ctx.beginPath();ctx.moveTo(sx(0),60);ctx.lineTo(sx(0),canvas.height-60);ctx.stroke();ctx.restore();
- ctx.fillStyle='rgba(255,255,255,.70)';ctx.font='12px Arial';ctx.textAlign='center';
- for(let x=xmin;x<=xmax;x+=2)if(x!==0)ctx.fillText(x,sx(x),sy(0)+18);
- ctx.textAlign='right';for(let y=ymin;y<=ymax;y+=2)if(y!==0)ctx.fillText(y,sx(0)-8,sy(y)+4);
+function sx(x){return 300+x*38}
+function sy(y){return 230-y*38}
+function line(x1,y1,x2,y2,color='#67e8f9',w=4,dash=''){
+  return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${color}" stroke-width="${w}" ${dash?`stroke-dasharray="${dash}"`:''}/>`
 }
-function line(p,q,color,w=5,dash=false){ctx.save();ctx.strokeStyle=color;ctx.lineWidth=w;ctx.lineCap='round';ctx.shadowColor=color;ctx.shadowBlur=14;if(dash)ctx.setLineDash([10,8]);ctx.beginPath();ctx.moveTo(sx(p.x),sy(p.y));ctx.lineTo(sx(q.x),sy(q.y));ctx.stroke();ctx.restore()}
-function drawPoint(name,p,color){ctx.save();ctx.fillStyle=color;ctx.shadowColor=color;ctx.shadowBlur=18;ctx.beginPath();ctx.arc(sx(p.x),sy(p.y),10,0,Math.PI*2);ctx.fill();ctx.fillStyle='#fff';ctx.font='900 20px Arial';ctx.textAlign='center';ctx.fillText(name+pointText(p),sx(p.x),sy(p.y)-18);ctx.restore()}
-function draw(){
- calc(); bg();
- if(data.dx!==0){let p1={x:xmin,y:data.slope*xmin+(data.n.num/data.n.den)}, p2={x:xmax,y:data.slope*xmax+(data.n.num/data.n.den)}; line(p1,p2,'rgba(56,189,248,.75)',3,true)}
- else line({x:A.x,y:ymin},{x:A.x,y:ymax},'rgba(56,189,248,.75)',3,true);
- line(A,B,'#ec4899',6);
- if(mode==='egim'||mode==='denklem'||mode==='quiz')drawSlopeTriangle();
- if(mode==='uzaklik')drawDistance();
- if(mode==='orta')drawMid();
- drawPoint('A',A,'#ffd60a'); drawPoint('B',B,'#22c55e');
+function label(x,y,t,color='#fff',size=16,anchor='middle'){
+  return `<text x="${x}" y="${y}" fill="${color}" font-size="${size}" font-weight="900" text-anchor="${anchor}">${t}</text>`
 }
-function drawSlopeTriangle(){
- let C={x:B.x,y:A.y}; line(A,C,'#ffd60a',4); line(C,B,'#67e8f9',4);
- text('Δx='+fracText(data.dx),(sx(A.x)+sx(C.x))/2,sy(A.y)+30,'#ffd60a',18);
- text('Δy='+fracText(data.dy),sx(C.x)+45,(sy(C.y)+sy(B.y))/2,'#67e8f9',18);
- let raw = data.dx===0?'tanımsız':slopeRawText();
- let simp = slopeText();
- let label = data.dx===0 ? 'm = tanımsız' : (raw===simp ? `m = Δy / Δx = ${simp}` : `m = Δy / Δx = ${raw} = ${simp}`);
- text(label,canvas.width/2,45,'#fff176',22);
+function drawGrid(){
+  let s='';
+  for(let i=-7;i<=7;i++){
+    s+=line(sx(i),20,sx(i),440,'rgba(255,255,255,.08)',1);
+    s+=line(20,sy(i),580,sy(i),'rgba(255,255,255,.08)',1);
+  }
+  s+=line(20,sy(0),580,sy(0),'#e2e8f0',2)+line(sx(0),20,sx(0),440,'#e2e8f0',2);
+  for(let i=-6;i<=6;i++)if(i!==0){
+    s+=label(sx(i),sy(0)+17,String(i),'#94a3b8',11);
+    s+=label(sx(0)+10,sy(i)+4,String(i),'#94a3b8',11,'start');
+  }
+  return s;
 }
-function drawDistance(){text('Uzaklık = √(Δx² + Δy²) = '+distText(),canvas.width/2,45,'#fff176',22)}
-function drawMid(){let m=data.mid;ctx.save();ctx.fillStyle='#38bdf8';ctx.shadowColor='#38bdf8';ctx.shadowBlur=18;ctx.beginPath();ctx.arc(sx(m.x),sy(m.y),9,0,Math.PI*2);ctx.fill();ctx.restore();text('M'+midpointText(),sx(m.x),sy(m.y)-22,'#67e8f9',20)}
-function text(t,x,y,color,size){ctx.save();ctx.fillStyle=color;ctx.font='900 '+size+'px Arial';ctx.textAlign='center';ctx.shadowColor=color;ctx.shadowBlur=12;ctx.fillText(t,x,y);ctx.restore()}
-function setMode(m,btn){
- mode=m;document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));btn.classList.add('active');
- const names={egim:'Eğim',uzaklik:'Uzaklık',orta:'Orta Nokta',denklem:'Doğru Denklemi',quiz:'Analitik Challenge'};
- $('modeName').textContent=names[m];$('taskTitle').textContent=names[m];
- if(m==='egim'){$('hint').textContent='Dikey değişim / yatay değişim eğimi verir. Sonuç ondalık değil, sade kesir olarak yazılır.';$('ruleChip').textContent='m = Δy / Δx'}
- if(m==='uzaklik'){$('hint').textContent='İki nokta arasındaki uzaklık Pisagor mantığıyla bulunur. Kök tam çıkmıyorsa köklü ifade korunur.';$('ruleChip').textContent='d = √(Δx²+Δy²)'}
- if(m==='orta'){$('hint').textContent='Orta nokta x ve y değerlerinin ortalamasıdır. 0,5 yerine 1/2 yazılır.';$('ruleChip').textContent='M = ortalama nokta'}
- if(m==='denklem'){$('hint').textContent='Doğrunun denklemi eğim ve y-kesişiminden bulunur. Katsayılar sade kesir olarak kalır.';$('ruleChip').textContent='y = mx+n'}
- if(m==='quiz'){$('hint').textContent='Şekli incele; eğim, orta nokta, uzaklık ve denklem sorularını kesirli mantıkla cevapla.';$('ruleChip').textContent='Challenge'}
- draw();makeQuestions(true);
+function drawScene(){
+  const d=calc(),A=d.A,B=d.B;
+  let s=drawGrid();
+  if(d.dx!==0){
+    const m=d.dy/d.dx;
+    const yL=A.y+m*(-7-A.x),yR=A.y+m*(7-A.x);
+    s+=line(sx(-7),sy(yL),sx(7),sy(yR),'#c084fc',5);
+  }else s+=line(sx(A.x),20,sx(A.x),440,'#c084fc',5);
+  s+=line(sx(A.x),sy(A.y),sx(B.x),sy(A.y),'#fde047',3,'8 6');
+  s+=line(sx(B.x),sy(A.y),sx(B.x),sy(B.y),'#ec4899',3,'8 6');
+  if(mode==='midpoint'){
+    const mx=(A.x+B.x)/2,my=(A.y+B.y)/2;
+    s+=`<circle cx="${sx(mx)}" cy="${sy(my)}" r="9" fill="#38bdf8"/>`+label(sx(mx),sy(my)-14,'M','#67e8f9',18);
+  }
+  s+=`<circle cx="${sx(A.x)}" cy="${sy(A.y)}" r="8" fill="#fff"/>`;
+  s+=`<circle cx="${sx(B.x)}" cy="${sy(B.y)}" r="8" fill="#fff"/>`;
+  s+=label(sx(A.x),sy(A.y)-14,`A(${A.x},${A.y})`,'#fff',15);
+  s+=label(sx(B.x),sy(B.y)-14,`B(${B.x},${B.y})`,'#fff',15);
+  s+=label((sx(A.x)+sx(B.x))/2,sy(A.y)+22,`Δx = ${d.dx}`,'#fde047',15);
+  s+=label(sx(B.x)+38,(sy(A.y)+sy(B.y))/2,`Δy = ${d.dy}`,'#f0abfc',15);
+  $('scene').innerHTML=s;
 }
-function randomize(){A={x:Math.floor(Math.random()*13)-7,y:Math.floor(Math.random()*11)-5};B={x:Math.floor(Math.random()*13)-2,y:Math.floor(Math.random()*11)-5};if(A.x===B.x)B.x+=3;draw();makeQuestions(true)}
-function preset(t){if(t==='positive'){A={x:-6,y:-3};B={x:3,y:0}}else{A={x:-6,y:4};B={x:3,y:1}}draw();makeQuestions(true)}
-function mix(correct,pool){return [...new Set([String(correct),...pool.map(String)])].sort(()=>Math.random()-.5).slice(0,4)}
-function q(title,correct,pool){let opts=mix(correct,pool);return `<div class="q"><b>${title}</b><div class="opts">${opts.map(o=>`<button class="opt" onclick="answer(this,'${encodeURIComponent(o)}','${encodeURIComponent(String(correct))}')">${o}</button>`).join('')}</div></div>`}
-function makeQuestions(){
- let html='';
- let wrongSlope1=data.dx===0?'0':fracText(-data.dy,data.dx), wrongSlope2=fracText(data.dx||1,data.dy||1);
- if(mode==='egim'){
-   html+=q('Δx kaçtır?',fracText(data.dx),[fracText(data.dy),distText(),fracText(-data.dx)]);
-   html+=q('Eğim kaçtır? Ondalık değil, sade kesir yazımı aranır.',slopeText(),[wrongSlope1,fracText(data.dy),fracText(data.dx)]);
- }
- else if(mode==='uzaklik'){
-   html+=q('İki nokta arası uzaklık kaçtır?',distText(),[fracText(Math.abs(data.dx)),fracText(Math.abs(data.dy)),`√${Math.abs(data.dx*data.dy)}`]);
-   html+=q('Uzaklık formülü hangi mantıktan gelir?','Pisagor',['Ortalama','Eğim sadeleştirme','Denklem çözme']);
- }
- else if(mode==='orta'){
-   html+=q('Orta noktanın x değeri kaçtır?',fracText(A.x+B.x,2),[fracText(A.x),fracText(B.x),fracText(A.y+B.y,2)]);
-   html+=q('Orta nokta hangisidir?',midpointText(),[pointText(A),pointText(B),`(${fracText(A.y+B.y,2)},${fracText(A.x+B.x,2)})`]);
- }
- else if(mode==='denklem'){
-   html+=q('Doğrunun eğimi kaçtır?',slopeText(),[data.n?fracText(data.n.num,data.n.den):'0',fracText(data.dx),fracText(data.dy)]);
-   html+=q('Doğrunun denklemi hangisidir?',equationText(),['y=x','y=-x','x='+fracText(A.x)]);
- }
- else{
-   html+=q('Eğim kaçtır?',slopeText(),[fracText(data.dx),fracText(data.dy),wrongSlope1]);
-   html+=q('Orta nokta hangisidir?',midpointText(),[pointText(A),pointText(B),`(${fracText(A.y+B.y,2)},${fracText(A.x+B.x,2)})`]);
-   html+=q('Uzaklık kaçtır?',distText(),[fracText(Math.abs(data.dx)),fracText(Math.abs(data.dy)),distApproxText()]);
-   html+=q('Doğru denklemi hangisidir?',equationText(),['y=x','y=-x','x='+fracText(A.x)]);
- }
- $('questions').innerHTML=html;
+
+function equationText(d){
+  if(d.dx===0)return `x = ${d.A.x}`;
+  const m=d.slope,n=d.intercept;
+  let out='y = ';
+  if(m.n===0)out+='';
+  else if(m.d===1&&m.n===1)out+='x';
+  else if(m.d===1&&m.n===-1)out+='−x';
+  else out+=`${fracText(m.n,m.d)}x`;
+  if(n.n!==0){
+    if(m.n!==0)out+=n.n>0?' + ':' − ';
+    else if(n.n<0)out+='−';
+    out+=fracText(Math.abs(n.n),n.d);
+  }else if(m.n===0)out+='0';
+  return out;
 }
-function answer(btn,val,cor){val=decodeURIComponent(val);cor=decodeURIComponent(cor);[...btn.parentElement.children].forEach(b=>b.disabled=true);total++;if(val===cor){correct++;btn.classList.add('correct');$('feedback').innerHTML='✅ Doğru. Kesirli analitik geometri mantığı oturuyor.'}else{wrong++;btn.classList.add('wrong');[...btn.parentElement.children].forEach(b=>{if(b.textContent===cor)b.classList.add('correct')});$('feedback').innerHTML='❌ Yanlış. Doğru cevap işaretlendi; özellikle eğimi ondalığa çevirmeden sadeleştirerek oku.'}updateStats()}
-function updateStats(){$('total').textContent=total;$('correct').textContent=correct;$('wrong').textContent=wrong;$('score').textContent=total?Math.round(correct/total*100)+'%':'0%'}
-function resetStats(){total=correct=wrong=0;updateStats();$('feedback').textContent='Puan sıfırlandı.'}
-canvas.addEventListener('pointerdown',e=>{let r=canvas.getBoundingClientRect(),X=(e.clientX-r.left)*canvas.width/r.width,Y=(e.clientY-r.top)*canvas.height/r.height;if(Math.hypot(sx(A.x)-X,sy(A.y)-Y)<30)drag='A';else if(Math.hypot(sx(B.x)-X,sy(B.y)-Y)<30)drag='B'});
-canvas.addEventListener('pointermove',e=>{if(!drag)return;let r=canvas.getBoundingClientRect(),X=(e.clientX-r.left)*canvas.width/r.width,Y=(e.clientY-r.top)*canvas.height/r.height;let p={x:Math.max(xmin,Math.min(xmax,Math.round(wx(X)))),y:Math.max(ymin,Math.min(ymax,Math.round(wy(Y))))};if(drag==='A')A=p;else B=p;draw();makeQuestions(false)});
-canvas.addEventListener('pointerup',()=>drag=null);canvas.addEventListener('pointerleave',()=>drag=null);
-draw();makeQuestions(true);
+function equationHTML(d){
+  if(d.dx===0)return `x = ${d.A.x}`;
+  const m=d.slope,n=d.intercept;
+  let out='y = ';
+  if(m.n===0)out+='';
+  else if(m.d===1&&m.n===1)out+='x';
+  else if(m.d===1&&m.n===-1)out+='−x';
+  else out+=`${fracHTML(m.n,m.d)}x`;
+  if(n.n!==0){
+    if(m.n!==0)out+=n.n>0?' + ':' − ';
+    else if(n.n<0)out+='−';
+    out+=fracHTML(Math.abs(n.n),n.d);
+  }else if(m.n===0)out+='0';
+  return out;
+}
+
+function updateLessonText(){
+  if(mode==='slope'){
+    $('lessonTitle').textContent='İki Noktadan Eğim';
+    $('lessonDesc').textContent='Dikey değişimi yatay değişime böl ve sonucu sade kesir olarak yaz.';
+    $('step1').textContent='Δx = x₂ − x₁ ve Δy = y₂ − y₁ değerlerini hesapla.';
+    $('step2').textContent='Eğim, dikey değişimin yatay değişime oranıdır.';
+    $('step3').textContent='Kesir varsa sadeleştir; ondalık karşılık kullanma.';
+    $('ruleTitle').textContent='Eğim Formülü';
+    $('ruleText').innerHTML='m = <span class="frac"><span class="top">y₂ − y₁</span><span class="bottom">x₂ − x₁</span></span>';
+    setLabels(['Δx','Δy','Eğim','Yorum']);
+  }else if(mode==='distance'){
+    $('lessonTitle').textContent='İki Nokta Arasındaki Uzaklık';
+    $('lessonDesc').textContent='Pisagor bağıntısını kullan ve köklü sonucu tam değer olarak koru.';
+    $('step1').textContent='Yatay ve dikey farkları bul.';
+    $('step2').textContent='Bu iki fark, bir dik üçgenin dik kenarlarıdır.';
+    $('step3').textContent='Kök tam çıkmıyorsa kökü sadeleştir; yaklaşık değer yazma.';
+    $('ruleTitle').textContent='Uzaklık Formülü';
+    $('ruleText').innerHTML='d = √[(x₂ − x₁)² + (y₂ − y₁)²]';
+    setLabels(['Δx²','Δy²','Kök içi','Tam uzaklık']);
+  }else if(mode==='midpoint'){
+    $('lessonTitle').textContent='Orta Nokta';
+    $('lessonDesc').textContent='x ve y koordinatlarının ayrı ayrı aritmetik ortalamasını al.';
+    $('step1').textContent='x koordinatlarını topla ve 2’ye böl.';
+    $('step2').textContent='y koordinatlarını topla ve 2’ye böl.';
+    $('step3').textContent='Sonuç yarım çıkarsa 0,5 değil 1/2 olarak göster.';
+    $('ruleTitle').textContent='Orta Nokta Formülü';
+    $('ruleText').innerHTML='M = ( <span class="frac"><span class="top">x₁+x₂</span><span class="bottom">2</span></span> , <span class="frac"><span class="top">y₁+y₂</span><span class="bottom">2</span></span> )';
+    setLabels(['x ortalaması','y ortalaması','Orta nokta','Kontrol']);
+  }else if(mode==='equation'){
+    $('lessonTitle').textContent='İki Noktadan Doğru Denklemi';
+    $('lessonDesc').textContent='Önce eğimi, sonra y eksenini kestiği sabit terimi tam değerle bul.';
+    $('step1').textContent='Önce m = Δy/Δx ile eğimi bul.';
+    $('step2').textContent='Noktalardan birini y = mx + n denkleminde yerine koy.';
+    $('step3').textContent='m ve n kesirli çıkarsa kesirli bırak; yuvarlama yapma.';
+    $('ruleTitle').textContent='Doğru Denklemi';
+    $('ruleText').innerHTML='y = mx + n';
+    setLabels(['Eğim m','Sabit n','Denklem','Doğru türü']);
+  }else{
+    $('lessonTitle').textContent='Paralel ve Dik Doğrular';
+    $('lessonDesc').textContent='Eğimleri karşılaştırarak doğruların ilişkisini öğren.';
+    $('step1').textContent='Paralel doğruların eğimleri eşittir.';
+    $('step2').textContent='Dik doğruların eğimleri çarpımı −1’dir.';
+    $('step3').textContent='Bir eğim a/b ise dik doğrunun eğimi −b/a olur.';
+    $('ruleTitle').textContent='Eğim İlişkileri';
+    $('ruleText').innerHTML='Paralel: m₁ = m₂ &nbsp; • &nbsp; Dik: m₁·m₂ = −1';
+    setLabels(['m₁','Paralel eğim','Dik eğim','Sonuç']);
+  }
+}
+function setLabels(arr){['r1l','r2l','r3l','r4l'].forEach((id,i)=>$(id).textContent=arr[i])}
+
+function fillResults(){
+  const d=calc();
+  if(mode==='slope'){
+    $('r1').textContent=d.dx;$('r2').textContent=d.dy;$('r3').innerHTML=fracHTML(d.slope.n,d.slope.d);
+    $('r4').textContent=d.dx===0?'Dikey doğru':d.slope.n>0?'Pozitif':d.slope.n<0?'Negatif':'Sıfır';
+  }else if(mode==='distance'){
+    $('r1').textContent=d.dx*d.dx;$('r2').textContent=d.dy*d.dy;$('r3').textContent=d.distN;$('r4').textContent=radicalText(d.distN);
+  }else if(mode==='midpoint'){
+    $('r1').innerHTML=fracHTML(d.midX.n,d.midX.d);$('r2').innerHTML=fracHTML(d.midY.n,d.midY.d);
+    $('r3').innerHTML=`(${fracHTML(d.midX.n,d.midX.d)}, ${fracHTML(d.midY.n,d.midY.d)})`;
+    $('r4').textContent='İki uca eşit uzaklıkta';
+  }else if(mode==='equation'){
+    $('r1').innerHTML=fracHTML(d.slope.n,d.slope.d);
+    $('r2').innerHTML=d.intercept?fracHTML(d.intercept.n,d.intercept.d):'—';
+    $('r3').innerHTML=equationHTML(d);
+    $('r4').textContent=d.dx===0?'Dikey doğru':'y = mx + n';
+  }else{
+    $('r1').innerHTML=fracHTML(d.slope.n,d.slope.d);
+    $('r2').innerHTML=fracHTML(d.slope.n,d.slope.d);
+    if(d.slope.n===0)$('r3').textContent='tanımsız';
+    else $('r3').innerHTML=fracHTML(-d.slope.d,d.slope.n);
+    $('r4').textContent='m₁·m₂ = −1';
+  }
+}
+
+function makeQuestion(){
+  const d=calc();let q,a,o,explain;
+  if(mode==='slope'){
+    q='A ve B noktalarından geçen doğrunun eğimi kaçtır?';
+    a=fracText(d.slope.n,d.slope.d);
+    o=[a,fracText(d.dx,d.dy),String(d.dy),String(d.dx)];
+    explain='Eğim Δy/Δx oranıdır ve sade kesir olarak yazılır.';
+  }else if(mode==='distance'){
+    q='A ile B arasındaki tam uzaklık kaçtır?';
+    a=radicalText(d.distN);
+    o=[a,String(d.distN),String(Math.abs(d.dx)+Math.abs(d.dy)),`√${Math.abs(d.dx*d.dy)}`];
+    explain='Uzaklık köklü ifade olarak sadeleştirilir; yaklaşık değere çevrilmez.';
+  }else if(mode==='midpoint'){
+    q='A ve B noktalarının orta noktası hangisidir?';
+    a=`(${fracText(d.midX.n,d.midX.d)}, ${fracText(d.midY.n,d.midY.d)})`;
+    o=[a,`(${d.A.x}, ${d.A.y})`,`(${d.B.x}, ${d.B.y})`,`(${fracText(d.midY.n,d.midY.d)}, ${fracText(d.midX.n,d.midX.d)})`];
+    explain='x ve y koordinatları ayrı ayrı ortalanır.';
+  }else if(mode==='equation'){
+    q='A ve B noktalarından geçen doğrunun denklemi hangisidir?';
+    a=equationText(d);
+    o=[a,'y = x','y = −x',`x = ${d.A.x}`];
+    explain='Eğim ve sabit terim tam kesir değerleriyle korunur.';
+  }else{
+    q=`Eğimi ${fracText(d.slope.n,d.slope.d)} olan doğruya dik doğrunun eğimi nedir?`;
+    a=d.slope.n===0?'tanımsız':fracText(-d.slope.d,d.slope.n);
+    o=[a,fracText(d.slope.n,d.slope.d),fracText(d.slope.d,d.slope.n),fracText(-d.slope.n,d.slope.d)];
+    explain='Dik doğruların eğimleri negatif tersidir.';
+  }
+  current={q,a,o:[...new Set(o)].slice(0,4),explain};
+  $('questionText').textContent=q;$('feedback').textContent='Önce işlemi incele, sonra cevapla.';
+  const area=$('answers');area.innerHTML='';
+  current.o.sort(()=>Math.random()-.5).forEach(opt=>{
+    const b=document.createElement('button');b.className='answer';b.textContent=opt;b.onclick=()=>answer(opt,b);area.appendChild(b)
+  });
+}
+function answer(opt,btn){
+  const all=[...$('answers').children];if(all.some(x=>x.disabled))return;
+  all.forEach(x=>{x.disabled=true;if(x.textContent===current.a)x.classList.add('correct')});
+  answered++;
+  if(opt===current.a){correct++;streak++;btn.classList.add('correct');$('feedback').textContent='Doğru! '+current.explain}
+  else{streak=0;btn.classList.add('wrong');$('feedback').textContent='Henüz değil. '+current.explain}
+  updateStats();
+}
+function updateStats(){
+  $('answered').textContent=answered;$('correct').textContent=correct;$('streak').textContent=streak;
+  const pct=answered?Math.round(correct/answered*100):0;
+  $('masteryText').textContent=pct+'%';$('progressBar').style.width=pct+'%';
+  const best=Math.max(Number(localStorage.getItem(bestKey)||0),pct);localStorage.setItem(bestKey,best);$('best').textContent=best+'%';
+}
+function render(){drawScene();updateLessonText();fillResults();makeQuestion()}
+function updatePoint(){
+  if(x1.value===x2.value && y1.value===y2.value){x2.value=String(Math.min(6,+x2.value+1))}
+  ['x1','y1','x2','y2'].forEach(id=>$(id+'v').textContent=$(id).value);
+  render();
+}
+function setMode(m,el){mode=m;document.querySelectorAll('.module').forEach(x=>x.classList.remove('active'));el.classList.add('active');render()}
+function randomize(){
+  let ax,ay,bx,by;
+  do{
+    ax=Math.floor(Math.random()*11)-5;ay=Math.floor(Math.random()*11)-5;
+    bx=Math.floor(Math.random()*11)-5;by=Math.floor(Math.random()*11)-5;
+  }while(ax===bx&&ay===by);
+  x1.value=ax;y1.value=ay;x2.value=bx;y2.value=by;updatePoint();
+}
+function resetLesson(){x1.value=-3;y1.value=-1;x2.value=3;y2.value=3;updatePoint()}
+function openContact(){$('contactPanel').classList.remove('hidden')}
+function closeContact(){$('contactPanel').classList.add('hidden')}
+
+render();updateStats();
 </script>
 </body>
 </html>
