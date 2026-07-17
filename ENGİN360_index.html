@@ -1,0 +1,1215 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#090d22">
+  <meta name="color-scheme" content="dark">
+  <title>ENGİN360 | Matematik, Rehberlik ve Eğitim Koçluğu Portalı</title>
+  <meta name="description" content="ENGİN360; matematik laboratuvarları, rehberlik, eğitim koçluğu, hafıza araçları, pomodoro ve hedef takip sistemlerini tek portalda birleştirir.">
+  <link rel="canonical" href="https://www.engin360.com/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="ENGİN360">
+  <meta property="og:title" content="ENGİN360 | Öğrenmenin Yeni Nesli">
+  <meta property="og:description" content="Matematik, rehberlik, koçluk ve hedef takip araçları tek merkezde.">
+  <meta property="og:image" content="https://www.engin360.com/engin360-banner.webp">
+  <meta property="og:url" content="https://www.engin360.com/">
+  <meta property="og:locale" content="tr_TR">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ENGİN360 | Öğrenmenin Yeni Nesli">
+  <meta name="twitter:description" content="Matematik, rehberlik, koçluk ve hedef takip araçları tek merkezde.">
+  <meta name="twitter:image" content="https://www.engin360.com/engin360-banner.webp">
+
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+  <style>
+    :root{
+      --bg:#080b1d;
+      --bg2:#101738;
+      --surface:rgba(19,27,58,.82);
+      --surface2:rgba(12,18,42,.94);
+      --text:#f7f9ff;
+      --muted:#aeb9d8;
+      --line:rgba(255,255,255,.11);
+      --purple:151,91,255;
+      --blue:66,133,255;
+      --cyan:49,220,255;
+      --pink:255,79,171;
+      --orange:255,145,71;
+      --green:47,218,139;
+      --yellow:255,211,71;
+      --radius:24px;
+      --shadow:0 22px 60px rgba(1,4,15,.36);
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      min-height:100vh;
+      overflow-x:hidden;
+      color:var(--text);
+      font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 14% 3%,rgba(151,91,255,.28),transparent 25rem),
+        radial-gradient(circle at 93% 10%,rgba(49,220,255,.17),transparent 24rem),
+        radial-gradient(circle at 50% 90%,rgba(66,133,255,.10),transparent 32rem),
+        linear-gradient(180deg,#0b1029 0%,#0b1025 45%,#080b1b 100%);
+    }
+
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      z-index:-3;
+      opacity:.32;
+      background-image:
+        linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+      background-size:38px 38px;
+      mask-image:linear-gradient(to bottom,#000,transparent 88%);
+    }
+
+    .ambient{
+      position:fixed;
+      width:330px;
+      height:330px;
+      left:var(--x,50%);
+      top:var(--y,20%);
+      transform:translate(-50%,-50%);
+      border-radius:50%;
+      pointer-events:none;
+      z-index:-2;
+      background:radial-gradient(circle,rgba(128,97,255,.10),transparent 66%);
+      filter:blur(18px);
+      transition:left .15s linear,top .15s linear;
+    }
+
+    a{color:inherit;text-decoration:none}
+    button,input{font:inherit}
+
+    .shell{
+      position:relative;
+      z-index:1;
+      width:min(1180px,calc(100% - 24px));
+      margin:auto;
+      padding:16px 0 40px;
+    }
+
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:9px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:11px;
+      min-width:0;
+    }
+
+    .brand img{
+      width:58px;
+      height:58px;
+      object-fit:cover;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.18);
+      background:#0c1028;
+      box-shadow:0 0 22px rgba(49,220,255,.22),0 0 34px rgba(151,91,255,.20);
+    }
+
+    .brand-copy strong{
+      display:block;
+      font-size:26px;
+      font-weight:950;
+      letter-spacing:.6px;
+      line-height:1;
+      white-space:nowrap;
+      filter:drop-shadow(0 0 12px rgba(151,91,255,.16));
+    }
+
+    .brand-main{
+      color:#ffffff;
+      text-shadow:0 0 12px rgba(255,255,255,.10);
+    }
+
+    .brand-360{
+      margin-left:1px;
+      background:linear-gradient(90deg,#b98cff 0%,#7f9cff 45%,#54e6ff 100%);
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+      text-shadow:0 0 18px rgba(84,230,255,.18);
+    }
+
+    .brand-copy small{
+      display:block;
+      margin-top:5px;
+      color:#8f9bbb;
+      font-size:9px;
+      letter-spacing:1.55px;
+      font-weight:800;
+    }
+
+    .account{
+      position:relative;
+      z-index:80;
+      flex:none;
+      margin-left:auto;
+    }
+
+    .login-menu{
+      position:absolute;
+      top:calc(100% + 9px);
+      right:0;
+      width:184px;
+      padding:8px;
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:15px;
+      background:rgba(9,14,34,.98);
+      box-shadow:0 20px 42px rgba(0,0,0,.44),0 0 22px rgba(151,91,255,.12);
+      backdrop-filter:blur(18px);
+      z-index:100;
+      opacity:0;
+      visibility:hidden;
+      transform:translateY(-6px);
+      transition:.2s ease;
+      overflow:hidden;
+    }
+
+    .account.open .login-menu{
+      opacity:1;
+      visibility:visible;
+      transform:none;
+    }
+
+    .login-menu a,
+    .login-menu button{
+      display:flex;
+      align-items:center;
+      gap:9px;
+      width:100%;
+      padding:10px 9px;
+      border:0;
+      border-radius:10px;
+      color:#eef3ff;
+      background:transparent;
+      text-align:left;
+      font-size:11.5px;
+      line-height:1.2;
+      white-space:nowrap;
+      cursor:pointer;
+    }
+
+    .login-menu a:hover,
+    .login-menu button:hover{
+      background:rgba(151,91,255,.14);
+    }
+
+    .login-button{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      border:1px solid rgba(151,91,255,.35);
+      border-radius:15px;
+      padding:6px 9px 6px 7px;
+      min-height:45px;
+      color:white;
+      background:linear-gradient(135deg,rgba(151,91,255,.18),rgba(49,220,255,.08)),rgba(13,20,46,.84);
+      box-shadow:0 10px 26px rgba(0,0,0,.25);
+      cursor:pointer;
+      transition:.22s ease;
+    }
+
+    .login-button:hover{transform:translateY(-2px);border-color:rgba(49,220,255,.55)}
+
+    .avatar{
+      width:31px;height:31px;border-radius:11px;display:grid;place-items:center;
+      background:linear-gradient(135deg,rgba(151,91,255,.55),rgba(49,220,255,.22));
+      box-shadow:0 0 18px rgba(151,91,255,.18);
+    }
+
+    .login-button span:nth-child(2){text-align:left}
+    .login-button strong{display:block;font-size:11.5px}
+    .login-button small{display:block;margin-top:2px;color:#95a3c4;font-size:8.8px}
+
+    .logout-mini{
+      position:absolute;
+      right:-4px;
+      bottom:-8px;
+      width:27px;
+      height:27px;
+      border-radius:9px;
+      border:1px solid rgba(255,255,255,.16);
+      color:#fff;
+      background:rgba(15,22,48,.96);
+      box-shadow:0 8px 18px rgba(0,0,0,.28);
+      cursor:pointer;
+      z-index:3;
+    }
+
+    .logout-mini:hover{background:rgba(239,68,68,.24);border-color:rgba(248,113,113,.38)}
+
+    .hero{
+      position:relative;
+      overflow:hidden;
+      padding:16px 18px 15px;
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:25px;
+      background:
+        radial-gradient(circle at 12% 18%,rgba(182,88,255,.28),transparent 36%),
+        radial-gradient(circle at 92% 18%,rgba(35,226,255,.24),transparent 38%),
+        linear-gradient(128deg,rgba(151,91,255,.34),rgba(66,133,255,.18) 48%,rgba(49,220,255,.18)),
+        rgba(14,21,49,.92);
+      box-shadow:
+        var(--shadow),
+        0 0 34px rgba(151,91,255,.12),
+        0 0 48px rgba(49,220,255,.08),
+        inset 0 0 40px rgba(255,255,255,.03);
+    }
+
+    .hero::after{
+      content:"";
+      position:absolute;
+      width:240px;height:240px;right:-90px;top:-120px;border-radius:50%;
+      background:radial-gradient(circle,rgba(49,220,255,.36),transparent 67%);
+      filter:blur(2px);
+    }
+
+    .hero::before{
+      content:"";
+      position:absolute;
+      width:220px;
+      height:220px;
+      left:-95px;
+      bottom:-125px;
+      border-radius:50%;
+      background:radial-gradient(circle,rgba(172,82,255,.34),transparent 68%);
+      filter:blur(3px);
+      pointer-events:none;
+    }
+
+
+    .hero .aurora-line{
+      position:absolute;
+      left:7%;
+      right:7%;
+      top:0;
+      height:2px;
+      border-radius:999px;
+      background:linear-gradient(90deg,transparent,#a55cff,#45ddff,transparent);
+      box-shadow:0 0 18px rgba(95,208,255,.35);
+      opacity:.8;
+      animation:auroraShift 5s ease-in-out infinite;
+      pointer-events:none;
+    }
+
+    @keyframes auroraShift{
+      0%,100%{transform:scaleX(.74);opacity:.45}
+      50%{transform:scaleX(1);opacity:1}
+    }
+
+    .eyebrow{
+      display:inline-flex;align-items:center;gap:7px;
+      padding:6px 9px;border-radius:999px;
+      color:#dce8ff;font-size:9px;font-weight:900;letter-spacing:.8px;
+      border:1px solid rgba(195,164,255,.22);
+      background:linear-gradient(90deg,rgba(151,91,255,.13),rgba(49,220,255,.07));
+    }
+
+    .hero h1{
+      position:relative;z-index:1;
+      margin:10px 0 4px;
+      font-size:clamp(25px,5.5vw,46px);
+      line-height:1;
+      font-weight:950;
+      letter-spacing:-1.8px;
+      text-transform:uppercase;
+      background:linear-gradient(92deg,#ffffff 0%,#f3e9ff 18%,#d3a7ff 36%,#81ebff 66%,#ffffff 100%);
+      -webkit-background-clip:text;color:transparent;
+      filter:
+        drop-shadow(0 0 18px rgba(151,91,255,.28))
+        drop-shadow(0 0 10px rgba(49,220,255,.12));
+    }
+
+    .hero p{position:relative;z-index:1;margin:0;color:#b4c0dc;font-size:11.5px;line-height:1.5}
+
+    .quick-actions{
+      position:relative;z-index:1;
+      display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:9px;margin-top:14px;
+    }
+
+    .quick{
+      --accent:var(--purple);
+      display:flex;align-items:center;gap:9px;min-width:0;
+      padding:11px;border-radius:16px;
+      border:1px solid rgba(var(--accent),.42);
+      background:
+        linear-gradient(135deg,rgba(var(--accent),.31),rgba(var(--accent),.08)),
+        rgba(7,12,30,.72);
+      box-shadow:
+        inset 0 0 24px rgba(var(--accent),.05),
+        0 10px 24px rgba(0,0,0,.18);
+      transition:.22s ease;
+    }
+
+    .quick:hover{transform:translateY(-3px);border-color:rgba(var(--accent),.58);box-shadow:0 12px 28px rgba(0,0,0,.28)}
+    .quick.ai{--accent:var(--cyan)}
+    .quick-icon{
+      width:40px;height:40px;border-radius:12px;display:grid;place-items:center;flex:none;
+      font-weight:950;background:linear-gradient(135deg,rgba(var(--accent),.48),rgba(var(--accent),.15));
+      box-shadow:
+        0 0 22px rgba(var(--accent),.24),
+        0 0 38px rgba(var(--accent),.10);
+    }
+    .quick strong{display:block;font-size:11.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .quick small{display:block;margin-top:2px;color:#91a0c2;font-size:8.8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+
+    .featured-actions{
+      grid-template-columns:repeat(2,minmax(0,1fr));
+    }
+
+    .featured-actions .task-center{
+      grid-column:1/-1;
+      --accent:var(--green);
+      background:
+        linear-gradient(135deg,rgba(47,218,139,.24),rgba(66,133,255,.10)),
+        rgba(7,12,30,.74);
+      border-color:rgba(47,218,139,.38);
+    }
+
+    .shine-card{
+      position:relative;
+      overflow:hidden;
+      isolation:isolate;
+    }
+
+    .shine-card::after{
+      content:"";
+      position:absolute;
+      top:-55%;
+      left:-45%;
+      width:36%;
+      height:210%;
+      transform:rotate(24deg);
+      background:linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255,255,255,.10) 18%,
+        rgba(255,255,255,.88) 50%,
+        rgba(255,255,255,.10) 82%,
+        transparent 100%
+      );
+      filter:blur(.5px);mix-blend-mode:screen;
+      opacity:0;
+      pointer-events:none;
+      animation:featuredSweep 5.8s cubic-bezier(.22,.61,.36,1) infinite;
+    }
+
+    .shine-card.delay-1::after{animation-delay:2.1s}
+    .shine-card.delay-2::after{animation-delay:4.2s}
+
+    @keyframes featuredSweep{
+0%{transform:translateX(-180%) rotate(24deg);opacity:0}
+8%{opacity:.95}
+24%{transform:translateX(420%) rotate(24deg);opacity:.9}
+30%,100%{transform:translateX(420%) rotate(24deg);opacity:0}
+}
+      72%{
+        opacity:.9;
+      }
+      84%{
+        left:118%;
+        opacity:.75;
+      }
+      88%,100%{
+        left:118%;
+        opacity:0;
+      }
+    }
+
+    .task-center .quick-icon{
+      background:linear-gradient(135deg,rgba(47,218,139,.55),rgba(66,133,255,.22));
+      box-shadow:
+        0 0 24px rgba(47,218,139,.24),
+        0 0 38px rgba(66,133,255,.10);
+    }
+
+    .section-title{
+      display:flex;align-items:end;justify-content:space-between;gap:12px;
+      margin:21px 2px 11px;
+    }
+    .section-title h2{margin:0;font-size:19px;letter-spacing:-.4px}
+    .section-title p{margin:4px 0 0;color:#8493b5;font-size:10px}
+    .section-title span{font-size:9.5px;color:#8998ba}
+
+    .cards{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:10px;
+    }
+
+    .card{
+      --accent:var(--purple);
+      position:relative;
+      min-width:0;
+      min-height:158px;
+      overflow:hidden;
+      padding:14px;
+      border-radius:21px;
+      border:1px solid rgba(255,255,255,.10);
+      background:
+        linear-gradient(145deg,rgba(var(--accent),.17),transparent 49%),
+        linear-gradient(180deg,rgba(24,35,72,.96),rgba(11,17,39,.98));
+      box-shadow:0 16px 36px rgba(0,0,0,.24);
+      transition:transform .24s ease,border-color .24s ease,box-shadow .24s ease;
+      isolation:isolate;
+    }
+
+    .card::before{
+      content:"";position:absolute;width:115px;height:115px;right:-40px;bottom:-45px;border-radius:50%;
+      background:radial-gradient(circle,rgba(var(--accent),.25),transparent 68%);z-index:-1;
+    }
+
+    .card::after{
+      content:"";position:absolute;inset:-1px;border-radius:inherit;padding:1px;
+      background:linear-gradient(125deg,transparent 12%,rgba(var(--accent),.72),transparent 52%);
+      -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+      -webkit-mask-composite:xor;mask-composite:exclude;
+      opacity:0;transition:.25s ease;pointer-events:none;
+    }
+
+    .card.featured::after{opacity:.45;animation:borderPulse 4s ease-in-out infinite}
+    .card:hover{transform:translateY(-5px);border-color:rgba(var(--accent),.48);box-shadow:0 22px 44px rgba(0,0,0,.34),0 0 25px rgba(var(--accent),.09)}
+    .card:hover::after{opacity:.85}
+
+    @keyframes borderPulse{0%,100%{opacity:.18}50%{opacity:.68}}
+
+    .purple{--accent:var(--purple)}
+    .blue{--accent:var(--blue)}
+    .cyan{--accent:var(--cyan)}
+    .pink{--accent:var(--pink)}
+    .orange{--accent:var(--orange)}
+    .green{--accent:var(--green)}
+    .yellow{--accent:var(--yellow)}
+
+    .card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+    .icon{
+      width:44px;height:44px;border-radius:14px;display:grid;place-items:center;
+      font-size:21px;background:linear-gradient(135deg,rgba(var(--accent),.42),rgba(var(--accent),.10));
+      border:1px solid rgba(var(--accent),.27);box-shadow:0 0 22px rgba(var(--accent),.16);
+    }
+
+    .visual-icon{
+      position:relative;
+      overflow:hidden;
+      isolation:isolate;
+    }
+
+    .visual-icon::before{
+      content:"";
+      position:absolute;
+      inset:-35%;
+      background:conic-gradient(from 180deg,transparent,rgba(255,255,255,.36),transparent 35%);
+      animation:visualSweep 5s linear infinite;
+      z-index:-1;
+    }
+
+    @keyframes visualSweep{
+      to{transform:rotate(360deg)}
+    }
+
+    .math-visual{
+      background:
+        radial-gradient(circle at 24% 20%,rgba(255,108,245,.48),transparent 30%),
+        radial-gradient(circle at 78% 76%,rgba(64,230,255,.44),transparent 36%),
+        linear-gradient(135deg,#7e3cff,#3c7eff 58%,#29d6ff);
+      border-color:rgba(199,150,255,.48);
+      box-shadow:
+        0 0 24px rgba(139,92,246,.34),
+        0 0 42px rgba(49,220,255,.12);
+    }
+
+    .math-symbol{
+      position:absolute;
+      left:10px;
+      top:5px;
+      font-size:24px;
+      font-weight:900;
+      color:#fff;
+      text-shadow:0 0 12px rgba(255,255,255,.48);
+      z-index:2;
+    }
+
+    .math-line{
+      position:absolute;
+      width:25px;
+      height:2px;
+      right:5px;
+      bottom:10px;
+      border-radius:999px;
+      background:linear-gradient(90deg,#ff75dd,#80efff);
+      transform:rotate(-31deg);
+      box-shadow:0 0 9px rgba(128,239,255,.65);
+    }
+
+    .math-dot{
+      position:absolute;
+      width:5px;
+      height:5px;
+      border-radius:50%;
+      background:#fff;
+      box-shadow:0 0 8px #fff;
+      z-index:2;
+    }
+    .math-dot.d1{right:9px;bottom:17px}
+    .math-dot.d2{right:25px;bottom:8px}
+
+    .geometry-visual{
+      background:
+        radial-gradient(circle at 18% 20%,rgba(67,241,255,.42),transparent 32%),
+        radial-gradient(circle at 80% 78%,rgba(103,101,255,.50),transparent 36%),
+        linear-gradient(135deg,#176ddf,#245be7 48%,#5b48ee);
+      border-color:rgba(90,205,255,.48);
+      box-shadow:
+        0 0 24px rgba(54,144,255,.34),
+        0 0 42px rgba(116,92,255,.13);
+    }
+
+    .geo-circle{
+      position:absolute;
+      width:25px;
+      height:25px;
+      right:6px;
+      top:6px;
+      border:2px solid #68ecff;
+      border-radius:50%;
+      box-shadow:0 0 10px rgba(104,236,255,.55);
+      opacity:.95;
+    }
+
+    .geo-triangle{
+      position:absolute;
+      left:8px;
+      bottom:7px;
+      width:0;
+      height:0;
+      border-left:14px solid transparent;
+      border-right:14px solid transparent;
+      border-bottom:24px solid rgba(255,255,255,.92);
+      filter:drop-shadow(0 0 8px rgba(255,255,255,.35));
+    }
+
+    .geo-triangle::after{
+      content:"";
+      position:absolute;
+      left:-10px;
+      top:6px;
+      width:0;
+      height:0;
+      border-left:10px solid transparent;
+      border-right:10px solid transparent;
+      border-bottom:17px solid #315fe7;
+    }
+
+    .geo-point{
+      position:absolute;
+      width:5px;
+      height:5px;
+      border-radius:50%;
+      background:#ff8bd8;
+      box-shadow:0 0 8px rgba(255,139,216,.8);
+      z-index:3;
+    }
+    .geo-point.p1{left:19px;top:10px}
+    .geo-point.p2{left:7px;bottom:7px}
+    .geo-point.p3{left:31px;bottom:7px}
+
+    .featured .icon{animation:iconPulse 3.5s ease-in-out infinite}
+    @keyframes iconPulse{50%{filter:brightness(1.22);transform:scale(1.04)}}
+
+    .arrow{
+      width:29px;height:29px;border-radius:10px;display:grid;place-items:center;
+      color:#dbe4fa;background:rgba(255,255,255,.05);border:1px solid var(--line);
+      transition:.2s ease;
+    }
+    .card:hover .arrow{transform:translate(2px,-2px);background:rgba(var(--accent),.15)}
+
+    .card h3{margin:13px 0 5px;font-size:13.5px;line-height:1.18;letter-spacing:-.2px}
+    .card p{margin:0;color:#99a8c7;font-size:10.2px;line-height:1.4;min-height:29px}
+    .meta{display:flex;justify-content:space-between;align-items:center;gap:6px;margin-top:11px}
+    .meta small{font-size:8.8px;color:#a8b6d5}
+    .badge{
+      padding:4px 6px;border-radius:999px;font-size:7.7px;font-weight:950;
+      color:rgb(var(--accent));background:rgba(var(--accent),.10);border:1px solid rgba(var(--accent),.22);
+      box-shadow:0 0 12px rgba(var(--accent),.08);
+      animation:badgeBreath 3.4s ease-in-out infinite;
+    }
+
+    @keyframes badgeBreath{
+      0%,100%{opacity:.82;box-shadow:0 0 8px rgba(var(--accent),.06)}
+      50%{opacity:1;box-shadow:0 0 16px rgba(var(--accent),.16)}
+    }
+
+    .banner{
+      position:relative;
+      overflow:hidden;
+      margin-top:22px;
+      border-radius:23px;
+      border:1px solid rgba(49,220,255,.22);
+      background:#101733;
+      box-shadow:0 18px 50px rgba(0,0,0,.30),0 0 28px rgba(49,220,255,.08);
+    }
+    .banner img{display:block;width:100%;height:auto}
+    .banner::after{
+      content:"";position:absolute;inset:0;pointer-events:none;
+      background:linear-gradient(110deg,transparent 20%,rgba(255,255,255,.11),transparent 60%);
+      transform:translateX(-120%);animation:bannerShine 7s ease-in-out infinite;
+    }
+    @keyframes bannerShine{0%,62%{transform:translateX(-120%)}85%,100%{transform:translateX(120%)}}
+
+    .links{
+      display:grid;grid-template-columns:1fr;gap:9px;
+    }
+
+    .link-card{
+      display:flex;align-items:center;gap:11px;min-width:0;
+      padding:13px;border-radius:18px;border:1px solid var(--line);
+      background:linear-gradient(180deg,rgba(24,35,72,.92),rgba(11,17,39,.98));
+      box-shadow:0 13px 30px rgba(0,0,0,.20);transition:.22s ease;
+    }
+    .link-card:hover{transform:translateY(-3px)}
+    .link-logo{
+      width:42px;height:42px;border-radius:13px;display:grid;place-items:center;flex:none;font-size:20px;
+      background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.09);
+    }
+    .link-card.instagram .link-logo{background:linear-gradient(135deg,#f58529,#dd2a7b,#8134af,#515bd4)}
+    .link-card.whatsapp .link-logo{background:#25D366}
+    .link-card.mail .link-logo{background:linear-gradient(135deg,#4285f4,#8ab4f8)}
+    .link-card.parent .link-logo{background:linear-gradient(135deg,#945cff,#3bdcff)}
+    .link-copy{min-width:0;flex:1}
+    .link-copy strong{display:block;font-size:12px}
+    .link-copy small{display:block;margin-top:2px;color:#95a3c2;font-size:9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+    footer{
+      margin-top:23px;padding:18px;text-align:center;border-radius:20px;
+      border:1px solid var(--line);background:rgba(255,255,255,.025);
+      color:#8290ad;font-size:10px;line-height:1.7;
+    }
+    footer strong{color:#dce5f9}
+
+    .float-action{
+      position:fixed;right:15px;bottom:15px;z-index:35;
+      display:flex;align-items:center;gap:8px;padding:9px 12px 9px 9px;
+      border-radius:16px;border:1px solid rgba(255,255,255,.22);
+      color:#fff;background:linear-gradient(135deg,#28cf88,#39c7f2,#8d5df8);
+      box-shadow:0 0 22px rgba(47,218,139,.28),0 12px 30px rgba(0,0,0,.35);
+      font-size:10px;font-weight:900;transition:.22s ease;
+    }
+    .float-action:hover{transform:translateY(-3px)}
+    .float-action i{
+      width:31px;height:31px;border-radius:10px;display:grid;place-items:center;
+      background:rgba(255,255,255,.17);font-style:normal;font-size:16px;
+    }
+
+
+    .compact-float{
+      opacity:0;
+      visibility:hidden;
+      transform:translateY(18px) scale(.92);
+      width:48px;
+      height:48px;
+      padding:0;
+      justify-content:center;
+      border-radius:16px;
+      overflow:hidden;
+      transition:
+        width .28s ease,
+        opacity .25s ease,
+        visibility .25s ease,
+        transform .28s ease,
+        border-radius .28s ease;
+    }
+
+    .compact-float.visible{
+      opacity:1;
+      visibility:visible;
+      transform:none;
+    }
+
+    .compact-float i{
+      width:48px;
+      height:48px;
+      flex:0 0 48px;
+      border-radius:15px;
+      background:rgba(255,255,255,.13);
+    }
+
+    .compact-float span{
+      max-width:0;
+      opacity:0;
+      white-space:nowrap;
+      overflow:hidden;
+      transition:max-width .28s ease,opacity .2s ease,margin .28s ease;
+    }
+
+    .compact-float:hover,
+    .compact-float:focus-visible{
+      width:230px;
+      justify-content:flex-start;
+      padding-right:14px;
+      border-radius:18px;
+    }
+
+    .compact-float:hover span,
+    .compact-float:focus-visible span{
+      max-width:170px;
+      opacity:1;
+      margin-left:8px;
+    }
+
+    @media(max-width:390px){
+      .compact-float{
+        left:auto;
+        right:12px;
+        width:48px;
+        height:48px;
+        padding:0;
+        justify-content:center;
+        border-radius:16px;
+      }
+
+      .compact-float:hover,
+      .compact-float:focus-visible{
+        width:48px;
+        padding:0;
+        justify-content:center;
+        border-radius:16px;
+      }
+
+      .compact-float span{
+        display:none;
+      }
+    }
+
+    .reveal{opacity:0;transform:translateY(14px);transition:opacity .55s ease,transform .55s ease}
+    .reveal.visible{opacity:1;transform:none}
+
+    @media(min-width:700px){
+      .shell{padding-top:23px}
+      .hero{padding:22px 24px}
+      .cards{grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+      .card{min-height:180px;padding:17px}
+      .card h3{font-size:16px}
+      .card p{font-size:11.5px}
+      .links{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+    }
+
+    @media(min-width:1020px){
+      .cards{grid-template-columns:repeat(4,minmax(0,1fr))}
+      .links{grid-template-columns:repeat(4,minmax(0,1fr))}
+    }
+
+    @media(max-width:390px){
+      .shell{width:calc(100% - 16px)}
+      .brand img{width:52px;height:52px;border-radius:16px}
+      .brand-copy strong{font-size:22px}
+      .brand-copy small{font-size:7.5px;letter-spacing:1.15px}
+      .login-button small{display:none}
+      .login-button{padding:6px 8px;min-height:44px}
+      .login-menu{right:0;width:174px;top:calc(100% + 7px)}
+      .login-menu a,.login-menu button{font-size:11px;padding:9px 8px}
+      .avatar{width:31px;height:31px}
+      .hero{padding:15px 13px;border-radius:20px}
+      .hero h1{font-size:23px;letter-spacing:-1px}
+      .quick-actions{grid-template-columns:1fr}
+      .featured-actions .task-center{grid-column:auto}
+      .card{min-height:153px;padding:12px;border-radius:18px}
+      .icon{width:41px;height:41px;font-size:19px}
+      .card h3{font-size:12.5px}
+      .card p{font-size:9.5px}
+      .float-action{left:10px;right:10px;justify-content:center}
+    }
+
+    @media(max-width:325px){
+      .cards{grid-template-columns:1fr}
+    }
+
+    @media(prefers-reduced-motion:reduce){
+      *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+      .reveal{opacity:1;transform:none}
+      .ambient{display:none}
+    }
+  </style>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XJSBBQD3CC"></script>
+  <script>
+    window.dataLayer=window.dataLayer||[];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js',new Date());
+    gtag('config','G-XJSBBQD3CC');
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"ProfessionalService",
+    "name":"ENGİN360",
+    "image":"https://www.engin360.com/engin360-banner.webp",
+    "logo":"https://www.engin360.com/engin360-logo.webp",
+    "url":"https://www.engin360.com/",
+    "telephone":"+905348165015",
+    "email":"engin@engin360.com",
+    "description":"Bursa'da matematik özel ders, rehberlik ve eğitim koçluğu hizmeti.",
+    "address":{"@type":"PostalAddress","addressLocality":"Bursa","addressCountry":"TR"},
+    "sameAs":["https://www.instagram.com/derinmatematik_/"],
+    "founder":{"@type":"Person","name":"Engin Özcan","jobTitle":"Matematik Öğretmeni ve Eğitim Koçu"},
+    "areaServed":{"@type":"City","name":"Bursa"},
+    "priceRange":"$$"
+  }
+  </script>
+</head>
+<body>
+  <div class="ambient" id="ambient"></div>
+
+  <main class="shell">
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="ENGİN360 ana sayfa">
+        <img src="engin360-logo.webp" alt="ENGİN360 logosu" width="52" height="52">
+        <span class="brand-copy">
+          <strong><span class="brand-main">ENGİN</span><span class="brand-360">360</span></strong>
+          <small>EĞİTİM • TAKİP • GELİŞİM</small>
+        </span>
+      </a>
+
+      <div class="account" id="account">
+        <button class="login-button" id="loginToggle" type="button" aria-expanded="false">
+          <span class="avatar">👤</span>
+          <span><strong id="accountLabel">Giriş Yap</strong></span>
+          <span>⌄</span>
+        </button>
+
+        <div class="login-menu" id="loginMenu">
+          <a href="gorev-giris.html"><span>🎓</span> Öğrenci Girişi</a>
+          <a href="gorev-giris.html"><span>👨‍👩‍👧</span> Veli Girişi</a>
+          <a href="gorev-giris.html"><span>🧑‍🏫</span> Öğretmen Girişi</a>
+          <button type="button" id="logoutButton" hidden><span>↩</span> Çıkış Yap</button>
+        </div>
+      </div>
+    </header>
+
+    <section class="hero reveal">
+      <span class="aurora-line" aria-hidden="true"></span>
+      <span class="eyebrow">✦ ENGİN360 EĞİTİM PORTALI</span>
+      <h1>Öğrenmenin Yeni Nesli</h1>
+      <p>Bilgiyi keşfet. Hedefini planla. Gelişimini takip et.</p>
+
+      <div class="quick-actions featured-actions">
+        <a class="quick shine-card" href="engin360_gunluk_soru_takip_v2.html">
+          <span class="quick-icon">✍️</span>
+          <span><strong>Günlük Soru Girişi</strong><small>Bugünkü çalışmalarını kaydet</small></span>
+        </a>
+
+        <a class="quick ai shine-card delay-1" href="ENGIN360_AKILLI_CALISMA_PROGRAMI_V2_QR_DUZELTILMIS.html">
+          <span class="quick-icon">✦</span>
+          <span><strong>Yapay Zekâ ile Program Hazırla</strong><small>Hedeflerini günlere otomatik böl</small></span>
+        </a>
+
+        <a class="quick task-center shine-card delay-2" href="gorev-giris.html">
+          <span class="quick-icon">🔒</span>
+          <span><strong>Öğrenci Görev Merkezi</strong><small>Görevlerini gör, teslim et ve ilerlemeni takip et</small></span>
+        </a>
+      </div>
+    </section>
+
+    <div class="section-title reveal">
+      <div><h2>Laboratuvarlar ve Araçlar</h2><p>İhtiyacın olan bölümü seç ve hemen başla.</p></div>
+      <span>8 MODÜL</span>
+    </div>
+
+    <section class="cards">
+      <a class="card purple featured reveal" href="matematik_kategori.html">
+        <div class="card-head">
+          <span class="icon visual-icon math-visual" aria-hidden="true">
+            <span class="math-symbol">∑</span>
+            <span class="math-dot d1"></span>
+            <span class="math-dot d2"></span>
+            <span class="math-line"></span>
+          </span>
+          <span class="arrow">↗</span>
+        </div>
+        <h3>Matematik Laboratuvarı</h3>
+        <p>Grafikler, fonksiyonlar, cebir, türev ve integral araçları.</p>
+        <div class="meta"><small>Etkileşimli öğrenme</small><span class="badge">POPÜLER</span></div>
+      </a>
+
+      <a class="card blue reveal" href="geometri_guncel.html">
+        <div class="card-head">
+          <span class="icon visual-icon geometry-visual" aria-hidden="true">
+            <span class="geo-circle"></span>
+            <span class="geo-triangle"></span>
+            <span class="geo-point p1"></span>
+            <span class="geo-point p2"></span>
+            <span class="geo-point p3"></span>
+          </span>
+          <span class="arrow">↗</span>
+        </div>
+        <h3>Geometri Laboratuvarı</h3>
+        <p>Açıları ve şekilleri hareket ettirerek görsel keşif yap.</p>
+        <div class="meta"><small>Görerek öğren</small><span class="badge">YENİ</span></div>
+      </a>
+
+      <a class="card cyan featured reveal" href="hafiza_laboratuvari.html">
+        <div class="card-head"><span class="icon">🧠</span><span class="arrow">↗</span></div>
+        <h3>Hafıza Laboratuvarı</h3>
+        <p>Flashcard, quiz, tekrar ve kalıcı öğrenme sistemleri.</p>
+        <div class="meta"><small>Akıllı tekrar</small><span class="badge">PRO</span></div>
+      </a>
+
+      <a class="card orange reveal" href="rehberlik.html">
+        <div class="card-head"><span class="icon">🧭</span><span class="arrow">↗</span></div>
+        <h3>Rehberlik Laboratuvarı</h3>
+        <p>Ders çalışma teknikleri, sınav stratejileri ve rehberler.</p>
+        <div class="meta"><small>Doğru strateji</small><span class="badge">REHBER</span></div>
+      </a>
+
+      <a class="card pink reveal" href="kocluk_guncel.html">
+        <div class="card-head"><span class="icon">🚀</span><span class="arrow">↗</span></div>
+        <h3>Koçluk Laboratuvarı</h3>
+        <p>Motivasyon, farkındalık, yönelim ve çalışma analizleri.</p>
+        <div class="meta"><small>Kendini keşfet</small><span class="badge">ANALİZ</span></div>
+      </a>
+
+      <a class="card green reveal" href="calisma-belgeleri.html">
+        <div class="card-head"><span class="icon">📚</span><span class="arrow">↗</span></div>
+        <h3>Çalışma Merkezi</h3>
+        <p>PDF, test, video ve ders çalışma kaynakları.</p>
+        <div class="meta"><small>Kaynak kütüphanesi</small><span class="badge">MERKEZ</span></div>
+      </a>
+
+      <a class="card yellow featured reveal" href="engin360_pomodoro_v2_ozet_gorsel.html">
+        <div class="card-head"><span class="icon">⏱</span><span class="arrow">↗</span></div>
+        <h3>Pomodoro</h3>
+        <p>Odaklanma, mola ve çalışma ritmini kolayca yönet.</p>
+        <div class="meta"><small>25 + 5 dakika</small><span class="badge">ODAK</span></div>
+      </a>
+
+      <a class="card blue reveal" href="haftalik_hedef_takip_sistemi.html">
+        <div class="card-head"><span class="icon">🎯</span><span class="arrow">↗</span></div>
+        <h3>Haftalık Hedef Takip</h3>
+        <p>Ders, konu, soru ve tekrar hedeflerini düzenli takip et.</p>
+        <div class="meta"><small>Planlı ilerleme</small><span class="badge">TAKİP</span></div>
+      </a>
+
+
+    </section>
+
+    <section class="banner reveal">
+      <img src="engin360-banner.webp" alt="ENGİN360 eğitim portalı tanıtım görseli" loading="lazy">
+    </section>
+
+    <div class="section-title reveal">
+      <div><h2>Bağlantılar</h2><p>Veli takibi, iletişim ve sosyal medya.</p></div>
+    </div>
+
+    <section class="links">
+      <a class="link-card parent reveal" href="veli-paneli.html">
+        <span class="link-logo">👨‍👩‍👧</span>
+        <span class="link-copy"><strong>Veli Paneli</strong><small>Öğrenci gelişimi ve raporlar</small></span>
+        <span>↗</span>
+      </a>
+      <a class="link-card whatsapp reveal" href="https://wa.me/905348165015?text=Merhaba%20Engin%20Hocam%2C%20ENGİN360%20hakkında%20bilgi%20almak%20istiyorum." target="_blank" rel="noopener">
+        <span class="link-logo">✆</span>
+        <span class="link-copy"><strong>WhatsApp</strong><small>0534 816 50 15</small></span>
+        <span>↗</span>
+      </a>
+      <a class="link-card instagram reveal" href="https://www.instagram.com/derinmatematik_/" target="_blank" rel="noopener">
+        <span class="link-logo">◎</span>
+        <span class="link-copy"><strong>Instagram</strong><small>@derinmatematik_</small></span>
+        <span>↗</span>
+      </a>
+      <a class="link-card mail reveal" href="mailto:engin@engin360.com">
+        <span class="link-logo">✉</span>
+        <span class="link-copy"><strong>E-posta</strong><small>engin@engin360.com</small></span>
+        <span>↗</span>
+      </a>
+    </section>
+
+    <footer class="reveal">
+      <strong>Engin Özcan</strong> • Matematik Öğretmeni • Eğitim Koçu<br>
+      © <span id="year"></span> ENGİN360 | Tasarım ve İçerik: Engin Özcan
+    </footer>
+  </main>
+
+  <a class="float-action compact-float" id="floatingQuestion" href="engin360_gunluk_soru_takip_v2.html" aria-label="Bugünkü soru sayısını kaydet">
+    <i>✍️</i><span>Bugün kaç soru çözdüm?</span>
+  </a>
+
+  <script>
+    document.getElementById("year").textContent=new Date().getFullYear();
+
+    const floatingQuestion=document.getElementById("floatingQuestion");
+    function updateFloatingQuestion(){
+      floatingQuestion.classList.toggle("visible",window.scrollY>430);
+    }
+    window.addEventListener("scroll",updateFloatingQuestion,{passive:true});
+    updateFloatingQuestion();
+
+    const reduceMotion=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if(!reduceMotion){
+      const ambient=document.getElementById("ambient");
+      window.addEventListener("pointermove",e=>{
+        ambient.style.setProperty("--x",e.clientX+"px");
+        ambient.style.setProperty("--y",e.clientY+"px");
+      },{passive:true});
+    }
+
+    const revealItems=document.querySelectorAll(".reveal");
+    if("IntersectionObserver" in window && !reduceMotion){
+      const observer=new IntersectionObserver(entries=>{
+        entries.forEach((entry,index)=>{
+          if(entry.isIntersecting){
+            entry.target.style.transitionDelay=Math.min(index*35,180)+"ms";
+            entry.target.classList.add("visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },{threshold:.08});
+      revealItems.forEach(el=>observer.observe(el));
+    }else{
+      revealItems.forEach(el=>el.classList.add("visible"));
+    }
+  </script>
+
+
+  <script>
+    (function () {
+      const account = document.getElementById("account");
+      const loginToggle = document.getElementById("loginToggle");
+
+      if (!account || !loginToggle) return;
+
+      loginToggle.addEventListener("click", function (event) {
+        event.stopPropagation();
+        const isOpen = account.classList.toggle("open");
+        loginToggle.setAttribute("aria-expanded", String(isOpen));
+      });
+
+      account.addEventListener("click", function (event) {
+        event.stopPropagation();
+      });
+
+      document.addEventListener("click", function () {
+        account.classList.remove("open");
+        loginToggle.setAttribute("aria-expanded", "false");
+      });
+
+      document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape") {
+          account.classList.remove("open");
+          loginToggle.setAttribute("aria-expanded", "false");
+        }
+      });
+    })();
+  </script>
+
+  <script type="module">
+    import { auth, db } from "./firebase.js";
+    import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+    import { doc, getDoc } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+
+    const TEACHER_UID = "lwC5kkGoomRsKINiWRVwEVGd0J03";
+
+    const account = document.getElementById("account");
+    const loginToggle = document.getElementById("loginToggle");
+    const accountLabel = document.getElementById("accountLabel");
+    const logoutButton = document.getElementById("logoutButton");
+
+    let notificationFilesLoaded = false;
+
+    function resetMenuState() {
+      logoutButton.hidden = true;
+    }
+
+    function loadNotificationFiles(role) {
+      if (notificationFilesLoaded || !["student", "parent"].includes(role)) return;
+
+      document.body.dataset.role = role === "parent" ? "veli" : "ogrenci";
+
+      const sources = [
+        "https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js",
+        "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth-compat.js",
+        "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore-compat.js",
+        "https://www.gstatic.com/firebasejs/10.13.2/firebase-messaging-compat.js",
+        "notifications.js"
+      ];
+
+      const loadNext = (index = 0) => {
+        if (index >= sources.length) {
+          notificationFilesLoaded = true;
+          return;
+        }
+
+        const script = document.createElement("script");
+        script.src = sources[index];
+        script.onload = () => loadNext(index + 1);
+        script.onerror = () => console.warn("Bildirim dosyası yüklenemedi:", sources[index]);
+        document.body.appendChild(script);
+      };
+
+      loadNext();
+    }
+
+    async function resolveUserRole(user) {
+      if (user.uid === TEACHER_UID) return "teacher";
+
+      try {
+        const userSnap = await getDoc(doc(db, "users", user.uid));
+        if (!userSnap.exists() || userSnap.data().active === false) return "unknown";
+        return userSnap.data().role || "unknown";
+      } catch (error) {
+        console.error("Kullanıcı rolü okunamadı:", error);
+        return "unknown";
+      }
+    }
+
+    onAuthStateChanged(auth, async (user) => {
+      resetMenuState();
+
+      if (!user) {
+        accountLabel.textContent = "Giriş Yap";
+        return;
+      }
+
+      accountLabel.textContent = "Hesabım";
+      logoutButton.hidden = false;
+
+      const role = await resolveUserRole(user);
+
+
+      loadNotificationFiles(role);
+    });
+
+    logoutButton.addEventListener("click", async () => {
+      try {
+        await signOut(auth);
+        account.classList.remove("open");
+        loginToggle.setAttribute("aria-expanded", "false");
+      } catch (error) {
+        alert("Çıkış yapılamadı: " + error.message);
+      }
+    });
+  </script>
+
+</body>
+</html>
