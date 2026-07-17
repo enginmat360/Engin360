@@ -1,60 +1,613 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>ENGİN360 Haftalık Hedef Takip Sistemi</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
-:root{--bg:#09051c;--card:#15102d;--card2:#201546;--mor:#8b5cf6;--mavi:#2f7cff;--pembe:#ec4899;--yesil:#22c55e;--sari:#facc15;--turuncu:#fb923c;--kirmizi:#ef4444;--text:#f8f7ff;--muted:#c9c3e6;--line:rgba(255,255,255,.13)}
-*{box-sizing:border-box} body{margin:0;font-family:Arial,Helvetica,sans-serif;background:radial-gradient(circle at top left,#25105e,#09051c 45%,#05030d);color:var(--text)}
-.wrap{max-width:1220px;margin:0 auto;padding:18px}.topbar{display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;align-items:center;background:rgba(255,255,255,.07);border:1px solid var(--line);border-radius:20px;padding:14px 16px;position:sticky;top:8px;z-index:10;backdrop-filter:blur(10px)}
-.topbar b{font-size:18px}.buttons{display:flex;gap:8px;flex-wrap:wrap}button{border:0;border-radius:14px;padding:11px 14px;color:white;font-weight:900;background:linear-gradient(135deg,var(--mor),var(--mavi));cursor:pointer;box-shadow:0 8px 18px rgba(47,124,255,.24)}button.secondary{background:#29204f}button.green{background:linear-gradient(135deg,#16a34a,#22c55e)}button.pink{background:linear-gradient(135deg,#db2777,#ec4899)}
-.report{margin-top:16px;background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.035));border:1px solid var(--line);border-radius:26px;padding:22px;box-shadow:0 20px 70px rgba(0,0,0,.35);overflow:hidden}.header{display:grid;grid-template-columns:280px 1fr 310px;gap:18px;align-items:center}.brand{display:flex;gap:12px;align-items:center}.logo{width:70px;height:70px;border-radius:22px;background:radial-gradient(circle at 38% 35%,#fff 0 16%,transparent 17%),linear-gradient(135deg,var(--mavi),var(--mor),var(--pembe));box-shadow:0 0 28px rgba(139,92,246,.45)}.brand h1{font-size:40px;margin:0;letter-spacing:-1px}.brand span{color:#65a9ff}.brand p{margin:2px 0 0;color:var(--muted);font-weight:800;font-size:13px;letter-spacing:1.4px}.title{text-align:center}.title h2{margin:0;font-size:36px;line-height:1.05}.title h3{margin:7px auto 0;font-size:16px;color:white;background:linear-gradient(90deg,var(--mor),var(--mavi));display:inline-block;padding:9px 17px;border-radius:999px}.student{background:linear-gradient(145deg,#23104f,#0d0827);border:1px solid var(--line);border-radius:22px;padding:16px}.field{display:grid;grid-template-columns:84px 1fr;gap:8px;align-items:center;margin:8px 0}.field label{color:var(--muted);font-size:13px;font-weight:800}.field input{width:100%;background:rgba(255,255,255,.07);border:1px solid var(--line);border-radius:11px;padding:9px;color:white;font-weight:900;outline:none}
-.grid{display:grid;grid-template-columns:1.15fr .85fr;gap:16px;margin-top:16px}.card{background:rgba(12,8,33,.72);border:1px solid var(--line);border-radius:22px;padding:17px}.card h3{margin:0 0 12px;font-size:21px}.goals{display:grid;gap:10px}.goal{display:grid;grid-template-columns:34px 1.25fr 110px 110px 90px;gap:8px;align-items:center;background:rgba(255,255,255,.055);border:1px solid var(--line);border-radius:16px;padding:10px}.goal .no{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,var(--mor),var(--mavi));font-weight:900}.goal input,.goal select{width:100%;background:#100b27;border:1px solid var(--line);border-radius:11px;color:white;padding:9px;font-weight:800;outline:none}.goal input[type=checkbox]{width:24px;height:24px;accent-color:#22c55e}.small-head{display:grid;grid-template-columns:34px 1.25fr 110px 110px 90px;gap:8px;color:var(--muted);font-size:12px;font-weight:900;padding:0 10px 2px}.metrics{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.metric{background:linear-gradient(145deg,rgba(139,92,246,.22),rgba(47,124,255,.12));border:1px solid var(--line);border-radius:20px;padding:18px;text-align:center;min-height:128px;display:flex;flex-direction:column;justify-content:center}.metric .icon{font-size:34px}.metric .value{font-size:42px;font-weight:900;margin:4px 0}.metric .label{color:var(--muted);font-weight:900}.progressWrap{height:22px;border-radius:999px;background:rgba(255,255,255,.11);overflow:hidden;border:1px solid var(--line);margin-top:14px}.progress{height:100%;width:0%;background:linear-gradient(90deg,var(--kirmizi),var(--turuncu),var(--yesil));border-radius:999px;transition:.25s}.result{margin-top:14px;border-radius:18px;padding:15px;border:1px solid var(--line);background:rgba(255,255,255,.055);font-weight:850;line-height:1.55;color:#f5f2ff}.bigStatus{font-size:26px;font-weight:950;margin-bottom:8px}.statusGood{color:#50fa8b}.statusMid{color:#facc15}.statusBad{color:#fb923c}.statusCritical{color:#ff6b6b}.chartBox{height:275px}.weekPlan{display:grid;grid-template-columns:repeat(7,1fr);gap:9px}.day{background:rgba(255,255,255,.055);border:1px solid var(--line);border-radius:16px;padding:11px;min-height:120px}.day b{display:block;color:#a7c7ff;margin-bottom:8px}.day textarea{width:100%;min-height:74px;resize:none;background:transparent;border:0;color:white;outline:none;font-weight:800;line-height:1.35;font-family:Arial}.notes{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}.notes textarea{width:100%;min-height:160px;resize:none;background:rgba(255,255,255,.045);border:1px solid var(--line);border-radius:16px;color:white;outline:none;padding:13px;font-weight:800;line-height:1.5;font-family:Arial}.footer{margin-top:16px;padding:18px;border-radius:20px;background:linear-gradient(90deg,#21105f,#071339);display:grid;grid-template-columns:1fr 1fr 1fr;align-items:center;gap:12px}.footer .center{text-align:center;font-size:30px;font-weight:950}.footer .center span{color:#65a9ff}.footer small{color:#dcd7ff}.hiddenPrint{display:block}
-@media(max-width:900px){.wrap{padding:10px}.report{width:1120px;transform:scale(.68);transform-origin:top left}.wrap{overflow:auto}.topbar{position:sticky}.header{grid-template-columns:280px 1fr 310px}.weekPlan{grid-template-columns:repeat(7,1fr)}}
-@media print{body{background:white}.topbar,.hiddenPrint{display:none}.wrap{padding:0}.report{margin:0;border:0;box-shadow:none;border-radius:0;background:#0b071d}.card,.goal,.metric,.day{break-inside:avoid}}
+:root{
+  --bg:#050814;--panel:rgba(13,19,43,.78);--panel2:rgba(18,26,57,.82);
+  --line:rgba(255,255,255,.10);--text:#f8f9ff;--muted:#9da7c7;
+  --violet:#8b5cf6;--blue:#3b82f6;--cyan:#22d3ee;--pink:#d946ef;
+  --green:#22c55e;--amber:#f59e0b;--red:#ef4444;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;min-height:100vh;color:var(--text);
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+  background:
+    radial-gradient(circle at 5% 0%,rgba(139,92,246,.26),transparent 30%),
+    radial-gradient(circle at 100% 14%,rgba(34,211,238,.15),transparent 28%),
+    linear-gradient(145deg,#03050d,#070b19 55%,#07111a);
+  padding:16px;
+}
+button,input,textarea{font:inherit}
+button{touch-action:manipulation}
+.app{width:min(1180px,100%);margin:auto}
+.glass{
+  background:linear-gradient(180deg,rgba(18,25,55,.76),rgba(8,12,29,.72));
+  backdrop-filter:blur(18px) saturate(135%);
+  -webkit-backdrop-filter:blur(18px) saturate(135%);
+  border:1px solid var(--line);
+  box-shadow:0 22px 56px rgba(0,0,0,.34),inset 0 1px 0 rgba(255,255,255,.055)
+}
+.topbar{
+  display:flex;align-items:center;justify-content:space-between;gap:14px;
+  padding:12px 14px;border-radius:20px;position:sticky;top:8px;z-index:30
+}
+.brand{display:flex;align-items:center;gap:11px;min-width:0}
+.logo{
+  width:52px;height:52px;border-radius:17px;display:grid;place-items:center;
+  background:linear-gradient(145deg,#7c3aed,#2563eb 58%,#06b6d4);
+  font-weight:1000;font-size:16px;box-shadow:0 0 24px rgba(59,130,246,.34);
+  flex:0 0 auto
+}
+.brand h1{margin:0;font-size:21px;letter-spacing:-.4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand h1 span{color:#63e0ff}
+.brand p{margin:3px 0 0;color:var(--muted);font-size:11px;font-weight:850}
+.topActions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.btn{
+  border:1px solid var(--line);border-radius:14px;padding:11px 13px;
+  color:white;font-weight:950;font-size:12px;cursor:pointer;background:rgba(255,255,255,.05)
+}
+.btn.primary{background:linear-gradient(135deg,#6d28d9,#4f46e5)}
+.btn.pink{border-color:rgba(217,70,239,.45);color:#f5d0fe}
+.btn.green{border-color:rgba(34,197,94,.45);color:#bbf7d0}
+.btn.blue{border-color:rgba(59,130,246,.45);color:#bfdbfe}
+.btn.danger{border-color:rgba(239,68,68,.38);color:#fecaca}
+
+.hero{
+  margin-top:14px;padding:20px;border-radius:25px;
+  display:grid;grid-template-columns:1.15fr .85fr;gap:18px;align-items:center
+}
+.hero h2{margin:0 0 8px;font-size:29px;letter-spacing:-.7px}
+.hero p{margin:0;color:var(--muted);line-height:1.55;font-size:13px}
+.weekBadge{
+  justify-self:end;text-align:center;border-radius:20px;padding:15px 20px;
+  background:linear-gradient(135deg,rgba(139,92,246,.18),rgba(34,211,238,.09));
+  border:1px solid var(--line)
+}
+.weekBadge b{display:block;font-size:30px}
+.weekBadge span{font-size:11px;color:var(--muted);font-weight:850}
+
+.profile{
+  margin-top:14px;padding:16px;border-radius:22px;
+  display:grid;grid-template-columns:repeat(4,1fr);gap:10px
+}
+.field label{display:block;font-size:10px;font-weight:900;color:var(--muted);margin:0 0 6px}
+.field input{
+  width:100%;border:1px solid var(--line);border-radius:13px;
+  background:rgba(255,255,255,.045);color:white;padding:11px 12px;outline:none;font-weight:850
+}
+
+.mainGrid{display:grid;grid-template-columns:1.12fr .88fr;gap:14px;margin-top:14px}
+.card{border-radius:24px;padding:17px;position:relative;overflow:hidden}
+.card:before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(135deg,rgba(255,255,255,.055),transparent 28%,transparent 72%,rgba(34,211,238,.03))
+}
+.card>*{position:relative;z-index:1}
+.sectionTitle{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:1000;margin-bottom:13px}
+
+.goals{display:grid;gap:10px}
+.goal{
+  display:grid;grid-template-columns:34px minmax(150px,1fr) 92px 92px 44px;
+  gap:8px;align-items:center;padding:10px;border-radius:16px;
+  background:rgba(255,255,255,.035);border:1px solid var(--line)
+}
+.goalNo{
+  width:30px;height:30px;border-radius:10px;display:grid;place-items:center;
+  background:linear-gradient(135deg,var(--violet),var(--blue));font-weight:1000;font-size:12px
+}
+.goal input{
+  width:100%;border:1px solid var(--line);border-radius:11px;
+  background:#080d20;color:#fff;padding:10px;outline:none;font-weight:800;font-size:12px
+}
+.goal input[type=checkbox]{width:24px;height:24px;accent-color:var(--green);justify-self:center}
+.goalLabel{display:none}
+
+.metrics{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.metric{
+  min-height:116px;border-radius:18px;border:1px solid var(--line);
+  background:linear-gradient(145deg,rgba(139,92,246,.14),rgba(59,130,246,.07));
+  display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:12px
+}
+.metric .icon{font-size:25px}.metric b{font-size:32px;margin:3px 0}.metric span{color:var(--muted);font-size:10px;font-weight:900}
+.progressWrap{height:14px;border-radius:999px;background:rgba(255,255,255,.09);overflow:hidden;margin-top:12px}
+.progress{height:100%;width:0;background:linear-gradient(90deg,var(--red),var(--amber),var(--green));transition:.3s}
+.status{
+  margin-top:12px;padding:13px;border-radius:16px;border:1px solid var(--line);
+  background:rgba(255,255,255,.035);line-height:1.5;font-size:12px;color:#dfe4f6
+}
+.status strong{display:block;font-size:17px;margin-bottom:5px}
+.good{color:#86efac}.mid{color:#fde68a}.bad{color:#fdba74}.critical{color:#fca5a5}
+
+.chartCoach{display:grid;grid-template-columns:1.08fr .92fr;gap:14px;margin-top:14px}
+.chartWrap{height:300px;overflow:hidden}
+canvas{width:100%;height:100%}
+.coachComment{
+  min-height:240px;white-space:pre-line;line-height:1.65;
+  padding:15px;border-radius:17px;border:1px solid var(--line);
+  background:rgba(255,255,255,.035);font-size:12px;color:#dfe4f6
+}
+
+.weekCard{margin-top:14px}
+.weekPlan{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}
+.day{
+  border:1px solid var(--line);border-radius:16px;padding:10px;
+  background:rgba(255,255,255,.035);min-height:150px
+}
+.day b{display:block;font-size:11px;color:#a9c7ff;margin-bottom:8px}
+.day textarea{
+  width:100%;min-height:108px;resize:none;border:0;background:transparent;
+  color:#fff;outline:none;font-size:11px;line-height:1.5;font-weight:750
+}
+
+.notes{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+.notes textarea{
+  width:100%;min-height:145px;resize:vertical;border:1px solid var(--line);
+  border-radius:16px;background:rgba(255,255,255,.035);color:white;
+  padding:13px;outline:none;line-height:1.55;font-size:12px
+}
+.footer{
+  margin:14px 0 0;padding:17px;border-radius:22px;
+  display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:14px
+}
+.footer .center{text-align:center;font-weight:1000;font-size:22px}
+.footer .center span{color:#63e0ff}
+.footer small{color:var(--muted);font-size:10px;line-height:1.5}
+.footer .right{text-align:right}
+
+.mobileActions{display:none}
+.toast{
+  position:fixed;left:50%;bottom:24px;transform:translate(-50%,18px);
+  opacity:0;pointer-events:none;z-index:100;padding:12px 17px;border-radius:15px;
+  background:linear-gradient(135deg,#16a34a,#0891b2);font-weight:950;
+  transition:.25s;box-shadow:0 15px 40px rgba(0,0,0,.35)
+}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+@media(max-width:900px){
+  body{padding:10px}
+  .topbar{padding:10px 11px}
+  .topActions{display:none}
+  .hero{grid-template-columns:1fr auto;padding:16px}
+  .hero h2{font-size:23px}
+  .profile{grid-template-columns:1fr 1fr}
+  .mainGrid,.chartCoach{grid-template-columns:1fr}
+  .weekPlan{grid-template-columns:repeat(2,1fr)}
+  .day:last-child{grid-column:1/-1}
+  .mobileActions{
+    position:sticky;bottom:8px;z-index:25;display:grid;grid-template-columns:repeat(4,1fr);
+    gap:7px;margin-top:14px;padding:8px;border-radius:19px
+  }
+  .mobileActions .btn{padding:11px 4px;font-size:10px}
+}
+@media(max-width:620px){
+  .logo{width:46px;height:46px}.brand h1{font-size:18px}
+  .brand p{font-size:9px}
+  .hero{grid-template-columns:1fr;gap:12px}
+  .weekBadge{justify-self:stretch;display:flex;align-items:center;justify-content:space-between;text-align:left;padding:12px 14px}
+  .weekBadge b{font-size:23px}
+  .profile{grid-template-columns:1fr 1fr;padding:13px}
+  .goal{
+    grid-template-columns:30px minmax(0,1fr) 42px;
+    grid-template-areas:
+      "no name check"
+      "no target done";
+    gap:7px;padding:9px
+  }
+  .goalNo{grid-area:no}
+  .goal .name{grid-area:name}
+  .goal .target{grid-area:target}
+  .goal .done{grid-area:done}
+  .goal input[type=checkbox]{grid-area:check}
+  .goal .target,.goal .done{padding-left:74px;position:relative}
+  .goal .target:before,.goal .done:before{
+    position:absolute;left:8px;top:50%;transform:translateY(-50%);
+    color:var(--muted);font-size:9px;font-weight:900
+  }
+  .goal .target:before{content:"HEDEF"}
+  .goal .done:before{content:"YAPILAN"}
+  .goal .target input,.goal .done input{padding:9px}
+  .metrics{grid-template-columns:1fr 1fr}
+  .metric{min-height:103px}.metric b{font-size:27px}
+  .chartWrap{height:260px}
+  .weekPlan{grid-template-columns:1fr 1fr}
+  .notes{grid-template-columns:1fr}
+  .footer{grid-template-columns:1fr;text-align:center}
+  .footer .right{text-align:center}
+}
+@media(max-width:420px){
+  .profile{grid-template-columns:1fr}
+  .weekPlan{grid-template-columns:1fr}
+  .day:last-child{grid-column:auto}
+  .mobileActions{grid-template-columns:repeat(4,1fr)}
+  .mobileActions .btn{font-size:9px}
+}
+
+
+.contactFloat{
+  position:fixed;
+  right:18px;
+  bottom:18px;
+  z-index:80;
+  width:min(350px,calc(100vw - 24px));
+  padding:16px;
+  border-radius:22px;
+  background:
+    radial-gradient(circle at 12% 0%,rgba(139,92,246,.22),transparent 38%),
+    linear-gradient(145deg,rgba(15,22,48,.96),rgba(7,13,30,.96));
+  border:1px solid rgba(99,102,241,.38);
+  box-shadow:0 24px 60px rgba(0,0,0,.48),0 0 28px rgba(99,102,241,.18);
+  backdrop-filter:blur(18px) saturate(140%);
+  -webkit-backdrop-filter:blur(18px) saturate(140%);
+  transition:.28s ease;
+}
+.contactFloat.hidden{
+  opacity:0;
+  pointer-events:none;
+  transform:translateY(18px) scale(.96);
+}
+.contactClose{
+  position:absolute;
+  right:10px;
+  top:10px;
+  width:30px;
+  height:30px;
+  border-radius:10px;
+  border:1px solid var(--line);
+  color:#dfe4f6;
+  background:rgba(255,255,255,.06);
+  cursor:pointer;
+  font-weight:900;
+}
+.contactFloat h3{
+  margin:0 34px 7px 0;
+  font-size:16px;
+  line-height:1.35;
+}
+.contactFloat p{
+  margin:0;
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.55;
+}
+.contactButtons{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
+  margin-top:13px;
+}
+.contactButtons a{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  padding:12px 10px;
+  border-radius:14px;
+  text-decoration:none;
+  color:white;
+  font-size:11px;
+  font-weight:1000;
+  border:1px solid rgba(255,255,255,.12);
+}
+.contactButtons .whatsapp{
+  background:linear-gradient(135deg,#16a34a,#059669);
+  box-shadow:0 0 22px rgba(34,197,94,.16);
+}
+.contactButtons .instagram{
+  background:linear-gradient(135deg,#7c3aed,#d946ef 55%,#f97316);
+  box-shadow:0 0 22px rgba(217,70,239,.16);
+}
+.contactMini{
+  position:fixed;
+  right:18px;
+  bottom:18px;
+  z-index:79;
+  display:none;
+  border:1px solid rgba(99,102,241,.38);
+  border-radius:16px;
+  padding:12px 14px;
+  color:white;
+  background:linear-gradient(135deg,#6d28d9,#2563eb);
+  font-size:11px;
+  font-weight:1000;
+  cursor:pointer;
+  box-shadow:0 16px 40px rgba(0,0,0,.34);
+}
+.contactMini.show{display:block}
+@media(max-width:900px){
+  .contactFloat{
+    right:10px;
+    bottom:76px;
+    width:min(340px,calc(100vw - 20px));
+  }
+  .contactMini{
+    right:10px;
+    bottom:76px;
+  }
+}
+@media(max-width:480px){
+  .contactFloat{
+    width:calc(100vw - 20px);
+    padding:14px;
+  }
+  .contactFloat h3{font-size:15px}
+}
+
+@media print{
+  body{background:#070b19;padding:0}
+  .topbar,.mobileActions{display:none!important}
+  .app{width:100%}
+  .hero,.profile,.card,.footer{break-inside:avoid}
+}
 </style>
 </head>
 <body>
-<div class="wrap">
- <div class="topbar hiddenPrint"><b>ENGİN360 Haftalık Hedef Takip Sistemi</b><div class="buttons"><button onclick="calculate()">Hesapla</button><button class="pink" onclick="autoComment()">Otomatik Koç Yorumu</button><button class="green" onclick="savePNG()">Görsel Kaydet</button><button class="secondary" onclick="savePDF()">PDF Kaydet</button><button class="secondary" onclick="resetGoals()">Temizle</button></div></div>
- <div id="report" class="report">
-  <div class="header">
-   <div class="brand"><div class="logo"></div><div><h1>ENGİN<span>360</span></h1><p>HEDEF · TAKİP · GELİŞİM</p></div></div>
-   <div class="title"><h2>HAFTALIK HEDEF<br>TAKİP SİSTEMİ</h2><h3>Öğrenci Koçluk Laboratuvarı</h3></div>
-   <div class="student"><div class="field"><label>Öğrenci</label><input id="student" value="Öğrenci Adı"></div><div class="field"><label>Hafta</label><input id="week" value="1. Hafta"></div><div class="field"><label>Tarih</label><input id="date" value=""></div><div class="field"><label>Koç</label><input id="coach" value="Engin Özcan"></div></div>
+<div class="app">
+  <header class="topbar glass">
+    <div class="brand">
+      <div class="logo">E360</div>
+      <div><h1>ENGİN<span>360</span> Hedef Takip</h1><p>PLANLA · TAKİP ET · GELİŞ</p></div>
+    </div>
+    <div class="topActions">
+      <button class="btn primary" onclick="calculate()">Hesapla</button>
+      <button class="btn pink" onclick="autoComment()">Koç Yorumu</button>
+      <button class="btn green" onclick="savePNG()">Görsel Kaydet</button>
+      <button class="btn blue" onclick="savePDF()">PDF Kaydet</button>
+      <button class="btn danger" onclick="resetGoals()">Temizle</button>
+    </div>
+  </header>
+
+  <section class="hero glass">
+    <div>
+      <h2>Haftalık Hedeflerini Gör, Ölç ve Geliştir.</h2>
+      <p>Hedeflerini belirle, gerçekleşen değerleri gir ve haftalık performansını ENGİN360 koçluk analiziyle değerlendir.</p>
+    </div>
+    <div class="weekBadge"><span>AKTİF DÖNEM</span><b id="heroWeek">1. Hafta</b></div>
+  </section>
+
+  <section class="profile glass">
+    <div class="field"><label>ÖĞRENCİ</label><input id="student" value="Öğrenci Adı"></div>
+    <div class="field"><label>HAFTA</label><input id="week" value="1. Hafta"></div>
+    <div class="field"><label>TARİH</label><input id="date"></div>
+    <div class="field"><label>KOÇ</label><input id="coach" value="Engin Özcan"></div>
+  </section>
+
+  <div id="report">
+    <div class="mainGrid">
+      <section class="card glass">
+        <div class="sectionTitle">🎯 HAFTALIK HEDEFLER</div>
+        <div id="goals" class="goals"></div>
+      </section>
+
+      <section class="card glass">
+        <div class="sectionTitle">📊 HAFTALIK DURUM</div>
+        <div class="metrics">
+          <div class="metric"><div class="icon">🎯</div><b id="targetTotal">0</b><span>TOPLAM HEDEF</span></div>
+          <div class="metric"><div class="icon">✅</div><b id="doneTotal">0</b><span>GERÇEKLEŞEN</span></div>
+          <div class="metric"><div class="icon">📈</div><b id="percent">%0</b><span>BAŞARI ORANI</span></div>
+          <div class="metric"><div class="icon">🔥</div><b id="completed">0/6</b><span>TAMAMLANAN</span></div>
+        </div>
+        <div class="progressWrap"><div id="progress" class="progress"></div></div>
+        <div id="status" class="status"><strong class="mid">Veri bekleniyor</strong>Hedeflerini doldur ve gerçekleşen değerleri gir.</div>
+      </section>
+    </div>
+
+    <div class="chartCoach">
+      <section class="card glass">
+        <div class="sectionTitle">📉 HEDEF – GERÇEKLEŞEN GRAFİĞİ</div>
+        <div class="chartWrap"><canvas id="chart"></canvas></div>
+      </section>
+      <section class="card glass">
+        <div class="sectionTitle">🧠 ENGİN360 KOÇ YORUMU</div>
+        <div id="coachComment" class="coachComment">Hedeflerini girdikten sonra “Koç Yorumu” düğmesine bas.</div>
+      </section>
+    </div>
+
+    <section class="card glass weekCard">
+      <div class="sectionTitle">🗓️ HAFTALIK MİNİ PLAN</div>
+      <div class="weekPlan">
+        <div class="day"><b>PAZARTESİ</b><textarea>Matematik tekrar + test</textarea></div>
+        <div class="day"><b>SALI</b><textarea>Paragraf + Fen</textarea></div>
+        <div class="day"><b>ÇARŞAMBA</b><textarea>Geometri + yanlış analizi</textarea></div>
+        <div class="day"><b>PERŞEMBE</b><textarea>Problem + konu tekrarı</textarea></div>
+        <div class="day"><b>CUMA</b><textarea>Deneme analizi</textarea></div>
+        <div class="day"><b>CUMARTESİ</b><textarea>Eksik konu kapatma</textarea></div>
+        <div class="day"><b>PAZAR</b><textarea>Haftalık değerlendirme</textarea></div>
+      </div>
+    </section>
+
+    <div class="notes">
+      <section class="card glass">
+        <div class="sectionTitle">✅ BU HAFTANIN GÜÇLÜ TARAFI</div>
+        <textarea id="strong">Planı takip etme isteği ve haftalık hedefleri görünür hâle getirme bu haftanın en güçlü tarafıdır.</textarea>
+      </section>
+      <section class="card glass">
+        <div class="sectionTitle">⚠️ GELECEK HAFTA DİKKAT</div>
+        <textarea id="improve">Gerçekleşmeyen hedefler küçük parçalara bölünmeli, özellikle yanlış yapılan sorular tekrar edilmelidir.</textarea>
+      </section>
+    </div>
+
+
+    
+
+    <footer class="footer glass">
+      <div><b>ENGİN360 İlkesi</b><br><small>Hedef küçükse takip kolaylaşır. Takip kolaylaşırsa istikrar güçlenir.</small></div>
+      <div class="center">ENGİN<span>360</span><div style="font-size:10px;color:var(--muted)">Başarının 360° yolu</div></div>
+      <div class="right"><b>Engin Özcan</b><br><small>Matematik Öğretmeni & Eğitim Koçu</small></div>
+    </footer>
   </div>
-  <div class="grid">
-   <div class="card"><h3>🎯 Haftalık Hedefler</h3><div class="small-head"><div></div><div>Hedef</div><div>Hedef Sayı</div><div>Gerçekleşen</div><div>Tamam</div></div><div id="goals" class="goals"></div></div>
-   <div class="card"><h3>📊 Haftalık Durum</h3><div class="metrics"><div class="metric"><div class="icon">🎯</div><div id="targetTotal" class="value">0</div><div class="label">Toplam Hedef</div></div><div class="metric"><div class="icon">✅</div><div id="doneTotal" class="value">0</div><div class="label">Gerçekleşen</div></div><div class="metric"><div class="icon">📈</div><div id="percent" class="value">%0</div><div class="label">Başarı Oranı</div></div><div class="metric"><div class="icon">🔥</div><div id="completed" class="value">0/6</div><div class="label">Tamamlanan Hedef</div></div></div><div class="progressWrap"><div id="progress" class="progress"></div></div><div id="status" class="result"><div class="bigStatus statusMid">Veri bekleniyor</div>Hedeflerini doldur ve gerçekleşen değerleri gir. Sistem haftalık sonucu otomatik yorumlayacak.</div></div>
-  </div>
-  <div class="grid">
-    <div class="card"><h3>📉 Hedef - Gerçekleşen Grafiği</h3><div class="chartBox"><canvas id="chart" width="720" height="275"></canvas></div></div>
-    <div class="card"><h3>🧠 ENGİN360 Koç Yorumu</h3><div id="coachComment" class="result">Otomatik yorum için hedeflerini girip “Otomatik Koç Yorumu” butonuna bas.</div></div>
-  </div>
-  <div class="card" style="margin-top:16px"><h3>🗓️ Haftalık Mini Plan</h3><div class="weekPlan">
-    <div class="day"><b>Pazartesi</b><textarea>Matematik tekrar + test</textarea></div><div class="day"><b>Salı</b><textarea>Paragraf + Fen</textarea></div><div class="day"><b>Çarşamba</b><textarea>Geometri + yanlış analizi</textarea></div><div class="day"><b>Perşembe</b><textarea>Problem + konu tekrarı</textarea></div><div class="day"><b>Cuma</b><textarea>Deneme analizi</textarea></div><div class="day"><b>Cumartesi</b><textarea>Eksik konu kapatma</textarea></div><div class="day"><b>Pazar</b><textarea>Haftalık değerlendirme</textarea></div>
-  </div></div>
-  <div class="notes"><div class="card"><h3>✅ Bu Haftanın Güçlü Tarafı</h3><textarea id="strong">Planı takip etme isteği ve haftalık hedefleri görünür hâle getirme bu haftanın en güçlü tarafıdır.</textarea></div><div class="card"><h3>⚠️ Gelecek Hafta Dikkat Edilecek Nokta</h3><textarea id="improve">Gerçekleşmeyen hedefler küçük parçalara bölünmeli, özellikle yanlış yapılan sorular tekrar edilmelidir.</textarea></div></div>
-  <div class="footer"><div><b>Not:</b><br><small>Hedef küçükse takip kolaylaşır. Takip kolaylaşırsa istikrar güçlenir.</small></div><div class="center">ENGİN<span>360</span><div style="font-size:12px">Başarının 360° yolu</div></div><div style="text-align:right"><b>Engin Özcan</b><br><small>Matematik Öğretmeni & Eğitim Koçu</small></div></div>
- </div>
+
+  <nav class="mobileActions glass">
+    <button class="btn primary" onclick="calculate()">Hesapla</button>
+    <button class="btn pink" onclick="autoComment()">Yorum</button>
+    <button class="btn green" onclick="savePNG()">Görsel</button>
+    <button class="btn blue" onclick="savePDF()">PDF</button>
+  </nav>
 </div>
+
+<div class="contactFloat" id="contactFloat">
+  <button class="contactClose" onclick="closeContact()" aria-label="Kapat">×</button>
+  <h3>Bu sistemi sadece doldurmak değil, düzenli ve bilimsel olarak analiz edilmesini de ister misin?</h3>
+  <p>Haftalık hedeflerini birlikte belirleyelim, gelişimini takip edelim ve eksiklerini zamanında tespit edelim. Sana özel eğitim koçluğu için benimle iletişime geçebilirsin.</p>
+  <div class="contactButtons">
+    <a class="whatsapp" href="https://wa.me/905348165015" target="_blank" rel="noopener">💬 WhatsApp</a>
+    <a class="instagram" href="https://www.instagram.com/www_engin360_com/" target="_blank" rel="noopener">◎ Instagram</a>
+  </div>
+</div>
+<button class="contactMini" id="contactMini" onclick="openContact()">💬 Bana Ulaş</button>
+
+<div class="toast" id="toast">İşlem tamamlandı</div>
+
 <script>
-const defaultGoals=[['Matematik soru hedefi',200,0],['Geometri soru hedefi',80,0],['Paragraf soru hedefi',120,0],['Fen / Sosyal tekrar hedefi',5,0],['Yanlış soru analizi',30,0],['Deneme / mini deneme',2,0]];
-function el(id){return document.getElementById(id)} function num(v){return parseFloat(String(v||0).replace(',','.'))||0} function fmt(n){return (Number(n)||0).toLocaleString('tr-TR',{maximumFractionDigits:1})}
-function today(){const d=new Date(); return d.toLocaleDateString('tr-TR',{day:'2-digit',month:'long',year:'numeric'})}
-function renderGoals(){const box=el('goals');box.innerHTML='';defaultGoals.forEach((g,i)=>{const div=document.createElement('div');div.className='goal';div.innerHTML=`<div class="no">${i+1}</div><input id="g${i}n" value="${g[0]}" oninput="calculate()"><input id="g${i}t" type="number" value="${g[1]}" oninput="calculate()"><input id="g${i}d" type="number" value="${g[2]}" oninput="calculate()"><input id="g${i}c" type="checkbox" onchange="calculate()">`;box.appendChild(div)})}
-function getRows(){return defaultGoals.map((_,i)=>({name:el('g'+i+'n').value||('Hedef '+(i+1)),target:num(el('g'+i+'t').value),done:num(el('g'+i+'d').value),check:el('g'+i+'c').checked}))}
-function drawChart(rows){const c=el('chart'),ctx=c.getContext('2d'),W=c.width,H=c.height;ctx.clearRect(0,0,W,H);const ml=170,mr=20,mt=20,barH=22,gap=18;const max=Math.max(10,...rows.map(r=>Math.max(r.target,r.done)));ctx.font='bold 13px Arial';rows.forEach((r,i)=>{let y=mt+i*(barH*2+gap);ctx.fillStyle='#d8d4ff';ctx.textAlign='right';ctx.fillText(r.name.slice(0,21),ml-10,y+24);let tw=(W-ml-mr)*r.target/max,dw=(W-ml-mr)*r.done/max;ctx.fillStyle='rgba(255,255,255,.15)';round(ctx,ml,y,tw,barH,8);ctx.fillStyle='#8b5cf6';round(ctx,ml,y,tw,barH,8);ctx.fillStyle='#22c55e';round(ctx,ml,y+barH+5,dw,barH,8);ctx.fillStyle='white';ctx.textAlign='left';ctx.fillText(fmt(r.target),ml+tw+6,y+16);ctx.fillText(fmt(r.done),ml+dw+6,y+barH+21)})}
-function round(ctx,x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.fill()}
-function calculate(){const rows=getRows();let target=rows.reduce((a,r)=>a+r.target,0),done=rows.reduce((a,r)=>a+r.done,0),checked=rows.filter(r=>r.check || (r.target>0&&r.done>=r.target)).length;let p=target?Math.round(done*100/target):0;p=Math.min(150,p);el('targetTotal').textContent=fmt(target);el('doneTotal').textContent=fmt(done);el('percent').textContent='%'+p;el('completed').textContent=checked+'/'+rows.length;el('progress').style.width=Math.min(100,p)+'%';let cls='statusMid',head='🟡 Takip Edilebilir Seviye',txt='Hedeflerin bir kısmı gerçekleşmiş. Gelecek hafta hedefleri daha küçük parçalara bölmek faydalı olur.';if(p>=90&&checked>=4){cls='statusGood';head='🟢 Çok Güçlü Hafta';txt='Hedeflerin büyük bölümü tamamlanmış. Bu tempo korunursa alışkanlık kalıcı hâle gelir.'}else if(p>=70){cls='statusMid';head='🟡 İyi Hafta';txt='Genel tablo olumlu. Tamamlanmayan hedefler için kısa tekrar ve yanlış analizi eklenmeli.'}else if(p>=45){cls='statusBad';head='🟠 Geliştirilmeli';txt='Çaba var fakat hedefler tam karşılanmamış. Hedefleri daha gerçekçi ve günlük parçalara ayırmak gerekiyor.'}else{cls='statusCritical';head='🔴 Kritik Takip Gerekli';txt='Bu hafta hedef gerçekleşmesi düşük. Moral bozmadan hedefleri küçültüp yeniden başlamak en doğru hamle.'}el('status').innerHTML=`<div class="bigStatus ${cls}">${head}</div>${txt}`;drawChart(rows)}
-function autoComment(){calculate();const rows=getRows();const student=(el('student').value||'Öğrenci').trim();const target=rows.reduce((a,r)=>a+r.target,0),done=rows.reduce((a,r)=>a+r.done,0),p=target?Math.round(done*100/target):0;const best=[...rows].sort((a,b)=>(b.target?b.done/b.target:0)-(a.target?a.done/a.target:0))[0];const weak=[...rows].sort((a,b)=>(a.target?a.done/a.target:0)-(b.target?b.done/b.target:0))[0];let yorum=`${student} bu hafta toplam ${fmt(target)} hedefin ${fmt(done)} kadarını gerçekleştirmiştir. Haftalık başarı oranı %${p} olarak hesaplanmıştır. `;yorum+=p>=80?'Bu oran, öğrencinin hedef takibi konusunda güçlü bir hafta geçirdiğini gösterir.':'Bu oran, hedeflerin daha küçük ve günlük parçalara bölünmesi gerektiğini gösterir.';yorum+=`\n\nEn güçlü alan "${best.name}" hedefidir. Geliştirilmesi gereken ana alan ise "${weak.name}" hedefidir. Gelecek hafta özellikle bu hedef için daha net zaman aralığı belirlenmeli ve gün sonunda kısa kontrol yapılmalıdır.`;yorum+=`\n\nENGİN360 önerisi: Öğrenciye aynı anda çok fazla yük vermek yerine 3 ana hedef + 2 destek hedef şeklinde ilerlemek daha sağlıklı olur.`;el('coachComment').textContent=yorum;el('strong').value=`Bu haftanın en güçlü tarafı: ${best.name}. Öğrenci bu alanda hedefe yaklaşmış veya hedefi tamamlamıştır.`;el('improve').value=`Gelecek hafta öncelik: ${weak.name}. Bu hedef günlük küçük parçalara bölünmeli ve haftanın sonuna bırakılmamalıdır.`}
-function resetGoals(){document.querySelectorAll('.goal input[type=number]').forEach(x=>x.value=0);document.querySelectorAll('.goal input[type=checkbox]').forEach(x=>x.checked=false);calculate()}
-async function savePNG(){calculate();const canvas=await html2canvas(el('report'),{scale:2,backgroundColor:'#09051c',useCORS:true});const a=document.createElement('a');a.href=canvas.toDataURL('image/png');a.download='ENGIN360_Haftalik_Hedef_Takip.png';a.click()}
-async function savePDF(){calculate();const canvas=await html2canvas(el('report'),{scale:2,backgroundColor:'#09051c',useCORS:true});const {jsPDF}=window.jspdf;const pdf=new jsPDF('p','mm','a4');const pw=210,ph=297,imgH=canvas.height*pw/canvas.width;let y=0;pdf.addImage(canvas.toDataURL('image/jpeg',.98),'JPEG',0,y,pw,imgH);let left=imgH-ph;while(left>0){y-=ph;pdf.addPage();pdf.addImage(canvas.toDataURL('image/jpeg',.98),'JPEG',0,y,pw,imgH);left-=ph}pdf.save('ENGIN360_Haftalik_Hedef_Takip.pdf')}
-document.addEventListener('DOMContentLoaded',()=>{el('date').value=today();renderGoals();calculate()});
+const defaultGoals=[
+ ['Matematik soru hedefi',200,0],['Geometri soru hedefi',80,0],
+ ['Paragraf soru hedefi',120,0],['Fen / Sosyal tekrar hedefi',5,0],
+ ['Yanlış soru analizi',30,0],['Deneme / mini deneme',2,0]
+];
+const KEY='engin360_weekly_goals_v2';
+function el(id){return document.getElementById(id)}
+function num(v){return parseFloat(String(v||0).replace(',','.'))||0}
+function fmt(n){return (Number(n)||0).toLocaleString('tr-TR',{maximumFractionDigits:1})}
+function today(){return new Date().toLocaleDateString('tr-TR',{day:'2-digit',month:'long',year:'numeric'})}
+function toast(t){const x=el('toast');x.textContent=t;x.classList.add('show');setTimeout(()=>x.classList.remove('show'),1700)}
+function renderGoals(){
+ const box=el('goals');box.innerHTML='';
+ defaultGoals.forEach((g,i)=>{
+  const div=document.createElement('div');div.className='goal';
+  div.innerHTML=`<div class="goalNo">${i+1}</div>
+  <input class="name" id="g${i}n" value="${g[0]}" oninput="calculate();saveLocal()">
+  <div class="target"><input id="g${i}t" type="number" value="${g[1]}" oninput="calculate();saveLocal()"></div>
+  <div class="done"><input id="g${i}d" type="number" value="${g[2]}" oninput="calculate();saveLocal()"></div>
+  <input id="g${i}c" type="checkbox" onchange="calculate();saveLocal()">`;
+  box.appendChild(div)
+ })
+}
+function getRows(){return defaultGoals.map((_,i)=>({
+ name:el('g'+i+'n').value||('Hedef '+(i+1)),
+ target:num(el('g'+i+'t').value),done:num(el('g'+i+'d').value),
+ check:el('g'+i+'c').checked
+}))}
+function fitCanvas(){
+ const c=el('chart'),box=c.parentElement,ratio=window.devicePixelRatio||1;
+ c.width=Math.max(520,box.clientWidth)*ratio;c.height=300*ratio;
+ c.style.width='100%';c.style.height='300px';
+ return {c,ctx:c.getContext('2d'),W:c.width,H:c.height,ratio}
+}
+function round(ctx,x,y,w,h,r){if(w<0)w=0;ctx.beginPath();ctx.roundRect?ctx.roundRect(x,y,w,h,r):(ctx.rect(x,y,w,h));ctx.fill()}
+function drawChart(rows){
+ const {ctx,W,H,ratio}=fitCanvas();ctx.clearRect(0,0,W,H);
+ ctx.scale(ratio,ratio);const w=W/ratio,h=H/ratio;
+ const mobile=w<620,ml=mobile?105:150,mr=32,mt=12,rowH=(h-24)/rows.length;
+ const max=Math.max(10,...rows.map(r=>Math.max(r.target,r.done)));
+ ctx.font='700 11px Inter,Arial';ctx.textBaseline='middle';
+ rows.forEach((r,i)=>{
+  const y=mt+i*rowH,barY=y+8,barH=9,usable=w-ml-mr;
+  ctx.fillStyle='#bfc7df';ctx.textAlign='right';
+  const label=r.name.length>(mobile?15:22)?r.name.slice(0,mobile?15:22)+'…':r.name;
+  ctx.fillText(label,ml-8,y+rowH/2);
+  const tw=usable*r.target/max,dw=usable*r.done/max;
+  ctx.fillStyle='rgba(255,255,255,.08)';round(ctx,ml,barY,usable,barH,6);
+  ctx.fillStyle='#8b5cf6';round(ctx,ml,barY,tw,barH,6);
+  ctx.fillStyle='#22c55e';round(ctx,ml,barY+14,dw,barH,6);
+  ctx.fillStyle='#fff';ctx.textAlign='left';ctx.font='800 9px Inter,Arial';
+  ctx.fillText(fmt(r.target),Math.min(w-25,ml+tw+5),barY+4);
+  ctx.fillText(fmt(r.done),Math.min(w-25,ml+dw+5),barY+18);
+  ctx.font='700 11px Inter,Arial'
+ })
+}
+function calculate(){
+ const rows=getRows();
+ const target=rows.reduce((a,r)=>a+r.target,0),done=rows.reduce((a,r)=>a+r.done,0);
+ const checked=rows.filter(r=>r.check||(r.target>0&&r.done>=r.target)).length;
+ let p=target?Math.round(done*100/target):0;p=Math.min(150,p);
+ el('targetTotal').textContent=fmt(target);el('doneTotal').textContent=fmt(done);
+ el('percent').textContent='%'+p;el('completed').textContent=checked+'/'+rows.length;
+ el('progress').style.width=Math.min(100,p)+'%';
+ let cls='mid',head='🟡 Takip Edilebilir Seviye',txt='Hedeflerin bir kısmı gerçekleşmiş. Gelecek hafta hedefleri daha küçük parçalara bölmek faydalı olur.';
+ if(p>=90&&checked>=4){cls='good';head='🟢 Çok Güçlü Hafta';txt='Hedeflerin büyük bölümü tamamlanmış. Bu tempo korunursa alışkanlık kalıcı hâle gelir.'}
+ else if(p>=70){cls='mid';head='🟡 İyi Hafta';txt='Genel tablo olumlu. Tamamlanmayan hedefler için kısa tekrar ve yanlış analizi eklenmeli.'}
+ else if(p>=45){cls='bad';head='🟠 Geliştirilmeli';txt='Çaba var fakat hedefler tam karşılanmamış. Hedefleri günlük parçalara ayırmak gerekiyor.'}
+ else{cls='critical';head='🔴 Kritik Takip Gerekli';txt='Hedef gerçekleşmesi düşük. Moral bozmadan hedefleri küçültüp yeniden başlamak en doğru hamle.'}
+ el('status').innerHTML=`<strong class="${cls}">${head}</strong>${txt}`;
+ el('heroWeek').textContent=el('week').value||'1. Hafta';
+ drawChart(rows)
+}
+function autoComment(){
+ calculate();const rows=getRows(),student=(el('student').value||'Öğrenci').trim();
+ const target=rows.reduce((a,r)=>a+r.target,0),done=rows.reduce((a,r)=>a+r.done,0),p=target?Math.round(done*100/target):0;
+ const ratio=r=>r.target?r.done/r.target:0;
+ const best=[...rows].sort((a,b)=>ratio(b)-ratio(a))[0],weak=[...rows].sort((a,b)=>ratio(a)-ratio(b))[0];
+ let yorum=`${student} bu hafta toplam ${fmt(target)} hedefin ${fmt(done)} kadarını gerçekleştirmiştir. Haftalık başarı oranı %${p} olarak hesaplanmıştır. `;
+ yorum+=p>=80?'Bu oran, hedef takibi açısından güçlü bir hafta geçirildiğini gösterir.':'Bu oran, hedeflerin daha küçük günlük parçalara bölünmesi gerektiğini gösterir.';
+ yorum+=`\n\nEn güçlü alan “${best.name}” hedefidir. Geliştirilmesi gereken ana alan ise “${weak.name}” hedefidir. Gelecek hafta bu hedef için net zaman aralığı belirlenmeli ve gün sonunda kısa kontrol yapılmalıdır.`;
+ yorum+=`\n\nENGİN360 önerisi: 3 ana hedef + 2 destek hedef modeliyle ilerlemek daha sürdürülebilir olacaktır.`;
+ el('coachComment').textContent=yorum;
+ el('strong').value=`Bu haftanın en güçlü tarafı: ${best.name}. Öğrenci bu alanda hedefe yaklaşmış veya hedefi tamamlamıştır.`;
+ el('improve').value=`Gelecek hafta öncelik: ${weak.name}. Bu hedef günlük küçük parçalara bölünmeli ve haftanın sonuna bırakılmamalıdır.`;
+ saveLocal();toast('Koç yorumu hazırlandı')
+}
+function saveLocal(){
+ const data={student:el('student').value,week:el('week').value,date:el('date').value,coach:el('coach').value,
+ rows:getRows(),comment:el('coachComment').textContent,strong:el('strong').value,improve:el('improve').value,
+ days:[...document.querySelectorAll('.day textarea')].map(x=>x.value)};
+ localStorage.setItem(KEY,JSON.stringify(data))
+}
+function loadLocal(){
+ const d=JSON.parse(localStorage.getItem(KEY)||'null');if(!d)return;
+ ['student','week','date','coach'].forEach(k=>{if(d[k]!=null)el(k).value=d[k]});
+ (d.rows||[]).forEach((r,i)=>{if(el('g'+i+'n')){el('g'+i+'n').value=r.name;el('g'+i+'t').value=r.target;el('g'+i+'d').value=r.done;el('g'+i+'c').checked=r.check}});
+ if(d.comment)el('coachComment').textContent=d.comment;if(d.strong)el('strong').value=d.strong;if(d.improve)el('improve').value=d.improve;
+ [...document.querySelectorAll('.day textarea')].forEach((x,i)=>{if(d.days?.[i]!=null)x.value=d.days[i]})
+}
+function resetGoals(){
+ if(!confirm('Tüm hedef değerleri temizlensin mi?'))return;
+ document.querySelectorAll('.goal input[type=number]').forEach(x=>x.value=0);
+ document.querySelectorAll('.goal input[type=checkbox]').forEach(x=>x.checked=false);
+ calculate();saveLocal();toast('Hedefler temizlendi')
+}
+async function savePNG(){
+ calculate();saveLocal();
+ const canvas=await html2canvas(el('report'),{scale:2,backgroundColor:'#050814',useCORS:true});
+ const a=document.createElement('a');a.href=canvas.toDataURL('image/png');a.download='ENGIN360_Haftalik_Hedef_Takip.png';a.click();
+ toast('Rapor görseli hazırlandı')
+}
+async function savePDF(){
+ calculate();saveLocal();
+ const canvas=await html2canvas(el('report'),{scale:2,backgroundColor:'#050814',useCORS:true});
+ const {jsPDF}=window.jspdf,pdf=new jsPDF('p','mm','a4'),pw=210,ph=297,imgH=canvas.height*pw/canvas.width;
+ let y=0;pdf.addImage(canvas.toDataURL('image/jpeg',.96),'JPEG',0,y,pw,imgH);
+ for(let left=imgH-ph;left>0;left-=ph){y-=ph;pdf.addPage();pdf.addImage(canvas.toDataURL('image/jpeg',.96),'JPEG',0,y,pw,imgH)}
+ pdf.save('ENGIN360_Haftalik_Hedef_Takip.pdf');toast('PDF hazırlandı')
+}
+document.addEventListener('input',e=>{if(e.target.matches('input,textarea')){saveLocal();if(e.target.id==='week')calculate()}});
+window.addEventListener('resize',()=>drawChart(getRows()));
+
+function closeContact(){
+  el('contactFloat').classList.add('hidden');
+  el('contactMini').classList.add('show');
+  sessionStorage.setItem('engin360_contact_closed','1');
+}
+function openContact(){
+  el('contactFloat').classList.remove('hidden');
+  el('contactMini').classList.remove('show');
+  sessionStorage.removeItem('engin360_contact_closed');
+}
+function initContact(){
+  if(sessionStorage.getItem('engin360_contact_closed')==='1'){
+    el('contactFloat').classList.add('hidden');
+    el('contactMini').classList.add('show');
+  }
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+ renderGoals();el('date').value=today();loadLocal();calculate();initContact()
+});
 </script>
 </body>
 </html>
