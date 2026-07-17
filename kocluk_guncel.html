@@ -2,47 +2,469 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Koçluk Laboratuvarı</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#080b1d">
+<title>ENGİN360 Koçluk Laboratuvarı</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial,sans-serif}
-body{min-height:100vh;color:#fff;padding:18px;background:radial-gradient(circle at top left,rgba(168,85,247,.36),transparent 34%),radial-gradient(circle at bottom right,rgba(14,165,233,.30),transparent 34%),linear-gradient(135deg,#05010d,#120024,#06142f)}
-.container{max-width:1000px;margin:0 auto}
-.hero{text-align:center;padding:30px 18px;border-radius:28px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);box-shadow:0 0 34px rgba(124,58,237,.34);backdrop-filter:blur(12px);margin-bottom:24px}
-.logo{font-size:38px;font-weight:900;letter-spacing:1.5px;background:linear-gradient(90deg,#a855f7,#38bdf8,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.subtitle{margin-top:10px;color:#ded9ff;font-size:15px;line-height:1.5}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
-.card{position:relative;display:block;text-decoration:none;color:white;min-height:136px;padding:18px;border-radius:22px;background:linear-gradient(135deg,rgba(124,58,237,.25),rgba(14,165,233,.13));border:1px solid rgba(255,255,255,.13);box-shadow:0 12px 26px rgba(0,0,0,.27);transition:.2s ease;overflow:hidden}
-.card:hover{transform:translateY(-4px);box-shadow:0 0 28px rgba(236,72,153,.35)}
-.card.featured{background:linear-gradient(135deg,rgba(236,72,153,.34),rgba(124,58,237,.26),rgba(14,165,233,.18));border:1px solid rgba(236,72,153,.55);box-shadow:0 0 26px rgba(236,72,153,.24),0 14px 30px rgba(0,0,0,.32)}
-.card.featured:before{content:"";position:absolute;inset:-80px auto auto -80px;width:170px;height:170px;background:radial-gradient(circle,rgba(56,189,248,.28),transparent 67%);pointer-events:none}
-.card.featured:hover{box-shadow:0 0 36px rgba(236,72,153,.48),0 0 22px rgba(56,189,248,.24);transform:translateY(-5px)}
-.badge{position:absolute;right:14px;top:14px;padding:5px 10px;border-radius:999px;background:linear-gradient(90deg,#facc15,#fb7185,#a855f7);font-size:11px;font-weight:900;color:#090014;box-shadow:0 0 18px rgba(250,204,21,.42);letter-spacing:.4px}
-.icon{font-size:31px;margin-bottom:10px}.card h3{font-size:17px;margin-bottom:8px;padding-right:54px}.card p{font-size:13.5px;color:#d8daf7;line-height:1.45}.footer{text-align:center;color:#aaa;font-size:12px;margin:32px 0 10px}.toplink{display:inline-block;margin-top:13px;color:#e9d5ff;text-decoration:none;font-size:13px}
-@media(max-width:520px){body{padding:13px}.hero{padding:26px 15px}.logo{font-size:32px}.grid{grid-template-columns:1fr}.card h3{padding-right:58px}}
+:root{
+  --text:#f8f9ff;
+  --muted:#aeb9d8;
+  --line:rgba(255,255,255,.11);
+  --shadow:0 18px 46px rgba(0,0,0,.30);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  min-height:100vh;
+  color:var(--text);
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  background:
+    radial-gradient(circle at 12% 2%,rgba(255,70,170,.17),transparent 26rem),
+    radial-gradient(circle at 92% 10%,rgba(75,130,255,.16),transparent 25rem),
+    linear-gradient(180deg,#0b1029,#080b1b 68%);
+}
+body:before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  opacity:.27;
+  background-image:
+    linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+  background-size:38px 38px;
+  mask-image:linear-gradient(to bottom,#000,transparent 88%);
+}
+a{color:inherit;text-decoration:none}
+button{font:inherit}
+.shell{
+  width:min(1060px,calc(100% - 24px));
+  margin:auto;
+  padding:16px 0 40px;
+  position:relative;
+}
+.topbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:12px;
+}
+.brand{display:flex;align-items:center;gap:11px}
+.brand-logo{
+  width:54px;height:54px;border-radius:17px;
+  display:grid;place-items:center;
+  font-weight:950;font-size:18px;
+  background:linear-gradient(135deg,rgba(255,78,174,.92),rgba(109,91,255,.72));
+  box-shadow:0 0 18px rgba(255,78,174,.18);
+}
+.brand strong{display:block;font-size:22px;letter-spacing:.5px}
+.brand small{display:block;color:#8f9bbb;font-size:9px;letter-spacing:1.25px;margin-top:3px}
+.home-link{
+  padding:10px 13px;
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:rgba(15,22,48,.78);
+  font-size:12px;
+  font-weight:800;
+  color:#dce7ff;
+}
+.hero{
+  position:relative;
+  overflow:hidden;
+  padding:24px;
+  border-radius:28px;
+  border:1px solid rgba(255,255,255,.13);
+  background:
+    radial-gradient(circle at 12% 18%,rgba(255,78,174,.24),transparent 38%),
+    radial-gradient(circle at 91% 15%,rgba(83,208,255,.18),transparent 40%),
+    linear-gradient(128deg,rgba(180,74,255,.23),rgba(66,133,255,.12) 48%,rgba(49,220,255,.11)),
+    rgba(13,20,46,.92);
+  box-shadow:var(--shadow),0 0 34px rgba(255,78,174,.08);
+  margin-bottom:14px;
+}
+.hero:before{
+  content:"";
+  position:absolute;
+  left:7%;right:7%;top:0;height:2px;
+  background:linear-gradient(90deg,transparent,#ff4eae,#8f70ff,#45ddff,transparent);
+  box-shadow:0 0 16px rgba(255,78,174,.20);
+}
+.eyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  padding:7px 10px;
+  border-radius:999px;
+  border:1px solid rgba(255,126,196,.22);
+  background:rgba(255,78,174,.08);
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.8px;
+}
+.hero h1{
+  font-size:clamp(27px,6vw,47px);
+  line-height:1.03;
+  margin:15px 0 9px;
+  letter-spacing:-1.1px;
+}
+.hero h1 span{
+  background:linear-gradient(90deg,#ff8bcd,#a88dff,#65e7ff);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+.hero p{
+  margin:0;
+  color:#bac6e4;
+  max-width:720px;
+  font-size:14px;
+  line-height:1.6;
+}
+.hero-stats{display:flex;flex-wrap:wrap;gap:8px;margin-top:17px}
+.stat{
+  padding:8px 11px;
+  border-radius:12px;
+  background:rgba(5,9,28,.42);
+  border:1px solid var(--line);
+  font-size:10.5px;
+  font-weight:850;
+  color:#e6ecff;
+}
+.info-note{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:13px 15px;
+  margin:12px 0 15px;
+  border:1px solid rgba(255,99,183,.20);
+  border-radius:18px;
+  background:linear-gradient(90deg,rgba(255,78,174,.07),rgba(92,111,255,.07));
+}
+.info-note strong{font-size:12px}
+.info-note span{color:#b9c3de;font-size:10.5px}
+.accordion{display:grid;gap:10px}
+.group{
+  --c1:255,78,174;
+  --c2:139,92,255;
+  position:relative;
+  border:1.5px solid rgba(var(--c1),.66);
+  border-radius:23px;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 9% 22%,rgba(var(--c1),.13),transparent 34%),
+    radial-gradient(circle at 94% 18%,rgba(var(--c2),.08),transparent 38%),
+    linear-gradient(135deg,rgba(var(--c1),.045),rgba(7,12,32,.97) 50%,rgba(var(--c2),.035));
+  box-shadow:
+    0 0 5px rgba(var(--c1),.23),
+    0 0 13px rgba(var(--c1),.11),
+    inset 0 0 16px rgba(var(--c1),.025);
+  backdrop-filter:blur(14px);
+  transition:.24s ease;
+}
+.group:before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:linear-gradient(90deg,rgba(var(--c1),.08),transparent 24%,transparent 76%,rgba(var(--c2),.05));
+  opacity:.72;
+}
+.group:hover{
+  transform:translateY(-1px);
+  box-shadow:
+    0 0 7px rgba(var(--c1),.31),
+    0 0 17px rgba(var(--c1),.16),
+    inset 0 0 18px rgba(var(--c1),.035);
+}
+.group.open{
+  border-color:rgba(var(--c1),.62);
+  background:
+    radial-gradient(circle at 9% 20%,rgba(var(--c1),.14),transparent 38%),
+    radial-gradient(circle at 94% 15%,rgba(var(--c2),.09),transparent 42%),
+    linear-gradient(135deg,rgba(var(--c1),.055),rgba(7,12,32,.98) 50%,rgba(var(--c2),.04));
+  box-shadow:
+    0 0 5px rgba(var(--c1),.23),
+    0 0 13px rgba(var(--c1),.11),
+    inset 0 0 16px rgba(var(--c1),.025);
+}
+.group:nth-child(1){--c1:255,174,39;--c2:255,95,73}
+.group:nth-child(2){--c1:255,76,181;--c2:153,83,255}
+.group:nth-child(3){--c1:69,147,255;--c2:48,222,255}
+.group:nth-child(4){--c1:85,224,155;--c2:39,187,255}
+.group-head{
+  width:100%;
+  border:0;
+  color:white;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  gap:13px;
+  text-align:left;
+  padding:15px 16px;
+  background:transparent;
+  position:relative;
+  z-index:2;
+}
+.group-head:hover{background:linear-gradient(90deg,rgba(var(--c1),.05),rgba(var(--c2),.025))}
+.group-icon{
+  width:48px;height:48px;flex:none;border-radius:16px;
+  display:grid;place-items:center;font-size:24px;
+  background:
+    radial-gradient(circle at 30% 20%,rgba(255,255,255,.18),transparent 34%),
+    linear-gradient(135deg,rgba(var(--c1),.58),rgba(var(--c2),.22));
+  border:1.5px solid rgba(var(--c1),.68);
+  box-shadow:
+    0 0 5px rgba(var(--c1),.33),
+    0 0 12px rgba(var(--c1),.17),
+    inset 0 0 10px rgba(255,255,255,.025);
+  filter:saturate(1.10) brightness(1.01);
+}
+.group-copy{min-width:0;flex:1}
+.group-title{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.group-title strong{font-size:15px}
+.count{
+  padding:4px 8px;
+  border-radius:999px;
+  background:linear-gradient(90deg,rgba(var(--c1),.58),rgba(var(--c2),.30));
+  border:1px solid rgba(255,255,255,.11);
+  color:#fff;
+  font-size:9px;
+  font-weight:950;
+  box-shadow:0 0 6px rgba(var(--c1),.16);
+}
+.group-copy small{
+  display:block;
+  margin-top:4px;
+  color:#93a1c2;
+  font-size:10.5px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.chev{
+  width:32px;height:32px;flex:none;border-radius:11px;
+  display:grid;place-items:center;
+  font-size:20px;
+  color:rgb(var(--c1));
+  border:1px solid rgba(var(--c1),.34);
+  background:rgba(var(--c1),.07);
+  text-shadow:0 0 6px rgba(var(--c1),.48);
+  box-shadow:0 0 4px rgba(var(--c1),.14);
+  transition:.25s ease;
+}
+.group.open .chev{transform:rotate(180deg)}
+.group-body{max-height:0;overflow:hidden;transition:max-height .38s ease}
+.group.open .group-body{max-height:1200px}
+.inner{padding:0 13px 13px}
+.items{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.item{
+  position:relative;
+  overflow:hidden;
+  min-height:105px;
+  padding:14px;
+  border-radius:17px;
+  border:1px solid rgba(255,255,255,.10);
+  background:
+    radial-gradient(circle at 92% 8%,rgba(var(--c2),.06),transparent 36%),
+    linear-gradient(135deg,rgba(var(--c1),.045),rgba(255,255,255,.015));
+  transition:.2s ease;
+}
+.item:hover{
+  transform:translateY(-2px);
+  border-color:rgba(var(--c1),.28);
+  box-shadow:0 0 15px rgba(var(--c1),.07);
+}
+.item h3{font-size:12.8px;margin:0 0 6px;padding-right:68px}
+.item p{font-size:10.3px;line-height:1.48;color:#a7b3d0;margin:0}
+.mini-icon{font-size:20px;margin-bottom:8px}
+.badge{
+  position:absolute;
+  right:10px;top:10px;
+  padding:4px 7px;
+  border-radius:999px;
+  font-size:8px;
+  font-weight:950;
+  letter-spacing:.35px;
+  border:1px solid rgba(255,255,255,.11);
+}
+.badge.new{background:rgba(83,218,156,.17);color:#86f2c1}
+.badge.pro{background:rgba(174,91,255,.18);color:#d8b8ff}
+.badge.analysis{background:rgba(255,174,39,.17);color:#ffda87}
+.badge.guide{background:rgba(74,151,255,.17);color:#9fc7ff}
+.badge.active{background:rgba(255,78,174,.17);color:#ffacd6}
+.footer{text-align:center;color:#7784a5;font-size:10px;margin:25px 0 5px}
+@media(max-width:650px){
+  .shell{width:min(100% - 18px,1060px);padding-top:10px}
+  .brand strong{font-size:18px}
+  .brand-logo{width:47px;height:47px}
+  .home-link{padding:9px 10px;font-size:10px}
+  .hero{padding:19px 16px;border-radius:23px}
+  .hero p{font-size:12px}
+  .items{grid-template-columns:1fr}
+  .group-head{padding:13px 12px}
+  .group-icon{width:44px;height:44px;font-size:22px}
+  .group-copy small{font-size:9.5px}
+  .info-note{align-items:flex-start;flex-direction:column}
+}
 </style>
 </head>
 <body>
-<div class="container">
-  <div class="hero">
-    <div class="logo">ENGİN360</div>
-    <div class="subtitle">Koçluk, mesleki yönelim, hedef analizi, deneme değerlendirme ve çalışma karakteri araçları</div>
-    <a class="toplink" href="index.html">← Ana sayfaya dön</a>
-  </div>
-  <div class="grid">
-<a class="card featured" href="7_gunluk_disiplin_meydan_okumasi.html"><span class="badge">YENİ</span><div class="icon">🏆</div><h3>7 Günlük Disiplin Meydan Okuması</h3><p>7 gün boyunca disiplinini takip et, puanını hesapla, görsel raporunu kaydet.</p></a>
-<a class="card featured" href="erteleme_analiz_formu_neon.html"><span class="badge">YENİ</span><div class="icon">🧩</div><h3>Erteleme Analiz Formu</h3><p>Erteleme nedenlerini analiz et, çözüm planını oluştur ve raporunu görsel olarak kaydet.</p></a>
-<a class="card" href="engin360_mesleki_yonelim_testi-1.html"><div class="icon">🎯</div><h3>Mesleki Yönelim Testi</h3><p>İlgi alanlarına göre meslek yönelimlerini keşfet.</p></a>
+<main class="shell">
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-logo">E360</div>
+      <div><strong>ENGİN360</strong><small>KOÇLUK LABORATUVARI</small></div>
+    </div>
+    <a class="home-link" href="index.html">← Ana Sayfa</a>
+  </header>
 
-<a class="card" href="engin360_erteleme_aliskanligi_testi.html"><div class="icon">⏳</div><h3>Erteleme Alışkanlığı Testi</h3><p>Çalışmayı neden ertelediğini fark et, erteleme tipini gör ve çözüm yolunu belirle.</p></a>
-<a class="card" href="engin360_hangi_zeka_turu_v3-2.html"><div class="icon">🧠</div><h3>Hangi Zeka Türü?</h3><p>Öğrenme ve düşünme eğilimlerini analiz et, kendine uygun çalışma tarzını keşfet.</p></a>
-<a class="card" href="engin360_calisma_karakteri_analizi_PRO.html"><div class="icon">🧠</div><h3>Çalışma Karakteri Analizi PRO</h3><p>Çalışma profilini bul, raporu indir veya WhatsApp ile koçuna gönder.</p></a>
-<a class="card" href="engin360_hedef_universite_analizoru.html"><div class="icon">🎓</div><h3>Hedef Üniversite Analizörü</h3><p>Hedef üniversite ve bölüm için durum analizi yap.</p></a>
-<a class="card" href="engin360_universite_bolumu_eslestirici.html"><div class="icon">🏫</div><h3>Üniversite Bölümü Eşleştirici</h3><p>Bölüm tercihlerini ilgi alanlarıyla eşleştir.</p></a>
-<a class="card" href="engin360_deneme_sonrasi_koc.html"><div class="icon">👨‍🏫</div><h3>Deneme Sonrası Koç</h3><p>Deneme sonrası güçlü/zayıf yönleri analiz et.</p></a>
-<a class="card" href="engin360_yks_siralama_v4_kalibre.html"><div class="icon">📈</div><h3>YKS Sıralama Kalibre</h3><p>Net, hedef ve sıralama farkını düşünmek için araç.</p></a>
+  <section class="hero">
+    <div class="eyebrow">🚀 KENDİNİ KEŞFET · HEDEFİNİ NETLEŞTİR</div>
+    <h1>Potansiyelini <span>tanı, planla, harekete geç.</span></h1>
+    <p>Çalışma alışkanlıklarını analiz et, güçlü yönlerini keşfet, hedeflerini netleştir ve sınav sürecini daha bilinçli yönet.</p>
+    <div class="hero-stats">
+      <span class="stat">🧠 Farkındalık</span>
+      <span class="stat">🎯 Hedef analizi</span>
+      <span class="stat">📊 Kişisel raporlar</span>
+      <span class="stat">🚀 Gelişim araçları</span>
+    </div>
+  </section>
+
+  <div class="info-note">
+    <strong>Koçluk araçları kategorilere ayrıldı.</strong>
+    <span>Bir kategori açıldığında diğerleri otomatik kapanır.</span>
   </div>
-  <div class="footer">ENGİN360 © 2026 · Koçluk Laboratuvarı</div>
-</div>
+
+  <section class="accordion">
+
+    <article class="group open">
+      <button class="group-head" type="button" aria-expanded="true">
+        <span class="group-icon">🏆</span>
+        <span class="group-copy">
+          <span class="group-title"><strong>Disiplin ve Çalışma Alışkanlıkları</strong><span class="count">3 araç</span></span>
+          <small>Erteleme nedenleri, çalışma disiplini ve sürdürülebilir alışkanlıklar</small>
+        </span>
+        <span class="chev">⌄</span>
+      </button>
+      <div class="group-body"><div class="inner"><div class="items">
+        <a class="item" href="7_gunluk_disiplin_meydan_okumasi.html">
+          <span class="badge new">YENİ</span><div class="mini-icon">🏆</div>
+          <h3>7 Günlük Disiplin Meydan Okuması</h3>
+          <p>Yedi gün boyunca disiplinini takip et, puanını hesapla ve görsel raporunu kaydet.</p>
+        </a>
+        <a class="item" href="erteleme_analiz_formu_neon.html">
+          <span class="badge new">YENİ</span><div class="mini-icon">🧩</div>
+          <h3>Erteleme Analiz Formu</h3>
+          <p>Erteleme nedenlerini analiz et, çözüm planını oluştur ve raporunu kaydet.</p>
+        </a>
+        <a class="item" href="engin360_erteleme_aliskanligi_testi.html">
+          <span class="badge analysis">ANALİZ</span><div class="mini-icon">⏳</div>
+          <h3>Erteleme Alışkanlığı Testi</h3>
+          <p>Erteleme tipini keşfet ve sana uygun çözüm yolunu belirle.</p>
+        </a>
+      </div></div></div>
+    </article>
+
+    <article class="group">
+      <button class="group-head" type="button" aria-expanded="false">
+        <span class="group-icon">🧠</span>
+        <span class="group-copy">
+          <span class="group-title"><strong>Kendini Tanı ve Çalışma Profilin</strong><span class="count">2 araç</span></span>
+          <small>Zekâ eğilimleri, öğrenme tarzı ve çalışma karakteri analizi</small>
+        </span>
+        <span class="chev">⌄</span>
+      </button>
+      <div class="group-body"><div class="inner"><div class="items">
+        <a class="item" href="engin360_hangi_zeka_turu_v3-2.html">
+          <span class="badge analysis">ANALİZ</span><div class="mini-icon">🧠</div>
+          <h3>Hangi Zekâ Türü?</h3>
+          <p>Öğrenme ve düşünme eğilimlerini analiz ederek çalışma tarzını keşfet.</p>
+        </a>
+        <a class="item" href="engin360_calisma_karakteri_analizi_PRO.html">
+          <span class="badge pro">PRO</span><div class="mini-icon">🔬</div>
+          <h3>Çalışma Karakteri Analizi PRO</h3>
+          <p>Çalışma profilini bul, raporunu kaydet veya WhatsApp ile koçuna gönder.</p>
+        </a>
+      </div></div></div>
+    </article>
+
+    <article class="group">
+      <button class="group-head" type="button" aria-expanded="false">
+        <span class="group-icon">🎓</span>
+        <span class="group-copy">
+          <span class="group-title"><strong>Meslek, Üniversite ve Hedef</strong><span class="count">3 araç</span></span>
+          <small>Mesleki yönelim, üniversite hedefi ve bölüm eşleştirme araçları</small>
+        </span>
+        <span class="chev">⌄</span>
+      </button>
+      <div class="group-body"><div class="inner"><div class="items">
+        <a class="item" href="engin360_mesleki_yonelim_testi-1.html">
+          <span class="badge active">ÖNE ÇIKAN</span><div class="mini-icon">🎯</div>
+          <h3>Mesleki Yönelim Testi</h3>
+          <p>İlgi alanlarına ve eğilimlerine göre meslek yönelimlerini keşfet.</p>
+        </a>
+        <a class="item" href="engin360_hedef_universite_analizoru.html">
+          <span class="badge analysis">ANALİZ</span><div class="mini-icon">🎓</div>
+          <h3>Hedef Üniversite Analizörü</h3>
+          <p>Hedef üniversite ve bölüm için mevcut durumunu analiz et.</p>
+        </a>
+        <a class="item" href="engin360_universite_bolumu_eslestirici.html">
+          <span class="badge guide">REHBER</span><div class="mini-icon">🏫</div>
+          <h3>Üniversite Bölümü Eşleştirici</h3>
+          <p>Bölüm tercihlerini ilgi alanların ve hedeflerinle eşleştir.</p>
+        </a>
+      </div></div></div>
+    </article>
+
+    <article class="group">
+      <button class="group-head" type="button" aria-expanded="false">
+        <span class="group-icon">📈</span>
+        <span class="group-copy">
+          <span class="group-title"><strong>Sınav ve Performans Analizi</strong><span class="count">2 araç</span></span>
+          <small>Deneme değerlendirmesi, net-hedef farkı ve sıralama farkındalığı</small>
+        </span>
+        <span class="chev">⌄</span>
+      </button>
+      <div class="group-body"><div class="inner"><div class="items">
+        <a class="item" href="engin360_deneme_sonrasi_koc.html">
+          <span class="badge pro">KOÇ</span><div class="mini-icon">👨‍🏫</div>
+          <h3>Deneme Sonrası Koç</h3>
+          <p>Deneme sonrası güçlü ve geliştirilmesi gereken yönlerini analiz et.</p>
+        </a>
+        <a class="item" href="engin360_yks_siralama_v4_kalibre.html">
+          <span class="badge analysis">ANALİZ</span><div class="mini-icon">📈</div>
+          <h3>YKS Sıralama Kalibre</h3>
+          <p>Net, hedef ve sıralama farkını daha gerçekçi biçimde değerlendir.</p>
+        </a>
+      </div></div></div>
+    </article>
+
+  </section>
+
+  <footer class="footer">ENGİN360 © 2026 · Koçluk Laboratuvarı</footer>
+</main>
+
+<script>
+document.querySelectorAll('.group-head').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const current=btn.closest('.group');
+    const willOpen=!current.classList.contains('open');
+
+    document.querySelectorAll('.group').forEach(group=>{
+      group.classList.remove('open');
+      group.querySelector('.group-head').setAttribute('aria-expanded','false');
+    });
+
+    if(willOpen){
+      current.classList.add('open');
+      btn.setAttribute('aria-expanded','true');
+      setTimeout(()=>current.scrollIntoView({behavior:'smooth',block:'nearest'}),120);
+    }
+  });
+});
+</script>
 </body>
 </html>

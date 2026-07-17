@@ -1,90 +1,440 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#080b1d">
 <title>ENGİN360 Çalışma Merkezi</title>
 <style>
 :root{
-  --bg1:#050512;--bg2:#111138;--purple:#a855f7;--blue:#38bdf8;--pink:#ec4899;
-  --green:#22c55e;--orange:#fb923c;--text:#fff;--muted:#dbeafe;--border:rgba(255,255,255,.18);
+  --text:#f8f9ff;
+  --muted:#aeb9d8;
+  --line:rgba(255,255,255,.11);
+  --shadow:0 18px 46px rgba(0,0,0,.30);
 }
-*{box-sizing:border-box;margin:0;padding:0}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
 body{
-  min-height:100vh;font-family:Arial,Helvetica,sans-serif;color:var(--text);
-  background:radial-gradient(circle at 15% 7%,rgba(168,85,247,.42),transparent 30%),
-  radial-gradient(circle at 88% 12%,rgba(56,189,248,.25),transparent 32%),
-  radial-gradient(circle at 50% 102%,rgba(236,72,153,.18),transparent 38%),
-  linear-gradient(145deg,var(--bg1),var(--bg2));padding:18px 0 34px;
+  margin:0;
+  min-height:100vh;
+  color:var(--text);
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  background:
+    radial-gradient(circle at 12% 2%,rgba(255,70,170,.17),transparent 26rem),
+    radial-gradient(circle at 92% 10%,rgba(75,130,255,.16),transparent 25rem),
+    linear-gradient(180deg,#0b1029,#080b1b 68%);
 }
-.page{width:min(1050px,94%);margin:auto}
-.hero,.card{
-  border:1px solid var(--border);border-radius:28px;background:rgba(255,255,255,.065);
-  box-shadow:0 20px 58px rgba(0,0,0,.30);padding:20px;margin-bottom:16px;
+body:before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  opacity:.27;
+  background-image:
+    linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+  background-size:38px 38px;
+  mask-image:linear-gradient(to bottom,#000,transparent 88%);
 }
-.badge{display:inline-block;margin-bottom:12px;border:1px solid rgba(103,232,249,.30);border-radius:999px;padding:8px 12px;color:#e0f2fe;background:rgba(15,23,42,.38);font-size:13px}
+a{color:inherit;text-decoration:none}
+button{font:inherit}
+.shell{
+  width:min(1060px,calc(100% - 24px));
+  margin:auto;
+  padding:16px 0 40px;
+  position:relative;
+}
+.topbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:12px;
+}
+.brand{display:flex;align-items:center;gap:11px}
+.brand-logo{
+  width:54px;height:54px;border-radius:17px;
+  display:grid;place-items:center;
+  font-weight:950;font-size:18px;
+  background:linear-gradient(135deg,rgba(255,78,174,.92),rgba(109,91,255,.72));
+  box-shadow:0 0 18px rgba(255,78,174,.18);
+}
+.brand strong{display:block;font-size:22px;letter-spacing:.5px}
+.brand small{display:block;color:#8f9bbb;font-size:9px;letter-spacing:1.25px;margin-top:3px}
+.home-link{
+  padding:10px 13px;
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:rgba(15,22,48,.78);
+  font-size:12px;
+  font-weight:800;
+  color:#dce7ff;
+}
+.hero{
+  position:relative;
+  overflow:hidden;
+  padding:24px;
+  border-radius:28px;
+  border:1px solid rgba(255,255,255,.13);
+  background:
+    radial-gradient(circle at 12% 18%,rgba(255,78,174,.24),transparent 38%),
+    radial-gradient(circle at 91% 15%,rgba(83,208,255,.18),transparent 40%),
+    linear-gradient(128deg,rgba(180,74,255,.23),rgba(66,133,255,.12) 48%,rgba(49,220,255,.11)),
+    rgba(13,20,46,.92);
+  box-shadow:var(--shadow),0 0 34px rgba(255,78,174,.08);
+  margin-bottom:14px;
+}
+.hero:before{
+  content:"";
+  position:absolute;
+  left:7%;right:7%;top:0;height:2px;
+  background:linear-gradient(90deg,transparent,#ff4eae,#8f70ff,#45ddff,transparent);
+  box-shadow:0 0 16px rgba(255,78,174,.20);
+}
+.eyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  padding:7px 10px;
+  border-radius:999px;
+  border:1px solid rgba(255,126,196,.22);
+  background:rgba(255,78,174,.08);
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.8px;
+}
 .hero h1{
-  font-size:clamp(30px,6vw,58px);font-weight:900;font-style:italic;margin-bottom:8px;
-  background:linear-gradient(90deg,#f0abfc,#a855f7,#38bdf8,#67e8f9);-webkit-background-clip:text;color:transparent;
-  filter:drop-shadow(0 0 10px rgba(168,85,247,.55));
+  font-size:clamp(27px,6vw,47px);
+  line-height:1.03;
+  margin:15px 0 9px;
+  letter-spacing:-1.1px;
 }
-.hero p,.card p{color:var(--muted);line-height:1.62;font-size:15.5px}
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:15px}
-.card{text-decoration:none;color:white;transition:.22s ease;position:relative;overflow:hidden}
-.card::before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(168,85,247,.18),rgba(56,189,248,.10));pointer-events:none}
-.card>*{position:relative;z-index:2}
-.card:hover{transform:translateY(-4px);border-color:rgba(103,232,249,.44);box-shadow:0 0 30px rgba(56,189,248,.18),0 20px 58px rgba(0,0,0,.34)}
-.icon{font-size:38px;margin-bottom:12px}
-.card h2{font-size:25px;margin-bottom:9px}
-.card span{display:inline-block;margin-top:13px;padding:9px 12px;border-radius:999px;background:linear-gradient(135deg,#a855f7,#38bdf8);font-weight:900;font-size:13px}
-.back{display:inline-flex;text-decoration:none;color:white;font-weight:900;padding:11px 14px;border-radius:15px;background:linear-gradient(135deg,#a855f7,#38bdf8);margin-bottom:14px}
-.list{display:grid;grid-template-columns:repeat(2,1fr);gap:13px}
-.item{border:1px solid rgba(255,255,255,.14);border-radius:20px;background:rgba(255,255,255,.06);padding:16px;text-decoration:none;color:white;transition:.2s ease}
-.item:hover{transform:translateY(-3px);box-shadow:0 0 25px rgba(56,189,248,.18)}
-.item h2{font-size:20px;margin-bottom:7px}.item p{color:#dbeafe;line-height:1.5;font-size:14px}
-.placeholder{border-left:4px solid var(--orange);background:rgba(251,146,60,.10);padding:14px;border-radius:16px;color:#ffedd5;line-height:1.55}
-footer{text-align:center;color:#cbd5e1;font-size:13px;margin-top:18px}
-@media(max-width:760px){.grid,.list{grid-template-columns:1fr}.hero,.card{border-radius:22px;padding:16px}.card h2{font-size:22px}}
+.hero h1 span{
+  background:linear-gradient(90deg,#ff8bcd,#a88dff,#65e7ff);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+.hero p{
+  margin:0;
+  color:#bac6e4;
+  max-width:720px;
+  font-size:14px;
+  line-height:1.6;
+}
+.hero-stats{display:flex;flex-wrap:wrap;gap:8px;margin-top:17px}
+.stat{
+  padding:8px 11px;
+  border-radius:12px;
+  background:rgba(5,9,28,.42);
+  border:1px solid var(--line);
+  font-size:10.5px;
+  font-weight:850;
+  color:#e6ecff;
+}
+.info-note{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:13px 15px;
+  margin:12px 0 15px;
+  border:1px solid rgba(255,99,183,.20);
+  border-radius:18px;
+  background:linear-gradient(90deg,rgba(255,78,174,.07),rgba(92,111,255,.07));
+}
+.info-note strong{font-size:12px}
+.info-note span{color:#b9c3de;font-size:10.5px}
+.accordion{display:grid;gap:10px}
+.group{
+  --c1:255,78,174;
+  --c2:139,92,255;
+  position:relative;
+  border:1.5px solid rgba(var(--c1),.66);
+  border-radius:23px;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 9% 22%,rgba(var(--c1),.13),transparent 34%),
+    radial-gradient(circle at 94% 18%,rgba(var(--c2),.08),transparent 38%),
+    linear-gradient(135deg,rgba(var(--c1),.045),rgba(7,12,32,.97) 50%,rgba(var(--c2),.035));
+  box-shadow:
+    0 0 5px rgba(var(--c1),.23),
+    0 0 13px rgba(var(--c1),.11),
+    inset 0 0 16px rgba(var(--c1),.025);
+  backdrop-filter:blur(14px);
+  transition:.24s ease;
+}
+.group:before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:linear-gradient(90deg,rgba(var(--c1),.08),transparent 24%,transparent 76%,rgba(var(--c2),.05));
+  opacity:.72;
+}
+.group:hover{
+  transform:translateY(-1px);
+  box-shadow:
+    0 0 7px rgba(var(--c1),.31),
+    0 0 17px rgba(var(--c1),.16),
+    inset 0 0 18px rgba(var(--c1),.035);
+}
+.group.open{
+  border-color:rgba(var(--c1),.62);
+  background:
+    radial-gradient(circle at 9% 20%,rgba(var(--c1),.14),transparent 38%),
+    radial-gradient(circle at 94% 15%,rgba(var(--c2),.09),transparent 42%),
+    linear-gradient(135deg,rgba(var(--c1),.055),rgba(7,12,32,.98) 50%,rgba(var(--c2),.04));
+  box-shadow:
+    0 0 5px rgba(var(--c1),.23),
+    0 0 13px rgba(var(--c1),.11),
+    inset 0 0 16px rgba(var(--c1),.025);
+}
+.group:nth-child(1){--c1:255,174,50;--c2:255,102,84}
+.group:nth-child(2){--c1:172,88,255;--c2:255,76,181}
+.group:nth-child(3){--c1:58,220,255;--c2:73,145,255}
+.group:nth-child(4){--c1:62,224,157;--c2:49,193,255}
+.group-head{
+  width:100%;
+  border:0;
+  color:white;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  gap:13px;
+  text-align:left;
+  padding:15px 16px;
+  background:transparent;
+  position:relative;
+  z-index:2;
+}
+.group-head:hover{background:linear-gradient(90deg,rgba(var(--c1),.05),rgba(var(--c2),.025))}
+.group-icon{
+  width:48px;height:48px;flex:none;border-radius:16px;
+  display:grid;place-items:center;font-size:24px;
+  background:
+    radial-gradient(circle at 30% 20%,rgba(255,255,255,.18),transparent 34%),
+    linear-gradient(135deg,rgba(var(--c1),.58),rgba(var(--c2),.22));
+  border:1.5px solid rgba(var(--c1),.68);
+  box-shadow:
+    0 0 5px rgba(var(--c1),.33),
+    0 0 12px rgba(var(--c1),.17),
+    inset 0 0 10px rgba(255,255,255,.025);
+  filter:saturate(1.10) brightness(1.01);
+}
+.group-copy{min-width:0;flex:1}
+.group-title{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.group-title strong{font-size:15px}
+.count{
+  padding:4px 8px;
+  border-radius:999px;
+  background:linear-gradient(90deg,rgba(var(--c1),.58),rgba(var(--c2),.30));
+  border:1px solid rgba(255,255,255,.11);
+  color:#fff;
+  font-size:9px;
+  font-weight:950;
+  box-shadow:0 0 6px rgba(var(--c1),.16);
+}
+.group-copy small{
+  display:block;
+  margin-top:4px;
+  color:#93a1c2;
+  font-size:10.5px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.chev{
+  width:32px;height:32px;flex:none;border-radius:11px;
+  display:grid;place-items:center;
+  font-size:20px;
+  color:rgb(var(--c1));
+  border:1px solid rgba(var(--c1),.34);
+  background:rgba(var(--c1),.07);
+  text-shadow:0 0 6px rgba(var(--c1),.48);
+  box-shadow:0 0 4px rgba(var(--c1),.14);
+  transition:.25s ease;
+}
+.group.open .chev{transform:rotate(180deg)}
+.group-body{max-height:0;overflow:hidden;transition:max-height .38s ease}
+.group.open .group-body{max-height:1200px}
+.inner{padding:0 13px 13px}
+.items{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.item{
+  position:relative;
+  overflow:hidden;
+  min-height:105px;
+  padding:14px;
+  border-radius:17px;
+  border:1px solid rgba(255,255,255,.10);
+  background:
+    radial-gradient(circle at 92% 8%,rgba(var(--c2),.06),transparent 36%),
+    linear-gradient(135deg,rgba(var(--c1),.045),rgba(255,255,255,.015));
+  transition:.2s ease;
+}
+.item:hover{
+  transform:translateY(-2px);
+  border-color:rgba(var(--c1),.28);
+  box-shadow:0 0 15px rgba(var(--c1),.07);
+}
+.item h3{font-size:12.8px;margin:0 0 6px;padding-right:68px}
+.item p{font-size:10.3px;line-height:1.48;color:#a7b3d0;margin:0}
+.mini-icon{font-size:20px;margin-bottom:8px}
+.badge{
+  position:absolute;
+  right:10px;top:10px;
+  padding:4px 7px;
+  border-radius:999px;
+  font-size:8px;
+  font-weight:950;
+  letter-spacing:.35px;
+  border:1px solid rgba(255,255,255,.11);
+}
+.badge.new{background:rgba(83,218,156,.17);color:#86f2c1}
+.badge.pro{background:rgba(174,91,255,.18);color:#d8b8ff}
+.badge.analysis{background:rgba(255,174,39,.17);color:#ffda87}
+.badge.guide{background:rgba(74,151,255,.17);color:#9fc7ff}
+.badge.active{background:rgba(255,78,174,.17);color:#ffacd6}
+.footer{text-align:center;color:#7784a5;font-size:10px;margin:25px 0 5px}
+@media(max-width:650px){
+  .shell{width:min(100% - 18px,1060px);padding-top:10px}
+  .brand strong{font-size:18px}
+  .brand-logo{width:47px;height:47px}
+  .home-link{padding:9px 10px;font-size:10px}
+  .hero{padding:19px 16px;border-radius:23px}
+  .hero p{font-size:12px}
+  .items{grid-template-columns:1fr}
+  .group-head{padding:13px 12px}
+  .group-icon{width:44px;height:44px;font-size:22px}
+  .group-copy small{font-size:9.5px}
+  .info-note{align-items:flex-start;flex-direction:column}
+}
 </style>
 </head>
 <body>
-<main class="page">
-<section class="hero">
-  <div class="badge">ENGİN360 • Çalışma Merkezi</div>
-  <h1>📚 Nasıl Çalışılır Belgeleri</h1>
-  <p>Başarılı öğrencilerin kullandığı çalışma yöntemleri, ders bazlı rehberler, PDF kaynakları ve eğitim videoları burada seni bekliyor.</p>
-</section>
+<main class="shell">
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-logo">E360</div>
+      <div><strong>ENGİN360</strong><small>ÇALIŞMA MERKEZİ</small></div>
+    </div>
+    <a class="home-link" href="index.html">← Ana Sayfa</a>
+  </header>
 
-<section class="grid">
-  <a class="card" href="hangi_ders_nasil_calisilir.html">
-    <div class="icon">🎯</div>
-    <h2>Hangi Ders Nasıl Çalışılır?</h2>
-    <p>Problemler, fizik, kimya, biyoloji, geometri ve edebiyat için etkili çalışma rehberleri.</p>
-    <span>Bölümü Aç →</span>
-  </a>
+  <section class="hero">
+    <div class="eyebrow">📚 DOĞRU YÖNTEM · DOĞRU KAYNAK · DÜZENLİ GELİŞİM</div>
+    <h1>Derslerine <span>doğru yöntem ve doğru kaynaklarla hazırlan.</span></h1>
+    <p>Ders bazlı çalışma rehberleri, bilimsel öğrenme teknikleri, PDF kaynakları ve eğitim videolarıyla çalışma sistemini güçlendir.</p>
+    <div class="hero-stats">
+      <span class="stat">🎯 Ders rehberleri</span>
+      <span class="stat">🧠 Bilimsel teknikler</span>
+      <span class="stat">📄 Kaynak kütüphanesi</span>
+      <span class="stat">🎥 Video desteği</span>
+    </div>
+  </section>
 
-  <a class="card" href="calisma_teknikleri.html">
-    <div class="icon">🧠</div>
-    <h2>Çalışma Teknikleri</h2>
-    <p>Aktif hatırlama, Feynman, SQ3R, Leitner ve diğer bilimsel çalışma yöntemleri.</p>
-    <span>Bölümü Aç →</span>
-  </a>
+  <div class="info-note">
+    <strong>Çalışma kaynakları kategorilere ayrıldı.</strong>
+    <span>Bir kategori açıldığında diğerleri otomatik kapanır.</span>
+  </div>
 
-  <a class="card" href="pdf_kutuphanesi.html">
-    <div class="icon">📄</div>
-    <h2>PDF Kütüphanesi</h2>
-    <p>Konu anlatım PDF'leri, test PDF'leri, haftalık programlar, çalışma formları ve koçluk dokümanları.</p>
-    <span>Bölümü Aç →</span>
-  </a>
+  <section class="accordion">
 
-  <a class="card" href="video_kutuphanesi.html">
-    <div class="icon">🎥</div>
-    <h2>Video Kütüphanesi</h2>
-    <p>Ders anlatımları, soru çözüm videoları, çalışma teknikleri ve motivasyon içerikleri.</p>
-    <span>Bölümü Aç →</span>
-  </a>
-</section>
+    <article class="group open">
+      <button class="group-head" type="button" aria-expanded="true">
+        <span class="group-icon">🎯</span>
+        <span class="group-copy">
+          <span class="group-title"><strong>Ders Bazlı Çalışma Rehberleri</strong><span class="count">1 merkez</span></span>
+          <small>Her dersin yapısına uygun çalışma yöntemi ve uygulama önerileri</small>
+        </span>
+        <span class="chev">⌄</span>
+      </button>
+      <div class="group-body"><div class="inner"><div class="items">
+        <a class="item" href="hangi_ders_nasil_calisilir.html">
+          <span class="badge guide">REHBER</span><div class="mini-icon">🎯</div>
+          <h3>Hangi Ders Nasıl Çalışılır?</h3>
+          <p>Problemler, fizik, kimya, biyoloji, geometri ve edebiyat için etkili çalışma rehberleri.</p>
+        </a>
+      </div></div></div>
+    </article>
 
-<footer>ENGİN360 • Engin Özcan • Matematik Öğretmeni / Eğitim Koçu</footer>
+    <article class="group">
+      <button class="group-head" type="button" aria-expanded="false">
+        <span class="group-icon">🧠</span>
+        <span class="group-copy">
+          <span class="group-title"><strong>Bilimsel Çalışma Teknikleri</strong><span class="count">1 merkez</span></span>
+          <small>Aktif hatırlama, Feynman, SQ3R, Leitner ve verimli öğrenme yöntemleri</small>
+        </span>
+        <span class="chev">⌄</span>
+      </button>
+      <div class="group-body"><div class="inner"><div class="items">
+        <a class="item" href="calisma_teknikleri.html">
+          <span class="badge pro">BİLİMSEL</span><div class="mini-icon">🧠</div>
+          <h3>Çalışma Teknikleri</h3>
+          <p>Aktif hatırlama, Feynman, SQ3R, Leitner ve diğer bilimsel çalışma yöntemlerini öğren.</p>
+        </a>
+      </div></div></div>
+    </article>
+
+    <article class="group">
+      <button class="group-head" type="button" aria-expanded="false">
+        <span class="group-icon">📄</span>
+        <span class="group-copy">
+          <span class="group-title"><strong>PDF Kütüphanesi</strong><span class="count">1 kütüphane</span></span>
+          <small>Konu anlatımı, test, deneme, program ve takip belgeleri</small>
+        </span>
+        <span class="chev">⌄</span>
+      </button>
+      <div class="group-body"><div class="inner"><div class="items">
+        <a class="item" href="pdf_kutuphanesi.html">
+          <span class="badge analysis">KÜTÜPHANE</span><div class="mini-icon">📄</div>
+          <h3>PDF Kütüphanesi</h3>
+          <p>Konu anlatım PDF’leri, testler, haftalık programlar, çalışma formları ve koçluk dokümanları.</p>
+        </a>
+      </div></div></div>
+    </article>
+
+    <article class="group">
+      <button class="group-head" type="button" aria-expanded="false">
+        <span class="group-icon">🎥</span>
+        <span class="group-copy">
+          <span class="group-title"><strong>Video Kütüphanesi</strong><span class="count">1 kütüphane</span></span>
+          <small>Ders anlatımı, soru çözümü, çalışma teknikleri ve motivasyon içerikleri</small>
+        </span>
+        <span class="chev">⌄</span>
+      </button>
+      <div class="group-body"><div class="inner"><div class="items">
+        <a class="item" href="video_kutuphanesi.html">
+          <span class="badge new">VİDEO</span><div class="mini-icon">🎥</div>
+          <h3>Video Kütüphanesi</h3>
+          <p>Ders anlatımları, soru çözüm videoları, çalışma teknikleri ve motivasyon içeriklerine ulaş.</p>
+        </a>
+      </div></div></div>
+    </article>
+
+  </section>
+
+  <footer class="footer">ENGİN360 © 2026 · Çalışma Merkezi</footer>
 </main>
+
+<script>
+document.querySelectorAll('.group-head').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const current=btn.closest('.group');
+    const willOpen=!current.classList.contains('open');
+
+    document.querySelectorAll('.group').forEach(group=>{
+      group.classList.remove('open');
+      group.querySelector('.group-head').setAttribute('aria-expanded','false');
+    });
+
+    if(willOpen){
+      current.classList.add('open');
+      btn.setAttribute('aria-expanded','true');
+      setTimeout(()=>current.scrollIntoView({behavior:'smooth',block:'nearest'}),120);
+    }
+  });
+});
+</script>
 </body>
 </html>

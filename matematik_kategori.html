@@ -2,129 +2,136 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ENGİN360 Matematik Laboratuvarı</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#070b1d">
+<title>ENGİN360 Matematik Laboratuvarı | MLS</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial,sans-serif}
-body{
-min-height:100vh;
-color:#fff;
-padding:18px;
-background:
-radial-gradient(circle at top left,rgba(168,85,247,.36),transparent 34%),
-radial-gradient(circle at bottom right,rgba(14,165,233,.30),transparent 34%),
-linear-gradient(135deg,#05010d,#120024,#06142f);
+:root{--text:#f8f9ff;--muted:#aeb9d8;--line:rgba(255,255,255,.11);--purple:#9b5cff;--cyan:#31dcff;--radius:24px;--shadow:0 20px 55px rgba(0,0,0,.34)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;background:radial-gradient(circle at 12% 3%,rgba(155,92,255,.28),transparent 27rem),radial-gradient(circle at 92% 12%,rgba(49,220,255,.16),transparent 25rem),linear-gradient(180deg,#0b1029,#080b1b 65%)}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.28;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:38px 38px;mask-image:linear-gradient(to bottom,#000,transparent 88%)}
+a{color:inherit;text-decoration:none}button{font:inherit}.shell{width:min(1060px,calc(100% - 24px));margin:auto;padding:16px 0 40px;position:relative}.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}.brand{display:flex;align-items:center;gap:11px}.brand-logo{width:54px;height:54px;border-radius:17px;display:grid;place-items:center;font-weight:950;font-size:18px;background:linear-gradient(135deg,rgba(155,92,255,.9),rgba(49,220,255,.65));box-shadow:0 0 28px rgba(155,92,255,.28)}.brand strong{display:block;font-size:22px;letter-spacing:.5px}.brand small{display:block;color:#8f9bbb;font-size:9px;letter-spacing:1.25px;margin-top:3px}.home-link{padding:10px 13px;border:1px solid var(--line);border-radius:14px;background:rgba(15,22,48,.78);font-size:12px;font-weight:800;color:#dce7ff}
+.hero{position:relative;overflow:hidden;padding:24px;border-radius:28px;border:1px solid rgba(255,255,255,.13);background:radial-gradient(circle at 12% 18%,rgba(181,82,255,.28),transparent 38%),radial-gradient(circle at 91% 15%,rgba(35,226,255,.22),transparent 40%),linear-gradient(128deg,rgba(155,92,255,.28),rgba(66,133,255,.13) 48%,rgba(49,220,255,.13)),rgba(13,20,46,.92);box-shadow:var(--shadow),0 0 40px rgba(155,92,255,.11);margin-bottom:14px}.hero:before{content:"";position:absolute;left:7%;right:7%;top:0;height:2px;background:linear-gradient(90deg,transparent,#ad65ff,#45ddff,transparent);box-shadow:0 0 18px rgba(95,208,255,.35)}.eyebrow{display:inline-flex;align-items:center;gap:7px;padding:7px 10px;border-radius:999px;border:1px solid rgba(196,165,255,.22);background:rgba(155,92,255,.1);font-size:10px;font-weight:900;letter-spacing:.8px}.hero h1{font-size:clamp(27px,6vw,47px);line-height:1.02;margin:15px 0 9px;letter-spacing:-1.2px}.hero h1 span{background:linear-gradient(90deg,#c690ff,#7ea7ff,#61ebff);-webkit-background-clip:text;background-clip:text;color:transparent}.hero p{margin:0;color:#bac6e4;max-width:720px;font-size:14px;line-height:1.6}.hero-stats{display:flex;flex-wrap:wrap;gap:8px;margin-top:17px}.stat{padding:8px 11px;border-radius:12px;background:rgba(5,9,28,.42);border:1px solid var(--line);font-size:10.5px;font-weight:850;color:#e6ecff}.mls-note{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 15px;margin:12px 0 15px;border:1px solid rgba(255,212,95,.23);border-radius:18px;background:linear-gradient(90deg,rgba(255,212,95,.08),rgba(155,92,255,.09))}.mls-note strong{font-size:12px}.mls-note span{color:#b9c3de;font-size:10.5px}
+.accordion{display:grid;gap:10px}
+.group{
+  --c1:155,92,255;
+  --c2:49,220,255;
+  position:relative;
+  border:1.5px solid rgba(var(--c1),.72);
+  border-radius:23px;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 8% 22%,rgba(var(--c1),.18),transparent 34%),
+    radial-gradient(circle at 94% 18%,rgba(var(--c2),.12),transparent 38%),
+    linear-gradient(135deg,rgba(var(--c1),.08),rgba(7,12,32,.96) 48%,rgba(var(--c2),.06));
+  box-shadow:
+    0 0 6px rgba(var(--c1),.30),
+    0 0 16px rgba(var(--c1),.16),
+    0 0 28px rgba(var(--c2),.05),
+    inset 0 0 18px rgba(var(--c1),.03);
+  backdrop-filter:blur(14px);
+  transition:.24s ease;
 }
-.container{max-width:1000px;margin:0 auto}
-.hero{
-text-align:center;
-padding:30px 18px;
-border-radius:28px;
-background:rgba(255,255,255,.07);
-border:1px solid rgba(255,255,255,.14);
-box-shadow:0 0 34px rgba(124,58,237,.34);
-backdrop-filter:blur(12px);
-margin-bottom:24px;
+.group::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  border-radius:inherit;
+  background:
+    linear-gradient(90deg,rgba(var(--c1),.20),transparent 22%,transparent 78%,rgba(var(--c2),.14)),
+    radial-gradient(circle at 10% 50%,rgba(var(--c1),.12),transparent 26%),
+    radial-gradient(circle at 90% 50%,rgba(var(--c2),.08),transparent 28%);
+  opacity:.72;
 }
-.logo{
-font-size:38px;
-font-weight:900;
-letter-spacing:1.5px;
-background:linear-gradient(90deg,#a855f7,#38bdf8,#ec4899);
--webkit-background-clip:text;
--webkit-text-fill-color:transparent;
+.group:hover{
+  transform:translateY(-2px);
+  box-shadow:
+    0 0 8px rgba(var(--c1),.40),
+    0 0 20px rgba(var(--c1),.22),
+    0 0 34px rgba(var(--c2),.08),
+    inset 0 0 20px rgba(var(--c1),.04);
 }
-.subtitle{margin-top:10px;color:#ded9ff;font-size:15px;line-height:1.5}
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-gap:14px;
+.group.open{
+  border-color:rgba(var(--c1),.66);
+  background:
+    radial-gradient(circle at 8% 20%,rgba(var(--c1),.16),transparent 38%),
+    radial-gradient(circle at 94% 15%,rgba(var(--c2),.10),transparent 42%),
+    linear-gradient(135deg,rgba(var(--c1),.08),rgba(7,12,32,.98) 48%,rgba(var(--c2),.05));
+  box-shadow:
+    0 0 6px rgba(var(--c1),.28),
+    0 0 14px rgba(var(--c1),.14),
+    0 0 22px rgba(var(--c2),.05),
+    inset 0 0 16px rgba(var(--c1),.025);
 }
-.card{
-display:block;
-text-decoration:none;
-color:white;
-min-height:136px;
-padding:18px;
-border-radius:22px;
-background:linear-gradient(135deg,rgba(124,58,237,.25),rgba(14,165,233,.13));
-border:1px solid rgba(255,255,255,.13);
-box-shadow:0 12px 26px rgba(0,0,0,.27);
-transition:.2s ease;
-}
-.card:hover{transform:translateY(-4px);box-shadow:0 0 28px rgba(236,72,153,.35)}
-.icon{font-size:31px;margin-bottom:10px}
-.card h3{font-size:17px;margin-bottom:8px}
-.card p{font-size:13.5px;color:#d8daf7;line-height:1.45}
-.footer{text-align:center;color:#aaa;font-size:12px;margin:32px 0 10px}
-@media(max-width:520px){
-body{padding:13px}
-.hero{padding:26px 15px}
-.logo{font-size:32px}
-.grid{grid-template-columns:1fr}
-}
+
+/* Kategori renkleri */
+.group:nth-child(1){--c1:255,183,45;--c2:255,117,20}
+.group:nth-child(2){--c1:255,66,190;--c2:255,103,154}
+.group:nth-child(3){--c1:20,173,255;--c2:80,222,255}
+.group:nth-child(4){--c1:132,255,45;--c2:44,211,120}
+.group:nth-child(5){--c1:255,56,102;--c2:255,91,142}
+.group:nth-child(6){--c1:164,55,255;--c2:122,73,255}
+.group:nth-child(7){--c1:255,209,28;--c2:255,151,19}
+.group:nth-child(8){--c1:21,226,255;--c2:45,159,255}
+.group:nth-child(9){--c1:115,98,255;--c2:197,70,255}
+.group-head{width:100%;border:0;color:white;cursor:pointer;display:flex;align-items:center;gap:12px;text-align:left;padding:14px 15px;background:transparent;transition:.22s ease}.group-head:hover{background:rgba(255,255,255,.035)}.group-icon{
+  width:48px;
+  height:48px;
+  flex:none;
+  border-radius:16px;
+  display:grid;
+  place-items:center;
+  font-size:24px;
+  background:
+    radial-gradient(circle at 30% 20%,rgba(255,255,255,.24),transparent 34%),
+    linear-gradient(135deg,rgba(var(--c1),.72),rgba(var(--c2),.26));
+  border:1.5px solid rgba(var(--c1),.76);
+  box-shadow:
+    0 0 6px rgba(var(--c1),.42),
+    0 0 14px rgba(var(--c1),.24),
+    0 0 20px rgba(var(--c2),.08),
+    inset 0 0 12px rgba(255,255,255,.03);
+  filter:saturate(1.14) brightness(1.02);
+  transition:.25s ease;
+}.group-copy{min-width:0;flex:1}.group-title{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.group-title strong{font-size:15px}.count{padding:3px 7px;border-radius:999px;background:rgba(155,92,255,.17);color:#d8c7ff;font-size:9px;font-weight:900}.group-copy small{display:block;margin-top:4px;color:#93a1c2;font-size:10.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.chev{font-size:18px;color:#b7c5e7;transition:.25s ease}.group.open .chev{transform:rotate(180deg)}.group-body{max-height:0;overflow:hidden;transition:max-height .38s ease}.group.open .group-body{max-height:1600px}.inner{padding:0 13px 13px}.items{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.item{min-height:92px;padding:13px;border-radius:16px;border:1px solid rgba(255,255,255,.10);background:linear-gradient(135deg,rgba(255,255,255,.045),rgba(255,255,255,.018));transition:.2s ease;position:relative;overflow:hidden}.item:hover{transform:translateY(-2px);border-color:rgba(49,220,255,.32);box-shadow:0 0 24px rgba(49,220,255,.07)}.item h3{font-size:12.5px;margin:0 0 5px;padding-right:58px}.item p{font-size:10.2px;line-height:1.45;color:#9faccc;margin:0}.item .mini-icon{font-size:19px;margin-bottom:8px}.badge{position:absolute;right:10px;top:10px;padding:4px 7px;border-radius:999px;font-size:8px;font-weight:950;letter-spacing:.45px;background:rgba(155,92,255,.18);border:1px solid rgba(155,92,255,.28);color:#e2d4ff}.item.mls{background:radial-gradient(circle at 90% 10%,rgba(49,220,255,.16),transparent 42%),linear-gradient(135deg,rgba(155,92,255,.22),rgba(66,133,255,.09));border-color:rgba(121,146,255,.34)}.item.mls:before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,#a85cff,#43ddff)}.item.mls h3{font-size:13.5px}.item.mls .badge{background:linear-gradient(90deg,rgba(155,92,255,.35),rgba(49,220,255,.18));color:white}.soon{opacity:.62;cursor:not-allowed}.soon .badge{background:rgba(255,212,95,.10);border-color:rgba(255,212,95,.20);color:#ffe69a}.footer{text-align:center;color:#7784a5;font-size:10px;margin:25px 0 5px}
+@media(max-width:650px){.shell{width:min(100% - 18px,1060px);padding-top:10px}.brand strong{font-size:18px}.brand-logo{width:47px;height:47px}.home-link{padding:9px 10px;font-size:10px}.hero{padding:19px 16px;border-radius:23px}.hero p{font-size:12px}.items{grid-template-columns:1fr}.group-head{padding:13px 12px}.group-icon{width:44px;height:44px;font-size:22px}.group-copy small{font-size:9.5px}.mls-note{align-items:flex-start;flex-direction:column}}
 </style>
 </head>
 <body>
-<div class="container">
-
-<div class="hero">
-<div class="logo">ENGİN360</div>
-<div class="subtitle">
-Matematik Laboratuvarı<br>
-Maarif Modeli, fonksiyon, algoritma, türev-integral ve veri etkinlikleri
-</div>
-</div>
-
-<div class="grid">
-
-<a class="card" href="https://enginmat360.github.io/Engin360/sayilar_ve_cebir.html">
-<div class="icon">🧮</div>
-<h3>Sayılar ve Cebir Laboratuvarı</h3>
-<p>Üslü sayılar, köklü sayılar, mutlak değer, özdeşlikler ve temel cebir etkinlikleri.</p>
-</a>
-
-
-<a class="card" href="https://enginmat360.github.io/Engin360/maarif_guncel.html">
-<div class="icon">📘</div>
-<h3>Maarif Model Laboratuvarı</h3>
-<p>9 ve 10. sınıf yeni Maarif Modeli odaklı grafik, veri, istatistik ve akış etkinlikleri.</p>
-</a>
-
-<a class="card" href="https://enginmat360.github.io/Engin360/fonksiyon_guncel.html">
-<div class="icon">📈</div>
-<h3>Fonksiyon ve Grafikler</h3>
-<p>Fonksiyon, doğru, parabol, dönüşüm ve grafik okuma laboratuvarları.</p>
-</a>
-
-<a class="card" href="https://enginmat360.github.io/Engin360/geometri_guncel.html">
-<div class="icon">📐</div>
-<h3>Geometri Laboratuvarı</h3>
-<p>Doğru-açı, üçgen, çember, analitik geometri, katı cisim ve dönüşüm geometrisi etkinlikleri.</p>
-</a>
-
-<a class="card" href="https://enginmat360.github.io/Engin360/algoritma_guncel.html">
-<div class="icon">🧮</div>
-<h3>Algoritma ve Kodlama</h3>
-<p>Akış şeması, algoritma mantığı, modüler aritmetik ve asal sayı etkinlikleri.</p>
-</a>
-
-<a class="card" href="https://enginmat360.github.io/Engin360/turev_guncel.html">
-<div class="icon">📐</div>
-<h3>Türev ve İntegral</h3>
-<p>Limitten türeve geçiş, teğet eğimi ve integral alan etkinlikleri.</p>
-</a>
-
-<a class="card" href="https://enginmat360.github.io/Engin360/veri_guncel.html">
-<div class="icon">🎲</div>
-<h3>Veri, Olasılık ve Kümeler</h3>
-<p>Kartezyen çarpım, olasılık ve veri analizi odaklı etkinlikler.</p>
-</a>
-
-</div>
-
-<div class="footer">ENGİN360 © 2026 · Matematik Laboratuvarı</div>
-
-</div>
-</body>
-</html>
+<main class="shell">
+<header class="topbar"><div class="brand"><div class="brand-logo">E360</div><div><strong>ENGİN360</strong><small>MATEMATİK ÖĞRENME MERKEZİ</small></div></div><a class="home-link" href="index.html">← Ana Sayfa</a></header>
+<section class="hero"><div class="eyebrow">⚡ MASTER LEARNING SYSTEM · MLS</div><h1>Matematiği <span>keşfet, tamamla, ustalaş.</span></h1><p>Konunu seç, açılır laboratuvarlardan çalışmaya başla. MLS modüllerinde seviyeleri tamamla, mini testleri geç ve Usta Modu’nu aç.</p><div class="hero-stats"><span class="stat">🧠 Seviyeli öğrenme</span><span class="stat">🔓 Kilit açma sistemi</span><span class="stat">📊 İlerleme takibi</span><span class="stat">🏆 Usta Modu</span></div></section>
+<div class="mls-note"><strong>⭐ İlk aktif MLS modülleri: EBOB–EKOK ve Fonksiyonlar</strong><span>Diğer konular sırayla aynı sisteme dönüştürülecek.</span></div>
+<section class="accordion">
+<article class="group open"><button class="group-head" type="button" aria-expanded="true"><span class="group-icon">🧮</span><span class="group-copy"><span class="group-title"><strong>Sayılar ve Cebir</strong><span class="count">9 içerik</span></span><small>EBOB–EKOK, üslü, köklü, mutlak değer, bölünebilme ve temel cebir</small></span><span class="chev">⌄</span></button><div class="group-body"><div class="inner"><div class="items">
+<a class="item mls" href="mls_ebob_ekok.html"><span class="badge">MLS</span><div class="mini-icon">⭐</div><h3>EBOB–EKOK Master Learning</h3><p>80 kart, seviyeli ilerleme, mini testler ve Usta Modu.</p></a>
+<a class="item" href="uslu_sayilar_alistirma_laboratuvari_v2.html"><span class="badge">PRO</span><div class="mini-icon">⚡</div><h3>Üslü Sayılar</h3><p>Üs kuralları ve analizli quiz.</p></a>
+<a class="item" href="koklu_sayilar_alistirma_laboratuvari.html"><span class="badge">PRO</span><div class="mini-icon">🌱</div><h3>Köklü Sayılar</h3><p>Kök sadeleştirme ve sayı doğrusu.</p></a>
+<a class="item" href="mutlak_deger_laboratuvari_pro.html"><span class="badge">PRO</span><div class="mini-icon">📏</div><h3>Mutlak Değer</h3><p>Sayı doğrusu, denklem ve eşitsizlik.</p></a>
+<a class="item" href="pozitif_bolen_sayisi_laboratuvari_pro.html"><span class="badge">PRO</span><div class="mini-icon">🔢</div><h3>Pozitif Bölen Sayısı</h3><p>Asal çarpanlar ve bölen sayısı formülü.</p></a>
+<a class="item" href="bolunebilme_kurallari_laboratuvari_pro.html"><span class="badge">PRO</span><div class="mini-icon">🧭</div><h3>Bölünebilme Kuralları</h3><p>Kurallar, eksik rakam ve quiz.</p></a>
+<a class="item" href="carpanlara_ayirma_laboratuvari_pro.html"><span class="badge">PRO</span><div class="mini-icon">🧩</div><h3>Çarpanlara Ayırma</h3><p>Ortak çarpan ve özdeşlik temelli ayırma.</p></a>
+<a class="item" href="ondalikli_sayilar_ve_bilimsel_gosterim_pro.html"><span class="badge">PRO</span><div class="mini-icon">🔟</div><h3>Ondalık ve Bilimsel Gösterim</h3><p>Kesre çevirme ve 10’un kuvvetleri.</p></a>
+<a class="item" href="ozdeslikler_laboratuvari_pro.html"><span class="badge">PRO</span><div class="mini-icon">🟰</div><h3>Özdeşlikler</h3><p>Tam kare ve iki kare farkı.</p></a>
+</div></div></div></article>
+<article class="group"><button class="group-head" type="button" aria-expanded="false"><span class="group-icon">📈</span><span class="group-copy"><span class="group-title"><strong>Fonksiyonlar ve Grafikler</strong><span class="count">9 içerik</span></span><small>Fonksiyon kavramı, ters, grafik okuma, dönüşümler ve sezgisel öğrenme</small></span><span class="chev">⌄</span></button><div class="group-body"><div class="inner"><div class="items">
+<a class="item mls" href="mls_fonksiyonlar.html"><span class="badge">MLS</span><div class="mini-icon">⭐</div><h3>Fonksiyonlar Master Learning</h3><p>10 seviye, 50 temel kart, mini test ve grafik destekli öğrenme.</p></a>
+<a class="item" href="engin360_fonksiyon_makinesi_PRO.html"><span class="badge">PRO</span><div class="mini-icon">🧠</div><h3>Fonksiyon Makinesi</h3><p>Girdi, çıktı ve fonksiyon kuralını keşfet.</p></a>
+<a class="item" href="engin360_ters_fonksiyon_laboratuvari_PRO.html"><span class="badge">PRO</span><div class="mini-icon">🔄</div><h3>Ters Fonksiyon</h3><p>Tersini bul ve y=x simetrisini gör.</p></a>
+<a class="item" href="engin360_fonksiyon_dedektifi.html"><span class="badge">LAB</span><div class="mini-icon">🕵️</div><h3>Fonksiyon Dedektifi</h3><p>Fonksiyon olup olmadığını test et.</p></a>
+<a class="item" href="fonksiyon_sezgisi_pro_neon.html"><span class="badge">PRO</span><div class="mini-icon">💡</div><h3>Fonksiyon Sezgisi</h3><p>Grafikten tanım, değer, artanlık ve simetri.</p></a>
+<a class="item" href="engin360_kok_x_fonksiyonu_laboratuvari.html"><span class="badge">LAB</span><div class="mini-icon">√</div><h3>Kök x Fonksiyonu</h3><p>Kök grafiği ve tanım aralığı.</p></a>
+<a class="item" href="engin360_bolux_laboratuvari.html"><span class="badge">LAB</span><div class="mini-icon">➗</div><h3>1/x Laboratuvarı</h3><p>Ters orantı ve rasyonel davranış.</p></a>
+<a class="item" href="engin360_mutlak_deger_fonksiyonu_laboratuvari.html"><span class="badge">LAB</span><div class="mini-icon">🔷</div><h3>Mutlak Değer Fonksiyonu</h3><p>V grafiği ve dönüşümleri.</p></a>
+<a class="item" href="engin360_fonksiyon_donusumleri_laboratuvari.html"><span class="badge">LAB</span><div class="mini-icon">↔️</div><h3>Fonksiyon Dönüşümleri</h3><p>Öteleme, yansıma ve esneme.</p></a>
+</div></div></div></article>
+<article class="group"><button class="group-head" type="button"><span class="group-icon">📉</span><span class="group-copy"><span class="group-title"><strong>Doğru ve Parabol</strong><span class="count">3 içerik</span></span><small>Doğru denklemi, doğruda öteleme ve parabol dönüşümleri</small></span><span class="chev">⌄</span></button><div class="group-body"><div class="inner"><div class="items"><a class="item" href="engin360_dogru_denklemi_dedektifi.html"><span class="badge">LAB</span><div class="mini-icon">📉</div><h3>Doğru Denklemi Dedektifi</h3><p>Eğim, y-kesişim ve denklem yazma.</p></a><a class="item" href="engin360_dogruda_oteleme_laboratuvari.html"><span class="badge">LAB</span><div class="mini-icon">📏</div><h3>Doğruda Öteleme</h3><p>Doğrunun eğim ve konum değişimi.</p></a><a class="item" href="engin360_parabol_oteleme_laboratuvari.html"><span class="badge">LAB</span><div class="mini-icon">📈</div><h3>Parabol Öteleme</h3><p>Parabol grafiğinde dönüşüm hareketleri.</p></a></div></div></div></article>
+<article class="group"><button class="group-head" type="button"><span class="group-icon">📐</span><span class="group-copy"><span class="group-title"><strong>Geometri</strong><span class="count">Merkez</span></span><small>Doğru-açı, üçgen, çember, analitik, katı cisim ve dönüşüm</small></span><span class="chev">⌄</span></button><div class="group-body"><div class="inner"><div class="items"><a class="item" href="geometri_guncel.html"><span class="badge">MERKEZ</span><div class="mini-icon">📐</div><h3>Geometri Laboratuvarına Git</h3><p>Tüm geometri modüllerini görüntüle.</p></a><div class="item soon"><span class="badge">YAKINDA</span><div class="mini-icon">⭐</div><h3>Geometri MLS</h3><p>Seviyeli geometri öğrenme modülleri hazırlanacak.</p></div></div></div></div></article>
+<article class="group"><button class="group-head" type="button"><span class="group-icon">⭕</span><span class="group-copy"><span class="group-title"><strong>Trigonometri</strong><span class="count">1 içerik</span></span><small>Birim çember ve trigonometrik oranların görsel temeli</small></span><span class="chev">⌄</span></button><div class="group-body"><div class="inner"><div class="items"><a class="item" href="engin360_birim_cember_gercek_logolu.html"><span class="badge">LAB</span><div class="mini-icon">⭕</div><h3>Birim Çember</h3><p>Trigonometrik değerleri çember üzerinde keşfet.</p></a><div class="item soon"><span class="badge">YAKINDA</span><div class="mini-icon">⭐</div><h3>Trigonometri MLS</h3><p>Seviyeli trigonometri sistemi hazırlanacak.</p></div></div></div></div></article>
+<article class="group"><button class="group-head" type="button"><span class="group-icon">∫</span><span class="group-copy"><span class="group-title"><strong>Limit, Türev ve İntegral</strong><span class="count">Merkez</span></span><small>Limitten türeve geçiş, teğet eğimi ve integral alanı</small></span><span class="chev">⌄</span></button><div class="group-body"><div class="inner"><div class="items"><a class="item" href="turev_guncel.html"><span class="badge">MERKEZ</span><div class="mini-icon">∫</div><h3>Türev ve İntegral Laboratuvarı</h3><p>Mevcut etkileşimli etkinlikleri aç.</p></a><div class="item soon"><span class="badge">YAKINDA</span><div class="mini-icon">⭐</div><h3>Limit–Türev–İntegral MLS</h3><p>Konular sırayla MLS sistemine aktarılacak.</p></div></div></div></div></article>
+<article class="group"><button class="group-head" type="button"><span class="group-icon">🎲</span><span class="group-copy"><span class="group-title"><strong>Veri, Olasılık ve Kümeler</strong><span class="count">Merkez</span></span><small>Kartezyen çarpım, olasılık ve veri analizi</small></span><span class="chev">⌄</span></button><div class="group-body"><div class="inner"><div class="items"><a class="item" href="veri_guncel.html"><span class="badge">MERKEZ</span><div class="mini-icon">🎲</div><h3>Veri ve Olasılık Laboratuvarı</h3><p>Tüm veri, olasılık ve küme etkinliklerine git.</p></a></div></div></div></article>
+<article class="group"><button class="group-head" type="button"><span class="group-icon">💻</span><span class="group-copy"><span class="group-title"><strong>Algoritma ve Kodlama</strong><span class="count">Merkez</span></span><small>Akış şeması, algoritma mantığı ve modüler aritmetik</small></span><span class="chev">⌄</span></button><div class="group-body"><div class="inner"><div class="items"><a class="item" href="algoritma_guncel.html"><span class="badge">MERKEZ</span><div class="mini-icon">💻</div><h3>Algoritma ve Kodlama</h3><p>Mevcut algoritma etkinliklerine git.</p></a></div></div></div></article>
+<article class="group"><button class="group-head" type="button"><span class="group-icon">📘</span><span class="group-copy"><span class="group-title"><strong>Maarif Modeli</strong><span class="count">Merkez</span></span><small>9 ve 10. sınıf grafik, veri, istatistik ve akış etkinlikleri</small></span><span class="chev">⌄</span></button><div class="group-body"><div class="inner"><div class="items"><a class="item" href="maarif_guncel.html"><span class="badge">MERKEZ</span><div class="mini-icon">📘</div><h3>Maarif Model Laboratuvarı</h3><p>Yeni Maarif Modeli etkinliklerini aç.</p></a></div></div></div></article>
+</section><footer class="footer">ENGİN360 © 2026 · Master Learning System</footer></main>
+<script>document.querySelectorAll('.group-head').forEach(btn=>{btn.addEventListener('click',()=>{const current=btn.closest('.group');const willOpen=!current.classList.contains('open');document.querySelectorAll('.group').forEach(g=>{g.classList.remove('open');g.querySelector('.group-head').setAttribute('aria-expanded','false')});if(willOpen){current.classList.add('open');btn.setAttribute('aria-expanded','true');setTimeout(()=>current.scrollIntoView({behavior:'smooth',block:'nearest'}),120)}})});</script>
+</body></html>

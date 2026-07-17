@@ -1,55 +1,543 @@
 <!DOCTYPE html>
-
 <html lang="tr">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#080b1d">
 <title>ENGİN360 Hafıza Laboratuvarı</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial,sans-serif}
-body{min-height:100vh;color:#fff;padding:18px;background:radial-gradient(circle at top left,rgba(236,72,153,.30),transparent 34%),radial-gradient(circle at bottom right,rgba(56,189,248,.28),transparent 34%),radial-gradient(circle at 50% 105%,rgba(168,85,247,.22),transparent 38%),linear-gradient(135deg,#05010d,#16001f,#06142f)}
-.container{max-width:1080px;margin:0 auto}.hero{text-align:center;padding:32px 18px;border-radius:30px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);box-shadow:0 0 38px rgba(236,72,153,.30);backdrop-filter:blur(12px);margin-bottom:18px}.logo{font-size:clamp(34px,6vw,58px);font-weight:1000;background:linear-gradient(90deg,#fff,#ec4899,#a855f7,#38bdf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 12px rgba(168,85,247,.45))}.subtitle{margin-top:10px;color:#f4ddff;font-size:15px;line-height:1.55}.topstats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:0 0 18px}.stat{border:1px solid rgba(255,255,255,.13);border-radius:18px;background:rgba(255,255,255,.065);padding:13px;text-align:center}.stat b{display:block;font-size:25px;color:#67e8f9}.stat span{font-size:12px;color:#efe7ff;font-weight:800}.sectionTitle{margin:22px 0 12px;font-size:19px;color:#e9d5ff;letter-spacing:.02em}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}.card{display:block;text-decoration:none;color:white;min-height:150px;padding:19px;border-radius:23px;background:linear-gradient(135deg,rgba(236,72,153,.24),rgba(14,165,233,.14));border:1px solid rgba(255,255,255,.13);box-shadow:0 12px 26px rgba(0,0,0,.27),inset 0 0 28px rgba(255,255,255,.025);transition:.2s ease;position:relative;overflow:hidden}.card:before{content:"";position:absolute;inset:-80px;background:radial-gradient(circle,rgba(255,255,255,.12),transparent 58%);transform:translateX(-46%);pointer-events:none}.card:hover{transform:translateY(-4px);box-shadow:0 0 30px rgba(236,72,153,.38)}.icon{font-size:34px;margin-bottom:10px;position:relative}.card h3{font-size:18px;margin-bottom:8px;position:relative}.card p{font-size:13.5px;color:#efe7ff;line-height:1.45;position:relative}.badge{display:inline-block;margin-top:12px;padding:6px 9px;border-radius:999px;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.12);font-size:11px;font-weight:900;color:#dff8ff;position:relative}.passive{opacity:.65;filter:saturate(.7)}.footer{text-align:center;color:#aaa;font-size:12px;margin:32px 0 10px}.back{display:inline-block;margin-bottom:14px;color:#dbeafe;text-decoration:none;font-weight:800;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.13);padding:9px 12px;border-radius:12px}@media(max-width:620px){body{padding:13px}.grid,.topstats{grid-template-columns:1fr}.logo{font-size:32px}}
+:root{
+  --text:#f8f9ff;
+  --muted:#aeb9d8;
+  --line:rgba(255,255,255,.11);
+  --shadow:0 18px 46px rgba(0,0,0,.30);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  min-height:100vh;
+  color:var(--text);
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  background:
+    radial-gradient(circle at 12% 2%,rgba(255,70,170,.17),transparent 26rem),
+    radial-gradient(circle at 92% 10%,rgba(75,130,255,.16),transparent 25rem),
+    linear-gradient(180deg,#0b1029,#080b1b 68%);
+}
+body:before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  opacity:.27;
+  background-image:
+    linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+  background-size:38px 38px;
+  mask-image:linear-gradient(to bottom,#000,transparent 88%);
+}
+a{color:inherit;text-decoration:none}
+button{font:inherit}
+.shell{
+  width:min(1060px,calc(100% - 24px));
+  margin:auto;
+  padding:16px 0 40px;
+  position:relative;
+}
+.topbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:12px;
+}
+.brand{display:flex;align-items:center;gap:11px}
+.brand-logo{
+  width:54px;height:54px;border-radius:17px;
+  display:grid;place-items:center;
+  font-weight:950;font-size:18px;
+  background:linear-gradient(135deg,rgba(255,78,174,.92),rgba(109,91,255,.72));
+  box-shadow:0 0 18px rgba(255,78,174,.18);
+}
+.brand strong{display:block;font-size:22px;letter-spacing:.5px}
+.brand small{display:block;color:#8f9bbb;font-size:9px;letter-spacing:1.25px;margin-top:3px}
+.home-link{
+  padding:10px 13px;
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:rgba(15,22,48,.78);
+  font-size:12px;
+  font-weight:800;
+  color:#dce7ff;
+}
+.hero{
+  position:relative;
+  overflow:hidden;
+  padding:24px;
+  border-radius:28px;
+  border:1px solid rgba(255,255,255,.13);
+  background:
+    radial-gradient(circle at 12% 18%,rgba(255,78,174,.24),transparent 38%),
+    radial-gradient(circle at 91% 15%,rgba(83,208,255,.18),transparent 40%),
+    linear-gradient(128deg,rgba(180,74,255,.23),rgba(66,133,255,.12) 48%,rgba(49,220,255,.11)),
+    rgba(13,20,46,.92);
+  box-shadow:var(--shadow),0 0 34px rgba(255,78,174,.08);
+  margin-bottom:14px;
+}
+.hero:before{
+  content:"";
+  position:absolute;
+  left:7%;right:7%;top:0;height:2px;
+  background:linear-gradient(90deg,transparent,#ff4eae,#8f70ff,#45ddff,transparent);
+  box-shadow:0 0 16px rgba(255,78,174,.20);
+}
+.eyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  padding:7px 10px;
+  border-radius:999px;
+  border:1px solid rgba(255,126,196,.22);
+  background:rgba(255,78,174,.08);
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.8px;
+}
+.hero h1{
+  font-size:clamp(27px,6vw,47px);
+  line-height:1.03;
+  margin:15px 0 9px;
+  letter-spacing:-1.1px;
+}
+.hero h1 span{
+  background:linear-gradient(90deg,#ff8bcd,#a88dff,#65e7ff);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+.hero p{
+  margin:0;
+  color:#bac6e4;
+  max-width:720px;
+  font-size:14px;
+  line-height:1.6;
+}
+.hero-stats{display:flex;flex-wrap:wrap;gap:8px;margin-top:17px}
+.stat{
+  padding:8px 11px;
+  border-radius:12px;
+  background:rgba(5,9,28,.42);
+  border:1px solid var(--line);
+  font-size:10.5px;
+  font-weight:850;
+  color:#e6ecff;
+}
+.info-note{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:13px 15px;
+  margin:12px 0 15px;
+  border:1px solid rgba(255,99,183,.20);
+  border-radius:18px;
+  background:linear-gradient(90deg,rgba(255,78,174,.07),rgba(92,111,255,.07));
+}
+.info-note strong{font-size:12px}
+.info-note span{color:#b9c3de;font-size:10.5px}
+.accordion{display:grid;gap:10px}
+.group{
+  --c1:255,78,174;
+  --c2:139,92,255;
+  position:relative;
+  border:1.5px solid rgba(var(--c1),.66);
+  border-radius:23px;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 9% 22%,rgba(var(--c1),.13),transparent 34%),
+    radial-gradient(circle at 94% 18%,rgba(var(--c2),.08),transparent 38%),
+    linear-gradient(135deg,rgba(var(--c1),.045),rgba(7,12,32,.97) 50%,rgba(var(--c2),.035));
+  box-shadow:
+    0 0 5px rgba(var(--c1),.23),
+    0 0 13px rgba(var(--c1),.11),
+    inset 0 0 16px rgba(var(--c1),.025);
+  backdrop-filter:blur(14px);
+  transition:.24s ease;
+}
+.group:before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:linear-gradient(90deg,rgba(var(--c1),.08),transparent 24%,transparent 76%,rgba(var(--c2),.05));
+  opacity:.72;
+}
+.group:hover{
+  transform:translateY(-1px);
+  box-shadow:
+    0 0 7px rgba(var(--c1),.31),
+    0 0 17px rgba(var(--c1),.16),
+    inset 0 0 18px rgba(var(--c1),.035);
+}
+.group.open{
+  border-color:rgba(var(--c1),.62);
+  background:
+    radial-gradient(circle at 9% 20%,rgba(var(--c1),.14),transparent 38%),
+    radial-gradient(circle at 94% 15%,rgba(var(--c2),.09),transparent 42%),
+    linear-gradient(135deg,rgba(var(--c1),.055),rgba(7,12,32,.98) 50%,rgba(var(--c2),.04));
+  box-shadow:
+    0 0 5px rgba(var(--c1),.23),
+    0 0 13px rgba(var(--c1),.11),
+    inset 0 0 16px rgba(var(--c1),.025);
+}
+.group:nth-child(1){--c1:255,196,64;--c2:255,105,92}
+.group:nth-child(2){--c1:255,76,181;--c2:173,84,255}
+.group:nth-child(3){--c1:73,150,255;--c2:52,222,255}
+.group:nth-child(4){--c1:255,146,52;--c2:255,219,77}
+.group:nth-child(5){--c1:72,224,165;--c2:40,189,255}
+.group:nth-child(6){--c1:183,91,255;--c2:255,77,166}
+.group-head{
+  width:100%;
+  border:0;
+  color:white;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  gap:13px;
+  text-align:left;
+  padding:15px 16px;
+  background:transparent;
+  position:relative;
+  z-index:2;
+}
+.group-head:hover{background:linear-gradient(90deg,rgba(var(--c1),.05),rgba(var(--c2),.025))}
+.group-icon{
+  width:48px;height:48px;flex:none;border-radius:16px;
+  display:grid;place-items:center;font-size:24px;
+  background:
+    radial-gradient(circle at 30% 20%,rgba(255,255,255,.18),transparent 34%),
+    linear-gradient(135deg,rgba(var(--c1),.58),rgba(var(--c2),.22));
+  border:1.5px solid rgba(var(--c1),.68);
+  box-shadow:
+    0 0 5px rgba(var(--c1),.33),
+    0 0 12px rgba(var(--c1),.17),
+    inset 0 0 10px rgba(255,255,255,.025);
+  filter:saturate(1.10) brightness(1.01);
+}
+.group-copy{min-width:0;flex:1}
+.group-title{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.group-title strong{font-size:15px}
+.count{
+  padding:4px 8px;
+  border-radius:999px;
+  background:linear-gradient(90deg,rgba(var(--c1),.58),rgba(var(--c2),.30));
+  border:1px solid rgba(255,255,255,.11);
+  color:#fff;
+  font-size:9px;
+  font-weight:950;
+  box-shadow:0 0 6px rgba(var(--c1),.16);
+}
+.group-copy small{
+  display:block;
+  margin-top:4px;
+  color:#93a1c2;
+  font-size:10.5px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.chev{
+  width:32px;height:32px;flex:none;border-radius:11px;
+  display:grid;place-items:center;
+  font-size:20px;
+  color:rgb(var(--c1));
+  border:1px solid rgba(var(--c1),.34);
+  background:rgba(var(--c1),.07);
+  text-shadow:0 0 6px rgba(var(--c1),.48);
+  box-shadow:0 0 4px rgba(var(--c1),.14);
+  transition:.25s ease;
+}
+.group.open .chev{transform:rotate(180deg)}
+.group-body{max-height:0;overflow:hidden;transition:max-height .38s ease}
+.group.open .group-body{max-height:1200px}
+.inner{padding:0 13px 13px}
+.items{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.item{
+  position:relative;
+  overflow:hidden;
+  min-height:105px;
+  padding:14px;
+  border-radius:17px;
+  border:1px solid rgba(255,255,255,.10);
+  background:
+    radial-gradient(circle at 92% 8%,rgba(var(--c2),.06),transparent 36%),
+    linear-gradient(135deg,rgba(var(--c1),.045),rgba(255,255,255,.015));
+  transition:.2s ease;
+}
+.item:hover{
+  transform:translateY(-2px);
+  border-color:rgba(var(--c1),.28);
+  box-shadow:0 0 15px rgba(var(--c1),.07);
+}
+.item h3{font-size:12.8px;margin:0 0 6px;padding-right:68px}
+.item p{font-size:10.3px;line-height:1.48;color:#a7b3d0;margin:0}
+.mini-icon{font-size:20px;margin-bottom:8px}
+.badge{
+  position:absolute;
+  right:10px;top:10px;
+  padding:4px 7px;
+  border-radius:999px;
+  font-size:8px;
+  font-weight:950;
+  letter-spacing:.35px;
+  border:1px solid rgba(255,255,255,.11);
+}
+.badge.new{background:rgba(83,218,156,.17);color:#86f2c1}
+.badge.pro{background:rgba(174,91,255,.18);color:#d8b8ff}
+.badge.analysis{background:rgba(255,174,39,.17);color:#ffda87}
+.badge.guide{background:rgba(74,151,255,.17);color:#9fc7ff}
+.badge.active{background:rgba(255,78,174,.17);color:#ffacd6}
+.footer{text-align:center;color:#7784a5;font-size:10px;margin:25px 0 5px}
+@media(max-width:650px){
+  .shell{width:min(100% - 18px,1060px);padding-top:10px}
+  .brand strong{font-size:18px}
+  .brand-logo{width:47px;height:47px}
+  .home-link{padding:9px 10px;font-size:10px}
+  .hero{padding:19px 16px;border-radius:23px}
+  .hero p{font-size:12px}
+  .items{grid-template-columns:1fr}
+  .group-head{padding:13px 12px}
+  .group-icon{width:44px;height:44px;font-size:22px}
+  .group-copy small{font-size:9.5px}
+  .info-note{align-items:flex-start;flex-direction:column}
+}
 </style>
 </head>
 <body>
-<div class="container">
-<a class="back" href="index.html">← Ana Sayfa</a>
-<div class="hero"><div class="logo">🧠 ENGİN360 Hafıza Laboratuvarı</div><div class="subtitle">Flashcard, aktif tekrar ve kalıcı öğrenme araçları<br/>Özellikle edebiyat, Türkçe, tarih ve ezber gerektiren konular için</div></div>
-<div class="topstats"><div class="stat"><b>15</b><span>Aktif Araç / Kütüphane</span></div><div class="stat"><b>15</b><span>Hazır Flashcard Seti</span></div><div class="stat"><b>PRO</b><span>Neon ENGİN360 Formatı</span></div></div>
-<h2 class="sectionTitle">🛠️ Üretim Araçları</h2>
-<div class="grid">
-<a class="card" href="engin360_flashcard_hazirlayici_v3_katla_yapistir.html"><div class="icon">🃏</div><h3>Flashcard Hazırlayıcı PRO</h3><p>Ön yüz ve arka yüz kartları oluştur, görsel kaydet, yazdır ve katla-yapıştır formatında kullan.</p><span class="badge">Kart üretici</span></a>
-</div>
-<h2 class="sectionTitle">📚 Edebiyat ve Türkçe Kütüphaneleri</h2>
-<div class="grid">
-<a class="card" href="edebiyat_flashcard_kutuphanesi_pro.html"><div class="icon">📚</div><h3>Edebiyat Flashcard Kütüphanesi PRO</h3><p>Tanzimat, Servetifünun, Fecriati, Milli Edebiyat ve Cumhuriyet dönemi hazır kartları.</p><span class="badge">Genel kütüphane</span></a>
-<a class="card" href="siir_turleri_flashcard_kutuphanesi_pro.html"><div class="icon">📝</div><h3>Şiir Türleri Flashcard PRO</h3><p>Lirik, epik, pastoral, didaktik ve satirik şiir türleri için hızlı tekrar kartları.</p><span class="badge">Edebiyat</span></a>
-<a class="card" href="divan_edebiyati_flashcard_kutuphanesi_pro_v2.html"><div class="icon">🏛️</div><h3>Divan Edebiyatı Flashcard PRO</h3><p>Sanatçı, eser, dönem, akım ve ayırt edici özellik kartları.</p><span class="badge">Edebiyat</span></a>
-<a class="card" href="halk_edebiyati_flashcard_kutuphanesi_pro.html"><div class="icon">🎶</div><h3>Halk Edebiyatı Flashcard PRO</h3><p>Genel özellikler, anonim halk edebiyatı, aşık tarzı ve tekke-tasavvuf başlıkları.</p><span class="badge">Edebiyat</span></a>
-<a class="card" href="serveti_funun_flashcard_kutuphanesi_pro.html"><div class="icon">📖</div><h3>Servet-i Fünûn Flashcard PRO</h3><p>Şiir, roman, hikâye, tenkit, mensur şiir ve sanatçı-eser tekrar kartları.</p><span class="badge">Edebiyat</span></a>
-<a class="card" href="edebi_akimlar_flashcard_laboratuvari.html"><div class="icon">🌍</div><h3>Edebi Akımlar Flashcard Laboratuvarı</h3><p>Klasisizm, romantizm, realizm, natüralizm, sembolizm ve diğer akımlar.</p><span class="badge">Edebiyat</span></a>
-<a class="card" href="yazim_kurallari_flashcard_kutuphanesi_pro_quizli.html"><div class="icon">✍️</div><h3>Yazım Kuralları Flashcard + Quiz PRO</h3><p>Büyük harfler, kısaltmalar, sayı, tarih, saat, de/da, ki ve birleşik kelimeler.</p><span class="badge">Türkçe · Quizli</span></a>
-<a class="card" href="noktalama_isaretleri_flashcard_kutuphanesi_pro.html"><div class="icon">❞</div><h3>Noktalama İşaretleri Flashcard + Quiz PRO</h3><p>Nokta, virgül, noktalı virgül, iki nokta, üç nokta, soru, ünlem, tırnak, ayraç, kesme ve çizgi işaretlerini quizli kartlarla öğren.</p><span class="badge">Türkçe · Quizli</span></a>
-<a class="card" href="cumlede_anlam_flashcard_kutuphanesi_pro_yeni.html"><div class="icon">💬</div><h3>Cümlede Anlam Flashcard + Quiz PRO</h3><p>Öznel-nesnel, neden-sonuç, amaç-sonuç, sitem, yakınma, çıkarım, değerlendirme ve tüm cümlede anlam konularını ilerlemeli flash kartlar ve quiz ile öğren.</p><span class="badge">Türkçe · Quizli</span></a></div>
-<h2 class="sectionTitle">🏛️ Tarih Kütüphanesi</h2>
-<div class="grid">
-<a class="card" href="tarih_flashcard_pro_full_v3.html"><div class="icon">📜</div><h3>Tarih Flashcard PRO FULL V3</h3><p>İlk Türk devletleri, Türk-İslam devletleri, Osmanlı kuruluş ve yükselme kartları.</p><span class="badge">Tarih</span></a>
-</div>
-<h2 class="sectionTitle">🧬 Biyoloji Kütüphaneleri</h2>
-<div class="grid">
-<a class="card" href="biyoloji_organeller_flashcard_kutuphanesi_pro.html"><div class="icon">🔬</div><h3>Organeller Flashcard PRO</h3><p>Hücre zarı, çekirdek, ribozom, mitokondri, kloroplast, ER, Golgi, lizozom ve koful kartları.</p><span class="badge">Biyoloji · Quizli</span></a>
-<a class="card" href="biyoloji_kalitim_flashcard_kutuphanesi_pro.html"><div class="icon">🧬</div><h3>Kalıtım Flashcard PRO</h3><p>Gen, alel, fenotip, genotip, Mendel çaprazlamaları, kan grupları ve soy ağacı tekrarları.</p><span class="badge">Biyoloji · Quizli</span></a>
-<a class="card" href="biyoloji_mitoz_mayoz_flashcard_kutuphanesi_pro.html"><div class="icon">🧫</div><h3>Mitoz-Mayoz Flashcard PRO</h3><p>Hücre döngüsü, mitoz evreleri, mayoz I-II, crossing-over ve kromozom sayısı analizleri.</p><span class="badge">Biyoloji · Quizli</span></a>
-<a class="card" href="biyoloji_dna_rna_protein_sentezi_flashcard_kutuphanesi_pro.html"><div class="icon">🧪</div><h3>DNA-RNA-Protein Sentezi PRO</h3><p>DNA, RNA, replikasyon, transkripsiyon, translasyon, kodon-antikodon ve genetik kod kartları.</p><span class="badge">Biyoloji · Quizli</span></a>
-</div>
-<h2 class="sectionTitle">🧠 Dikkat ve Hafıza Geliştirme</h2>
-<div class="grid">
-<a class="card" href="dikkat_ve_hafiza_guclendirme_laboratuvari_pro_v2.html"><div class="icon">🎯</div><h3>Dikkat ve Hafıza Güçlendirme PRO</h3><p>Metni belirli süre içinde oku, metin kaybolduktan sonra soruları cevapla. Problemler, paragraf ve uzun soru köklerinde dikkat becerisini geliştir.</p><span class="badge">Dikkat Antrenmanı</span></a>
-<a class="card" href="sayisal_hafiza_pro.html"><div class="icon">🔢</div><h3>Sayısal Hafıza PRO</h3><p>Sayı dizisi, kod, telefon, plaka, işlem ve tablo hafızası. Kartı kısa süre gör, istersen okut, kart kaybolunca cevapları yaz.</p><span class="badge">Sayısal Hafıza</span></a>
-<a class="card" href="hata_avcisi_pro.html"><div class="icon">🕵️</div><h3>Hata Avcısı PRO</h3><p>Metni kısa süre oku, metin kaybolduktan sonra yanlış ifadeyi yakala. Problemler, paragraf ve uzun soru köklerinde dikkat tuzaklarını fark etmeyi geliştir.</p><span class="badge">Dikkat Tuzağı</span></a>
-<a class="card" href="gorsel_hafiza_pro.html"><div class="icon">👁️</div><h3>Görsel Hafıza PRO</h3><p>Nesne, şekil, konum, tablo ve renk-sayı hafızası. Görseli kısa süre incele, kaybolunca soruları cevapla.</p><span class="badge">Görsel Hafıza</span></a>
-</div>
-<div class="footer">ENGİN360 © 2026 · Hafıza Laboratuvarı</div>
-</div>
+<main class="shell">
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-logo">E360</div>
+      <div><strong>ENGİN360</strong><small>HAFIZA LABORATUVARI</small></div>
+    </div>
+    <a class="home-link" href="index.html">← Ana Sayfa</a>
+  </header>
+
+  <section class="hero">
+    <div class="eyebrow">🧠 ÖĞREN · TEKRARLA · KALICI HALE GETİR</div>
+    <h1>Bilgiyi <span>aktif tekrarlarla kalıcı hafızaya taşı.</span></h1>
+    <p>Flashcard kütüphaneleri, quizler, dikkat antrenmanları ve hafıza oyunlarıyla bilgiyi daha hızlı öğren ve daha uzun süre hatırla.</p>
+    <div class="hero-stats">
+      <span class="stat">🃏 Flashcard sistemi</span>
+      <span class="stat">🔁 Aktif tekrar</span>
+      <span class="stat">🧠 Kalıcı öğrenme</span>
+      <span class="stat">🎯 Dikkat antrenmanı</span>
+    </div>
+  </section>
+
+  <div class="info-note">
+    <strong>Hafıza araçları ve kütüphaneleri kategorilere ayrıldı.</strong>
+    <span>Bir kategori açıldığında diğerleri otomatik kapanır.</span>
+  </div>
+
+  <section class="accordion">
+
+    <article class="group open">
+      <button class="group-head" type="button" aria-expanded="true">
+        <span class="group-icon">🛠️</span>
+        <span class="group-copy">
+          <span class="group-title"><strong>Flashcard Üretim Araçları</strong><span class="count">1 araç</span></span>
+          <small>Kendi kartlarını oluştur, yazdır, görsel olarak kaydet ve paylaş</small>
+        </span>
+        <span class="chev">⌄</span>
+      </button>
+      <div class="group-body"><div class="inner"><div class="items">
+        <a class="item" href="engin360_flashcard_hazirlayici_v3_katla_yapistir.html">
+          <span class="badge pro">PRO</span><div class="mini-icon">🃏</div>
+          <h3>Flashcard Hazırlayıcı PRO</h3>
+          <p>Ön ve arka yüz kartları oluştur, görsel kaydet, yazdır ve katla-yapıştır formatında kullan.</p>
+        </a>
+      </div></div></div>
+    </article>
+
+    <article class="group">
+      <button class="group-head" type="button" aria-expanded="false">
+        <span class="group-icon">📚</span>
+        <span class="group-copy">
+          <span class="group-title"><strong>Edebiyat Flashcard Kütüphaneleri</strong><span class="count">6 kütüphane</span></span>
+          <small>Dönem, sanatçı, eser, şiir türleri ve edebi akımlar</small>
+        </span>
+        <span class="chev">⌄</span>
+      </button>
+      <div class="group-body"><div class="inner"><div class="items">
+        <a class="item" href="edebiyat_flashcard_kutuphanesi_pro.html">
+          <span class="badge pro">PRO</span><div class="mini-icon">📚</div>
+          <h3>Edebiyat Flashcard Kütüphanesi</h3>
+          <p>Tanzimat, Servetifünun, Fecriati, Millî Edebiyat ve Cumhuriyet dönemi kartları.</p>
+        </a>
+        <a class="item" href="siir_turleri_flashcard_kutuphanesi_pro.html">
+          <span class="badge guide">EDEBİYAT</span><div class="mini-icon">📝</div>
+          <h3>Şiir Türleri Flashcard PRO</h3>
+          <p>Lirik, epik, pastoral, didaktik ve satirik şiir türlerini hızlıca tekrar et.</p>
+        </a>
+        <a class="item" href="divan_edebiyati_flashcard_kutuphanesi_pro_v2.html">
+          <span class="badge pro">PRO</span><div class="mini-icon">🏛️</div>
+          <h3>Divan Edebiyatı Flashcard</h3>
+          <p>Sanatçı, eser, dönem, nazım biçimleri ve ayırt edici özellik kartları.</p>
+        </a>
+        <a class="item" href="halk_edebiyati_flashcard_kutuphanesi_pro.html">
+          <span class="badge guide">EDEBİYAT</span><div class="mini-icon">🎶</div>
+          <h3>Halk Edebiyatı Flashcard</h3>
+          <p>Anonim, âşık tarzı ve tekke-tasavvuf edebiyatını kartlarla öğren.</p>
+        </a>
+        <a class="item" href="serveti_funun_flashcard_kutuphanesi_pro.html">
+          <span class="badge pro">PRO</span><div class="mini-icon">📖</div>
+          <h3>Servet-i Fünûn Flashcard</h3>
+          <p>Şiir, roman, hikâye, tenkit, mensur şiir ve sanatçı-eser tekrarları.</p>
+        </a>
+        <a class="item" href="edebi_akimlar_flashcard_laboratuvari.html">
+          <span class="badge analysis">AKIMLAR</span><div class="mini-icon">🌍</div>
+          <h3>Edebi Akımlar Laboratuvarı</h3>
+          <p>Klasisizmden sembolizme kadar temel edebi akımları karşılaştırarak öğren.</p>
+        </a>
+      </div></div></div>
+    </article>
+
+    <article class="group">
+      <button class="group-head" type="button" aria-expanded="false">
+        <span class="group-icon">✍️</span>
+        <span class="group-copy">
+          <span class="group-title"><strong>Türkçe Flashcard ve Quiz</strong><span class="count">3 kütüphane</span></span>
+          <small>Yazım, noktalama ve cümlede anlam konularında aktif tekrar</small>
+        </span>
+        <span class="chev">⌄</span>
+      </button>
+      <div class="group-body"><div class="inner"><div class="items">
+        <a class="item" href="yazim_kurallari_flashcard_kutuphanesi_pro_quizli.html">
+          <span class="badge new">QUIZLİ</span><div class="mini-icon">✍️</div>
+          <h3>Yazım Kuralları Flashcard</h3>
+          <p>Büyük harfler, kısaltmalar, sayılar, de/da, ki ve birleşik kelimeler.</p>
+        </a>
+        <a class="item" href="noktalama_isaretleri_flashcard_kutuphanesi_pro.html">
+          <span class="badge new">QUIZLİ</span><div class="mini-icon">❞</div>
+          <h3>Noktalama İşaretleri Flashcard</h3>
+          <p>Nokta, virgül, iki nokta, tırnak, ayraç, kesme ve çizgi işaretleri.</p>
+        </a>
+        <a class="item" href="cumlede_anlam_flashcard_kutuphanesi_pro_yeni.html">
+          <span class="badge new">QUIZLİ</span><div class="mini-icon">💬</div>
+          <h3>Cümlede Anlam Flashcard</h3>
+          <p>Öznel-nesnel, neden-sonuç, amaç-sonuç, çıkarım ve değerlendirme konuları.</p>
+        </a>
+      </div></div></div>
+    </article>
+
+    <article class="group">
+      <button class="group-head" type="button" aria-expanded="false">
+        <span class="group-icon">📜</span>
+        <span class="group-copy">
+          <span class="group-title"><strong>Tarih Flashcard Kütüphanesi</strong><span class="count">1 kütüphane</span></span>
+          <small>Türk devletleri, Türk-İslam tarihi ve Osmanlı dönemleri</small>
+        </span>
+        <span class="chev">⌄</span>
+      </button>
+      <div class="group-body"><div class="inner"><div class="items">
+        <a class="item" href="tarih_flashcard_pro_full_v3.html">
+          <span class="badge pro">FULL V3</span><div class="mini-icon">📜</div>
+          <h3>Tarih Flashcard PRO</h3>
+          <p>İlk Türk devletleri, Türk-İslam devletleri ve Osmanlı kuruluş-yükselme kartları.</p>
+        </a>
+      </div></div></div>
+    </article>
+
+    <article class="group">
+      <button class="group-head" type="button" aria-expanded="false">
+        <span class="group-icon">🧬</span>
+        <span class="group-copy">
+          <span class="group-title"><strong>Biyoloji Flashcard Kütüphaneleri</strong><span class="count">4 kütüphane</span></span>
+          <small>Organeller, kalıtım, hücre bölünmeleri ve moleküler biyoloji</small>
+        </span>
+        <span class="chev">⌄</span>
+      </button>
+      <div class="group-body"><div class="inner"><div class="items">
+        <a class="item" href="biyoloji_organeller_flashcard_kutuphanesi_pro.html">
+          <span class="badge new">QUIZLİ</span><div class="mini-icon">🔬</div>
+          <h3>Organeller Flashcard PRO</h3>
+          <p>Çekirdek, ribozom, mitokondri, kloroplast, ER, Golgi, lizozom ve koful.</p>
+        </a>
+        <a class="item" href="biyoloji_kalitim_flashcard_kutuphanesi_pro.html">
+          <span class="badge new">QUIZLİ</span><div class="mini-icon">🧬</div>
+          <h3>Kalıtım Flashcard PRO</h3>
+          <p>Gen, alel, fenotip, genotip, Mendel çaprazlamaları ve kan grupları.</p>
+        </a>
+        <a class="item" href="biyoloji_mitoz_mayoz_flashcard_kutuphanesi_pro.html">
+          <span class="badge new">QUIZLİ</span><div class="mini-icon">🧫</div>
+          <h3>Mitoz-Mayoz Flashcard</h3>
+          <p>Hücre döngüsü, mitoz, mayoz I-II, crossing-over ve kromozom sayıları.</p>
+        </a>
+        <a class="item" href="biyoloji_dna_rna_protein_sentezi_flashcard_kutuphanesi_pro.html">
+          <span class="badge pro">PRO</span><div class="mini-icon">🧪</div>
+          <h3>DNA-RNA-Protein Sentezi</h3>
+          <p>Replikasyon, transkripsiyon, translasyon, kodon ve genetik kod kartları.</p>
+        </a>
+      </div></div></div>
+    </article>
+
+    <article class="group">
+      <button class="group-head" type="button" aria-expanded="false">
+        <span class="group-icon">🎯</span>
+        <span class="group-copy">
+          <span class="group-title"><strong>Dikkat ve Hafıza Antrenmanları</strong><span class="count">4 laboratuvar</span></span>
+          <small>Sözel, sayısal ve görsel hafızayı geliştir; dikkat tuzaklarını fark et</small>
+        </span>
+        <span class="chev">⌄</span>
+      </button>
+      <div class="group-body"><div class="inner"><div class="items">
+        <a class="item" href="dikkat_ve_hafiza_guclendirme_laboratuvari_pro_v2.html">
+          <span class="badge pro">PRO V2</span><div class="mini-icon">🎯</div>
+          <h3>Dikkat ve Hafıza Güçlendirme</h3>
+          <p>Metni süreli oku, kaybolduktan sonra soruları yanıtlayarak dikkatini geliştir.</p>
+        </a>
+        <a class="item" href="sayisal_hafiza_pro.html">
+          <span class="badge analysis">SAYISAL</span><div class="mini-icon">🔢</div>
+          <h3>Sayısal Hafıza PRO</h3>
+          <p>Sayı dizisi, kod, telefon, plaka, işlem ve tablo hafızası antrenmanları.</p>
+        </a>
+        <a class="item" href="hata_avcisi_pro.html">
+          <span class="badge analysis">DİKKAT</span><div class="mini-icon">🕵️</div>
+          <h3>Hata Avcısı PRO</h3>
+          <p>Kısa süre gösterilen metindeki yanlış ifadeyi yakala ve dikkat tuzaklarını fark et.</p>
+        </a>
+        <a class="item" href="gorsel_hafiza_pro.html">
+          <span class="badge guide">GÖRSEL</span><div class="mini-icon">👁️</div>
+          <h3>Görsel Hafıza PRO</h3>
+          <p>Nesne, şekil, konum, tablo ve renk-sayı hafızanı süreli görsellerle geliştir.</p>
+        </a>
+      </div></div></div>
+    </article>
+
+  </section>
+
+  <footer class="footer">ENGİN360 © 2026 · Hafıza Laboratuvarı</footer>
+</main>
+
+<script>
+document.querySelectorAll('.group-head').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const current=btn.closest('.group');
+    const willOpen=!current.classList.contains('open');
+
+    document.querySelectorAll('.group').forEach(group=>{
+      group.classList.remove('open');
+      group.querySelector('.group-head').setAttribute('aria-expanded','false');
+    });
+
+    if(willOpen){
+      current.classList.add('open');
+      btn.setAttribute('aria-expanded','true');
+      setTimeout(()=>current.scrollIntoView({behavior:'smooth',block:'nearest'}),120);
+    }
+  });
+});
+</script>
 </body>
 </html>
