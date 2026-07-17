@@ -1,105 +1,678 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>ENGİN360 Pomodoro Takip Sistemi</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>ENGİN360 Odak Merkezi PRO</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
-:root{--bg:#07071f;--card:#11113a;--mor:#7c3cff;--mavi:#1d8bff;--pembe:#ff4fb3;--yesil:#22c55e;--sari:#facc15;--kirmizi:#ef4444;--text:#f8f7ff;--muted:#b9b8d8}
-*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:radial-gradient(circle at top left,#28126e 0,#07071f 38%,#030312 100%);color:var(--text);min-height:100vh;display:flex;justify-content:center;padding:18px}.app{width:min(1080px,100%)}.top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px}.brand{display:flex;gap:12px;align-items:center}.logo{width:58px;height:58px;border-radius:18px;background:linear-gradient(135deg,var(--mavi),var(--mor));box-shadow:0 0 24px #7c3cff88;display:grid;place-items:center;font-weight:900;font-size:18px}.brand h1{margin:0;font-size:26px}.brand span{color:#63b3ff}.brand p{margin:2px 0 0;color:var(--muted);font-weight:700}.pill{border:1px solid #ffffff22;background:#ffffff10;border-radius:999px;padding:10px 14px;color:#fff;font-weight:800}.grid{display:grid;grid-template-columns:1.12fr .88fr;gap:16px}.card{background:linear-gradient(180deg,#18184d,#0f0f35);border:1px solid #ffffff18;border-radius:28px;padding:22px;box-shadow:0 24px 60px #0008}.timerCard{text-align:center;position:relative;overflow:hidden}.timerCard:before{content:"";position:absolute;inset:-80px;background:radial-gradient(circle,#7c3cff22,transparent 60%);pointer-events:none}.modeTabs{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:18px;position:relative}.tab{border:1px solid #ffffff22;background:#ffffff0e;color:var(--text);border-radius:999px;padding:10px 14px;font-weight:900;cursor:pointer}.tab.active{background:linear-gradient(135deg,var(--mor),var(--mavi));box-shadow:0 0 18px #1d8bff66}.circleWrap{position:relative;width:310px;height:310px;margin:0 auto 14px}.progress{width:310px;height:310px;transform:rotate(-90deg)}.progress circle{fill:none;stroke-width:16;stroke-linecap:round}.track{stroke:#ffffff14}.bar{stroke:url(#grad);stroke-dasharray:879.6;stroke-dashoffset:0;transition:stroke-dashoffset .5s linear}.time{position:absolute;inset:0;display:grid;place-content:center}.time .big{font-size:70px;font-weight:900;letter-spacing:-3px}.time .small{color:var(--muted);font-weight:800;margin-top:6px}.status{font-size:21px;font-weight:900;margin:8px 0 18px}.controls,.actionBtns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}.btn{border:0;border-radius:16px;padding:14px 18px;color:white;font-weight:900;cursor:pointer;background:linear-gradient(135deg,var(--mor),var(--mavi));box-shadow:0 10px 25px #0005}.btn.dark{background:#ffffff12;border:1px solid #ffffff20}.btn.green{background:linear-gradient(135deg,#16a34a,#22c55e)}.btn.red{background:linear-gradient(135deg,#dc2626,#ef4444)}.btn.pink{background:linear-gradient(135deg,#db2777,#ff4fb3)}.side{display:grid;gap:16px}.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}.stat{background:#ffffff0b;border:1px solid #ffffff15;border-radius:18px;padding:16px;text-align:center}.stat b{display:block;font-size:30px}.stat span{color:var(--muted);font-weight:800;font-size:13px}.settings label{display:grid;grid-template-columns:1fr 90px;gap:10px;align-items:center;margin:10px 0;color:var(--muted);font-weight:800}.settings input,.settings textarea,.reportBox textarea{width:100%;border:1px solid #ffffff22;background:#090927;color:white;border-radius:12px;padding:10px;font-weight:900}.settings input{text-align:center}.settings textarea,.reportBox textarea{min-height:84px;resize:vertical;line-height:1.55;font-weight:700}.quote{line-height:1.6;color:#e8e6ff;font-weight:700}.tasks{display:grid;gap:8px}.task{display:flex;gap:9px;align-items:center;background:#ffffff0b;border:1px solid #ffffff13;border-radius:14px;padding:10px}.task input[type=text]{flex:1;background:transparent;border:0;color:white;font-weight:800;outline:none}.task input[type=checkbox]{width:20px;height:20px}.reportBox{margin-top:16px}.reportTitle{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}.activity{display:grid;gap:8px;margin-top:10px}.activityItem{background:#ffffff0b;border:1px solid #ffffff16;border-radius:14px;padding:11px;font-weight:800;color:#eee}.activityItem small{display:block;color:#aaa8d8;margin-top:4px;font-weight:700}.shareCard{background:linear-gradient(135deg,#121240,#09091f);border:1px solid #ffffff18;border-radius:24px;padding:20px;margin-top:16px}.shareHeader{display:flex;justify-content:space-between;gap:12px;align-items:center;border-bottom:1px solid #ffffff16;padding-bottom:12px;margin-bottom:14px}.shareHeader h2{margin:0}.miniGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.miniStat{background:#ffffff0b;border:1px solid #ffffff13;border-radius:16px;padding:12px;text-align:center}.miniStat b{display:block;font-size:28px}.miniStat span{font-size:12px;color:var(--muted);font-weight:800}.footer{margin-top:14px;text-align:center;color:#9f9dc7;font-weight:700;font-size:13px}.hiddenSave{display:none!important}@media(max-width:900px){body{padding:10px}.grid{grid-template-columns:1fr}.top{align-items:flex-start}.circleWrap,.progress{width:270px;height:270px}.time .big{font-size:58px}.brand h1{font-size:22px}.pill{display:none}.miniGrid{grid-template-columns:1fr 1fr}}@media print{.noPrint{display:none!important}body{background:white}.app{width:100%}.card,.shareCard{box-shadow:none}}
+:root{
+  --bg:#050814;
+  --card:#0b1024;
+  --card2:#0f1530;
+  --line:rgba(255,255,255,.10);
+  --text:#f8f9ff;
+  --muted:#9fa8c7;
+  --violet:#8b5cf6;
+  --cyan:#22d3ee;
+  --pink:#d946ef;
+  --green:#22c55e;
+  --amber:#f59e0b;
+  --blue:#3b82f6;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  min-height:100vh;
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(circle at 8% 4%,rgba(139,92,246,.28),transparent 30%),
+    radial-gradient(circle at 92% 16%,rgba(34,211,238,.18),transparent 28%),
+    radial-gradient(circle at 52% 92%,rgba(217,70,239,.10),transparent 34%),
+    linear-gradient(145deg,#03050d,#070b19 55%,#07111a);
+  background-size:140% 140%,135% 135%,150% 150%,100% 100%;
+  animation:pageGlow 18s ease-in-out infinite alternate;
+  padding:18px;
+}
+@keyframes pageGlow{
+  0%{background-position:0% 0%,100% 8%,50% 100%,0 0}
+  100%{background-position:10% 8%,88% 20%,58% 88%,0 0}
+}
+button,input,textarea{font:inherit}
+button{touch-action:manipulation}
+.app{width:min(1180px,100%);margin:auto}
+.topbar{
+  display:flex;align-items:center;justify-content:space-between;gap:14px;
+  margin-bottom:16px
+}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{
+  width:54px;height:54px;border-radius:18px;display:grid;place-items:center;
+  font-weight:1000;font-size:17px;background:linear-gradient(145deg,#7c3aed,#2563eb 55%,#06b6d4);
+  box-shadow:0 0 24px rgba(59,130,246,.34),inset 0 0 16px rgba(255,255,255,.10);
+  border:1px solid rgba(255,255,255,.18)
+}
+.brand h1{margin:0;font-size:24px;letter-spacing:-.5px}
+.brand h1 span{color:#63e0ff}
+.brand p{margin:3px 0 0;color:var(--muted);font-size:12px;font-weight:800}
+.topActions{display:flex;gap:8px}
+.iconBtn{
+  width:42px;height:42px;border-radius:14px;border:1px solid var(--line);
+  background:rgba(255,255,255,.05);color:#fff;cursor:pointer
+}
+
+.modebar{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:8px;
+  max-width:520px;margin:0 auto 16px;
+  padding:6px;border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.035)
+}
+.mode{
+  border:0;border-radius:13px;padding:11px 8px;color:#dfe3f4;background:transparent;
+  font-weight:900;font-size:12px;cursor:pointer
+}
+.mode.active{
+  background:linear-gradient(135deg,rgba(139,92,246,.92),rgba(99,102,241,.78));
+  box-shadow:0 0 20px rgba(139,92,246,.24)
+}
+
+.intro{
+  display:grid;grid-template-columns:1.4fr .8fr;gap:16px;
+  padding:20px;border:1px solid var(--line);border-radius:24px;
+  background:linear-gradient(135deg,rgba(139,92,246,.11),rgba(34,211,238,.04));
+  margin-bottom:16px
+}
+.intro h2{margin:0 0 6px;font-size:23px}
+.intro p{margin:0;color:var(--muted);line-height:1.55;font-size:13px}
+.quote{
+  border-left:2px solid var(--violet);padding-left:16px;color:#b8b4ff;
+  display:flex;align-items:center;justify-content:center;text-align:center;font-style:italic;font-size:13px
+}
+
+.mainGrid{
+  display:grid;grid-template-columns:minmax(320px,.95fr) minmax(360px,1.05fr);gap:16px;
+  align-items:stretch
+}
+.card{
+  border:1px solid var(--line);border-radius:26px;
+  background:linear-gradient(180deg,rgba(18,25,55,.72),rgba(8,12,29,.70));
+  backdrop-filter:blur(18px) saturate(135%);
+  -webkit-backdrop-filter:blur(18px) saturate(135%);
+  box-shadow:0 22px 56px rgba(0,0,0,.34),inset 0 1px 0 rgba(255,255,255,.06)
+}
+.timerCard{padding:20px;display:flex;flex-direction:column}
+.sectionTitle{
+  display:flex;align-items:center;gap:9px;font-size:14px;font-weight:950;color:#dfe4fb;
+  margin-bottom:12px
+}
+.timerWrap{
+  flex:1;display:grid;place-items:center;min-height:330px
+}
+.ring{
+  position:relative;width:min(310px,80vw);aspect-ratio:1;
+  display:grid;place-items:center
+}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring circle{fill:none;stroke-width:8;stroke-linecap:round}
+.track{stroke:rgba(255,255,255,.075)}
+.progress{stroke:url(#grad);filter:drop-shadow(0 0 11px rgba(34,211,238,.62)) drop-shadow(0 0 18px rgba(139,92,246,.30));transition:stroke-dashoffset .45s linear}
+.ringInner{
+  position:absolute;inset:18px;border-radius:50%;
+  display:grid;place-content:center;text-align:center;
+  background:
+    radial-gradient(circle at 50% 35%,rgba(139,92,246,.14),transparent 45%),
+    rgba(5,8,20,.74);
+  box-shadow:inset 0 0 36px rgba(59,130,246,.12)
+}
+.timeText{font-size:58px;font-weight:1000;letter-spacing:-3px;line-height:1}
+.modeText{margin-top:10px;color:#aab2cf;font-weight:850;font-size:14px}
+.tour{margin-top:10px;color:#58e8ff;font-weight:900;font-size:12px}
+.status{
+  text-align:center;color:#c9cde0;font-size:12px;line-height:1.5;
+  padding:12px;border-top:1px solid rgba(255,255,255,.07)
+}
+
+.controlsCard{padding:20px;display:grid;gap:14px}
+.controlGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mainBtn{
+  border-radius:16px;padding:15px 12px;border:1px solid var(--line);color:#fff;
+  font-weight:950;cursor:pointer;background:rgba(255,255,255,.045)
+}
+.mainBtn.start{background:linear-gradient(135deg,#6d28d9,#4f46e5);box-shadow:0 0 24px rgba(139,92,246,.20)}
+.mainBtn.pause{border-color:rgba(148,163,184,.30)}
+.mainBtn.reset{border-color:rgba(245,158,11,.45);color:#ffd993}
+.mainBtn.finish{border-color:rgba(34,197,94,.45);color:#9bf5b9}
+.divider{height:1px;background:rgba(255,255,255,.08)}
+.settingRow{
+  display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:center;
+  padding:10px 0;border-bottom:1px solid rgba(255,255,255,.055)
+}
+.settingRow:last-child{border-bottom:0}
+.settingRow strong{font-size:12px}.settingRow span{color:var(--muted);font-size:11px}
+.stepper{
+  display:flex;align-items:center;border:1px solid var(--line);border-radius:12px;overflow:hidden
+}
+.stepper button{
+  width:34px;height:34px;border:0;background:rgba(255,255,255,.045);color:#fff;cursor:pointer
+}
+.stepper input{
+  width:46px;height:34px;border:0;background:transparent;color:#fff;text-align:center;font-weight:950
+}
+.autoRow{
+  display:flex;justify-content:space-between;align-items:center;gap:12px;
+  padding-top:4px
+}
+.switch{position:relative;width:50px;height:28px}
+.switch input{display:none}
+.slider{
+  position:absolute;inset:0;border-radius:999px;background:#29314e;cursor:pointer;transition:.25s
+}
+.slider:after{
+  content:"";position:absolute;width:22px;height:22px;left:3px;top:3px;border-radius:50%;
+  background:white;transition:.25s
+}
+.switch input:checked + .slider{background:linear-gradient(90deg,var(--violet),var(--cyan))}
+.switch input:checked + .slider:after{transform:translateX(22px)}
+
+.statsCard{
+  margin-top:16px;padding:18px
+}
+.statsGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.stat{
+  padding:14px;border-radius:17px;border:1px solid var(--line);
+  background:rgba(255,255,255,.035);text-align:center
+}
+.stat b{display:block;font-size:26px}
+.stat span{display:block;color:var(--muted);font-size:10px;font-weight:850;margin-top:4px}
+
+.bottomGrid{
+  display:grid;grid-template-columns:1.05fr .95fr;gap:16px;margin-top:16px
+}
+.noteCard,.historyCard{padding:18px}
+.noteCard textarea{
+  width:100%;min-height:112px;resize:vertical;border:1px solid var(--line);border-radius:16px;
+  background:#070b1b;color:#fff;padding:13px;line-height:1.55;margin:6px 0 10px
+}
+.tags{display:flex;gap:8px;flex-wrap:wrap}
+.tag{
+  border:1px solid var(--line);border-radius:999px;padding:8px 10px;background:rgba(255,255,255,.035);
+  color:#cfd5ea;font-size:11px;font-weight:850;cursor:pointer
+}
+.tag.active{background:rgba(139,92,246,.16);border-color:rgba(139,92,246,.44);color:#e8ddff}
+.historyList{display:grid;gap:8px;max-height:180px;overflow:auto}
+.historyItem{
+  padding:11px 12px;border-radius:14px;background:rgba(255,255,255,.035);border:1px solid var(--line);
+  font-size:12px;line-height:1.45
+}
+.historyItem small{display:block;color:var(--muted);margin-top:4px}
+.empty{color:var(--muted);text-align:center;padding:28px 10px;font-size:12px}
+
+.actionBar{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px
+}
+.actionBtn{
+  border-radius:16px;padding:14px;border:1px solid var(--line);font-weight:950;color:#fff;cursor:pointer;
+  background:rgba(255,255,255,.04)
+}
+.actionBtn.purple{border-color:rgba(168,85,247,.46);color:#e9d5ff}
+.actionBtn.green{border-color:rgba(34,197,94,.42);color:#bbf7d0}
+.actionBtn.blue{border-color:rgba(59,130,246,.45);color:#bfdbfe}
+.footer{text-align:center;color:#737d9f;font-size:11px;padding:20px 0 5px}
+
+.report{
+  margin-top:16px;padding:20px;border-radius:24px;border:1px solid var(--line);
+  background:linear-gradient(135deg,#101530,#09101f)
+}
+.reportHead{display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid var(--line);padding-bottom:12px;margin-bottom:14px}
+.reportGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.reportItem{padding:13px;border-radius:15px;background:rgba(255,255,255,.04);text-align:center}
+.reportItem b{display:block;font-size:24px}.reportItem span{font-size:10px;color:var(--muted);font-weight:850}
+.reportNotes{margin-top:12px;display:grid;gap:7px}
+
+
+.mainBtn.start:not(.running){animation:startPulse 2.2s ease-in-out infinite}
+@keyframes startPulse{
+  0%,100%{box-shadow:0 0 18px rgba(139,92,246,.18)}
+  50%{box-shadow:0 0 34px rgba(139,92,246,.42),0 0 18px rgba(34,211,238,.18)}
+}
+.mainBtn.start.running{animation:none;box-shadow:0 0 30px rgba(34,211,238,.24)}
+.timerCard.running:after{
+  content:"";position:absolute;inset:-35%;pointer-events:none;
+  background:conic-gradient(from 0deg,transparent,rgba(34,211,238,.06),transparent 28%,rgba(139,92,246,.08),transparent 58%);
+  animation:ambientSpin 12s linear infinite
+}
+.timerCard{position:relative;overflow:hidden}
+.timerCard > *{position:relative;z-index:1}
+@keyframes ambientSpin{to{transform:rotate(360deg)}}
+.completeToast{
+  position:fixed;left:50%;top:18%;transform:translate(-50%,-12px) scale(.92);
+  z-index:9999;opacity:0;pointer-events:none;
+  padding:15px 20px;border-radius:18px;
+  background:linear-gradient(135deg,rgba(16,185,129,.96),rgba(14,165,233,.94));
+  color:white;font-weight:1000;letter-spacing:.2px;
+  border:1px solid rgba(255,255,255,.24);
+  box-shadow:0 18px 50px rgba(0,0,0,.35),0 0 30px rgba(34,197,94,.28);
+  transition:.28s ease
+}
+.completeToast.show{opacity:1;transform:translate(-50%,0) scale(1)}
+.stat b,.reportItem b{font-variant-numeric:tabular-nums}
+
+
+.card:before{
+  content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:linear-gradient(135deg,rgba(255,255,255,.08),transparent 28%,transparent 70%,rgba(34,211,238,.035));
+  opacity:.72
+}
+.card{position:relative;overflow:hidden}
+.card > *{position:relative;z-index:1}
+.quote{transition:opacity .35s ease,transform .35s ease}
+.quote.changing{opacity:0;transform:translateY(5px)}
+.soundOff{opacity:.55}
+
+@media(max-width:900px){
+  .mainGrid{grid-template-columns:1fr}
+  .timerCard{display:grid;grid-template-columns:minmax(210px,.86fr) 1.14fr;gap:16px;align-items:center}
+  .sectionTitle{grid-column:1/-1;margin-bottom:0}
+  .timerWrap{min-height:260px}
+  .ring{width:min(245px,64vw)}
+  .timeText{font-size:48px}
+  .status{border-top:0;border-left:1px solid rgba(255,255,255,.08);text-align:left}
+  .intro{grid-template-columns:1fr}
+  .quote{display:none}
+}
+@media(max-width:650px){
+  body{padding:10px}
+  .topbar{margin-bottom:12px}
+  .topActions{display:none}
+  .brand h1{font-size:21px}.logo{width:48px;height:48px}
+  .modebar{margin-bottom:12px}
+  .intro{display:none}
+  .mainGrid{gap:12px}
+  .timerCard{
+    grid-template-columns:1fr 1fr;
+    padding:14px;border-radius:22px;
+    min-height:auto
+  }
+  .sectionTitle{grid-column:1/-1;font-size:12px}
+  .timerWrap{min-height:210px}
+  .ring{width:min(205px,48vw)}
+  .ringInner{inset:13px}
+  .timeText{font-size:42px;letter-spacing:-2px}
+  .modeText{font-size:11px;margin-top:7px}
+  .tour{font-size:10px}
+  .status{
+    display:flex;align-items:center;justify-content:center;
+    padding:8px 8px 8px 14px;font-size:11px
+  }
+  .controlsCard{padding:14px;border-radius:22px}
+  .controlGrid{grid-template-columns:1fr 1fr}
+  .mainBtn{padding:13px 8px;font-size:12px}
+  .statsGrid{grid-template-columns:1fr 1fr}
+  .bottomGrid{grid-template-columns:1fr}
+  .actionBar{grid-template-columns:1fr}
+  .reportGrid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:420px){
+  .timerCard{grid-template-columns:1fr 1fr;gap:8px}
+  .ring{width:175px}
+  .timeText{font-size:36px}
+  .status{font-size:10px}
+  .mode{font-size:10px;padding:10px 5px}
+}
 </style>
 </head>
 <body>
 <div class="app">
-  <div class="top noPrint">
-    <div class="brand"><div class="logo">360</div><div><h1>ENGİN<span>360</span> Pomodoro</h1><p>Odaklan • Bitir • Ne yaptığını kaydet • Paylaş</p></div></div>
-    <div class="pill" id="todayText">Bugün: 0 pomodoro</div>
-  </div>
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo">360</div>
+      <div><h1>ENGİN<span>360</span> Odak Merkezi PRO</h1><p>Odaklan · Kaydet · İlerle</p></div>
+    </div>
+    <div class="topActions">
+      <button class="iconBtn" id="soundBtn" onclick="toggleSound()" title="Ses">🔊</button>
+      <button class="iconBtn">📊</button>
+      <button class="iconBtn">⚙️</button>
+    </div>
+  </header>
 
-  <div id="captureArea">
-  <div class="grid">
-    <div class="card timerCard">
-      <div class="modeTabs noPrint">
-        <button class="tab active" onclick="setMode('focus')">🎯 Odak</button>
-        <button class="tab" onclick="setMode('short')">☕ Kısa Mola</button>
-        <button class="tab" onclick="setMode('long')">🌙 Uzun Mola</button>
-      </div>
-      <div class="circleWrap">
-        <svg class="progress" viewBox="0 0 310 310"><defs><linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#7c3cff"/><stop offset="100%" stop-color="#1d8bff"/></linearGradient></defs><circle class="track" cx="155" cy="155" r="140"></circle><circle id="bar" class="bar" cx="155" cy="155" r="140"></circle></svg>
-        <div class="time"><div class="big" id="timeText">25:00</div><div class="small" id="modeText">Odak zamanı</div></div>
-      </div>
-      <div class="status" id="statusText">Hazırsan başla. Telefonu uzaklaştır, tek işe kilitlen.</div>
-      <div class="controls noPrint">
-        <button class="btn green" id="startBtn" onclick="toggleTimer()">Başla</button><button class="btn dark" onclick="resetTimer()">Sıfırla</button><button class="btn red" onclick="finishSession()">Tamamlandı Say</button>
-      </div>
-      <div class="reportBox">
-        <div class="reportTitle"><h2>📝 Bu Pomodoro'da Ne Yaptım?</h2><button class="btn dark noPrint" onclick="addActivity()">Listeye Ekle</button></div>
-        <textarea id="currentWork" placeholder="Örn: Parabol konu tekrarı yaptım, 20 soru çözdüm, yanlışları not aldım."></textarea>
-        <div class="activity" id="activityList"></div>
-      </div>
+  <nav class="modebar">
+    <button class="mode active" onclick="setMode('focus')">🎯 Odak</button>
+    <button class="mode" onclick="setMode('short')">☕ Kısa Mola</button>
+    <button class="mode" onclick="setMode('long')">🌙 Uzun Mola</button>
+  </nav>
+
+  <section class="intro">
+    <div>
+      <h2>Odaklan. Planla. Tamamla. Geliş.</h2>
+      <p>25 dakika boyunca yalnızca seçtiğin işe odaklan. Bitirdiğinde yaptığını kaydet ve çalışma zincirini büyüt.</p>
+    </div>
+    <div class="quote" id="quoteText">“Başarı küçük odaklanma anlarının toplamıdır.”</div>
+  </section>
+
+  <main>
+    <div class="mainGrid">
+      <section class="card timerCard">
+        <div class="sectionTitle">◷ POMODORO SAYAÇ</div>
+        <div class="timerWrap">
+          <div class="ring">
+            <svg viewBox="0 0 220 220">
+              <defs>
+                <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#d946ef"/>
+                  <stop offset="50%" stop-color="#8b5cf6"/>
+                  <stop offset="100%" stop-color="#22d3ee"/>
+                </linearGradient>
+              </defs>
+              <circle class="track" cx="110" cy="110" r="95"></circle>
+              <circle id="progressCircle" class="progress" cx="110" cy="110" r="95"></circle>
+            </svg>
+            <div class="ringInner">
+              <div class="timeText" id="timeText">25:00</div>
+              <div class="modeText" id="modeText">Odak Zamanı</div>
+              <div class="tour" id="tourText">1/4 Tur</div>
+            </div>
+          </div>
+        </div>
+        <div class="status" id="statusText">Hazır mısın? Tek hedef seç ve başla.</div>
+      </section>
+
+      <section class="card controlsCard">
+        <div class="sectionTitle">▣ KONTROLLER</div>
+        <div class="controlGrid">
+          <button class="mainBtn start" id="startBtn" onclick="startTimer()">▶ BAŞLAT</button>
+          <button class="mainBtn pause" onclick="pauseTimer()">Ⅱ DURAKLAT</button>
+          <button class="mainBtn reset" onclick="resetTimer()">↻ SIFIRLA</button>
+          <button class="mainBtn finish" onclick="finishPomodoro()">✓ TAMAMLA</button>
+        </div>
+
+        <div class="divider"></div>
+
+        <div>
+          <div class="sectionTitle">SÜRE AYARLARI</div>
+          <div class="settingRow">
+            <div><strong>🎯 Odak Süresi</strong><span id="focusLabel">25 dk</span></div>
+            <div></div>
+            <div class="stepper"><button onclick="step('focus',-1)">−</button><input id="focusInput" value="25" readonly><button onclick="step('focus',1)">+</button></div>
+          </div>
+          <div class="settingRow">
+            <div><strong>☕ Kısa Mola</strong><span id="shortLabel">5 dk</span></div>
+            <div></div>
+            <div class="stepper"><button onclick="step('short',-1)">−</button><input id="shortInput" value="5" readonly><button onclick="step('short',1)">+</button></div>
+          </div>
+          <div class="settingRow">
+            <div><strong>🌙 Uzun Mola</strong><span id="longLabel">15 dk</span></div>
+            <div></div>
+            <div class="stepper"><button onclick="step('long',-1)">−</button><input id="longInput" value="15" readonly><button onclick="step('long',1)">+</button></div>
+          </div>
+        </div>
+
+        <div class="autoRow">
+          <div><strong style="font-size:12px">OTOMATİK GEÇİŞ</strong><div style="color:var(--muted);font-size:11px;margin-top:4px">Süre bitince sonraki moda geç.</div></div>
+          <label class="switch"><input id="autoSwitch" type="checkbox"><span class="slider"></span></label>
+        </div>
+      </section>
     </div>
 
-    <div class="side">
-      <div class="card">
-        <h2>📊 Pomodoro Sayacı</h2>
-        <div class="stats"><div class="stat"><b id="todayCount">0</b><span>Bugün</span></div><div class="stat"><b id="weekCount">0</b><span>Bu Hafta</span></div><div class="stat"><b id="focusMinute">0</b><span>Odak dk</span></div><div class="stat"><b id="streakCount">0</b><span>Seri</span></div></div>
+    <section class="card statsCard">
+      <div class="sectionTitle">♧ BUGÜNKÜ İSTATİSTİKLER</div>
+      <div class="statsGrid">
+        <div class="stat"><b id="todayCount">0</b><span>TAMAMLANAN</span></div>
+        <div class="stat"><b id="streakCount">0</b><span>SERİ</span></div>
+        <div class="stat"><b id="focusMinutes">0 dk</b><span>ODAK SÜRESİ</span></div>
+        <div class="stat"><b id="goalPercent">%0</b><span>GÜNLÜK HEDEF</span></div>
       </div>
-      <div class="card settings noPrint"><h2>⚙️ Süre Ayarları</h2><label>Odak süresi <input id="focusMin" type="number" value="25" min="1" onchange="applySettings()"></label><label>Kısa mola <input id="shortMin" type="number" value="5" min="1" onchange="applySettings()"></label><label>Uzun mola <input id="longMin" type="number" value="15" min="1" onchange="applySettings()"></label><button class="btn dark" onclick="clearStats()">Sayaçları Temizle</button></div>
-      <div class="card quote" id="coachNote">Bugünkü hedef mükemmel çalışmak değil; başladığın işi bölmeden bitirmek. Bir pomodoro bile disiplin kasını güçlendirir.</div>
+    </section>
+
+    <div class="bottomGrid">
+      <section class="card noteCard">
+        <div class="sectionTitle">▣ BU POMODORO'DA NE YAPTIM?</div>
+        <textarea id="noteInput" placeholder="Bugün ne üzerinde çalıştığını yaz..."></textarea>
+        <div class="tags">
+          <button class="tag active" data-tag="Matematik">Matematik</button>
+          <button class="tag" data-tag="Fizik">Fizik</button>
+          <button class="tag" data-tag="Kimya">Kimya</button>
+          <button class="tag" data-tag="Türkçe">Türkçe</button>
+          <button class="tag" data-tag="Diğer">Diğer</button>
+        </div>
+      </section>
+
+      <section class="card historyCard">
+        <div class="sectionTitle">◴ SON POMODOROLAR</div>
+        <div class="historyList" id="historyList"></div>
+      </section>
     </div>
-  </div>
 
-  <div class="shareCard" id="shareCard">
-    <div class="shareHeader"><div class="brand"><div class="logo">360</div><div><h2>Pomodoro Çalışma Özeti</h2><p>ENGİN360 Öğrenci Takip ve Koçluk Sistemi</p></div></div><div id="shareDate"></div></div>
-    <div class="miniGrid"><div class="miniStat"><b id="sToday">0</b><span>Bugünkü Pomodoro</span></div><div class="miniStat"><b id="sWeek">0</b><span>Haftalık Pomodoro</span></div><div class="miniStat"><b id="sMin">0</b><span>Toplam Odak Dakikası</span></div><div class="miniStat"><b id="sStreak">0</b><span>Seri</span></div></div>
-    <h3>Bugün yapılan çalışmalar</h3><div id="shareActivities" class="activity"></div>
-    <p class="quote" id="shareComment">Bugünkü çalışma özeti otomatik oluşturulacaktır.</p>
-  </div>
-  </div>
+    <section class="report" id="reportCard">
+      <div class="reportHead">
+        <div class="brand"><div class="logo">360</div><div><h1 style="font-size:18px">Pomodoro Çalışma Özeti</h1><p>ENGİN360 Takip Sistemi</p></div></div>
+        <div id="reportDate" style="color:var(--muted);font-size:11px"></div>
+      </div>
+      <div class="reportGrid">
+        <div class="reportItem"><b id="rToday">0</b><span>BUGÜN</span></div>
+        <div class="reportItem"><b id="rWeek">0</b><span>BU HAFTA</span></div>
+        <div class="reportItem"><b id="rMinutes">0</b><span>ODAK DK</span></div>
+        <div class="reportItem"><b id="rStreak">0</b><span>SERİ</span></div>
+      </div>
+      <div class="reportNotes" id="reportNotes"></div>
+    </section>
 
-  <div class="actionBtns noPrint" style="margin-top:16px"><button class="btn" onclick="saveImage()">📸 Özet Görsel Kaydet</button><button class="btn pink" onclick="shareWhatsapp()">📲 WhatsApp'a Gönder</button><button class="btn dark" onclick="copyWhatsappText()">Metni Kopyala</button></div>
-  <div class="footer">ENGİN360 Öğrenci Takip ve Koçluk Sistemi</div>
+    <div class="actionBar">
+      <button class="actionBtn purple" onclick="saveReport()">▣ RAPOR GÖRSELİ OLUŞTUR</button>
+      <button class="actionBtn green" onclick="copyWhatsapp()">◉ WHATSAPP ÖZETİNİ KOPYALA</button>
+      <button class="actionBtn blue" onclick="scrollHistory()">▦ GEÇMİŞİ GÖRÜNTÜLE</button>
+    </div>
+  </main>
+
+  <footer class="footer">ENGİN360 © 2026 · Odaklan, İlerle, Zirveye Ulaş</footer>
 </div>
-<audio id="beep"><source src="data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAESsAACJWAAACABAAZGF0YQAAAAA=" type="audio/wav"></audio>
+<div class="completeToast" id="completeToast">✓ Pomodoro tamamlandı</div>
+
 <script>
-let mode='focus', running=false, timer=null, total=25*60, left=total;
-const modes={focus:{label:'Odak zamanı',status:'Tek hedef, tek ekran, tek iş. Başlıyoruz.',key:'focusMin'},short:{label:'Kısa mola',status:'Kısa mola. Ayağa kalk, su iç, ekrana bakma.',key:'shortMin'},long:{label:'Uzun mola',status:'Uzun mola. Zihin toparlanıyor, sonra tekrar devam.',key:'longMin'}};
-function el(id){return document.getElementById(id)}
-function todayKey(){return new Date().toISOString().slice(0,10)}
-function weekKey(){const d=new Date(); const onejan=new Date(d.getFullYear(),0,1); const week=Math.ceil((((d-onejan)/86400000)+onejan.getDay()+1)/7); return d.getFullYear()+'-W'+week}
-function getStore(){return JSON.parse(localStorage.getItem('engin360_pomodoro_v2')||'{}')}
-function setStore(s){localStorage.setItem('engin360_pomodoro_v2',JSON.stringify(s))}
-function getActivities(){const s=getStore(); return s.activities?.[todayKey()]||[]}
-function setActivities(arr){const s=getStore(); s.activities=s.activities||{}; s.activities[todayKey()]=arr.slice(-12); setStore(s)}
-function applySettings(){ if(!running){ total=(parseInt(el(modes[mode].key).value)||25)*60; left=total; updateUI(); }}
-function setMode(m){ mode=m; document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active')); document.querySelectorAll('.tab')[m==='focus'?0:m==='short'?1:2].classList.add('active'); running=false; clearInterval(timer); el('startBtn').textContent='Başla'; total=(parseInt(el(modes[mode].key).value)||25)*60; left=total; updateUI(); }
-function updateUI(){ const mm=String(Math.floor(left/60)).padStart(2,'0'), ss=String(left%60).padStart(2,'0'); el('timeText').textContent=mm+':'+ss; el('modeText').textContent=modes[mode].label; el('statusText').textContent=modes[mode].status; const circ=2*Math.PI*140; const pct=left/total; el('bar').style.strokeDasharray=circ; el('bar').style.strokeDashoffset=circ*(1-pct); document.title=mm+':'+ss+' | ENGİN360 Pomodoro'; updateStats(); renderActivities(); }
-function toggleTimer(){ if(running){running=false; clearInterval(timer); el('startBtn').textContent='Devam Et'; return;} running=true; el('startBtn').textContent='Duraklat'; timer=setInterval(()=>{ left--; if(left<=0){ completeMode(); } updateUI();},1000); }
-function resetTimer(){ running=false; clearInterval(timer); el('startBtn').textContent='Başla'; left=total; updateUI(); }
-function completeMode(){ running=false; clearInterval(timer); left=0; try{el('beep').play()}catch(e){} if(mode==='focus') finishSession(true); else el('statusText').textContent='Mola tamamlandı. Yeni odak turuna hazırsın.'; el('startBtn').textContent='Başla'; }
-function finishSession(auto=false){ if(mode!=='focus' && !auto){setMode('focus');return;} const work=(el('currentWork').value||'Odak çalışması yapıldı.').trim(); if(work) addActivity(work,true); const s=getStore(); const t=todayKey(), w=weekKey(); s[t]=(s[t]||0)+1; s[w]=(s[w]||0)+1; s.focusMinutes=(s.focusMinutes||0)+(parseInt(el('focusMin').value)||25); s.streak=(s.streak||0)+1; setStore(s); updateStats(); el('currentWork').value=''; el('coachNote').textContent='Güzel. Bir pomodoro tamamlandı. Şimdi kısa bir mola ver; sonra aynı disiplinle devam.'; setMode(s.streak%4===0?'long':'short'); }
-function addActivity(text, silent=false){const val=(text || el('currentWork').value || '').trim(); if(!val){if(!silent) alert('Önce bu pomodoro içinde ne yaptığını yaz.'); return;} const arr=getActivities(); const time=new Date().toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'}); arr.push({text:val,time}); setActivities(arr); if(!text) el('currentWork').value=''; renderActivities(); updateShareCard();}
-function renderActivities(){const arr=getActivities(); const box=el('activityList'); if(!box) return; box.innerHTML=arr.length?arr.map((a,i)=>`<div class="activityItem">${i+1}. ${escapeHtml(a.text)}<small>${a.time}</small></div>`).join(''):'<div class="activityItem">Henüz çalışma notu eklenmedi.<small>Pomodoro bitince buraya yaptıklarını yazabilirsin.</small></div>'; updateShareCard();}
-function updateStats(){ const s=getStore(); const t=s[todayKey()]||0, w=s[weekKey()]||0; el('todayCount').textContent=t; el('weekCount').textContent=w; el('focusMinute').textContent=s.focusMinutes||0; el('streakCount').textContent=s.streak||0; el('todayText').textContent='Bugün: '+t+' pomodoro'; updateShareCard(); }
-function updateShareCard(){const s=getStore(); const arr=getActivities(); el('shareDate').textContent=new Date().toLocaleDateString('tr-TR'); el('sToday').textContent=s[todayKey()]||0; el('sWeek').textContent=s[weekKey()]||0; el('sMin').textContent=s.focusMinutes||0; el('sStreak').textContent=s.streak||0; el('shareActivities').innerHTML=arr.length?arr.map((a,i)=>`<div class="activityItem">${i+1}. ${escapeHtml(a.text)}<small>${a.time}</small></div>`).join(''):'<div class="activityItem">Bugün için çalışma notu eklenmedi.</div>'; const count=s[todayKey()]||0; el('shareComment').textContent=count>=4?'Bugün çok güçlü bir odak temposu yakalandı. Kısa tekrar ve yanlış analiziyle çalışma kalitesi daha da artar.':count>=2?'Bugün iyi bir odak başlangıcı yapıldı. Aynı düzen korunursa haftalık hedefe ulaşmak kolaylaşır.':count>=1?'Bugün en az bir odak turu tamamlandı. Önemli olan başlamak ve ritmi korumak.':'Bugün henüz tamamlanan pomodoro yok. Küçük bir hedef seçip ilk turla başlamak yeterli.';}
-function makeWhatsappText(){const s=getStore(); const arr=getActivities(); const lines=arr.map((a,i)=>`${i+1}) ${a.text}`).join('\n'); return `ENGİN360 Pomodoro Çalışma Özeti\n\nBugünkü pomodoro: ${s[todayKey()]||0}\nBu haftaki pomodoro: ${s[weekKey()]||0}\nToplam odak dakikası: ${s.focusMinutes||0}\nSeri: ${s.streak||0}\n\nBugün yapılanlar:\n${lines||'Henüz çalışma notu eklenmedi.'}\n\n${el('shareComment').textContent}`;}
-function copyWhatsappText(){const msg=makeWhatsappText(); if(navigator.clipboard){navigator.clipboard.writeText(msg).then(()=>alert('WhatsApp metni kopyalandı.')).catch(()=>prompt('Metin:',msg));}else prompt('Metin:',msg)}
-function shareWhatsapp(){const msg=encodeURIComponent(makeWhatsappText()); window.open('https://wa.me/?text='+msg,'_blank');}
-async function saveImage(){
-  updateShareCard();
-  const node=el('shareCard');
-  node.scrollIntoView({block:'center'});
-  await new Promise(r=>setTimeout(r,150));
-  const canvas=await html2canvas(node,{scale:2.5,backgroundColor:'#07071f',useCORS:true});
-  const a=document.createElement('a');
-  a.href=canvas.toDataURL('image/png');
-  a.download='ENGIN360_Pomodoro_Ozet_Raporu.png';
-  a.click();
+const KEY='engin360_pomodoro_professional';
+let mode='focus',running=false,timer=null,selectedTag='Matematik';
+let settings={focus:25,short:5,long:15};
+let left=settings.focus*60,total=left;
+
+const modeData={
+  focus:{label:'Odak Zamanı',status:'Hazır mısın? Tek hedef seç ve başla.'},
+  short:{label:'Kısa Mola',status:'Ayağa kalk, su iç ve ekrandan uzaklaş.'},
+  long:{label:'Uzun Mola',status:'Zihnini dinlendir. Yeni tur için enerjini yenile.'}
+};
+
+function store(){return JSON.parse(localStorage.getItem(KEY)||'{}')}
+function saveStore(s){localStorage.setItem(KEY,JSON.stringify(s))}
+function dateKey(){return new Date().toISOString().slice(0,10)}
+function weekKey(){const d=new Date(),jan=new Date(d.getFullYear(),0,1);return d.getFullYear()+'-'+Math.ceil((((d-jan)/86400000)+jan.getDay()+1)/7)}
+function modeMinutes(){return settings[mode]}
+
+
+const motivationQuotes=[
+  "Başarı küçük odaklanma anlarının toplamıdır.",
+  "Bugünkü disiplin, yarının özgürlüğüdür.",
+  "Bir adım küçük olabilir; yönün doğru olsun.",
+  "Odaklandığın şey büyür.",
+  "Mükemmel olmak zorunda değilsin, devam etmen yeterli.",
+  "Zor olan başlamak değil, istikrarlı kalmaktır.",
+  "Her pomodoro hedefe atılmış net bir adımdır.",
+  "Dikkatini koru; ilerlemen seni şaşırtacak.",
+  "Bugün yaptığın çalışma, gelecekteki gücündür.",
+  "Sessiz ilerleme, güçlü sonuçlar doğurur.",
+  "Bir tur daha, bir adım daha.",
+  "Odak süren kısa olabilir; etkisi uzun sürer."
+];
+let soundEnabled=true;
+let audioCtx=null;
+
+function ensureAudio(){
+  if(!audioCtx){
+    audioCtx=new (window.AudioContext||window.webkitAudioContext)();
+  }
+  if(audioCtx.state==='suspended')audioCtx.resume();
 }
-function clearStats(){ if(confirm('Pomodoro sayaçları ve bugünkü çalışma notları temizlensin mi?')){localStorage.removeItem('engin360_pomodoro_v2'); updateStats(); renderActivities();}}
+function tone(freq,duration,type='sine',volume=.05,delay=0){
+  if(!soundEnabled)return;
+  ensureAudio();
+  const o=audioCtx.createOscillator(),g=audioCtx.createGain();
+  o.type=type;o.frequency.value=freq;
+  g.gain.setValueAtTime(0,audioCtx.currentTime+delay);
+  g.gain.linearRampToValueAtTime(volume,audioCtx.currentTime+delay+.015);
+  g.gain.exponentialRampToValueAtTime(.0001,audioCtx.currentTime+delay+duration);
+  o.connect(g);g.connect(audioCtx.destination);
+  o.start(audioCtx.currentTime+delay);o.stop(audioCtx.currentTime+delay+duration+.02);
+}
+function playStartSound(){
+  tone(520,.09,'sine',.035,0);tone(690,.12,'sine',.03,.08)
+}
+function playCompleteSound(){
+  tone(523,.18,'sine',.05,0);
+  tone(659,.20,'sine',.05,.14);
+  tone(784,.32,'sine',.055,.28);
+}
+function toggleSound(){
+  soundEnabled=!soundEnabled;
+  const b=document.getElementById('soundBtn');
+  if(b){b.textContent=soundEnabled?'🔊':'🔇';b.classList.toggle('soundOff',!soundEnabled)}
+  localStorage.setItem(KEY+'_sound',soundEnabled?'1':'0')
+}
+function initSound(){
+  soundEnabled=localStorage.getItem(KEY+'_sound')!=='0';
+  const b=document.getElementById('soundBtn');
+  if(b){b.textContent=soundEnabled?'🔊':'🔇';b.classList.toggle('soundOff',!soundEnabled)}
+}
+function setRandomQuote(){
+  const q=document.getElementById('quoteText');
+  if(!q)return;
+  q.classList.add('changing');
+  setTimeout(()=>{
+    q.textContent='“'+motivationQuotes[Math.floor(Math.random()*motivationQuotes.length)]+'”';
+    q.classList.remove('changing')
+  },220)
+}
+
+function animateNumber(id,newValue,suffix=''){
+  const node=document.getElementById(id);
+  if(!node)return;
+  const old=parseInt(node.dataset.value||node.textContent)||0;
+  node.dataset.value=newValue;
+  const start=performance.now(),duration=420;
+  function frame(now){
+    const p=Math.min(1,(now-start)/duration);
+    const eased=1-Math.pow(1-p,3);
+    node.textContent=Math.round(old+(newValue-old)*eased)+suffix;
+    if(p<1)requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame)
+}
+function setRunningVisual(active){
+  document.querySelector('.timerCard')?.classList.toggle('running',active);
+  document.getElementById('startBtn')?.classList.toggle('running',active)
+}
+function showCompleteToast(){
+  playCompleteSound();
+  const toast=document.getElementById('completeToast');
+  if(!toast)return;
+  toast.classList.add('show');
+  setTimeout(()=>toast.classList.remove('show'),1800)
+}
+
+function renderTimer(){
+  const m=String(Math.floor(left/60)).padStart(2,'0'),s=String(left%60).padStart(2,'0');
+  document.getElementById('timeText').textContent=m+':'+s;
+  document.getElementById('modeText').textContent=modeData[mode].label;
+  document.getElementById('statusText').textContent=modeData[mode].status;
+  const c=2*Math.PI*95;
+  const p=document.getElementById('progressCircle');
+  p.style.strokeDasharray=c;
+  p.style.strokeDashoffset=c*(1-left/total);
+  document.title=m+':'+s+' | ENGİN360';
+}
+function setMode(m){
+  mode=m;running=false;setRunningVisual(false);clearInterval(timer);
+  document.querySelectorAll('.mode').forEach((b,i)=>b.classList.toggle('active',i===({focus:0,short:1,long:2}[m])));
+  total=settings[m]*60;left=total;
+  document.getElementById('startBtn').textContent='▶ BAŞLAT';
+  renderTimer()
+}
+function startTimer(){
+  if(running)return;
+  running=true;setRunningVisual(true);playStartSound();document.getElementById('startBtn').textContent='▶ ÇALIŞIYOR';
+  timer=setInterval(()=>{
+    left--;
+    if(left<=0){clearInterval(timer);running=false;setRunningVisual(false);left=0;renderTimer();completeAuto();return}
+    renderTimer()
+  },1000)
+}
+function pauseTimer(){running=false;setRunningVisual(false);clearInterval(timer);document.getElementById('startBtn').textContent='▶ DEVAM ET'}
+function resetTimer(){running=false;setRunningVisual(false);clearInterval(timer);left=total;document.getElementById('startBtn').textContent='▶ BAŞLAT';renderTimer()}
+function step(type,delta){
+  settings[type]=Math.max(1,settings[type]+delta);
+  document.getElementById(type+'Input').value=settings[type];
+  document.getElementById(type+'Label').textContent=settings[type]+' dk';
+  if(mode===type){total=settings[type]*60;left=total;renderTimer()}
+}
+function completeAuto(){
+  if(mode==='focus')finishPomodoro(true);
+  if(document.getElementById('autoSwitch').checked){
+    setTimeout(()=>{setMode(mode==='focus'?'short':'focus');startTimer()},800)
+  }
+}
+function finishPomodoro(auto=false){
+  if(mode!=='focus'&&!auto){setMode('focus');return}
+  showCompleteToast();setRandomQuote();
+  const s=store(),d=dateKey(),w=weekKey();
+  s.today=s.today||{};s.week=s.week||{};s.history=s.history||[];
+  s.today[d]=(s.today[d]||0)+1;s.week[w]=(s.week[w]||0)+1;
+  s.minutes=(s.minutes||0)+settings.focus;s.streak=(s.streak||0)+1;
+  const note=(document.getElementById('noteInput').value||'Odak çalışması tamamlandı.').trim();
+  s.history.unshift({date:d,time:new Date().toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'}),tag:selectedTag,note});
+  s.history=s.history.slice(0,30);saveStore(s);
+  document.getElementById('noteInput').value='';
+  updateAll();
+  if(!auto)setMode('short')
+}
+function updateAll(){
+  const s=store(),today=s.today?.[dateKey()]||0,week=s.week?.[weekKey()]||0,min=s.minutes||0,streak=s.streak||0;
+  animateNumber('todayCount',today);
+  animateNumber('streakCount',streak);
+  animateNumber('focusMinutes',min,' dk');
+  const goal=Math.min(100,Math.round(min/300*100));
+  const goalNode=document.getElementById('goalPercent');
+  if(goalNode){goalNode.dataset.value=goal;goalNode.textContent='%'+goal}
+  document.getElementById('tourText').textContent=((today%4)+1)+'/4 Tur';
+  animateNumber('rToday',today);
+  animateNumber('rWeek',week);
+  animateNumber('rMinutes',min);
+  animateNumber('rStreak',streak);
+  document.getElementById('reportDate').textContent=new Date().toLocaleDateString('tr-TR');
+  renderHistory(s.history||[])
+}
+function renderHistory(items){
+  const list=document.getElementById('historyList');
+  if(!items.length){list.innerHTML='<div class="empty">Henüz pomodoro kaydın yok.<br>İlk odak turunu başlat.</div>'}
+  else list.innerHTML=items.slice(0,6).map(x=>`<div class="historyItem"><b>${escapeHtml(x.tag)}</b> · ${escapeHtml(x.note)}<small>${x.date} · ${x.time}</small></div>`).join('');
+  document.getElementById('reportNotes').innerHTML=items.slice(0,5).map((x,i)=>`<div class="historyItem">${i+1}. <b>${escapeHtml(x.tag)}</b> · ${escapeHtml(x.note)}</div>`).join('')||'<div class="empty">Henüz kayıt yok.</div>'
+}
+document.querySelectorAll('.tag').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('.tag').forEach(x=>x.classList.remove('active'));b.classList.add('active');selectedTag=b.dataset.tag
+}));
+function whatsappText(){
+  const s=store(),today=s.today?.[dateKey()]||0,week=s.week?.[weekKey()]||0,min=s.minutes||0;
+  const notes=(s.history||[]).filter(x=>x.date===dateKey()).slice(0,6).map((x,i)=>`${i+1}) ${x.tag}: ${x.note}`).join('\n');
+  return `ENGİN360 Pomodoro Özeti\n\nBugün: ${today} pomodoro\nBu hafta: ${week} pomodoro\nToplam odak: ${min} dakika\nSeri: ${s.streak||0}\n\nBugünkü çalışmalar:\n${notes||'Henüz çalışma kaydı yok.'}`
+}
+async function copyWhatsapp(){
+  const t=whatsappText();
+  try{await navigator.clipboard.writeText(t);alert('WhatsApp özeti kopyalandı.')}catch(e){prompt('Metni kopyala:',t)}
+}
+async function saveReport(){
+  const node=document.getElementById('reportCard');
+  const canvas=await html2canvas(node,{scale:2.5,backgroundColor:'#08101f'});
+  const a=document.createElement('a');a.href=canvas.toDataURL('image/png');a.download='ENGIN360_Pomodoro_Raporu.png';a.click()
+}
+function scrollHistory(){document.querySelector('.historyCard').scrollIntoView({behavior:'smooth',block:'center'})}
 function escapeHtml(str){return String(str).replace(/[&<>'"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#039;','"':'&quot;'}[m]))}
-updateUI(); renderActivities(); updateShareCard();
+initSound();setRandomQuote();renderTimer();updateAll();
 </script>
 </body>
 </html>
