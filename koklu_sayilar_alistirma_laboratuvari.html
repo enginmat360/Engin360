@@ -3,22 +3,75 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>ENGİN360 Köklü Sayılar Alıştırma Laboratuvarı</title>
+<title>ENGİN360 MLS | Köklü Sayılar Laboratuvarı</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',Arial,sans-serif}
 body{min-height:100vh;color:#fff;padding:18px;background:radial-gradient(circle at top left,rgba(168,85,247,.35),transparent 34%),radial-gradient(circle at bottom right,rgba(14,165,233,.32),transparent 36%),linear-gradient(135deg,#05010d,#120024,#06142f)}
 .container{max-width:1180px;margin:auto}.hero{text-align:center;padding:30px 18px;border-radius:28px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);box-shadow:0 0 34px rgba(124,58,237,.34);backdrop-filter:blur(12px);margin-bottom:18px}.logo{font-size:36px;font-weight:900;background:linear-gradient(90deg,#a855f7,#38bdf8,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent}.subtitle{margin-top:10px;color:#ded9ff;font-size:15px;line-height:1.5}.tabs{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:18px 0}.tab{border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.08);color:#fff;padding:11px 14px;border-radius:15px;font-weight:800;cursor:pointer}.tab.active{background:linear-gradient(135deg,#7c3cff,#1477ff);box-shadow:0 0 18px rgba(56,189,248,.35)}.panel{display:none}.panel.active{display:block}.grid{display:grid;grid-template-columns:1.15fr .85fr;gap:16px}.card{background:rgba(255,255,255,.075);border:1px solid rgba(255,255,255,.14);border-radius:24px;padding:20px;box-shadow:0 12px 26px rgba(0,0,0,.25);backdrop-filter:blur(10px)}h2{font-size:23px;margin-bottom:12px;color:#fff}h3{font-size:18px;margin:16px 0 10px;color:#aee7ff}.muted{color:#d8daf7;font-size:14px;line-height:1.55}.row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}.input,select{width:100%;padding:13px;border-radius:14px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.1);color:#fff;font-weight:800;outline:none}select option{color:#111}.btn{border:0;border-radius:14px;padding:13px 16px;font-weight:900;color:#fff;cursor:pointer;background:linear-gradient(135deg,#7c3cff,#1477ff);box-shadow:0 8px 18px rgba(20,119,255,.25)}.btn.secondary{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.16)}.result{margin-top:12px;padding:16px;border-radius:18px;background:rgba(15,23,42,.55);border:1px solid rgba(255,255,255,.12);line-height:1.8;font-weight:750}.big{font-size:34px;font-weight:950;color:#7dd3fc}.steps{display:grid;gap:10px;margin-top:12px}.step{padding:12px;border-radius:15px;background:rgba(255,255,255,.08);border-left:4px solid #38bdf8;line-height:1.55}.numberline{height:125px;background:rgba(255,255,255,.06);border-radius:18px;margin-top:14px;position:relative;padding:20px 18px}.axis{position:absolute;left:35px;right:35px;top:64px;height:3px;background:#dbeafe;border-radius:99px}.tick{position:absolute;top:53px;width:2px;height:24px;background:#dbeafe}.tick span{position:absolute;top:25px;left:50%;transform:translateX(-50%);font-size:12px;color:#dbeafe}.marker{position:absolute;top:43px;width:22px;height:22px;border-radius:50%;background:#ec4899;box-shadow:0 0 16px #ec4899;transform:translateX(-50%)}.markerLabel{position:absolute;top:14px;transform:translateX(-50%);font-weight:900;color:#fff;background:#7c3cff;padding:5px 8px;border-radius:10px;font-size:12px;white-space:nowrap}.miniGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:10px}.mini{padding:13px;border-radius:16px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);font-weight:800;line-height:1.5}.quizBox{display:grid;gap:12px}.question{padding:16px;border-radius:18px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.13)}.qTitle{font-size:20px;font-weight:950;margin-bottom:9px}.options{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:9px}.opt{padding:11px;border-radius:13px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.14);cursor:pointer;text-align:center;font-weight:850}.opt.selected{background:#1477ff}.opt.correct{background:#16a34a}.opt.wrong{background:#ef4444}.scoreGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}.score{padding:14px;border-radius:18px;text-align:center;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.13)}.score b{font-size:28px;display:block}.analysis{white-space:pre-wrap}.footer{text-align:center;color:#aaa;font-size:12px;margin:25px 0 8px}@media(max-width:900px){.grid{grid-template-columns:1fr}.scoreGrid{grid-template-columns:1fr 1fr}.row{grid-template-columns:1fr}.logo{font-size:31px}}
+
+:root{--violet:#8b5cf6;--cyan:#22d3ee;--pink:#f472b6;--green:#34d399;--amber:#fbbf24}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);background-size:34px 34px;mask-image:linear-gradient(to bottom,black,transparent 80%)}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}
+.back{display:inline-flex;align-items:center;gap:8px;color:#e9e5ff;text-decoration:none;font-weight:850;padding:10px 13px;border-radius:14px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.13)}
+.mlsBadge{padding:9px 13px;border-radius:999px;font-size:12px;font-weight:950;letter-spacing:.8px;background:linear-gradient(135deg,rgba(139,92,246,.28),rgba(34,211,238,.22));border:1px solid rgba(125,211,252,.32);box-shadow:0 0 20px rgba(34,211,238,.12)}
+.hero{position:relative;overflow:hidden}.hero:after{content:"√";position:absolute;right:24px;top:-28px;font-size:150px;font-weight:950;color:rgba(255,255,255,.035);transform:rotate(-8deg)}
+.heroTitle{font-size:clamp(28px,5vw,52px);font-weight:950;margin-top:6px;letter-spacing:-1.2px}
+.heroTitle span{background:linear-gradient(90deg,#c084fc,#67e8f9,#f9a8d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.heroActions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:17px}
+.studentInput{max-width:280px;padding:12px 14px;border-radius:15px;border:1px solid rgba(255,255,255,.16);background:rgba(5,8,25,.45);color:white;font-weight:800;outline:none}
+.dashboard{display:grid;grid-template-columns:repeat(5,1fr);gap:11px;margin:16px 0}
+.metric{padding:15px;border-radius:19px;background:linear-gradient(145deg,rgba(255,255,255,.095),rgba(255,255,255,.045));border:1px solid rgba(255,255,255,.13);box-shadow:0 10px 26px rgba(0,0,0,.18)}
+.metric small{display:block;color:#cbd5e1;font-weight:750;margin-bottom:5px}.metric strong{font-size:25px}.metric em{font-style:normal;color:#9be7ff;font-size:12px}
+.progressWrap{margin:4px 0 18px;padding:14px;border-radius:18px;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.1)}
+.progressTop{display:flex;justify-content:space-between;font-size:13px;font-weight:850;margin-bottom:8px}.progress{height:12px;border-radius:999px;background:rgba(255,255,255,.09);overflow:hidden}.progressBar{height:100%;width:0;background:linear-gradient(90deg,#8b5cf6,#22d3ee,#f472b6);transition:.45s}
+.path{display:grid;grid-template-columns:repeat(5,1fr);gap:9px;margin:0 0 18px}.pathItem{padding:11px 9px;border-radius:16px;text-align:center;font-size:12px;font-weight:850;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.1)}.pathItem.done{background:rgba(52,211,153,.14);border-color:rgba(52,211,153,.35)}.pathItem.active{box-shadow:0 0 18px rgba(34,211,238,.2);border-color:rgba(34,211,238,.4)}
+.toolbar{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:15px 0}.btn.pink{background:linear-gradient(135deg,#db2777,#8b5cf6)}.btn.green{background:linear-gradient(135deg,#059669,#0ea5e9)}
+.toast{position:fixed;right:18px;bottom:18px;max-width:330px;padding:14px 16px;border-radius:16px;background:#111827;border:1px solid rgba(255,255,255,.15);box-shadow:0 16px 40px rgba(0,0,0,.38);font-weight:800;transform:translateY(120px);opacity:0;transition:.3s;z-index:20}.toast.show{transform:none;opacity:1}
+.reportCard{display:none;margin-top:18px;background:#080b1b;border:1px solid rgba(125,211,252,.28);border-radius:26px;padding:24px;box-shadow:0 0 30px rgba(139,92,246,.2)}.reportCard.show{display:block}.reportHead{text-align:center;border-bottom:1px solid rgba(255,255,255,.11);padding-bottom:16px;margin-bottom:16px}.reportHead h2{font-size:28px;margin:5px 0}.reportGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.reportCell{background:rgba(255,255,255,.07);padding:14px;border-radius:16px;text-align:center}.reportCell b{display:block;font-size:25px;margin-bottom:4px}.coachNote{margin-top:14px;padding:15px;border-radius:17px;background:linear-gradient(135deg,rgba(139,92,246,.17),rgba(34,211,238,.1));line-height:1.6}
+.badgeRow{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.earnedBadge{padding:7px 10px;border-radius:999px;background:rgba(251,191,36,.13);border:1px solid rgba(251,191,36,.35);font-size:12px;font-weight:850;color:#fde68a}
+@media(max-width:900px){.dashboard{grid-template-columns:1fr 1fr}.dashboard .metric:last-child{grid-column:1/-1}.path{grid-template-columns:1fr 1fr}.reportGrid{grid-template-columns:1fr 1fr}.topbar{align-items:stretch}.heroActions{flex-direction:column;align-items:center}.studentInput{width:100%}}
+@media print{body{background:#fff;color:#111;padding:0}.container>*:not(.reportCard){display:none!important}.reportCard{display:block!important;color:#111;background:#fff;border:1px solid #bbb;box-shadow:none;margin:0}.reportCell,.coachNote{background:#f3f4f6;color:#111}.earnedBadge{color:#854d0e}}
+
 </style>
 </head>
 <body>
 <div class="container">
-  <div class="hero"><div class="logo">ENGİN360</div><div class="subtitle">Köklü Sayılar Alıştırma Laboratuvarı<br>Kök dışına çıkarma, kök içine alma, sayı doğrusunda konum, yaklaşık değer ve iç içe kök çalışmaları</div></div>
+  <div class="topbar">
+    <a class="back" href="matematik_kategori.html">← Matematik Laboratuvarı</a>
+    <div class="mlsBadge">MLS • MATEMATİK LABORATUVARI SİSTEMİ</div>
+  </div>
+  <div class="hero">
+    <div class="logo">ENGİN360</div>
+    <div class="heroTitle"><span>Köklü Sayılar</span> Laboratuvarı</div>
+    <div class="subtitle">Yaklaşık değer, kök dışına çıkarma, kök içine alma ve iç içe kök mantığını deneyerek öğren.</div>
+    <div class="heroActions">
+      <input id="studentName" class="studentInput" placeholder="Öğrenci adı (rapor için)" oninput="saveName()">
+      <button class="btn secondary" onclick="resetProgress()">İlerlemeyi Sıfırla</button>
+    </div>
+  </div>
+
+  <div class="dashboard">
+    <div class="metric"><small>Toplam XP</small><strong id="xpValue">0</strong><em id="levelText">Seviye 1</em></div>
+    <div class="metric"><small>Tamamlanan Bölüm</small><strong id="sectionValue">0/5</strong><em>öğrenme yolu</em></div>
+    <div class="metric"><small>Son Quiz</small><strong id="lastScore">—</strong><em>başarı oranı</em></div>
+    <div class="metric"><small>En İyi Quiz</small><strong id="bestScore">—</strong><em>kişisel rekor</em></div>
+    <div class="metric"><small>Kazanılan Rozet</small><strong id="badgeCount">0</strong><em>MLS başarıları</em></div>
+  </div>
+  <div class="progressWrap"><div class="progressTop"><span>MLS ilerleme düzeyi</span><span id="progressText">%0</span></div><div class="progress"><div id="progressBar" class="progressBar"></div></div></div>
+  <div class="path">
+    <div class="pathItem" data-step="yaklasik">1. Yaklaşık Değer</div>
+    <div class="pathItem" data-step="disari">2. Dışarı Çıkarma</div>
+    <div class="pathItem" data-step="iceri">3. İçeri Alma</div>
+    <div class="pathItem" data-step="icice">4. İç İçe Kök</div>
+    <div class="pathItem" data-step="quiz">5. Quiz ve Analiz</div>
+  </div>
   <div class="tabs">
-    <button class="tab active" onclick="openTab('yaklasik')">📍 Yaklaşık Değer</button>
-    <button class="tab" onclick="openTab('disari')">⬆️ Dışarı Çıkarma</button>
-    <button class="tab" onclick="openTab('iceri')">⬇️ İçeri Alma</button>
-    <button class="tab" onclick="openTab('icice')">🌀 İç İçe Kök</button>
-    <button class="tab" onclick="openTab('quiz')">🎯 10 Soruluk Quiz</button>
+    <button class="tab active" onclick="openTab('yaklasik',this)">📍 Yaklaşık Değer</button>
+    <button class="tab" onclick="openTab('disari',this)">⬆️ Dışarı Çıkarma</button>
+    <button class="tab" onclick="openTab('iceri',this)">⬇️ İçeri Alma</button>
+    <button class="tab" onclick="openTab('icice',this)">🌀 İç İçe Kök</button>
+    <button class="tab" onclick="openTab('quiz',this)">🎯 10 Soruluk Quiz</button>
   </div>
 
   <section id="yaklasik" class="panel active">
@@ -40,10 +93,45 @@ body{min-height:100vh;color:#fff;padding:18px;background:radial-gradient(circle 
   <section id="quiz" class="panel">
     <div class="card"><h2>🎯 10 Soruluk Karışık Quiz</h2><p class="muted">Kök dışına çıkarma, kök içine alma, yaklaşık değer, sayı doğrusu ve iç içe kök soruları karışık gelir. Sonuçta eksik konular otomatik analiz edilir.</p><div style="display:flex;gap:10px;flex-wrap:wrap;margin:14px 0"><button class="btn" onclick="startQuiz()">Yeni Quiz Başlat</button><button class="btn secondary" onclick="finishQuiz()">Sonucu Hesapla</button></div><div id="quizBox" class="quizBox"></div><div id="quizResult"></div></div>
   </section>
-  <div class="footer">ENGİN360 © 2026 · Köklü Sayılar Laboratuvarı</div>
+  
+  <div class="toolbar">
+    <button class="btn green" onclick="buildReport()">📊 MLS Raporunu Oluştur</button>
+    <button class="btn pink" onclick="saveReportImage()">🖼️ Rapor Görselini Kaydet</button>
+    <button class="btn secondary" onclick="copyWhatsApp()">📱 WhatsApp Metnini Kopyala</button>
+    <button class="btn secondary" onclick="window.print()">🖨️ Yazdır</button>
+  </div>
+  <section id="reportCard" class="reportCard">
+    <div class="reportHead">
+      <div class="logo" style="font-size:27px">ENGİN360</div>
+      <h2>Köklü Sayılar MLS Öğrenci Raporu</h2>
+      <div id="reportMeta" class="muted"></div>
+    </div>
+    <div class="reportGrid">
+      <div class="reportCell"><b id="rXp">0</b>Toplam XP</div>
+      <div class="reportCell"><b id="rProgress">%0</b>İlerleme</div>
+      <div class="reportCell"><b id="rQuiz">—</b>Quiz Başarısı</div>
+      <div class="reportCell"><b id="rBest">—</b>En İyi Sonuç</div>
+    </div>
+    <div id="reportAnalysis" class="coachNote"></div>
+    <div id="reportBadges" class="badgeRow"></div>
+  </section>
+  <div id="toast" class="toast"></div>
+
+<div class="footer">ENGİN360 © 2026 · Köklü Sayılar Laboratuvarı</div>
 </div>
 <script>
-function openTab(id){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.getElementById(id).classList.add('active');event.target.classList.add('active')}
+const MLS_KEY='engin360_mls_koklu_v1';
+let mlsState={xp:0,completed:[],lastScore:null,bestScore:null,badges:[]};
+function loadState(){try{mlsState={...mlsState,...JSON.parse(localStorage.getItem(MLS_KEY)||'{}')}}catch(e){};document.getElementById('studentName').value=localStorage.getItem(MLS_KEY+'_name')||'';renderState()}
+function saveState(){localStorage.setItem(MLS_KEY,JSON.stringify(mlsState));renderState()}
+function saveName(){localStorage.setItem(MLS_KEY+'_name',document.getElementById('studentName').value.trim())}
+function openTab(id,btn){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.getElementById(id).classList.add('active');if(btn)btn.classList.add('active');completeStep(id)}
+function completeStep(id){if(!mlsState.completed.includes(id)){mlsState.completed.push(id);mlsState.xp+=id==='quiz'?25:10;unlockBadges();saveState();toast('Bölüm tamamlandı: +'+(id==='quiz'?25:10)+' XP')}}
+function unlockBadges(){if(mlsState.completed.length>=2&&!mlsState.badges.includes('Kök Kaşifi'))mlsState.badges.push('Kök Kaşifi');if(mlsState.completed.length>=5&&!mlsState.badges.includes('Laboratuvar Ustası'))mlsState.badges.push('Laboratuvar Ustası');if((mlsState.bestScore||0)>=80&&!mlsState.badges.includes('Quiz Uzmanı'))mlsState.badges.push('Quiz Uzmanı');if((mlsState.bestScore||0)===100&&!mlsState.badges.includes('Kusursuz Kök'))mlsState.badges.push('Kusursuz Kök')}
+function renderState(){let p=Math.round(mlsState.completed.length/5*100),level=Math.floor(mlsState.xp/80)+1;document.getElementById('xpValue').textContent=mlsState.xp;document.getElementById('levelText').textContent='Seviye '+level;document.getElementById('sectionValue').textContent=mlsState.completed.length+'/5';document.getElementById('lastScore').textContent=mlsState.lastScore==null?'—':'%'+mlsState.lastScore;document.getElementById('bestScore').textContent=mlsState.bestScore==null?'—':'%'+mlsState.bestScore;document.getElementById('badgeCount').textContent=mlsState.badges.length;document.getElementById('progressText').textContent='%'+p;document.getElementById('progressBar').style.width=p+'%';document.querySelectorAll('.pathItem').forEach(x=>{x.classList.toggle('done',mlsState.completed.includes(x.dataset.step));x.classList.toggle('active',!mlsState.completed.includes(x.dataset.step)&&mlsState.completed.length===Array.from(document.querySelectorAll('.pathItem')).indexOf(x))})}
+function toast(msg){let t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>t.classList.remove('show'),2300)}
+function resetProgress(){if(!confirm('Köklü Sayılar MLS ilerlemesi sıfırlansın mı?'))return;mlsState={xp:0,completed:[],lastScore:null,bestScore:null,badges:[]};saveState();toast('İlerleme sıfırlandı.')}
+
 function fmt(x){return Number(x).toLocaleString('tr-TR',{maximumFractionDigits:3})}
 function calcNear(){let n=+document.getElementById('nearN').value||0;if(n<0){document.getElementById('nearResult').innerHTML='Negatif sayıların karekökü gerçek sayılarda yoktur.';return}let a=Math.floor(Math.sqrt(n)),b=a+1,low=a*a,high=b*b,val=Math.sqrt(n);let closer=(n-low)<(high-n)?a:b;document.getElementById('nearResult').innerHTML=`<span class="big">√${n} ≈ ${fmt(val)}</span><br>${low} &lt; ${n} &lt; ${high} olduğu için <b>${a} &lt; √${n} &lt; ${b}</b>.<br>√${n}, sayı doğrusunda <b>${closer}</b> sayısına daha yakındır.`;drawLine(a,b,val,n)}
 function drawLine(a,b,val,n){let box=document.querySelector('.numberline'),ticks=document.getElementById('ticks'),marker=document.getElementById('marker'),label=document.getElementById('markerLabel');ticks.innerHTML='';let left=35,right=box.clientWidth-35,w=right-left;[a,b].forEach(x=>{let d=document.createElement('div');d.className='tick';d.style.left=(left+(x-a)/(b-a)*w)+'px';d.innerHTML='<span>'+x+'</span>';ticks.appendChild(d)});let pos=left+(val-a)/(b-a)*w;marker.style.left=pos+'px';label.style.left=pos+'px';label.textContent='√'+n+' ≈ '+fmt(val)}
@@ -68,8 +156,14 @@ const pool=[
 function shuffle(arr){return [...arr].sort(()=>Math.random()-.5)}
 function startQuiz(){quiz=shuffle(pool).slice(0,10).map(x=>({...x,sel:null}));let box=document.getElementById('quizBox');box.innerHTML='';document.getElementById('quizResult').innerHTML='';quiz.forEach((qq,i)=>{let div=document.createElement('div');div.className='question';div.innerHTML=`<div class="qTitle">${i+1}) ${qq.q}</div><div class="options">${shuffle(qq.o).map(o=>`<div class="opt" onclick="selectOpt(${i},this,'${o.replace(/'/g,"\\'")}')">${o}</div>`).join('')}</div>`;box.appendChild(div)})}
 function selectOpt(i,node,val){quiz[i].sel=val;node.parentElement.querySelectorAll('.opt').forEach(o=>o.classList.remove('selected'));node.classList.add('selected')}
-function finishQuiz(){if(!quiz.length)startQuiz();let correct=0,wrong=0,empty=0,miss={};document.querySelectorAll('.question').forEach((qDiv,i)=>{qDiv.querySelectorAll('.opt').forEach(o=>{o.classList.remove('correct','wrong');if(o.textContent===quiz[i].a)o.classList.add('correct');if(quiz[i].sel===o.textContent&&quiz[i].sel!==quiz[i].a)o.classList.add('wrong')});if(!quiz[i].sel){empty++;miss[quiz[i].type]=(miss[quiz[i].type]||0)+1}else if(quiz[i].sel===quiz[i].a)correct++;else{wrong++;miss[quiz[i].type]=(miss[quiz[i].type]||0)+1}});let pct=Math.round(correct/10*100);let missing=Object.entries(miss).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`• ${k}: ${v} hata/boş`).join('\n')||'Belirgin eksik alan görünmüyor.';let comment=pct>=85?'Çok iyi. Konuyu genel olarak kavramışsın. Şimdi hız ve işlem pratiği artırılabilir.':pct>=65?'İyi gidiyorsun ama bazı alt başlıklarda dikkat hatası veya kural karışıklığı var. Eksik alanları tekrar edip 10 soru daha çözmelisin.':pct>=45?'Temel mantık oluşuyor fakat konu henüz tam oturmamış. Özellikle hata çıkan başlıklarda kısa konu tekrarı şart.':'Konuya yeniden dönmek gerekiyor. Önce dışarı çıkarma ve yaklaşık değer mantığını çalışıp sonra quize tekrar gir.';document.getElementById('quizResult').innerHTML=`<div class="scoreGrid"><div class="score"><b>${correct}</b>Doğru</div><div class="score"><b>${wrong}</b>Yanlış</div><div class="score"><b>${empty}</b>Boş</div><div class="score"><b>%${pct}</b>Başarı</div></div><div class="result analysis"><b>Eksik Yer Tespiti</b>\n${missing}\n\n<b>Koç Yorumu</b>\n${comment}</div>`}
-window.addEventListener('load',()=>{calcNear();calcOut();calcIn();calcNested();startQuiz()});window.addEventListener('resize',calcNear);
+function finishQuiz(){if(!quiz.length)startQuiz();let correct=0,wrong=0,empty=0,miss={};document.querySelectorAll('.question').forEach((qDiv,i)=>{qDiv.querySelectorAll('.opt').forEach(o=>{o.classList.remove('correct','wrong');if(o.textContent===quiz[i].a)o.classList.add('correct');if(quiz[i].sel===o.textContent&&quiz[i].sel!==quiz[i].a)o.classList.add('wrong')});if(!quiz[i].sel){empty++;miss[quiz[i].type]=(miss[quiz[i].type]||0)+1}else if(quiz[i].sel===quiz[i].a)correct++;else{wrong++;miss[quiz[i].type]=(miss[quiz[i].type]||0)+1}});let pct=Math.round(correct/10*100);mlsState.lastScore=pct;mlsState.bestScore=Math.max(mlsState.bestScore||0,pct);mlsState.xp+=correct*5;if(!mlsState.completed.includes('quiz'))mlsState.completed.push('quiz');unlockBadges();saveState();let missing=Object.entries(miss).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`• ${k}: ${v} hata/boş`).join('\n')||'Belirgin eksik alan görünmüyor.';let comment=pct>=85?'Çok iyi. Konuyu genel olarak kavramışsın. Şimdi hız ve işlem pratiği artırılabilir.':pct>=65?'İyi gidiyorsun ama bazı alt başlıklarda dikkat hatası veya kural karışıklığı var. Eksik alanları tekrar edip 10 soru daha çözmelisin.':pct>=45?'Temel mantık oluşuyor fakat konu henüz tam oturmamış. Özellikle hata çıkan başlıklarda kısa konu tekrarı şart.':'Konuya yeniden dönmek gerekiyor. Önce dışarı çıkarma ve yaklaşık değer mantığını çalışıp sonra quize tekrar gir.';document.getElementById('quizResult').innerHTML=`<div class="scoreGrid"><div class="score"><b>${correct}</b>Doğru</div><div class="score"><b>${wrong}</b>Yanlış</div><div class="score"><b>${empty}</b>Boş</div><div class="score"><b>%${pct}</b>Başarı</div></div><div class="result analysis"><b>Eksik Yer Tespiti</b>\n${missing}\n\n<b>Koç Yorumu</b>\n${comment}</div>`}
+
+function reportComment(){let s=mlsState.lastScore;if(s==null)return 'Quiz henüz tamamlanmadı. Dört öğrenme bölümünü inceledikten sonra 10 soruluk quizi çözmen önerilir.';if(s>=85)return 'Köklü sayılar konusu güçlü görünüyor. Bir sonraki adım süreli ve yeni nesil soru pratiğidir.';if(s>=65)return 'Temel kavrayış iyi; yaklaşık değer, dışarı çıkarma veya içeri alma başlıklarındaki küçük hatalar tekrar edilmelidir.';if(s>=45)return 'Konu gelişiyor ancak kurallar henüz tam otomatikleşmemiş. Hata çıkan bölümlere dönüp yeniden uygulama yapılmalıdır.';return 'Temel kurallar yeniden çalışılmalıdır. Önce yaklaşık değer ve kök dışına çıkarma bölümlerinden başlanması önerilir.'}
+function buildReport(){let name=document.getElementById('studentName').value.trim()||'Öğrenci';let p=Math.round(mlsState.completed.length/5*100);document.getElementById('reportMeta').textContent=name+' • '+new Date().toLocaleDateString('tr-TR');document.getElementById('rXp').textContent=mlsState.xp;document.getElementById('rProgress').textContent='%'+p;document.getElementById('rQuiz').textContent=mlsState.lastScore==null?'—':'%'+mlsState.lastScore;document.getElementById('rBest').textContent=mlsState.bestScore==null?'—':'%'+mlsState.bestScore;document.getElementById('reportAnalysis').innerHTML='<b>Koç Analizi</b><br>'+reportComment();document.getElementById('reportBadges').innerHTML=mlsState.badges.length?mlsState.badges.map(b=>'<span class="earnedBadge">🏅 '+b+'</span>').join(''):'<span class="muted">Henüz rozet kazanılmadı.</span>';document.getElementById('reportCard').classList.add('show');document.getElementById('reportCard').scrollIntoView({behavior:'smooth',block:'start'});return true}
+async function saveReportImage(){buildReport();if(typeof html2canvas==='undefined'){toast('Görsel kütüphanesi yüklenemedi. Yazdır seçeneğini kullanabilirsin.');return}let canvas=await html2canvas(document.getElementById('reportCard'),{backgroundColor:'#080b1b',scale:2});let a=document.createElement('a');a.download='ENGIN360_Koklu_Sayilar_MLS_Raporu.png';a.href=canvas.toDataURL('image/png');a.click();toast('Rapor görseli hazırlandı.')}
+async function copyWhatsApp(){let name=document.getElementById('studentName').value.trim()||'Öğrenci',p=Math.round(mlsState.completed.length/5*100);let text=`ENGİN360 • Köklü Sayılar MLS\nÖğrenci: ${name}\nİlerleme: %${p}\nToplam XP: ${mlsState.xp}\nSon Quiz: ${mlsState.lastScore==null?'Henüz çözülmedi':'%'+mlsState.lastScore}\nEn İyi Sonuç: ${mlsState.bestScore==null?'—':'%'+mlsState.bestScore}\nRozetler: ${mlsState.badges.join(', ')||'Henüz yok'}\nKoç Yorumu: ${reportComment()}`;try{await navigator.clipboard.writeText(text);toast('WhatsApp özeti kopyalandı.')}catch(e){prompt('Metni kopyala:',text)}}
+
+window.addEventListener('load',()=>{loadState();calcNear();calcOut();calcIn();calcNested();startQuiz()});window.addEventListener('resize',calcNear);
 </script>
 </body>
 </html>

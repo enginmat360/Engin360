@@ -3,15 +3,35 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ENGİN360 Üslü Sayılar Alıştırma Laboratuvarı</title>
+<meta name="theme-color" content="#070916">
+<meta name="description" content="ENGİN360 MLS Üslü Sayılar Laboratuvarı: konu mantığı, etkileşimli alıştırmalar, quiz, analiz ve öğrenci raporu.">
+<title>ENGİN360 | Üslü Sayılar MLS</title>
 <style>
 :root{--bg:#0b1028;--card:#111a3d;--card2:#17224d;--text:#eef4ff;--muted:#aebbf0;--purple:#7c3cff;--blue:#18a0ff;--green:#21d17a;--orange:#ffb020;--red:#ff4d6d;--line:#2b3975}
 *{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:radial-gradient(circle at top,#1b2b72 0,#0b1028 45%,#060916 100%);color:var(--text)}
 .wrap{max-width:1180px;margin:auto;padding:22px}.hero{display:grid;grid-template-columns:1.2fr .8fr;gap:18px;align-items:stretch;margin-bottom:18px}.panel,.card{background:linear-gradient(145deg,rgba(17,26,61,.96),rgba(10,15,40,.96));border:1px solid var(--line);border-radius:24px;box-shadow:0 18px 45px #0008}.panel{padding:24px}.brand{display:flex;gap:14px;align-items:center}.logo{width:64px;height:64px;border-radius:20px;background:linear-gradient(135deg,var(--blue),var(--purple));display:grid;place-items:center;font-weight:900;font-size:24px}.brand h1{margin:0;font-size:31px;line-height:1.05}.brand h1 span{color:#63b8ff}.brand p{margin:6px 0 0;color:var(--muted);font-weight:700}.heroText{margin-top:18px;font-size:16px;line-height:1.6;color:#dbe6ff}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px}.stat{background:#0d1535;border:1px solid #2a3a7a;border-radius:18px;padding:14px;text-align:center}.stat b{display:block;font-size:28px}.stat span{color:var(--muted);font-size:13px;font-weight:800}.quick{padding:20px}.quick h2,.section h2{margin:0 0 12px}.rule{background:#0d1535;border-left:5px solid var(--purple);padding:12px;border-radius:14px;margin:10px 0;color:#dbe6ff;line-height:1.45}.tabs{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0}.tab{border:1px solid #334587;background:#121b42;color:white;border-radius:999px;padding:12px 15px;font-weight:900;cursor:pointer}.tab.active{background:linear-gradient(135deg,var(--purple),var(--blue));border-color:transparent}.section{display:none}.section.active{display:block}.grid{display:grid;grid-template-columns:1fr 360px;gap:16px}.card{padding:20px}.questionBox{text-align:center;padding:22px;background:#0d1535;border:1px solid #2b3975;border-radius:22px;margin:14px 0}.question{font-size:48px;font-weight:900;letter-spacing:.5px}.question sup{font-size:.58em}.hint{color:var(--muted);font-weight:700;margin-top:8px}.choices{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:16px}.choice{border:1px solid #34478b;background:#101a42;color:#fff;border-radius:18px;padding:16px;font-size:20px;font-weight:900;cursor:pointer}.choice:hover{background:#18245a}.choice.correct{background:linear-gradient(135deg,#0e8f51,#22c55e)}.choice.wrong{background:linear-gradient(135deg,#aa1233,#ff4d6d)}.controls{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}button{border:0;border-radius:14px;padding:13px 16px;color:#fff;font-weight:900;cursor:pointer;background:linear-gradient(135deg,var(--purple),var(--blue))}.btnDark{background:#202b61}.btnGreen{background:#109b59}.btnRed{background:#c62847}.answerInput{width:100%;border:1px solid #334587;background:#0c1434;color:white;border-radius:16px;padding:15px;font-size:22px;font-weight:900;text-align:center;outline:none}.feedback{min-height:72px;margin-top:12px;border-radius:18px;padding:14px;background:#0d1535;border:1px dashed #34478b;line-height:1.55;font-weight:800}.ok{color:var(--green)}.bad{color:var(--red)}.sideTitle{color:#7fc5ff;font-weight:900;margin-bottom:12px}.miniTable{width:100%;border-collapse:collapse}.miniTable td,.miniTable th{border-bottom:1px solid #2b3975;padding:10px;text-align:left}.miniTable th{color:#7fc5ff}.pill{display:inline-block;padding:5px 10px;border-radius:999px;background:#20316d;color:#cfe4ff;font-weight:900}.progress{height:12px;background:#101a42;border-radius:999px;overflow:hidden;border:1px solid #2b3975}.progress i{display:block;height:100%;background:linear-gradient(90deg,var(--green),var(--blue));width:0%}.lesson{line-height:1.7;color:#dbe6ff}.lesson h3{color:#7fc5ff}.example{background:#0d1535;border:1px solid #2b3975;border-radius:18px;padding:14px;margin:12px 0}.badgeGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.badge{background:#0d1535;border:1px solid #2b3975;border-radius:16px;padding:12px;font-weight:800;line-height:1.45}.badge strong{color:#7fc5ff}.footer{margin-top:20px;text-align:center;color:#95a5df;font-weight:800}@media(max-width:900px){.hero,.grid{grid-template-columns:1fr}.question{font-size:40px}.choices{grid-template-columns:1fr}.wrap{padding:12px}.stats{grid-template-columns:1fr 1fr 1fr}}
+
+/* MLS 2026 yükseltmesi */
+body:before{content:"";position:fixed;inset:0;pointer-events:none;background:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);background-size:42px 42px;mask-image:linear-gradient(to bottom,black,transparent 82%);z-index:-1}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}.backLink,.miniBtn{display:inline-flex;align-items:center;gap:7px;text-decoration:none;color:#dce8ff;border:1px solid var(--line);background:rgba(255,255,255,.045);padding:10px 13px;border-radius:14px;font-weight:900}.backLink:hover,.miniBtn:hover{border-color:#5c78da;background:#172454}.mlsTag{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;border:1px solid rgba(57,221,255,.3);background:rgba(57,221,255,.08);color:#aef4ff;font-size:12px;font-weight:1000;letter-spacing:.08em}.mlsDot{width:9px;height:9px;border-radius:50%;background:linear-gradient(135deg,#39ddff,#ff55cf);box-shadow:0 0 14px #39ddff}
+.hero{position:relative}.hero:after{content:"";position:absolute;inset:auto 8% -4px 8%;height:1px;background:linear-gradient(90deg,transparent,#39ddff,#a36bff,#ff55cf,transparent);box-shadow:0 0 22px #7c3cff}.logo{box-shadow:0 0 35px rgba(124,60,255,.42);position:relative;overflow:hidden}.logo:after{content:"MLS";position:absolute;right:5px;bottom:4px;font-size:8px;letter-spacing:.08em;background:#080b1d;padding:2px 4px;border-radius:5px;color:#9beeff}.brand h1{background:linear-gradient(90deg,#fff,#6de7ff,#c6a7ff,#ff75d8);-webkit-background-clip:text;background-clip:text;color:transparent}.panel,.card{backdrop-filter:blur(16px)}
+.dashboard{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:0 0 18px}.dash{background:linear-gradient(145deg,rgba(20,29,69,.96),rgba(8,13,35,.96));border:1px solid var(--line);border-radius:18px;padding:14px;box-shadow:0 12px 30px #0004}.dashTop{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:12px;font-weight:900}.dash b{display:block;font-size:25px;margin-top:6px;color:#8cecff}.goalLine{height:7px;background:#0a102a;border-radius:999px;overflow:hidden;margin-top:9px}.goalLine i{display:block;height:100%;width:0;background:linear-gradient(90deg,#50e5a5,#39ddff,#9b63ff);transition:.35s}
+.levelStrip{display:flex;gap:8px;overflow:auto;padding:2px 1px 12px;scrollbar-width:thin}.levelChip{white-space:nowrap;border:1px solid var(--line);background:rgba(255,255,255,.04);color:#aebbf0;padding:10px 13px;border-radius:13px;font-weight:900}.levelChip.active{color:white;background:linear-gradient(135deg,#7c3cff,#18a0ff);border-color:transparent}.levelChip.done{border-color:rgba(80,229,165,.5);color:#83f1ba}.levelChip.locked{opacity:.45}
+.mission{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center;margin:0 0 17px;padding:15px 17px;border-radius:18px;border:1px solid rgba(255,215,106,.24);background:linear-gradient(135deg,rgba(255,215,106,.08),rgba(155,99,255,.07))}.mission h3{margin:0 0 5px}.mission p{margin:0;color:var(--muted);line-height:1.45}.missionBadge{font-size:30px}.pulse{animation:pulse 1.8s infinite}@keyframes pulse{50%{transform:scale(1.06);filter:drop-shadow(0 0 12px #ffd76a)}}
+.tab{transition:.2s}.tab:hover{transform:translateY(-2px)}.section.active{animation:fadeIn .3s ease}@keyframes fadeIn{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}.choice{transition:.2s}.choice:hover{transform:translateY(-2px);border-color:#5f78d8}.answerInput:focus{border-color:#39ddff;box-shadow:0 0 0 4px rgba(57,221,255,.08)}
+.reportActions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}.reportCard{display:none;margin-top:18px;padding:20px;border:1px solid rgba(57,221,255,.26);border-radius:20px;background:linear-gradient(145deg,#101936,#090d20)}.reportCard.show{display:block}.reportHead{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;border-bottom:1px solid var(--line);padding-bottom:14px;margin-bottom:14px}.reportLogo{font-size:20px;font-weight:1000;background:linear-gradient(90deg,#fff,#39ddff,#ff55cf);-webkit-background-clip:text;color:transparent}.reportGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}.reportMetric{background:#0b1230;border:1px solid var(--line);border-radius:14px;padding:12px;text-align:center}.reportMetric b{font-size:22px;color:#8cecff;display:block}.analysisList{margin:14px 0 0;padding:0;list-style:none}.analysisList li{padding:10px 12px;margin:7px 0;background:#0b1230;border-radius:12px;border-left:3px solid #9b63ff;line-height:1.45}.toast{position:fixed;right:18px;bottom:18px;z-index:50;padding:13px 16px;background:#101936;border:1px solid #41589d;border-radius:14px;box-shadow:0 18px 45px #0009;opacity:0;transform:translateY(20px);pointer-events:none;transition:.25s;font-weight:900}.toast.show{opacity:1;transform:none}.celebrate{position:fixed;inset:0;display:none;place-items:center;background:rgba(3,5,15,.78);z-index:70;padding:18px}.celebrate.show{display:grid}.celebrateBox{max-width:430px;text-align:center;padding:28px;border-radius:25px;border:1px solid rgba(255,215,106,.35);background:linear-gradient(145deg,#161d46,#090d20);box-shadow:0 25px 90px #000}.celebrateIcon{font-size:64px}.celebrate h2{font-size:30px;margin:7px 0}.celebrate p{color:var(--muted);line-height:1.55}
+@media(max-width:900px){.dashboard{grid-template-columns:repeat(2,1fr)}.reportGrid{grid-template-columns:repeat(2,1fr)}.topbar{align-items:flex-start}.mission{grid-template-columns:1fr auto}}
+@media(max-width:520px){.dashboard{grid-template-columns:1fr 1fr}.dash{padding:11px}.dash b{font-size:21px}.topbar{flex-direction:column}.brand{align-items:flex-start}.logo{width:54px;height:54px}.brand h1{font-size:25px}.reportGrid{grid-template-columns:1fr 1fr}.reportActions button{flex:1}.missionBadge{font-size:24px}}
+@media print{body{background:white;color:#111}.topbar,.hero,.dashboard,.levelStrip,.mission,.tabs,.section,.footer,.toast,.celebrate{display:none!important}.reportCard{display:block!important;background:white;color:#111;border:1px solid #bbb;box-shadow:none}.reportMetric,.analysisList li{background:#f5f7fb;color:#111;border-color:#ddd}.reportMetric b{color:#333}}
+
 </style>
 </head>
 <body>
 <div class="wrap">
+  <div class="topbar">
+    <a class="backLink" href="matematik_kategori.html">← Matematik Laboratuvarı</a>
+    <div class="mlsTag"><span class="mlsDot"></span> MLS • MATEMATİK LABORATUVARI SİSTEMİ</div>
+  </div>
   <div class="hero">
     <div class="panel">
       <div class="brand"><div class="logo">360</div><div><h1>ENGİN<span>360</span><br>Üslü Sayılar Alıştırma Laboratuvarı</h1><p>Çift kuvvet, negatif kuvvet, sıfırıncı kuvvet ve işaret mantığı</p></div></div>
@@ -25,6 +45,23 @@
       <div class="rule"><b>Negatif üs ters çevirir:</b><br>2<sup>-3</sup> = 1 / 2<sup>3</sup> = 1/8</div>
     </div>
   </div>
+
+  <section class="dashboard" aria-label="MLS öğrenci paneli">
+    <div class="dash"><div class="dashTop"><span>TOPLAM XP</span><span>⚡</span></div><b id="xpStat">0 XP</b><div class="goalLine"><i id="xpBar"></i></div></div>
+    <div class="dash"><div class="dashTop"><span>MLS SEVİYESİ</span><span>◆</span></div><b id="levelStat">Başlangıç</b><div class="goalLine"><i id="levelBar"></i></div></div>
+    <div class="dash"><div class="dashTop"><span>GÜNLÜK HEDEF</span><span>🎯</span></div><b id="goalStat">0 / 10</b><div class="goalLine"><i id="goalBar"></i></div></div>
+    <div class="dash"><div class="dashTop"><span>EN İYİ SERİ</span><span>🔥</span></div><b id="streakStat">0 doğru</b><div class="goalLine"><i id="streakBar"></i></div></div>
+  </section>
+
+  <div class="levelStrip" id="levelStrip">
+    <button class="levelChip active" data-target="learn" onclick="goLevel('learn',this)">1. Mantığı Öğren</button>
+    <button class="levelChip" data-target="sign" onclick="goLevel('sign',this)">2. İşaret Avcısı</button>
+    <button class="levelChip" data-target="calc" onclick="goLevel('calc',this)">3. Değer Bul</button>
+    <button class="levelChip" data-target="neg" onclick="goLevel('neg',this)">4. Negatif Üs</button>
+    <button class="levelChip" data-target="quiz" onclick="goLevel('quiz',this)">5. Usta Quiz</button>
+  </div>
+
+  <section class="mission"><div><h3 id="missionTitle">Bugünün görevi: Mantığı keşfet</h3><p id="missionText">Konu kartlarını incele, ardından İşaret Avcısı bölümünde en az 3 doğru yap.</p></div><div class="missionBadge pulse" id="missionBadge">🧠</div></section>
 
   <div class="tabs">
     <button class="tab active" onclick="openTab('learn',this)">📘 Konu Mantığı</button>
@@ -62,25 +99,40 @@
 
   <div id="quiz" class="section"><div class="grid"><div class="card"><h2>🏆 10 Soruluk Karışık Quiz</h2><div class="progress"><i id="prog"></i></div><div class="questionBox"><div id="quizNo" class="hint">1 / 10</div><div id="quizQ" class="question"></div><div id="quizHint" class="hint">Doğru cevabı seç.</div></div><div id="quizChoices" class="choices"></div><div id="quizFeed" class="feedback">Quiz başlatıldı. Her soru bir kez cevaplanır.</div><div class="controls"><button onclick="startQuiz()">Yeni 10 Soruluk Quiz Başlat</button><button class="btnDark" onclick="showQuizAnalysis()">Analizi Göster</button><button class="btnRed" onclick="resetScore()">Genel Skoru Sıfırla</button></div><div id="quizResult" class="feedback" style="margin-top:16px;display:none"></div></div><aside class="card"><div class="sideTitle">🎓 Eksik Tespit Mantığı</div><div class="rule">Quiz sonunda sistem yanlışlarını konu başlıklarına ayırır.</div><div class="rule">Özellikle şu alanları kontrol eder:<br>• Parantez ve işaret<br>• Çift-tek kuvvet<br>• Negatif üs<br>• Sıfırıncı kuvvet</div><div class="rule">Amaç sadece puan değil, hangi kuralın eksik kaldığını görmektir.</div></aside></div></div>
 
+
+  <section id="reportCard" class="reportCard">
+    <div class="reportHead"><div><div class="reportLogo">ENGİN360 • ÜSLÜ SAYILAR MLS RAPORU</div><div style="color:var(--muted);margin-top:5px" id="reportDate"></div></div><span class="pill" id="reportLevel">Başlangıç</span></div>
+    <div class="reportGrid"><div class="reportMetric"><b id="rCorrect">0</b><span>Doğru</span></div><div class="reportMetric"><b id="rWrong">0</b><span>Yanlış</span></div><div class="reportMetric"><b id="rRate">%0</b><span>Başarı</span></div><div class="reportMetric"><b id="rXp">0 XP</b><span>Kazanılan XP</span></div></div>
+    <ul class="analysisList" id="reportAnalysis"></ul>
+    <div style="margin-top:14px;color:var(--muted);font-size:13px">Matematik Öğretmeni / Eğitim Koçu Engin Özcan • www.engin360.com</div>
+  </section>
+  <div class="reportActions"><button class="btnGreen" onclick="buildReport(true)">📊 Raporu Oluştur</button><button onclick="saveReportImage()">🖼️ Rapor Görselini Kaydet</button><button class="btnDark" onclick="copyWhatsApp()">📱 WhatsApp Metnini Kopyala</button><button class="btnDark" onclick="window.print()">🖨️ Yazdır</button></div>
+
   <div class="footer">ENGİN360 Matematik Laboratuvarı • Başarının 360° yolu</div>
 </div>
+<div id="toast" class="toast">Kaydedildi</div>
+<div id="celebrate" class="celebrate"><div class="celebrateBox"><div class="celebrateIcon">🏆</div><h2>MLS Hedefi Tamamlandı!</h2><p>Bugünkü 10 doğru hedefine ulaştın. Üslü sayılarda mantığı güçlendiriyorsun.</p><button onclick="closeCelebrate()">Devam Et</button></div></div>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <script>
-let S=0,W=0,current={};
+const STORE_KEY='engin360_mls_uslu_v1';
+let saved={xp:0,bestStreak:0,streak:0,correct:0,wrong:0,goalCelebrated:false,miss:{sign:0,paren:0,negexp:0,zero:0,calc:0}};
+try{saved={...saved,...JSON.parse(localStorage.getItem(STORE_KEY)||'{}')}}catch(e){}
+let S=saved.correct||0,W=saved.wrong||0,current={};
 let quiz={index:0,total:10,correct:0,wrong:0,items:[],active:false,answered:false,current:null,miss:{sign:0,paren:0,negexp:0,zero:0,calc:0}};
 function openTab(id,btn){document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));btn.classList.add('active')}
 function rnd(a,b){return Math.floor(Math.random()*(b-a+1))+a}
 function pow(a,n){return Math.pow(a,n)}
 function sup(n){return '<sup>'+n+'</sup>'}
 function $(id){return document.getElementById(id)}
-function updateScore(){let t=S+W;$('score').textContent=S;$('wrong').textContent=W;$('rate').textContent=t?('%'+Math.round(S*100/t)):'%0';let pr=$('prog'); if(pr){pr.style.width=quiz.active?Math.round((quiz.index/quiz.total)*100)+'%':(t?Math.min(100,Math.round(S*100/t))+'%':'0%')}}
-function clean(x){return String(x).replace(/\s/g,'').replace(',', '.')}function add(ok){ok?S++:W++;updateScore()}
+function updateScore(){let t=S+W;$('score').textContent=S;$('wrong').textContent=W;$('rate').textContent=t?('%'+Math.round(S*100/t)):'%0';let pr=$('prog'); if(pr){pr.style.width=quiz.active?Math.round((quiz.index/quiz.total)*100)+'%':(t?Math.min(100,Math.round(S*100/t))+'%':'0%')}updateMLS()}
+function clean(x){return String(x).replace(/\s/g,'').replace(',', '.')}function add(ok,cat){if(ok){S++;saved.xp+=10;saved.streak++;saved.bestStreak=Math.max(saved.bestStreak,saved.streak)}else{W++;saved.streak=0;if(cat)saved.miss[cat]=(saved.miss[cat]||0)+1}saved.correct=S;saved.wrong=W;persist();updateScore();if(S>=10&&!saved.goalCelebrated){saved.goalCelebrated=true;persist();document.getElementById('celebrate').classList.add('show')}}
 function newSignQ(){let base=-rnd(2,9), exp=rnd(2,6), par=Math.random()>.45; current={base,exp,par}; $('signQ').innerHTML=(par?'('+base+')':base)+sup(exp); $('signFeed').innerHTML='Cevabını seç.'; document.querySelectorAll('#sign .choice').forEach(b=>b.className='choice')}
 function signAnswer(){if(current.par){return current.exp%2===0?'pozitif':'negatif'} return 'negatif'}
-function checkSign(ans){let ok=ans===signAnswer(); add(ok); $('signFeed').innerHTML=ok?'<span class="ok">Doğru.</span> '+(current.par?'Parantez olduğu için üs negatif sayının tamamına uygulandı.':'Parantez olmadığı için eksi dışarıda kaldı.'):'<span class="bad">Tekrar bak.</span> Önce parantez var mı, sonra üs çift mi tek mi kontrol et.'}
+function checkSign(ans){let ok=ans===signAnswer(); add(ok,current.par?'sign':'paren'); $('signFeed').innerHTML=ok?'<span class="ok">Doğru.</span> '+(current.par?'Parantez olduğu için üs negatif sayının tamamına uygulandı.':'Parantez olmadığı için eksi dışarıda kaldı.'):'<span class="bad">Tekrar bak.</span> Önce parantez var mı, sonra üs çift mi tek mi kontrol et.'}
 function newCalcQ(){let base=-rnd(2,6), exp=rnd(2,5), par=Math.random()>.35; let ans=par?pow(base,exp):-pow(Math.abs(base),exp); current={ans,base,exp,par}; $('calcQ').innerHTML=(par?'('+base+')':base)+sup(exp); $('calcInput').value=''; $('calcFeed').innerHTML='Cevabı yazıp kontrol et.'}
-function checkCalc(){let ok=Number(clean($('calcInput').value))===current.ans; add(ok); $('calcFeed').innerHTML=ok?'<span class="ok">Doğru.</span> Sonuç: '+current.ans:'<span class="bad">Olmadı.</span> Doğru sonuç '+current.ans+'. '+(current.par?'Parantez var; üs tüm negatif sayıya gider.':'Parantez yok; eksi dışarıda kalır.')}
+function checkCalc(){let ok=Number(clean($('calcInput').value))===current.ans; add(ok,current.par?'calc':'paren'); $('calcFeed').innerHTML=ok?'<span class="ok">Doğru.</span> Sonuç: '+current.ans:'<span class="bad">Olmadı.</span> Doğru sonuç '+current.ans+'. '+(current.par?'Parantez var; üs tüm negatif sayıya gider.':'Parantez yok; eksi dışarıda kalır.')}
 function newNegQ(){let base=(Math.random()>.5?-1:1)*rnd(2,5), exp=rnd(1,4); let den=Math.pow(Math.abs(base),exp); let neg=(base<0 && exp%2===1); let ans=(neg?'-':'')+'1/'+den; current={base,exp,ans}; $('negQ').innerHTML='('+base+')'+sup('-'+exp); $('negInput').value=''; $('negFeed').innerHTML='Negatif üs işareti değil, ters çevirme anlamına gelir.'}
-function checkNeg(){let val=clean($('negInput').value); let ok=val===current.ans; add(ok); $('negFeed').innerHTML=ok?'<span class="ok">Doğru.</span> '+current.ans:'<span class="bad">Tekrar dene.</span> Doğru cevap '+current.ans+'. Önce pozitife çevir: 1/('+current.base+')'+sup(current.exp)}
+function checkNeg(){let val=clean($('negInput').value); let ok=val===current.ans; add(ok,'negexp'); $('negFeed').innerHTML=ok?'<span class="ok">Doğru.</span> '+current.ans:'<span class="bad">Tekrar dene.</span> Doğru cevap '+current.ans+'. Önce pozitife çevir: 1/('+current.base+')'+sup(current.exp)}
 function makeOptions(ans){let arr=[ans]; while(arr.length<4){let delta=rnd(-8,8); if(delta===0) continue; let v=Number(ans)+delta; if(!arr.includes(v))arr.push(v)} return arr.sort(()=>Math.random()-.5)}
 function makeQuizQuestion(){
   let type=rnd(1,5);
@@ -100,7 +152,7 @@ function nextQuizQ(){
 function addQuizChoice(o){let bt=document.createElement('button');bt.className='choice';bt.innerHTML=o;bt.onclick=()=>answerQuiz(bt,String(o));$('quizChoices').appendChild(bt)}
 function answerQuiz(btn,choice){
   if(quiz.answered || !quiz.active) return; quiz.answered=true;
-  let q=quiz.current, ok=choice===String(q.ans); add(ok);
+  let q=quiz.current, ok=choice===String(q.ans); add(ok,q.cat);
   if(ok){quiz.correct++;btn.classList.add('correct');$('quizFeed').innerHTML='<span class="ok">Doğru.</span> '+q.explain}
   else{quiz.wrong++;quiz.miss[q.cat]++;btn.classList.add('wrong');document.querySelectorAll('#quizChoices .choice').forEach(b=>{if(b.textContent===String(q.ans))b.classList.add('correct')});$('quizFeed').innerHTML='<span class="bad">Yanlış.</span> Doğru cevap: <b>'+q.ans+'</b><br>'+q.explain}
   quiz.items.push({q:q.q,ans:q.ans,choice,ok,cat:q.cat});
@@ -120,8 +172,21 @@ function showQuizAnalysis(){
   else{html+='<b>Eksik görünen başlıklar:</b><br>';misses.forEach(([c,v])=>{html+=`• <b>${catName(c)}</b>: ${v} yanlış → ${advice(c)}<br>`}); html+='<br><b>Koç yorumu:</b> Yanlışların çıktığı başlığı 5 dakika tekrar edip aynı quizden bir tur daha çöz. Amaç sadece doğru sayısı değil, hatanın hangi kuraldan geldiğini yakalamak.'}
   box.innerHTML=html;
 }
-function resetScore(){S=0;W=0;updateScore()}
-newSignQ();newCalcQ();newNegQ();startQuiz();updateScore();
+function resetScore(){if(!confirm('Genel skor, XP ve ilerleme sıfırlansın mı?'))return;S=0;W=0;saved={xp:0,bestStreak:0,streak:0,correct:0,wrong:0,goalCelebrated:false,miss:{sign:0,paren:0,negexp:0,zero:0,calc:0}};persist();updateScore();toast('İlerleme sıfırlandı')}
+
+function persist(){localStorage.setItem(STORE_KEY,JSON.stringify(saved))}
+function levelInfo(){const xp=saved.xp||0;if(xp>=600)return['Üs Ustası',100];if(xp>=350)return['İleri Seviye',75];if(xp>=180)return['Gelişen',50];if(xp>=70)return['Temel Güçleniyor',25];return['Başlangıç',Math.min(24,Math.round(xp/70*24))]}
+function updateMLS(){const [lv,pct]=levelInfo();$('xpStat').textContent=(saved.xp||0)+' XP';$('levelStat').textContent=lv;$('goalStat').textContent=Math.min(S,10)+' / 10';$('streakStat').textContent=(saved.bestStreak||0)+' doğru';$('xpBar').style.width=Math.min(100,(saved.xp||0)/6)+'%';$('levelBar').style.width=pct+'%';$('goalBar').style.width=Math.min(100,S*10)+'%';$('streakBar').style.width=Math.min(100,(saved.bestStreak||0)*10)+'%';updateMission()}
+function updateMission(){let title='Bugünün görevi: Mantığı keşfet',text='Konu kartlarını incele, ardından İşaret Avcısı bölümünde en az 3 doğru yap.',icon='🧠';if(S>=3){title='İkinci görev: İşlem gücünü göster';text='Değer Bul ve Negatif Üs bölümlerinde toplam 4 doğruya ulaş.';icon='⚡'}if(S>=7){title='Final görevi: Usta Quiz';text='10 soruluk karışık quizi tamamla ve analizini görüntüle.';icon='🏆'}if(S>=10){title='Günlük hedef tamamlandı';text='Yeni quizlerle serini ve XP puanını yükseltmeye devam edebilirsin.';icon='✅'}$('missionTitle').textContent=title;$('missionText').textContent=text;$('missionBadge').textContent=icon}
+function goLevel(id,btn){const tab=[...document.querySelectorAll('.tab')].find(t=>t.getAttribute('onclick')?.includes("'"+id+"'"));if(tab)tab.click();document.querySelectorAll('.levelChip').forEach(x=>x.classList.remove('active'));btn.classList.add('active');document.querySelector('.tabs').scrollIntoView({behavior:'smooth',block:'start'})}
+const oldOpenTab=openTab;openTab=function(id,btn){oldOpenTab(id,btn);document.querySelectorAll('.levelChip').forEach(x=>x.classList.toggle('active',x.dataset.target===id))}
+function toast(msg){const t=$('toast');t.textContent=msg;t.classList.add('show');clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>t.classList.remove('show'),2200)}
+function closeCelebrate(){$('celebrate').classList.remove('show')}
+function buildReport(scroll){const t=S+W,rate=t?Math.round(S*100/t):0,[lv]=levelInfo();$('reportDate').textContent=new Date().toLocaleString('tr-TR');$('reportLevel').textContent=lv;$('rCorrect').textContent=S;$('rWrong').textContent=W;$('rRate').textContent='%'+rate;$('rXp').textContent=(saved.xp||0)+' XP';const list=$('reportAnalysis');list.innerHTML='';let notes=[];if(!t)notes.push('Henüz alıştırma çözülmedi. Önce en az bir bölümde çalışma yapılmalı.');else{notes.push(rate>=85?'Genel başarı çok iyi. Karışık quizlerle hız ve kalıcılık artırılabilir.':rate>=65?'Temel mantık oturuyor; yanlış çıkan kurallara kısa tekrar önerilir.':'Temel kurallar yeniden incelenmeli ve bölüm bölüm pratik yapılmalı.');const map={sign:'Çift–tek kuvvet ve işaret',paren:'Parantez kullanımı',negexp:'Negatif üs',zero:'Sıfırıncı kuvvet',calc:'Üs kuralları ve işlem'};const misses=Object.entries(saved.miss||{}).filter(x=>x[1]>0).sort((a,b)=>b[1]-a[1]);if(misses.length)notes.push('En çok tekrar gerektiren alan: '+map[misses[0][0]]+' ('+misses[0][1]+' hata).');else notes.push('Belirgin bir eksik alan görünmüyor.');notes.push('En iyi doğru serisi: '+(saved.bestStreak||0)+' soru. Günlük hedef: '+Math.min(S,10)+'/10.')}notes.forEach(n=>{const li=document.createElement('li');li.textContent=n;list.appendChild(li)});$('reportCard').classList.add('show');if(scroll)$('reportCard').scrollIntoView({behavior:'smooth',block:'center'});return{rate,lv,notes}}
+async function saveReportImage(){buildReport(false);if(typeof html2canvas==='undefined'){toast('Görsel motoru yüklenemedi; yazdır seçeneğini kullan.');return}toast('Rapor hazırlanıyor…');const canvas=await html2canvas($('reportCard'),{backgroundColor:'#090d20',scale:2,useCORS:true});const a=document.createElement('a');a.download='ENGIN360_Usulu_Sayilar_MLS_Raporu.png';a.href=canvas.toDataURL('image/png');a.click();toast('Rapor görseli kaydedildi')}
+async function copyWhatsApp(){const r=buildReport(false);const text=`📘 ENGİN360 Üslü Sayılar MLS Raporu\n✅ Doğru: ${S}\n❌ Yanlış: ${W}\n📊 Başarı: %${r.rate}\n⚡ XP: ${saved.xp||0}\n🏅 Seviye: ${r.lv}\n🔥 En iyi seri: ${saved.bestStreak||0}\n\nKoç yorumu: ${r.notes[0]}\nwww.engin360.com`;try{await navigator.clipboard.writeText(text);toast('WhatsApp metni kopyalandı')}catch(e){prompt('Metni kopyala:',text)}}
+
+newSignQ();newCalcQ();newNegQ();updateScore();
 </script>
 </body>
 </html>

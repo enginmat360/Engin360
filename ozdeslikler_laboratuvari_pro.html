@@ -3,38 +3,388 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ENGİN360 Özdeşlikler Laboratuvarı PRO</title>
+<title>ENGİN360 Özdeşlikler Laboratuvarı PRO · MLS</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',Arial,sans-serif}body{min-height:100vh;color:#fff;background:radial-gradient(circle at top left,rgba(168,85,247,.38),transparent 34%),radial-gradient(circle at bottom right,rgba(14,165,233,.30),transparent 34%),linear-gradient(135deg,#05010d,#120024,#06142f);padding:18px}.container{max-width:1180px;margin:0 auto}.top{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:16px;flex-wrap:wrap}.back{color:#d8daf7;text-decoration:none;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:999px;padding:10px 14px;font-weight:800}.hero{text-align:center;padding:28px 18px;border-radius:28px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);box-shadow:0 0 34px rgba(124,58,237,.34);backdrop-filter:blur(12px);margin-bottom:18px}.logo{font-size:38px;font-weight:950;letter-spacing:1.5px;background:linear-gradient(90deg,#a855f7,#38bdf8,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent}.hero h1{margin-top:8px;font-size:30px}.hero p{margin-top:10px;color:#ded9ff;line-height:1.5}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}.tab{border:0;border-radius:999px;padding:11px 14px;background:rgba(255,255,255,.08);color:#e9e7ff;font-weight:900;cursor:pointer;border:1px solid rgba(255,255,255,.13)}.tab.active{background:linear-gradient(135deg,#7c3aed,#0ea5e9);box-shadow:0 0 22px rgba(14,165,233,.25)}.panel{display:none}.panel.active{display:block}.grid{display:grid;grid-template-columns:1.05fr .95fr;gap:14px}.card{background:rgba(255,255,255,.075);border:1px solid rgba(255,255,255,.14);border-radius:22px;padding:18px;box-shadow:0 12px 26px rgba(0,0,0,.25);backdrop-filter:blur(12px)}.card h2{font-size:22px;margin-bottom:10px}.muted{color:#d8daf7;line-height:1.55;font-size:14px}.formula{font-size:26px;font-weight:950;text-align:center;margin:14px 0;padding:16px;border-radius:18px;background:rgba(0,0,0,.23);border:1px solid rgba(255,255,255,.13)}.steps{display:grid;gap:9px;margin-top:10px}.step{padding:11px;border-radius:14px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.11);line-height:1.45}.controls{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:12px 0}.control{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:12px}.control label{display:block;color:#d8daf7;font-size:13px;font-weight:800;margin-bottom:7px}input,select{width:100%;border:1px solid rgba(255,255,255,.22);border-radius:12px;padding:11px;background:rgba(0,0,0,.25);color:#fff;font-weight:900;outline:none}button.main{border:0;border-radius:14px;padding:12px 15px;background:linear-gradient(135deg,#7c3aed,#0ea5e9);color:white;font-weight:950;cursor:pointer;margin:6px 6px 6px 0}.miniBtn{border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:10px 12px;background:rgba(255,255,255,.08);color:#fff;font-weight:900;cursor:pointer;margin:5px}.result{margin-top:12px;padding:14px;border-radius:16px;background:rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.13);line-height:1.6;font-weight:800}.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}.tile{min-height:92px;padding:12px;border-radius:16px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);text-align:center;display:flex;align-items:center;justify-content:center;font-weight:950;line-height:1.35}.tile.good{border-color:rgba(34,197,94,.7);background:rgba(34,197,94,.15)}.tile.bad{border-color:rgba(239,68,68,.7);background:rgba(239,68,68,.15)}.quizBox{display:grid;gap:12px}.question{font-size:24px;font-weight:950;text-align:center;padding:16px;border-radius:18px;background:rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.13)}.options{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.option{padding:13px;border-radius:15px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.07);color:#fff;font-weight:900;cursor:pointer;text-align:center}.option:hover{background:rgba(124,58,237,.25)}.score{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.score div{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:13px;text-align:center}.score b{font-size:25px}.analysis{white-space:pre-wrap}.warn{color:#fde68a}.ok{color:#86efac}.err{color:#fca5a5}.svgWrap{background:rgba(0,0,0,.18);border-radius:18px;padding:10px;border:1px solid rgba(255,255,255,.11);overflow:auto}svg{max-width:100%;height:auto}.footer{text-align:center;color:#aaa;font-size:12px;margin:28px 0 8px}@media(max-width:860px){.grid{grid-template-columns:1fr}.controls{grid-template-columns:1fr}.tiles{grid-template-columns:1fr}.options{grid-template-columns:1fr}.score{grid-template-columns:repeat(2,1fr)}.hero h1{font-size:24px}.formula{font-size:21px}}
+:root{
+  --bg:#05030d;--panel:rgba(15,12,35,.82);--panel2:rgba(23,18,52,.78);
+  --line:rgba(255,255,255,.13);--text:#f8f7ff;--muted:#b9b5d7;
+  --p:#a855f7;--b:#22d3ee;--pink:#ec4899;--green:#34d399;--yellow:#facc15;--red:#fb7185;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;min-height:100vh;color:var(--text);
+  font-family:Inter,"Segoe UI",Arial,sans-serif;
+  background:
+    radial-gradient(circle at 8% 8%,rgba(168,85,247,.26),transparent 28%),
+    radial-gradient(circle at 92% 18%,rgba(34,211,238,.18),transparent 26%),
+    radial-gradient(circle at 50% 100%,rgba(236,72,153,.13),transparent 31%),
+    linear-gradient(145deg,#030208,#0b0718 50%,#061524);
+  padding:16px;
+}
+button,input{font:inherit}
+button{touch-action:manipulation}
+.shell{width:min(1180px,100%);margin:auto}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:11px}
+.logo{
+  width:54px;height:54px;border-radius:18px;display:grid;place-items:center;font-weight:1000;font-size:15px;
+  background:linear-gradient(145deg,rgba(168,85,247,.9),rgba(34,211,238,.72));
+  border:1px solid rgba(255,255,255,.28);box-shadow:0 0 28px rgba(168,85,247,.35),inset 0 0 18px rgba(255,255,255,.12)
+}
+.brand strong{display:block;font-size:21px;letter-spacing:.8px}
+.brand small{display:block;color:#9da7ca;font-size:10px;font-weight:800;letter-spacing:1.2px;margin-top:3px}
+.back{
+  text-decoration:none;color:#eeeaff;padding:10px 14px;border-radius:999px;font-weight:850;font-size:12px;
+  background:rgba(255,255,255,.07);border:1px solid var(--line)
+}
+.hero{
+  position:relative;overflow:hidden;border-radius:30px;padding:26px;
+  background:linear-gradient(135deg,rgba(168,85,247,.17),rgba(34,211,238,.08)),rgba(9,7,25,.75);
+  border:1px solid rgba(255,255,255,.15);box-shadow:0 18px 65px rgba(0,0,0,.35),0 0 38px rgba(168,85,247,.15);
+}
+.hero:before{content:"";position:absolute;inset:-2px;background:linear-gradient(90deg,transparent,rgba(34,211,238,.12),transparent);transform:translateX(-100%);animation:scan 7s linear infinite}
+@keyframes scan{to{transform:translateX(100%)}}
+.eyebrow{display:inline-flex;gap:7px;align-items:center;padding:7px 10px;border-radius:999px;background:rgba(168,85,247,.14);border:1px solid rgba(168,85,247,.32);color:#eadcff;font-size:10px;font-weight:950;letter-spacing:.8px}
+.hero h1{font-size:clamp(27px,5vw,48px);line-height:1.06;margin:15px 0 10px;max-width:820px}
+.hero h1 span{background:linear-gradient(90deg,#c084fc,#67e8f9,#f9a8d4);-webkit-background-clip:text;color:transparent}
+.hero p{color:#ccc8e5;line-height:1.6;max-width:820px;margin:0;font-size:14px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:20px}
+.stat{padding:12px;border-radius:16px;background:rgba(255,255,255,.055);border:1px solid var(--line)}
+.stat b{display:block;font-size:20px}.stat span{font-size:10px;color:#aaa7ca;font-weight:800}
+.progress-wrap{margin-top:15px;background:rgba(255,255,255,.055);padding:12px;border-radius:18px;border:1px solid var(--line)}
+.progress-head{display:flex;justify-content:space-between;font-size:11px;font-weight:900;margin-bottom:8px}
+.progress{height:10px;border-radius:999px;background:rgba(255,255,255,.07);overflow:hidden}
+.progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--p),var(--b),var(--green));box-shadow:0 0 18px rgba(34,211,238,.5);transition:.35s}
+.levels{display:grid;grid-template-columns:repeat(5,1fr);gap:9px;margin:16px 0}
+.level-btn{
+  position:relative;border:1px solid var(--line);background:rgba(255,255,255,.055);color:#e9e6fa;
+  border-radius:16px;padding:12px 8px;font-weight:900;cursor:pointer;min-height:68px
+}
+.level-btn small{display:block;color:#9da5c8;font-size:9px;margin-top:5px}
+.level-btn.active{background:linear-gradient(135deg,rgba(168,85,247,.38),rgba(34,211,238,.18));border-color:rgba(103,232,249,.42);box-shadow:0 0 24px rgba(34,211,238,.12)}
+.level-btn.locked{opacity:.42;cursor:not-allowed}
+.level-btn.done:after{content:"✓";position:absolute;right:8px;top:7px;color:#6ee7b7}
+.panel{display:none}.panel.active{display:block}
+.section{
+  margin-top:14px;border-radius:24px;padding:18px;background:var(--panel);border:1px solid var(--line);
+  box-shadow:0 14px 34px rgba(0,0,0,.22);backdrop-filter:blur(12px)
+}
+.section h2{margin:0 0 6px;font-size:22px}.lead{color:var(--muted);font-size:13px;line-height:1.55;margin:0 0 15px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:13px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}
+.card{background:var(--panel2);border:1px solid var(--line);border-radius:20px;padding:16px}
+.card h3{margin:0 0 9px;font-size:16px}.card p{color:#bcb7d7;font-size:12px;line-height:1.55}
+.formula{font-size:clamp(20px,4vw,30px);font-weight:1000;text-align:center;padding:17px 10px;border-radius:18px;background:rgba(0,0,0,.22);border:1px solid rgba(255,255,255,.12);margin:10px 0}
+.formula.purple{box-shadow:inset 0 0 25px rgba(168,85,247,.12)}.formula.blue{box-shadow:inset 0 0 25px rgba(34,211,238,.12)}.formula.pink{box-shadow:inset 0 0 25px rgba(236,72,153,.12)}
+.note{padding:12px;border-left:3px solid var(--b);background:rgba(34,211,238,.07);border-radius:0 14px 14px 0;color:#d7f8ff;font-size:12px;line-height:1.5}
+.controls{display:flex;gap:9px;flex-wrap:wrap;align-items:center;margin:12px 0}
+.controls label{font-size:11px;font-weight:900;color:#c9c5df}
+.controls input{width:84px;padding:10px;border-radius:12px;border:1px solid var(--line);background:rgba(0,0,0,.25);color:white;text-align:center;font-weight:900}
+.btn{
+  border:0;color:white;font-weight:900;padding:11px 14px;border-radius:13px;cursor:pointer;
+  background:linear-gradient(135deg,#7c3aed,#0891b2);box-shadow:0 8px 20px rgba(0,0,0,.22)
+}
+.btn.alt{background:rgba(255,255,255,.08);border:1px solid var(--line)}.btn.good{background:linear-gradient(135deg,#059669,#0d9488)}
+.area-model{display:grid;grid-template-columns:1fr 1fr;gap:0;max-width:440px;aspect-ratio:1;margin:14px auto;border:2px solid rgba(255,255,255,.35);border-radius:18px;overflow:hidden}
+.area-model div{display:grid;place-items:center;font-weight:1000;font-size:clamp(15px,3vw,25px);border:1px solid rgba(255,255,255,.22);transition:.3s}
+.a2{background:rgba(168,85,247,.34)}.ab1,.ab2{background:rgba(34,211,238,.27)}.b2{background:rgba(236,72,153,.3)}
+.result{padding:13px;border-radius:15px;background:rgba(0,0,0,.2);border:1px solid var(--line);font-weight:850;min-height:48px;line-height:1.5}
+.challenge{margin-top:12px}.question{font-size:18px;font-weight:950;margin-bottom:12px}
+.options{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.option{border:1px solid var(--line);background:rgba(255,255,255,.06);color:white;padding:12px;border-radius:14px;cursor:pointer;font-weight:800;text-align:left}
+.option.correct{background:rgba(52,211,153,.18);border-color:rgba(52,211,153,.55)}.option.wrong{background:rgba(251,113,133,.18);border-color:rgba(251,113,133,.55)}
+.feedback{min-height:28px;margin-top:10px;font-size:12px;font-weight:850}
+.ok{color:#86efac}.err{color:#fda4af}.warn{color:#fde68a}
+.master-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.master-card{padding:15px;border-radius:18px;background:linear-gradient(135deg,rgba(250,204,21,.1),rgba(168,85,247,.12));border:1px solid rgba(250,204,21,.22)}
+.report{background:#0c0a1b;border-radius:22px;padding:20px;border:1px solid rgba(255,255,255,.15)}
+.report h3{font-size:25px;margin:0 0 4px}.report-row{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.08);font-size:12px}
+.report-row:last-child{border:0}
+.footer{text-align:center;color:#777f9f;font-size:10px;padding:25px 0 8px}
+.hidden{display:none!important}
+@media(max-width:850px){.stats{grid-template-columns:repeat(2,1fr)}.levels{grid-template-columns:repeat(2,1fr)}.grid2,.grid3,.master-grid{grid-template-columns:1fr}}
+@media(max-width:520px){body{padding:9px}.hero{padding:18px 14px;border-radius:23px}.section{padding:14px;border-radius:20px}.options{grid-template-columns:1fr}.levels{grid-template-columns:1fr 1fr}.brand strong{font-size:18px}.back{font-size:10px;padding:9px 10px}}
+@media print{body{background:white;color:black}.topbar,.hero,.levels,.section:not(#reportSection),.footer{display:none!important}#reportSection{display:block!important;background:white;color:black;border:0;box-shadow:none}.report{background:white;color:black;border:2px solid #222}}
 </style>
 </head>
 <body>
-<div class="container">
-<div class="top"><a class="back" href="https://enginmat360.github.io/Engin360/sayilar_ve_cebir.html">← Sayılar ve Cebir'e Dön</a></div>
-<div class="hero"><div class="logo">ENGİN360</div><h1>🟰 Özdeşlikler Laboratuvarı PRO</h1><p>Tam kare açılımı, iki kare farkı, terim tanıma, modelle görme ve 10 soruluk akıllı quiz.</p></div>
-<div class="tabs">
-<button class="tab active" onclick="showTab('ogren',this)">1 · Özdeşlik Öğren</button><button class="tab" onclick="showTab('model',this)">2 · Alan Modeli</button><button class="tab" onclick="showTab('makine',this)">3 · Açılım Makinesi</button><button class="tab" onclick="showTab('dedektif',this)">4 · Özdeşlik Dedektifi</button><button class="tab" onclick="showTab('quiz',this)">5 · 10 Soru Quiz</button>
-</div>
-<section id="ogren" class="panel active"><div class="grid"><div class="card"><h2>Temel Özdeşlikler</h2><div class="formula">(a+b)² = a² + 2ab + b²</div><div class="formula">(a-b)² = a² - 2ab + b²</div><div class="formula">a² - b² = (a-b)(a+b)</div><p class="muted">Özdeşlik ezber değil, aynı ifadenin farklı görünümleridir. Açılmış hâliyle çarpanlara ayrılmış hâli aynı değeri verir.</p></div><div class="card"><h2>Hızlı Mantık</h2><div class="steps"><div class="step"><b>Tam kare:</b> baş ve son terim kare ise ortadaki terim <b>2·ilk·son</b> kontrol edilir.</div><div class="step"><b>İki kare farkı:</b> iki terim vardır, arada eksi olur: <b>a²-b²</b>.</div><div class="step"><b>En sık hata:</b> (a+b)² ifadesini a²+b² sanmak. Ortadaki <b>2ab</b> unutulmaz.</div></div></div></div></section>
-<section id="model" class="panel"><div class="grid"><div class="card"><h2>Alan Modeli</h2><p class="muted">a ve b uzunluklarını değiştir. Karenin alanı parçalanarak özdeşliği gösterir.</p><div class="controls"><div class="control"><label>a değeri</label><input id="aVal" type="range" min="1" max="8" value="5" oninput="drawModel()"></div><div class="control"><label>b değeri</label><input id="bVal" type="range" min="1" max="8" value="3" oninput="drawModel()"></div></div><div class="result" id="modelInfo"></div></div><div class="card"><div class="svgWrap"><svg id="modelSvg" viewBox="0 0 420 420"></svg></div></div></div></section>
-<section id="makine" class="panel"><div class="grid"><div class="card"><h2>Açılım Makinesi</h2><div class="controls"><div class="control"><label>Özdeşlik türü</label><select id="typeSel" onchange="expandIdentity()"><option value="plus">(ax+b)²</option><option value="minus">(ax-b)²</option><option value="diff">(ax)²-b²</option></select></div><div class="control"><label>a katsayısı</label><input id="coefA" type="number" value="2" oninput="expandIdentity()"></div><div class="control"><label>b sayısı</label><input id="coefB" type="number" value="3" oninput="expandIdentity()"></div></div><button class="main" onclick="expandIdentity()">Açılımı Göster</button><div class="result" id="expandResult"></div></div><div class="card"><h2>Adım Adım</h2><div class="steps" id="expandSteps"></div></div></div></section>
-<section id="dedektif" class="panel"><div class="grid"><div class="card"><h2>Özdeşlik Dedektifi</h2><p class="muted">Aşağıdaki ifadelerden doğru özdeşlik olanları seç.</p><button class="main" onclick="newDetective()">Yeni Set Oluştur</button><button class="main" onclick="checkDetective()">Kontrol Et</button><div class="tiles" id="detectiveTiles"></div></div><div class="card"><h2>Dedektif Sonucu</h2><div class="result" id="detectiveResult">Kartları seçip kontrol et.</div></div></div></section>
-<section id="quiz" class="panel"><div class="grid"><div class="card quizBox"><h2>10 Soruluk Akıllı Quiz</h2><div class="score"><div>Doğru<br><b id="qCorrect">0</b></div><div>Yanlış<br><b id="qWrong">0</b></div><div>Soru<br><b id="qNo">1/10</b></div><div>Başarı<br><b id="qPercent">%0</b></div></div><div class="question" id="qText"></div><div class="options" id="qOptions"></div><button class="main" onclick="startQuiz()">Quizi Yeniden Başlat</button></div><div class="card"><h2>Analiz</h2><div class="result analysis" id="qAnalysis">10 soruyu bitirince eksik konu analizi burada oluşacak.</div></div></div></section>
-<div class="footer">ENGİN360 © 2026 · Özdeşlikler Laboratuvarı</div>
-</div>
+<main class="shell">
+  <div class="topbar">
+    <div class="brand"><div class="logo">E360</div><div><strong>ENGİN360</strong><small>MASTER LEARNING SYSTEM</small></div></div>
+    <a class="back" href="sayilar_ve_cebir.html">← Sayılar ve Cebir</a>
+  </div>
+
+  <section class="hero">
+    <div class="eyebrow">⚡ MLS · ÖZDEŞLİKLER LABORATUVARI PRO</div>
+    <h1>Ezberleme. <span>Yapıyı gör, tamamla, ustalaş.</span></h1>
+    <p>Tam kare açılımları, iki kare farkı, özdeşlik tanıma ve tersine düşünme becerilerini 5 seviyeli Master Learning System ile geliştir.</p>
+    <div class="stats">
+      <div class="stat"><b id="levelStat">1/5</b><span>AÇILAN SEVİYE</span></div>
+      <div class="stat"><b id="correctStat">0</b><span>DOĞRU CEVAP</span></div>
+      <div class="stat"><b id="streakStat">0</b><span>EN İYİ SERİ</span></div>
+      <div class="stat"><b id="masterStat">Kilitli</b><span>USTA MODU</span></div>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-head"><span>MLS İlerleme</span><span id="progressText">%0</span></div>
+      <div class="progress"><i id="progressBar"></i></div>
+    </div>
+  </section>
+
+  <nav class="levels" id="levelNav">
+    <button class="level-btn active" data-level="1">1 · Keşfet<small>Temel yapı</small></button>
+    <button class="level-btn locked" data-level="2">2 · Görselleştir<small>Alan modeli</small></button>
+    <button class="level-btn locked" data-level="3">3 · Tamamla<small>Eksik terim</small></button>
+    <button class="level-btn locked" data-level="4">4 · Dedektif<small>Hata avcısı</small></button>
+    <button class="level-btn locked" data-level="5">5 · Usta Modu<small>Final sınavı</small></button>
+  </nav>
+
+  <section class="panel active" id="level1">
+    <div class="section">
+      <h2>Seviye 1 · Özdeşliğin Yapısını Keşfet</h2>
+      <p class="lead">Özdeşlik, değişkenlerin alabileceği bütün uygun değerlerde doğru kalan eşitliktir. Önce yapıyı tanı.</p>
+      <div class="grid3">
+        <div class="card"><h3>Toplamın Karesi</h3><div class="formula purple">(a+b)² = a²+2ab+b²</div><p>İlk terimin karesi + iki terimin çarpımının iki katı + ikinci terimin karesi.</p></div>
+        <div class="card"><h3>Farkın Karesi</h3><div class="formula blue">(a-b)² = a²-2ab+b²</div><p>Son terim yine pozitiftir. İşaret değişimi yalnızca orta terimdedir.</p></div>
+        <div class="card"><h3>İki Kare Farkı</h3><div class="formula pink">a²-b² = (a-b)(a+b)</div><p>İki kare arasında eksi varsa, çarpanlar aynı terimlerin toplamı ve farkıdır.</p></div>
+      </div>
+      <div class="note">En sık hata: <b>(a+b)² = a²+b²</b> sanmaktır. Ortadaki <b>2ab</b> terimi alan modelindeki iki dikdörtgenden gelir.</div>
+      <div class="challenge" data-challenge="1">
+        <div class="question">(x+5)² açılımı hangisidir?</div>
+        <div class="options">
+          <button class="option" data-correct="false">x²+25</button>
+          <button class="option" data-correct="true">x²+10x+25</button>
+          <button class="option" data-correct="false">x²+5x+25</button>
+          <button class="option" data-correct="false">x²-10x+25</button>
+        </div>
+        <div class="feedback"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="level2">
+    <div class="section">
+      <h2>Seviye 2 · Alan Modeliyle Gör</h2>
+      <p class="lead">Bir kenarı a+b olan karenin alanı, dört parçanın toplamıdır. Değerleri değiştirerek 2ab’nin nereden geldiğini gör.</p>
+      <div class="grid2">
+        <div class="card">
+          <div class="controls"><label>a</label><input id="aVal" type="number" value="4" min="1" max="12"><label>b</label><input id="bVal" type="number" value="2" min="1" max="12"><button class="btn" onclick="updateArea()">Modeli Güncelle</button></div>
+          <div class="area-model" id="areaModel">
+            <div class="a2">a²</div><div class="ab1">ab</div><div class="ab2">ab</div><div class="b2">b²</div>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Sayısal Doğrulama</h3>
+          <div class="result" id="areaResult"></div>
+          <p>İki ayrı <b>ab</b> dikdörtgeni bulunduğu için toplamda <b>2ab</b> oluşur.</p>
+          <div class="challenge" data-challenge="2">
+            <div class="question">(3x+2)² ifadesinin orta terimi nedir?</div>
+            <div class="options">
+              <button class="option" data-correct="false">6x</button>
+              <button class="option" data-correct="true">12x</button>
+              <button class="option" data-correct="false">4x</button>
+              <button class="option" data-correct="false">9x</button>
+            </div><div class="feedback"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="level3">
+    <div class="section">
+      <h2>Seviye 3 · Eksik Terimi Tamamla</h2>
+      <p class="lead">Tam kare ifadelerde baş ve son terimi gördüğünde orta terimi; baş ve orta terimi gördüğünde son terimi bul.</p>
+      <div class="grid2">
+        <div class="card">
+          <h3>Tamamlama Makinesi</h3>
+          <div class="controls"><label>m</label><input id="mVal" type="number" value="2"><label>n</label><input id="nVal" type="number" value="5"><button class="btn" onclick="buildIdentity()">Açılımı Oluştur</button></div>
+          <div class="result" id="identityResult"></div>
+        </div>
+        <div class="card">
+          <h3>Tersine Düşünme</h3>
+          <p><b>x²+14x+49</b> ifadesinde 49=7² ve 14x=2·x·7 olduğundan ifade <b>(x+7)²</b> olur.</p>
+          <div class="challenge" data-challenge="3">
+            <div class="question">x²-16x+64 ifadesinin çarpanlanmış hâli nedir?</div>
+            <div class="options">
+              <button class="option" data-correct="true">(x-8)²</button>
+              <button class="option" data-correct="false">(x+8)²</button>
+              <button class="option" data-correct="false">(x-4)²</button>
+              <button class="option" data-correct="false">(x-8)(x+8)</button>
+            </div><div class="feedback"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="level4">
+    <div class="section">
+      <h2>Seviye 4 · Özdeşlik Dedektifi</h2>
+      <p class="lead">Yanlış açılımı yakala. İşaret, katsayı ve orta terim hatalarını ayırt et.</p>
+      <div class="grid3">
+        <div class="card"><h3>İşaret Kontrolü</h3><p>(a-b)² açılımında son terim <b>+b²</b> kalır.</p></div>
+        <div class="card"><h3>Orta Terim Kontrolü</h3><p>Orta terim daima <b>±2ab</b> yapısındadır.</p></div>
+        <div class="card"><h3>Kare Farkı Kontrolü</h3><p>a²+b², reel sayılarda iki kare farkı biçiminde ayrılmaz.</p></div>
+      </div>
+      <div class="challenge" data-challenge="4">
+        <div class="question">Aşağıdaki eşitliklerden hangisi yanlıştır?</div>
+        <div class="options">
+          <button class="option" data-correct="false">(x+3)²=x²+6x+9</button>
+          <button class="option" data-correct="false">x²-25=(x-5)(x+5)</button>
+          <button class="option" data-correct="true">(2x-1)²=4x²-2x+1</button>
+          <button class="option" data-correct="false">(a-b)²=a²-2ab+b²</button>
+        </div><div class="feedback"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="level5">
+    <div class="section">
+      <h2>Seviye 5 · Usta Modu</h2>
+      <p class="lead">10 soruluk final sınavında en az 8 doğru yap. Sorular her başlatmada karışır.</p>
+      <div id="masterIntro">
+        <div class="master-grid">
+          <div class="master-card"><b>10 soru</b><p>Tam kare, kare farkı, eksik terim ve hata analizi.</p></div>
+          <div class="master-card"><b>Başarı eşiği: %80</b><p>8 doğru ve üzeri Usta Rozeti kazandırır.</p></div>
+        </div>
+        <button class="btn good" style="margin-top:14px" onclick="startMaster()">Usta Sınavını Başlat</button>
+      </div>
+      <div id="masterQuiz" class="hidden">
+        <div class="progress-wrap"><div class="progress-head"><span id="masterCount">Soru 1/10</span><span id="masterScore">0 doğru</span></div><div class="progress"><i id="masterBar"></i></div></div>
+        <div class="question" id="masterQuestion"></div>
+        <div class="options" id="masterOptions"></div>
+        <div class="feedback" id="masterFeedback"></div>
+      </div>
+      <div id="masterResult" class="hidden"></div>
+    </div>
+  </section>
+
+  <section class="section hidden" id="reportSection">
+    <h2>MLS Sonuç Raporu</h2>
+    <p class="lead">Öğrenci ilerlemesini görsel olarak kaydet veya WhatsApp özetini kopyala.</p>
+    <div class="report" id="reportCard">
+      <h3>ENGİN360 · Özdeşlikler MLS</h3>
+      <div style="color:#aaa7ca;font-size:11px;margin-bottom:12px">Master Learning System Öğrenme Raporu</div>
+      <div class="report-row"><span>Tamamlanan seviye</span><b id="rLevel">0/5</b></div>
+      <div class="report-row"><span>Toplam doğru</span><b id="rCorrect">0</b></div>
+      <div class="report-row"><span>En iyi seri</span><b id="rStreak">0</b></div>
+      <div class="report-row"><span>Usta sınavı</span><b id="rMaster">Tamamlanmadı</b></div>
+      <div class="report-row"><span>Öğrenme durumu</span><b id="rStatus">Başlangıç</b></div>
+    </div>
+    <div class="controls">
+      <button class="btn" onclick="window.print()">Raporu Yazdır / PDF Kaydet</button>
+      <button class="btn alt" onclick="copyWhatsApp()">WhatsApp Metnini Kopyala</button>
+      <button class="btn alt" onclick="resetMLS()">İlerlemeyi Sıfırla</button>
+    </div>
+    <div class="feedback" id="copyFeedback"></div>
+  </section>
+
+  <footer class="footer">ENGİN360 © 2026 · Özdeşlikler Laboratuvarı PRO · Master Learning System</footer>
+</main>
+
 <script>
-function showTab(id,btn){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));btn.classList.add('active'); if(id==='quiz'&&!quizStarted)startQuiz();}
-const supers=n=>String(n).replace(/2/g,'²').replace(/3/g,'³').replace(/-/g,'⁻');
-function drawModel(){let a=+document.getElementById('aVal').value,b=+document.getElementById('bVal').value,svg=document.getElementById('modelSvg');let scale=28,x=45,y=45,A=a*scale,B=b*scale,total=A+B;svg.innerHTML=`<rect x="${x}" y="${y}" width="${A}" height="${A}" fill="#7c3aed" opacity=".82"/><rect x="${x+A}" y="${y}" width="${B}" height="${A}" fill="#0ea5e9" opacity=".82"/><rect x="${x}" y="${y+A}" width="${A}" height="${B}" fill="#0ea5e9" opacity=".82"/><rect x="${x+A}" y="${y+A}" width="${B}" height="${B}" fill="#ec4899" opacity=".82"/><rect x="${x}" y="${y}" width="${total}" height="${total}" fill="none" stroke="white" stroke-width="3"/><text x="${x+A/2}" y="${y+A/2}" fill="white" font-size="20" text-anchor="middle" font-weight="900">a²</text><text x="${x+A+B/2}" y="${y+A/2}" fill="white" font-size="18" text-anchor="middle" font-weight="900">ab</text><text x="${x+A/2}" y="${y+A+B/2}" fill="white" font-size="18" text-anchor="middle" font-weight="900">ab</text><text x="${x+A+B/2}" y="${y+A+B/2}" fill="white" font-size="18" text-anchor="middle" font-weight="900">b²</text><text x="${x+total/2}" y="${y+total+34}" fill="#d8daf7" font-size="20" text-anchor="middle" font-weight="900">(a+b)² = a² + 2ab + b²</text>`;document.getElementById('modelInfo').innerHTML=`a=${a}, b=${b}<br>(a+b)² = (${a}+${b})² = ${Math.pow(a+b,2)}<br>a²+2ab+b² = ${a*a}+${2*a*b}+${b*b} = ${Math.pow(a+b,2)}`}
-function expandIdentity(){let type=document.getElementById('typeSel').value,a=+document.getElementById('coefA').value||1,b=+document.getElementById('coefB').value||0;let res='',steps=[];let ax=a===1?'x':`${a}x`;if(type==='plus'){res=`(${ax}+${b})² = ${a*a}x² + ${2*a*b}x + ${b*b}`;steps=[`İlk terimin karesi: (${ax})² = ${a*a}x²`,`Ortadaki terim: 2·${ax}·${b} = ${2*a*b}x`,`Son terimin karesi: ${b}² = ${b*b}`]}if(type==='minus'){res=`(${ax}-${b})² = ${a*a}x² - ${2*a*b}x + ${b*b}`;steps=[`İlk terimin karesi: (${ax})² = ${a*a}x²`,`Ortadaki terim negatif olur: -2·${ax}·${b} = -${2*a*b}x`,`Son terimin karesi pozitiftir: ${b}² = ${b*b}`]}if(type==='diff'){res=`(${ax})² - ${b*b} = (${ax}-${b})(${ax}+${b})`;steps=[`İlk terim kare: (${ax})² = ${a*a}x²`,`İkinci terim kare: ${b*b} = ${b}²`,`İki kare farkı: A²-B²=(A-B)(A+B)`]}document.getElementById('expandResult').innerHTML=res;document.getElementById('expandSteps').innerHTML=steps.map(s=>`<div class="step">${s}</div>`).join('')}
-let det=[];function newDetective(){det=[['(x+3)² = x²+6x+9',true],['(x+4)² = x²+16',false],['x²-25 = (x-5)(x+5)',true],['(2x-1)² = 4x²-4x+1',true],['a²+b² = (a+b)(a-b)',false],['(x-7)² = x²-14x+49',true]];det=det.sort(()=>Math.random()-.5).slice(0,6);document.getElementById('detectiveTiles').innerHTML=det.map((d,i)=>`<div class="tile" onclick="this.classList.toggle('good')" data-i="${i}">${d[0]}</div>`).join('');document.getElementById('detectiveResult').textContent='Doğru olduğunu düşündüğün kartları seç.'}
-function checkDetective(){let ok=0,wrong=0;document.querySelectorAll('#detectiveTiles .tile').forEach(t=>{let chosen=t.classList.contains('good'),ans=det[+t.dataset.i][1];t.classList.remove('bad');if(chosen===ans){ok++;t.classList.add('good')}else{wrong++;t.classList.add('bad')}});document.getElementById('detectiveResult').innerHTML=`Doğru karar: <span class="ok">${ok}</span><br>Hatalı karar: <span class="err">${wrong}</span><br>${wrong===0?'Harika! Özdeşlikleri tanıyorsun.':'Seçilmeyen veya yanlış seçilen kartları tekrar incele.'}`}
-let q=[],qi=0,correct=0,wrong=0,miss={},quizStarted=false;function makeQuiz(){const base=[{q:'(x+5)² açılımı nedir?',o:['x²+10x+25','x²+25','x²+5x+25','x²-10x+25'],a:0,t:'tam kare artı'},{q:'(x-4)² açılımı nedir?',o:['x²-8x+16','x²+8x+16','x²-16','x²-4x+16'],a:0,t:'tam kare eksi'},{q:'x²-49 ifadesi nasıl çarpanlara ayrılır?',o:['(x-7)(x+7)','(x-49)(x+1)','(x-7)²','x(x-49)'],a:0,t:'iki kare farkı'},{q:'(2x+3)² açılımı nedir?',o:['4x²+12x+9','2x²+12x+9','4x²+6x+9','4x²+9'],a:0,t:'katsayılı tam kare'},{q:'9x²-16 ifadesi nasıl çarpanlara ayrılır?',o:['(3x-4)(3x+4)','(9x-4)(x+4)','(3x-4)²','(9x-16)(x+1)'],a:0,t:'iki kare farkı'},{q:'(a+b)² içinde unutulan terim genellikle hangisidir?',o:['2ab','a²','b²','a-b'],a:0,t:'orta terim'},{q:'(x-6)² ifadesinde orta terim nedir?',o:['-12x','+12x','-6x','+36x'],a:0,t:'işaret'},{q:'x²+14x+49 hangi özdeşliktir?',o:['(x+7)²','(x-7)²','(x+14)²','(x+49)²'],a:0,t:'tanıma'},{q:'4x²-20x+25 hangi özdeşliktir?',o:['(2x-5)²','(4x-5)²','(2x+5)²','(x-5)²'],a:0,t:'tanıma'},{q:'a²-b² özdeşliği hangisidir?',o:['(a-b)(a+b)','(a-b)²','a²-2ab+b²','(a+b)²'],a:0,t:'iki kare farkı'}];return base.sort(()=>Math.random()-.5).slice(0,10).map(x=>{let zipped=x.o.map((v,i)=>[v,i===x.a]);zipped=zipped.sort(()=>Math.random()-.5);return{q:x.q,o:zipped.map(z=>z[0]),a:zipped.findIndex(z=>z[1]),t:x.t}})}
-function startQuiz(){q=makeQuiz();qi=0;correct=0;wrong=0;miss={};quizStarted=true;document.getElementById('qAnalysis').textContent='Quiz başladı. 10 soruyu tamamlayınca analiz oluşacak.';showQuestion()}
-function showQuestion(){document.getElementById('qCorrect').textContent=correct;document.getElementById('qWrong').textContent=wrong;document.getElementById('qNo').textContent=Math.min(qi+1,10)+'/10';document.getElementById('qPercent').textContent='%'+Math.round(correct/Math.max(1,qi)*100);if(qi>=10){finishQuiz();return}let cur=q[qi];document.getElementById('qText').textContent=cur.q;document.getElementById('qOptions').innerHTML=cur.o.map((op,i)=>`<button class="option" onclick="answer(${i})">${op}</button>`).join('')}
-function answer(i){let cur=q[qi];if(i===cur.a)correct++;else{wrong++;miss[cur.t]=(miss[cur.t]||0)+1}qi++;showQuestion()}
-function finishQuiz(){let pct=Math.round(correct*10);document.getElementById('qPercent').textContent='%'+pct;document.getElementById('qOptions').innerHTML='';document.getElementById('qText').textContent='Quiz tamamlandı';let eksik=Object.keys(miss).sort((a,b)=>miss[b]-miss[a]);let txt=`Sonuç: ${correct} doğru, ${wrong} yanlış. Başarı: %${pct}\n\n`;if(!eksik.length)txt+='Eksik konu tespiti: Belirgin eksik görünmüyor. Tam kare ve iki kare farkı mantığı oturmuş.\n\nKoç Yorumu: Bu seviyeyi korumak için karışık testlerde hız çalışması yapabilirsin.';else{txt+=`Eksik konu tespiti:\n- ${eksik.map(e=>`${e} (${miss[e]} hata)`).join('\n- ')}\n\nKoç Yorumu: Özdeşliklerde en kritik nokta kalıp tanımadır. Hata yaptığın başlıklarda önce formülü yaz, sonra ifadeyle eşleştir. Özellikle orta terim ve işaret kontrolünü alışkanlık haline getir.`}document.getElementById('qAnalysis').textContent=txt}
-drawModel();expandIdentity();newDetective();
+const KEY="engin360_ozdeslikler_mls_v1";
+let state=JSON.parse(localStorage.getItem(KEY)||'null')||{unlocked:1,completed:[],correct:0,streak:0,bestStreak:0,masterScore:null};
+const masterBank=[
+ {q:"(x+4)² açılımı nedir?",o:["x²+8x+16","x²+4x+16","x²+16","x²-8x+16"],a:0},
+ {q:"(2x-3)² açılımı nedir?",o:["4x²-12x+9","4x²-6x+9","4x²+12x+9","2x²-12x+9"],a:0},
+ {q:"x²-49 hangi çarpanlara ayrılır?",o:["(x-7)(x+7)","(x-49)(x+1)","(x-7)²","(x+7)²"],a:0},
+ {q:"x²+12x+36 hangi özdeşliktir?",o:["(x+6)²","(x-6)²","(x+3)²","(x-3)(x+3)"],a:0},
+ {q:"9a²-25b² ifadesinin çarpanları nedir?",o:["(3a-5b)(3a+5b)","(9a-5b)(a+5b)","(3a-5b)²","(9a-25b)(a+b)"],a:0},
+ {q:"(a-b)² açılımında orta terim nedir?",o:["-2ab","+2ab","-ab","+ab"],a:0},
+ {q:"4x²+20x+25 hangi ifadenin karesidir?",o:["(2x+5)²","(4x+5)²","(2x-5)²","(x+5)²"],a:0},
+ {q:"(3m+n)² açılımında n² dışındaki terimler hangileridir?",o:["9m²+6mn","3m²+6mn","9m²+3mn","6m²+6mn"],a:0},
+ {q:"Hangisi özdeşlik değildir?",o:["(x+1)²=x²+2x+1","x²-9=(x-3)(x+3)","(x-2)²=x²-4x-4","(a-b)²=a²-2ab+b²"],a:2},
+ {q:"x²-10x+k tam kare ise k kaçtır?",o:["25","10","20","100"],a:0},
+ {q:"16y²-1 ifadesinin çarpanları nedir?",o:["(4y-1)(4y+1)","(16y-1)(y+1)","(4y-1)²","(8y-1)(2y+1)"],a:0},
+ {q:"(x+2y)² açılımı nedir?",o:["x²+4xy+4y²","x²+2xy+4y²","x²+4y²","x²-4xy+4y²"],a:0}
+];
+let masterQuestions=[],masterIndex=0,masterCorrect=0,answered=false;
+
+function save(){localStorage.setItem(KEY,JSON.stringify(state));render()}
+function render(){
+ document.querySelectorAll(".level-btn").forEach(b=>{
+  const n=+b.dataset.level;b.classList.toggle("locked",n>state.unlocked);b.classList.toggle("done",state.completed.includes(n));
+ });
+ document.getElementById("levelStat").textContent=state.unlocked+"/5";
+ document.getElementById("correctStat").textContent=state.correct;
+ document.getElementById("streakStat").textContent=state.bestStreak;
+ document.getElementById("masterStat").textContent=state.masterScore===null?"Kilitli":state.masterScore+"/10";
+ const pct=Math.round((state.completed.length/5)*100);
+ document.getElementById("progressBar").style.width=pct+"%";document.getElementById("progressText").textContent="%"+pct;
+ document.getElementById("reportSection").classList.toggle("hidden",state.completed.length===0);
+ document.getElementById("rLevel").textContent=state.completed.length+"/5";
+ document.getElementById("rCorrect").textContent=state.correct;
+ document.getElementById("rStreak").textContent=state.bestStreak;
+ document.getElementById("rMaster").textContent=state.masterScore===null?"Tamamlanmadı":state.masterScore+"/10";
+ document.getElementById("rStatus").textContent=state.masterScore>=8?"Usta":"Gelişiyor";
+}
+function openLevel(n){
+ if(n>state.unlocked)return;
+ document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));
+ document.querySelectorAll(".level-btn").forEach(b=>b.classList.remove("active"));
+ document.getElementById("level"+n).classList.add("active");
+ document.querySelector(`.level-btn[data-level="${n}"]`).classList.add("active");
+}
+document.querySelectorAll(".level-btn").forEach(b=>b.addEventListener("click",()=>openLevel(+b.dataset.level)));
+
+document.querySelectorAll(".challenge").forEach(ch=>{
+ ch.querySelectorAll(".option").forEach(btn=>btn.addEventListener("click",()=>{
+  if(ch.dataset.done)return;ch.dataset.done="1";
+  const correct=btn.dataset.correct==="true";
+  ch.querySelectorAll(".option").forEach(o=>{if(o.dataset.correct==="true")o.classList.add("correct")});
+  const fb=ch.querySelector(".feedback");
+  if(correct){btn.classList.add("correct");fb.innerHTML='<span class="ok">Doğru. Seviye tamamlandı ve sonraki seviye açıldı.</span>';state.correct++;state.streak++;state.bestStreak=Math.max(state.bestStreak,state.streak)}
+  else{btn.classList.add("wrong");fb.innerHTML='<span class="err">Bu seçenek yanlış. Doğru yapı vurgulandı.</span>';state.streak=0}
+  const lvl=+ch.dataset.challenge;if(!state.completed.includes(lvl))state.completed.push(lvl);
+  state.unlocked=Math.max(state.unlocked,Math.min(5,lvl+1));save();
+ }));
+});
+function updateArea(){
+ const a=Math.max(1,+document.getElementById("aVal").value||1),b=Math.max(1,+document.getElementById("bVal").value||1);
+ const total=(a+b)**2;
+ document.getElementById("areaResult").innerHTML=`(${a}+${b})² = ${a*a} + ${2*a*b} + ${b*b} = <b>${total}</b><br><small>${a*a} + ${a*b} + ${a*b} + ${b*b}</small>`;
+ const pct=a/(a+b)*100;document.getElementById("areaModel").style.gridTemplateColumns=`${pct}% ${100-pct}%`;document.getElementById("areaModel").style.gridTemplateRows=`${pct}% ${100-pct}%`;
+}
+function buildIdentity(){
+ const m=+document.getElementById("mVal").value||1,n=+document.getElementById("nVal").value||1;
+ const mid=2*m*n,last=n*n,first=m*m;
+ document.getElementById("identityResult").innerHTML=`(${m}x + ${n})² = <b>${first}x² + ${mid}x + ${last}</b>`;
+}
+function shuffle(a){return [...a].sort(()=>Math.random()-.5)}
+function startMaster(){
+ masterQuestions=shuffle(masterBank).slice(0,10);masterIndex=0;masterCorrect=0;
+ document.getElementById("masterIntro").classList.add("hidden");document.getElementById("masterResult").classList.add("hidden");document.getElementById("masterQuiz").classList.remove("hidden");showMaster();
+}
+function showMaster(){
+ answered=false;const item=masterQuestions[masterIndex];
+ document.getElementById("masterCount").textContent=`Soru ${masterIndex+1}/10`;document.getElementById("masterScore").textContent=`${masterCorrect} doğru`;
+ document.getElementById("masterBar").style.width=(masterIndex*10)+"%";document.getElementById("masterQuestion").textContent=item.q;
+ const box=document.getElementById("masterOptions");box.innerHTML="";
+ item.o.forEach((t,i)=>{const b=document.createElement("button");b.className="option";b.textContent=t;b.onclick=()=>answerMaster(i,b);box.appendChild(b)});
+ document.getElementById("masterFeedback").innerHTML="";
+}
+function answerMaster(i,btn){
+ if(answered)return;answered=true;const item=masterQuestions[masterIndex];
+ [...document.getElementById("masterOptions").children].forEach((b,j)=>{if(j===item.a)b.classList.add("correct")});
+ if(i===item.a){masterCorrect++;state.correct++;state.streak++;state.bestStreak=Math.max(state.bestStreak,state.streak);document.getElementById("masterFeedback").innerHTML='<span class="ok">Doğru.</span>'}
+ else{btn.classList.add("wrong");state.streak=0;document.getElementById("masterFeedback").innerHTML='<span class="err">Yanlış. Doğru cevap gösterildi.</span>'}
+ setTimeout(()=>{masterIndex++;if(masterIndex<10)showMaster();else finishMaster()},750);
+}
+function finishMaster(){
+ state.masterScore=Math.max(state.masterScore||0,masterCorrect);
+ if(!state.completed.includes(5))state.completed.push(5);
+ document.getElementById("masterQuiz").classList.add("hidden");const r=document.getElementById("masterResult");r.classList.remove("hidden");
+ r.innerHTML=`<div class="report"><h3>${masterCorrect>=8?"🏆 Özdeşlikler Ustası":"📘 Gelişim Devam Ediyor"}</h3><p>${masterCorrect}/10 doğru yaptın. ${masterCorrect>=8?"Usta Modu başarıyla tamamlandı.":"Eksik seviyeleri tekrar edip yeniden dene."}</p><button class="btn" onclick="startMaster()">Tekrar Dene</button></div>`;
+ save();
+}
+async function copyWhatsApp(){
+ const text=`ENGİN360 Özdeşlikler MLS Sonucu\nTamamlanan seviye: ${state.completed.length}/5\nToplam doğru: ${state.correct}\nEn iyi seri: ${state.bestStreak}\nUsta sınavı: ${state.masterScore===null?"Tamamlanmadı":state.masterScore+"/10"}`;
+ try{await navigator.clipboard.writeText(text);document.getElementById("copyFeedback").innerHTML='<span class="ok">WhatsApp özeti kopyalandı.</span>'}
+ catch(e){document.getElementById("copyFeedback").textContent=text}
+}
+function resetMLS(){if(confirm("Tüm MLS ilerlemesi sıfırlansın mı?")){localStorage.removeItem(KEY);location.reload()}}
+updateArea();buildIdentity();render();
 </script>
 </body>
 </html>

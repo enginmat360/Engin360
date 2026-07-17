@@ -37,5 +37,17 @@ let quiz=[],qIndex=0,correct=0,wrong=0,miss={kesir:0,kuvvet:0,bilimsel:0,devirli
 function startQuiz(){quiz=Array.from({length:10},makeQ);qIndex=0;correct=0;wrong=0;miss={kesir:0,kuvvet:0,bilimsel:0,devirli:0};document.getElementById('quizAnalysis').innerHTML='';renderQ()}function renderQ(){let qa=quiz[qIndex];if(!qa){finishQuiz();return}document.getElementById('quizArea').innerHTML=`<div class="quizQ">${qIndex+1}/10 — ${qa.q}</div><div class="answers">${qa.opts.map(o=>`<button onclick="answer('${o.replace(/'/g,"\\'")}')">${o}</button>`).join('')}</div>`}function answer(o){let qa=quiz[qIndex];if(o===qa.a){correct++}else{wrong++;miss[qa.t]++}qIndex++;renderQ()}function finishQuiz(){let total=correct+wrong;if(total===0){return}let pct=Math.round(correct*100/total);let weak=Object.entries(miss).sort((a,b)=>b[1]-a[1]).filter(x=>x[1]>0).map(x=>x[0]);let txt=weak.length?`Eksik görünen alan: ${weak.join(', ')}.`:'Belirgin eksik görünmüyor.';let coach=pct>=80?'Çok iyi. Şimdi hız çalışması yapabilirsin.':pct>=60?'Temel iyi ama hata yaptığın başlıkları tekrar etmelisin.':'Bu konu tekrar gerektiriyor; özellikle örnek çözüm izleyip yeniden quiz çözmelisin.';document.getElementById('quizAnalysis').innerHTML=`<div class="big">${correct} Doğru · ${wrong} Yanlış · %${pct}</div><div class="step">${txt}</div><div class="step">Koç yorumu: ${coach}</div>`}
 newHunt();toFraction();repeatingToFraction();moveDecimal('pos');moveDecimal('neg');scientific();
 </script>
+
+<div id='mls-banner' style="position:fixed;bottom:16px;right:16px;background:#6d28d9;color:white;padding:12px 16px;border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,.3);z-index:9999">
+<b>MLS Sürümü</b><br>İlerleme Takibi • PNG Rapor • WhatsApp Özeti
+</div>
+<script>
+function mlsWhatsAppSummary(){
+ const t=document.title+" çalışması tamamlandı.";
+ navigator.clipboard?.writeText(t);
+ alert("Özet panoya kopyalandı.");
+}
+</script>
+
 </body>
 </html>

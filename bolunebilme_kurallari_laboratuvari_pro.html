@@ -3,10 +3,37 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ENGİN360 Bölünebilme Kuralları Laboratuvarı PRO</title>
+<title>ENGİN360 MLS | Bölünebilme Kuralları Laboratuvarı</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js">
+function reportComment(){let s=mlsState.lastScore;if(s==null)return 'Quiz henüz tamamlanmadı. Sayı analizi ve eksik rakam bölümlerinden sonra 10 soruluk quiz çözülmelidir.';if(s>=85)return 'Bölünebilme kuralları güçlü görünüyor. Uzun sayılar ve eksik rakam sorularında hız çalışması yapılabilir.';if(s>=65)return 'Temel kurallar iyi; hata yapılan 4, 8, 9 veya 11 kuralları kısa tekrar edilmelidir.';if(s>=45)return 'Kurallar kısmen oturmuş. Önce 2-3-5-10, ardından 4-8-9-11 sırasıyla tekrar önerilir.';return 'Temel kurallar yeniden çalışılmalıdır. Basitten karmaşığa ilerlemek en doğru yaklaşım olacaktır.'}
+function buildReport(){let name=el('studentName').value.trim()||'Öğrenci',p=Math.round(mlsState.completed.length/4*100);el('reportMeta').textContent=name+' • '+new Date().toLocaleDateString('tr-TR');el('rXp').textContent=mlsState.xp;el('rProgress').textContent='%'+p;el('rQuiz').textContent=mlsState.lastScore==null?'—':'%'+mlsState.lastScore;el('rBest').textContent=mlsState.bestScore==null?'—':'%'+mlsState.bestScore;el('reportAnalysis').innerHTML='<b>Koç Analizi</b><br>'+reportComment();el('reportBadges').innerHTML=mlsState.badges.length?mlsState.badges.map(b=>'<span class="earnedBadge">🏅 '+b+'</span>').join(''):'Henüz rozet kazanılmadı.';el('reportCard').classList.add('show');el('reportCard').scrollIntoView({behavior:'smooth',block:'start'})}
+async function saveReportImage(){buildReport();if(typeof html2canvas==='undefined'){toast('Görsel kütüphanesi yüklenemedi. Yazdır seçeneğini kullanabilirsin.');return}let canvas=await html2canvas(el('reportCard'),{backgroundColor:'#080b1b',scale:2});let a=document.createElement('a');a.download='ENGIN360_Bolunebilme_MLS_Raporu.png';a.href=canvas.toDataURL('image/png');a.click();toast('Rapor görseli hazırlandı.')}
+async function copyWhatsApp(){let name=el('studentName').value.trim()||'Öğrenci',p=Math.round(mlsState.completed.length/4*100);let text=`ENGİN360 • Bölünebilme Kuralları MLS\nÖğrenci: ${name}\nİlerleme: %${p}\nToplam XP: ${mlsState.xp}\nSon Quiz: ${mlsState.lastScore==null?'Henüz çözülmedi':'%'+mlsState.lastScore}\nEn İyi Sonuç: ${mlsState.bestScore==null?'—':'%'+mlsState.bestScore}\nRozetler: ${mlsState.badges.join(', ')||'Henüz yok'}\nKoç Yorumu: ${reportComment()}`;try{await navigator.clipboard.writeText(text);toast('WhatsApp özeti kopyalandı.')}catch(e){prompt('Metni kopyala:',text)}}
+
+</script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',Arial,sans-serif}
 body{min-height:100vh;color:#fff;background:radial-gradient(circle at top left,rgba(168,85,247,.34),transparent 34%),radial-gradient(circle at bottom right,rgba(14,165,233,.30),transparent 34%),linear-gradient(135deg,#05010d,#120024,#06142f);padding:18px}.wrap{max-width:1180px;margin:auto}.top{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:16px;flex-wrap:wrap}.back{display:inline-block;text-decoration:none;color:#e7e0ff;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);padding:10px 14px;border-radius:999px;font-weight:800}.brand{font-weight:900;font-size:28px;background:linear-gradient(90deg,#a855f7,#38bdf8,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent}.hero{text-align:center;padding:28px 18px;border-radius:28px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);box-shadow:0 0 34px rgba(124,58,237,.30);backdrop-filter:blur(12px);margin-bottom:16px}.hero h1{font-size:34px;margin-bottom:8px}.hero p{color:#ddd7ff;line-height:1.55}.grid{display:grid;grid-template-columns:1.1fr .9fr;gap:14px}.card{border-radius:24px;background:rgba(255,255,255,.075);border:1px solid rgba(255,255,255,.14);box-shadow:0 12px 28px rgba(0,0,0,.28);padding:18px;margin-bottom:14px}.card h2{font-size:21px;margin-bottom:12px;color:#e9ddff}.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:10px 0}input,select,button{border:0;outline:0;border-radius:14px;padding:12px 13px;font-weight:800}input,select{background:#fff;color:#16133a;border:1px solid rgba(255,255,255,.22)}button{cursor:pointer;background:linear-gradient(135deg,#7c3aed,#0ea5e9);color:#fff;box-shadow:0 8px 20px rgba(14,165,233,.20)}button.secondary{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18)}.pill{display:inline-flex;align-items:center;gap:7px;margin:5px;padding:8px 10px;border-radius:999px;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.13);font-size:13px;font-weight:800}.result{background:rgba(2,6,23,.30);border:1px solid rgba(255,255,255,.13);border-radius:18px;padding:14px;margin-top:12px;line-height:1.65;color:#f2f0ff}.ok{color:#4ade80;font-weight:900}.bad{color:#fb7185;font-weight:900}.warn{color:#facc15;font-weight:900}.rule{padding:12px;margin:8px 0;border-radius:16px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12)}.rule b{color:#7dd3fc}.digits{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.digit{width:42px;height:42px;border-radius:13px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,rgba(124,58,237,.45),rgba(14,165,233,.24));border:1px solid rgba(255,255,255,.18);font-weight:900;font-size:18px}.sumBox{display:grid;grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:10px;margin-top:12px}.stat{padding:13px;border-radius:18px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);text-align:center}.stat .num{font-size:26px;font-weight:900;color:#7dd3fc}.quizQ{font-size:19px;font-weight:900;margin-bottom:10px;line-height:1.4}.answers{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}.answers button{background:rgba(255,255,255,.11);border:1px solid rgba(255,255,255,.16)}.answers button:hover{background:linear-gradient(135deg,#7c3aed,#0ea5e9)}.progress{height:11px;border-radius:999px;background:rgba(255,255,255,.13);overflow:hidden;margin:12px 0}.progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,#22c55e,#38bdf8)}.analysisBox{white-space:pre-wrap}.miniTitle{font-size:14px;color:#c7d2fe;margin-top:8px;font-weight:900}.chips button{padding:10px 12px;margin:4px;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.14)}.footer{text-align:center;color:#aaa;font-size:12px;margin:22px 0 6px}@media(max-width:880px){.grid{grid-template-columns:1fr}.hero h1{font-size:27px}body{padding:12px}}
+
+:root{--violet:#8b5cf6;--cyan:#22d3ee;--pink:#f472b6;--green:#34d399;--amber:#fbbf24}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);background-size:34px 34px;mask-image:linear-gradient(to bottom,black,transparent 80%)}
+.mlsBadge{padding:9px 13px;border-radius:999px;font-size:12px;font-weight:950;letter-spacing:.8px;background:linear-gradient(135deg,rgba(139,92,246,.28),rgba(34,211,238,.22));border:1px solid rgba(125,211,252,.32);box-shadow:0 0 20px rgba(34,211,238,.12)}
+.hero{position:relative;overflow:hidden}.hero:after{content:"÷";position:absolute;right:28px;top:-45px;font-size:170px;font-weight:950;color:rgba(255,255,255,.035);transform:rotate(-8deg)}
+.heroTitle{font-size:clamp(30px,5vw,52px);font-weight:950;margin-top:6px;letter-spacing:-1.2px}.heroTitle span{background:linear-gradient(90deg,#c084fc,#67e8f9,#f9a8d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.heroActions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:17px}
+.studentInput{max-width:290px;padding:12px 14px;border-radius:15px;border:1px solid rgba(255,255,255,.16);background:rgba(5,8,25,.45);color:white;font-weight:800;outline:none}
+.dashboard{display:grid;grid-template-columns:repeat(5,1fr);gap:11px;margin:16px 0}
+.metric{padding:15px;border-radius:19px;background:linear-gradient(145deg,rgba(255,255,255,.095),rgba(255,255,255,.045));border:1px solid rgba(255,255,255,.13);box-shadow:0 10px 26px rgba(0,0,0,.18)}
+.metric small{display:block;color:#cbd5e1;font-weight:750;margin-bottom:5px}.metric strong{font-size:25px}.metric em{font-style:normal;color:#9be7ff;font-size:12px}
+.progressWrap{margin:4px 0 18px;padding:14px;border-radius:18px;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.1)}
+.progressTop{display:flex;justify-content:space-between;font-size:13px;font-weight:850;margin-bottom:8px}.mlsProgress{height:12px;border-radius:999px;background:rgba(255,255,255,.09);overflow:hidden}.mlsProgressBar{height:100%;width:0;background:linear-gradient(90deg,#8b5cf6,#22d3ee,#f472b6);transition:.45s}
+.path{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin:0 0 18px}.pathItem{padding:11px 9px;border-radius:16px;text-align:center;font-size:12px;font-weight:850;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.1)}.pathItem.done{background:rgba(52,211,153,.14);border-color:rgba(52,211,153,.35)}.pathItem.active{box-shadow:0 0 18px rgba(34,211,238,.2);border-color:rgba(34,211,238,.4)}
+.toolbar{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:15px 0}.pink{background:linear-gradient(135deg,#db2777,#8b5cf6)!important}.green{background:linear-gradient(135deg,#059669,#0ea5e9)!important}
+.toast{position:fixed;right:18px;bottom:18px;max-width:330px;padding:14px 16px;border-radius:16px;background:#111827;border:1px solid rgba(255,255,255,.15);box-shadow:0 16px 40px rgba(0,0,0,.38);font-weight:800;transform:translateY(120px);opacity:0;transition:.3s;z-index:20}.toast.show{transform:none;opacity:1}
+.reportCard{display:none;margin-top:18px;background:#080b1b;border:1px solid rgba(125,211,252,.28);border-radius:26px;padding:24px;box-shadow:0 0 30px rgba(139,92,246,.2)}.reportCard.show{display:block}.reportHead{text-align:center;border-bottom:1px solid rgba(255,255,255,.11);padding-bottom:16px;margin-bottom:16px}.reportHead h2{font-size:28px;margin:5px 0}.reportGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.reportCell{background:rgba(255,255,255,.07);padding:14px;border-radius:16px;text-align:center}.reportCell b{display:block;font-size:25px;margin-bottom:4px}.coachNote{margin-top:14px;padding:15px;border-radius:17px;background:linear-gradient(135deg,rgba(139,92,246,.17),rgba(34,211,238,.1));line-height:1.6}.badgeRow{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.earnedBadge{padding:7px 10px;border-radius:999px;background:rgba(251,191,36,.13);border:1px solid rgba(251,191,36,.35);font-size:12px;font-weight:850;color:#fde68a}
+@media(max-width:900px){.dashboard{grid-template-columns:1fr 1fr}.dashboard .metric:last-child{grid-column:1/-1}.path{grid-template-columns:1fr 1fr}.reportGrid{grid-template-columns:1fr 1fr}.heroActions{flex-direction:column;align-items:center}.studentInput{width:100%}}
+@media print{body{background:#fff;color:#111;padding:0}.wrap>*:not(.reportCard){display:none!important}.reportCard{display:block!important;color:#111;background:#fff;border:1px solid #bbb;box-shadow:none;margin:0}.reportCell,.coachNote{background:#f3f4f6;color:#111}.earnedBadge{color:#854d0e}}
+
 </style>
 </head>
 <body>
@@ -18,7 +45,7 @@ body{min-height:100vh;color:#fff;background:radial-gradient(circle at top left,r
     <main>
       <div class="card">
         <h2>🔍 Sayı Dedektifi</h2>
-        <div class="row"><input id="numInput" value="7392" inputmode="numeric" placeholder="Sayı gir"><button onclick="analyzeNumber()">Analiz Et</button><button class="secondary" onclick="randomNumber()">Rastgele Sayı</button></div>
+        <div class="row"><input id="numInput" value="7392" inputmode="numeric" placeholder="Sayı gir"><button onclick="analyzeNumber();completeStep('analiz')">Analiz Et</button><button class="secondary" onclick="randomNumber()">Rastgele Sayı</button></div>
         <div id="digits" class="digits"></div>
         <div id="numberResult" class="result">Bir sayı girip analiz et.</div>
       </div>
@@ -26,13 +53,13 @@ body{min-height:100vh;color:#fff;background:radial-gradient(circle at top left,r
       <div class="card">
         <h2>❓ Eksik Rakamı Bul</h2>
         <p style="color:#d8daf7;line-height:1.5">Bir tane <b>?</b> kullan. Örnek: <b>34?2</b>. Hangi rakamlar yazılırsa seçilen kurala bölüneceğini gösterir.</p>
-        <div class="row"><input id="missingInput" value="34?2" placeholder="Ör: 12?6"><select id="missingRule"><option value="2">2 ile</option><option value="3">3 ile</option><option value="4">4 ile</option><option value="5">5 ile</option><option value="6">6 ile</option><option value="8">8 ile</option><option value="9">9 ile</option><option value="10">10 ile</option><option value="11">11 ile</option></select><button onclick="findMissingDigits()">Eksik Rakamları Bul</button></div>
+        <div class="row"><input id="missingInput" value="34?2" placeholder="Ör: 12?6"><select id="missingRule"><option value="2">2 ile</option><option value="3">3 ile</option><option value="4">4 ile</option><option value="5">5 ile</option><option value="6">6 ile</option><option value="8">8 ile</option><option value="9">9 ile</option><option value="10">10 ile</option><option value="11">11 ile</option></select><button onclick="findMissingDigits();completeStep('eksik')">Eksik Rakamları Bul</button></div>
         <div id="missingResult" class="result">Eksik rakam sorularını burada çözebilirsin.</div>
       </div>
 
       <div class="card">
         <h2>🎯 10 Soruluk Akıllı Quiz</h2>
-        <div class="row"><button onclick="startQuiz()">Yeni Quiz Başlat</button><button class="secondary" onclick="resetQuiz()">Sıfırla</button></div>
+        <div class="row"><button onclick="startQuiz();completeStep('quiz')">Yeni Quiz Başlat</button><button class="secondary" onclick="resetQuiz()">Sıfırla</button></div>
         <div class="progress"><i id="bar"></i></div>
         <div id="quizArea" class="result">Quiz başlatınca 10 karışık soru gelir. Sonunda eksik konularını analiz eder.</div>
       </div>
@@ -60,6 +87,30 @@ body{min-height:100vh;color:#fff;background:radial-gradient(circle at top left,r
   </div>
   <div class="footer">ENGİN360 © 2026 · Bölünebilme Kuralları Laboratuvarı</div>
 </div>
+
+<div class="toolbar">
+  <button class="green" onclick="buildReport()">📊 MLS Raporunu Oluştur</button>
+  <button class="pink" onclick="saveReportImage()">🖼️ Rapor Görselini Kaydet</button>
+  <button class="secondary" onclick="copyWhatsApp()">📱 WhatsApp Metnini Kopyala</button>
+  <button class="secondary" onclick="window.print()">🖨️ Yazdır</button>
+</div>
+<section id="reportCard" class="reportCard">
+  <div class="reportHead">
+    <div class="brand">ENGİN360</div>
+    <h2>Bölünebilme Kuralları MLS Öğrenci Raporu</h2>
+    <div id="reportMeta"></div>
+  </div>
+  <div class="reportGrid">
+    <div class="reportCell"><b id="rXp">0</b>Toplam XP</div>
+    <div class="reportCell"><b id="rProgress">%0</b>İlerleme</div>
+    <div class="reportCell"><b id="rQuiz">—</b>Quiz Başarısı</div>
+    <div class="reportCell"><b id="rBest">—</b>En İyi Sonuç</div>
+  </div>
+  <div id="reportAnalysis" class="coachNote"></div>
+  <div id="reportBadges" class="badgeRow"></div>
+</section>
+<div id="toast" class="toast"></div>
+
 <script>
 function el(id){return document.getElementById(id)}
 function digitsOf(s){return String(s).replace(/\D/g,'').split('').map(Number)}
@@ -76,8 +127,8 @@ function startQuiz(){quiz=Array.from({length:10},makeQuestion);idx=0;score=0;wro
 function resetQuiz(){quiz=[];idx=0;score=0;wrong=[];el('bar').style.width='0%';el('quizArea').innerHTML='Quiz sıfırlandı. Yeni quiz başlatabilirsin.'}
 function showQ(){el('bar').style.width=(idx*10)+'%';let q=quiz[idx];el('quizArea').innerHTML=`<div class="quizQ">${idx+1}. ${q.q}</div><div class="answers">${q.opts.map(o=>`<button onclick="answer('${String(o).replace(/'/g,"\\'")}')">${o}</button>`).join('')}</div>`}
 function answer(a){let q=quiz[idx]; if(a===q.ans)score++; else wrong.push(q); idx++; if(idx>=10)finishQuiz(); else showQ()}
-function finishQuiz(){el('bar').style.width='100%';let wrongCount=10-score, pct=Math.round(score*10);let cats={};wrong.forEach(w=>cats[w.cat]=(cats[w.cat]||0)+1);let eksik=Object.keys(cats).length?Object.entries(cats).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`• ${k}: ${v} hata`).join('\n'):'• Belirgin eksik yok.';let yorum=pct>=85?'Bölünebilme kuralları çok iyi oturmuş. Artık eksik rakam ve daha uzun sayılarda hız kazanmalısın.':pct>=60?'Temel kuralları biliyorsun; özellikle hata yaptığın başlıkları kısa tekrar edip tekrar quiz çözmelisin.':'Kurallar karışıyor. Önce 2-3-5-10, sonra 4-8-9-11 sırasıyla çalışmak daha doğru olur.';el('quizArea').innerHTML=`<div class="sumBox"><div class="stat"><div class="num">${score}</div><div>Doğru</div></div><div class="stat"><div class="num">${wrongCount}</div><div>Yanlış</div></div><div class="stat"><div class="num">%${pct}</div><div>Başarı</div></div></div><div class="result analysisBox"><b>🧠 Eksik Konu Analizi</b>\n${eksik}\n\n<b>💬 ENGİN360 Koç Yorumu</b>\n${yorum}</div>`}
-analyzeNumber();findMissingDigits();
+function finishQuiz(){el('bar').style.width='100%';let wrongCount=10-score, pct=Math.round(score*10);mlsState.lastScore=pct;mlsState.bestScore=Math.max(mlsState.bestScore||0,pct);mlsState.xp+=score*5;if(!mlsState.completed.includes('quiz'))mlsState.completed.push('quiz');unlockBadges();saveState();let cats={};wrong.forEach(w=>cats[w.cat]=(cats[w.cat]||0)+1);let eksik=Object.keys(cats).length?Object.entries(cats).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`• ${k}: ${v} hata`).join('\n'):'• Belirgin eksik yok.';let yorum=pct>=85?'Bölünebilme kuralları çok iyi oturmuş. Artık eksik rakam ve daha uzun sayılarda hız kazanmalısın.':pct>=60?'Temel kuralları biliyorsun; özellikle hata yaptığın başlıkları kısa tekrar edip tekrar quiz çözmelisin.':'Kurallar karışıyor. Önce 2-3-5-10, sonra 4-8-9-11 sırasıyla çalışmak daha doğru olur.';el('quizArea').innerHTML=`<div class="sumBox"><div class="stat"><div class="num">${score}</div><div>Doğru</div></div><div class="stat"><div class="num">${wrongCount}</div><div>Yanlış</div></div><div class="stat"><div class="num">%${pct}</div><div>Başarı</div></div></div><div class="result analysisBox"><b>🧠 Eksik Konu Analizi</b>\n${eksik}\n\n<b>💬 ENGİN360 Koç Yorumu</b>\n${yorum}</div>`}
+loadState();completeStep('kurallar');analyzeNumber();findMissingDigits();
 </script>
 </body>
 </html>
