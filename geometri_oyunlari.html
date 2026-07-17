@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#090718">
+<title>ENGİN360 Geometri Oyunları</title>
+<style>
+:root{
+  --bg:#070611;--bg2:#120d2e;--panel:rgba(255,255,255,.065);
+  --line:rgba(255,255,255,.14);--text:#f8fafc;--muted:#cbd5e1;
+  --purple:#a855f7;--blue:#38bdf8;--pink:#ec4899;--green:#22c55e;--red:#ef4444;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  min-height:100vh;font-family:Inter,Arial,Helvetica,sans-serif;color:var(--text);
+  background:
+    radial-gradient(circle at 12% 10%,rgba(168,85,247,.28),transparent 28%),
+    radial-gradient(circle at 88% 12%,rgba(56,189,248,.22),transparent 28%),
+    radial-gradient(circle at 50% 100%,rgba(236,72,153,.16),transparent 34%),
+    linear-gradient(145deg,var(--bg),var(--bg2));
+  padding:16px 0 40px;overflow-x:hidden;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;opacity:.23;
+  background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+  linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+  background-size:34px 34px;
+}
+.page{width:min(1180px,94%);margin:auto;position:relative;z-index:1}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}
+.back,.ghost{
+  color:white;text-decoration:none;font-weight:900;padding:11px 14px;border-radius:15px;
+  border:1px solid var(--line);background:rgba(255,255,255,.07);backdrop-filter:blur(14px)
+}
+.hero{
+  padding:24px;border:1px solid var(--line);border-radius:30px;
+  background:linear-gradient(145deg,rgba(255,255,255,.08),rgba(255,255,255,.035));
+  box-shadow:0 24px 70px rgba(0,0,0,.32);overflow:hidden;position:relative
+}
+.hero::after{
+  content:"";position:absolute;width:300px;height:300px;border-radius:50%;right:-110px;top:-140px;
+  background:radial-gradient(circle,rgba(56,189,248,.25),transparent 67%)
+}
+.brand{display:flex;align-items:center;gap:12px;margin-bottom:14px;position:relative;z-index:2}
+.logo{
+  width:58px;height:58px;border-radius:18px;display:grid;place-items:center;font-weight:1000;
+  background:linear-gradient(135deg,#7c3aed,#2563eb);box-shadow:0 0 28px rgba(99,102,241,.36)
+}
+.brand small{display:block;color:#c4b5fd;font-weight:900;letter-spacing:1.4px}
+.hero h1{
+  font-size:clamp(31px,6vw,64px);font-weight:1000;font-style:italic;line-height:.98;
+  background:linear-gradient(90deg,#f0abfc,#c084fc,#38bdf8,#67e8f9);
+  -webkit-background-clip:text;color:transparent;filter:drop-shadow(0 0 14px rgba(168,85,247,.42));
+  position:relative;z-index:2;margin-bottom:12px
+}
+.hero p{max-width:760px;color:#dbeafe;line-height:1.65;font-size:15px;position:relative;z-index:2}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:18px;position:relative;z-index:2}
+.stat{padding:13px;border:1px solid var(--line);border-radius:17px;background:rgba(2,6,23,.38)}
+.stat b{display:block;font-size:24px}.stat span{font-size:11px;color:var(--muted)}
+.game-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0}
+.tab{
+  cursor:pointer;border:1px solid var(--line);border-radius:20px;padding:16px;color:white;
+  background:var(--panel);text-align:left;transition:.2s
+}
+.tab:hover,.tab.active{transform:translateY(-3px);border-color:rgba(103,232,249,.48);box-shadow:0 0 25px rgba(56,189,248,.14)}
+.tab .ico{font-size:28px}.tab b{display:block;font-size:16px;margin:7px 0 4px}.tab small{color:var(--muted)}
+.game-shell{
+  border:1px solid var(--line);border-radius:28px;padding:20px;
+  background:linear-gradient(145deg,rgba(255,255,255,.07),rgba(255,255,255,.03));
+  box-shadow:0 22px 60px rgba(0,0,0,.3)
+}
+.game-header{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:15px}
+.game-header h2{font-size:24px}.game-header p{color:var(--muted);font-size:13px;margin-top:4px}
+.game-actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn{
+  border:0;border-radius:14px;padding:11px 14px;color:white;font-weight:900;cursor:pointer;
+  background:linear-gradient(135deg,#7c3aed,#2563eb)
+}
+.btn.secondary{background:rgba(255,255,255,.08);border:1px solid var(--line)}
+.stage{min-height:430px;display:grid;grid-template-columns:1.1fr .9fr;gap:16px}
+.canvas-card,.question-card{
+  border:1px solid var(--line);border-radius:23px;background:rgba(2,6,23,.36);padding:17px
+}
+.canvas-wrap{
+  width:100%;aspect-ratio:1.35;border-radius:18px;overflow:hidden;
+  background:linear-gradient(180deg,rgba(15,23,42,.78),rgba(2,6,23,.88));
+  border:1px solid rgba(255,255,255,.09);display:grid;place-items:center
+}
+svg{width:100%;height:100%}
+.question-card{display:flex;flex-direction:column;justify-content:center}
+.level{display:inline-flex;align-self:flex-start;padding:7px 10px;border-radius:999px;background:rgba(168,85,247,.16);border:1px solid rgba(168,85,247,.3);font-size:11px;font-weight:900;margin-bottom:12px}
+.question{font-size:24px;line-height:1.25;margin-bottom:16px}
+.answers{display:grid;gap:10px}
+.answer{
+  width:100%;text-align:left;border:1px solid var(--line);border-radius:15px;padding:13px 14px;
+  background:rgba(255,255,255,.055);color:white;font-weight:800;cursor:pointer;transition:.18s
+}
+.answer:hover{transform:translateX(4px);border-color:rgba(103,232,249,.45)}
+.answer.correct{background:rgba(34,197,94,.18);border-color:rgba(34,197,94,.6)}
+.answer.wrong{background:rgba(239,68,68,.18);border-color:rgba(239,68,68,.6)}
+.feedback{min-height:48px;margin-top:14px;padding:12px;border-radius:14px;color:#dbeafe;background:rgba(255,255,255,.045);font-size:13px;line-height:1.5}
+.progress{height:9px;background:rgba(255,255,255,.08);border-radius:99px;overflow:hidden;margin-top:15px}
+.progress span{display:block;height:100%;width:0;background:linear-gradient(90deg,#a855f7,#38bdf8);transition:.25s}
+.result{
+  display:none;text-align:center;padding:40px 20px;border:1px solid var(--line);border-radius:24px;background:rgba(2,6,23,.38)
+}
+.result h2{font-size:32px;margin-bottom:8px}.result p{color:var(--muted);line-height:1.6;margin-bottom:18px}
+.badges{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:14px 0}
+.badge{padding:10px 13px;border-radius:14px;border:1px solid var(--line);background:rgba(255,255,255,.06);font-size:12px;font-weight:900}
+.hidden{display:none!important}
+.contact-trigger{
+  position:fixed;right:12px;bottom:12px;z-index:80;border:1px solid rgba(139,92,246,.5);
+  border-radius:14px;padding:8px 10px;color:white;font-weight:900;font-size:11px;
+  background:linear-gradient(135deg,#6d28d9,#2563eb);box-shadow:0 12px 30px rgba(0,0,0,.38);cursor:pointer
+}
+.contact-panel{
+  position:fixed;right:12px;bottom:58px;z-index:81;width:min(335px,calc(100vw - 24px));
+  padding:16px;border-radius:21px;background:linear-gradient(145deg,rgba(15,22,48,.97),rgba(7,13,30,.98));
+  border:1px solid rgba(99,102,241,.38);box-shadow:0 24px 60px rgba(0,0,0,.5);backdrop-filter:blur(18px);transition:.22s
+}
+.contact-panel.hidden{opacity:0;transform:translateY(15px);visibility:hidden;pointer-events:none;display:block!important}
+.contact-close{position:absolute;right:9px;top:9px;width:28px;height:28px;border-radius:9px;border:1px solid var(--line);background:rgba(255,255,255,.06);color:white}
+.contact-panel h3{font-size:15px;margin:0 30px 7px 0}.contact-panel p{font-size:11px;color:var(--muted);line-height:1.55}
+.contact-buttons{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}.contact-buttons a{text-align:center;text-decoration:none;color:white;font-weight:900;font-size:11px;padding:11px;border-radius:12px}
+.wa{background:linear-gradient(135deg,#16a34a,#059669)}.ig{background:linear-gradient(135deg,#7c3aed,#d946ef,#f97316)}
+footer{text-align:center;color:#94a3b8;font-size:12px;margin-top:20px}
+@media(max-width:850px){.stage{grid-template-columns:1fr}.game-tabs{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:620px){
+  .page{width:95%}.hero,.game-shell{padding:16px;border-radius:23px}.topbar .ghost{display:none}
+  .game-header{align-items:flex-start;flex-direction:column}.question{font-size:20px}
+  .contact-trigger{right:8px;bottom:8px}.contact-panel{right:8px;bottom:52px;width:calc(100vw - 16px)}
+}
+</style>
+</head>
+<body>
+<main class="page">
+  <div class="topbar">
+    <a class="back" href="geometri_guncel.html">← Geometri Laboratuvarı</a>
+    <a class="ghost" href="matematik_kategori.html">Matematik Merkezi</a>
+  </div>
+
+  <section class="hero">
+    <div class="brand"><div class="logo">E360</div><div><small>ENGİN360</small><strong>Geometri Oyun Merkezi</strong></div></div>
+    <h1>Geometriyi Oynayarak Öğren</h1>
+    <p>Açıları tanı, şekilleri sınıflandır ve geometri refleksini hızlandır. Her oyun 10 sorudan oluşur; doğru cevaplar puan ve seri kazandırır.</p>
+    <div class="stats">
+      <div class="stat"><b id="score">0</b><span>Puan</span></div>
+      <div class="stat"><b id="streak">0</b><span>Doğru Seri</span></div>
+      <div class="stat"><b id="correct">0</b><span>Doğru</span></div>
+      <div class="stat"><b id="best">0</b><span>En İyi Skor</span></div>
+    </div>
+  </section>
+
+  <section class="game-tabs">
+    <button class="tab active" data-game="angle" onclick="selectGame('angle',this)">
+      <span class="ico">🎯</span><b>Açı Avcısı</b><small>Açı türünü doğru tanı.</small>
+    </button>
+    <button class="tab" data-game="shape" onclick="selectGame('shape',this)">
+      <span class="ico">🔍</span><b>Şekil Dedektifi</b><small>Özelliklerden şekli bul.</small>
+    </button>
+    <button class="tab" data-game="triangle" onclick="selectGame('triangle',this)">
+      <span class="ico">📐</span><b>Üçgen Ustası</b><small>Açı ve kenar bilgilerini tamamla.</small>
+    </button>
+  </section>
+
+  <section class="game-shell">
+    <div class="game-header">
+      <div><h2 id="gameTitle">Açı Avcısı</h2><p id="gameSubtitle">Gösterilen açının türünü seç.</p></div>
+      <div class="game-actions">
+        <button class="btn secondary" onclick="resetGame()">Yeniden Başlat</button>
+        <button class="btn" id="nextBtn" onclick="nextQuestion()" disabled>Sonraki Soru</button>
+      </div>
+    </div>
+
+    <div id="playArea">
+      <div class="stage">
+        <div class="canvas-card">
+          <div class="canvas-wrap" id="visual"></div>
+          <div class="progress"><span id="progressBar"></span></div>
+        </div>
+        <div class="question-card">
+          <span class="level" id="questionNo">Soru 1 / 10</span>
+          <div class="question" id="questionText"></div>
+          <div class="answers" id="answers"></div>
+          <div class="feedback" id="feedback">Cevabını seç ve geometri refleksini test et.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="result" id="result">
+      <h2 id="resultTitle">Oyun Tamamlandı!</h2>
+      <p id="resultText"></p>
+      <div class="badges" id="badges"></div>
+      <button class="btn" onclick="resetGame()">Tekrar Oyna</button>
+    </div>
+  </section>
+
+  <footer>ENGİN360 • Geometri Laboratuvarı • Engin Özcan</footer>
+</main>
+
+<button class="contact-trigger" id="contactTrigger" onclick="openContact()" aria-expanded="false">E360 Koçluk</button>
+<aside class="contact-panel hidden" id="contactPanel" aria-hidden="true">
+  <button class="contact-close" onclick="closeContact()">×</button>
+  <h3>Geometride düzenli gelişmek ister misin?</h3>
+  <p>Sana özel çalışma planı, takip ve eğitim koçluğu desteği için iletişime geçebilirsin.</p>
+  <div class="contact-buttons">
+    <a class="wa" href="https://wa.me/905348165015" target="_blank" rel="noopener">WhatsApp</a>
+    <a class="ig" href="https://www.instagram.com/www_engin360_com/" target="_blank" rel="noopener">Instagram</a>
+  </div>
+</aside>
+
+<script>
+const games={
+ angle:{
+  title:'Açı Avcısı',subtitle:'Gösterilen açının türünü seç.',
+  make(){
+   const pool=[
+    {deg:30,label:'Dar açı'},{deg:55,label:'Dar açı'},{deg:90,label:'Dik açı'},
+    {deg:120,label:'Geniş açı'},{deg:145,label:'Geniş açı'},{deg:180,label:'Doğru açı'}
+   ];
+   const item=pool[Math.floor(Math.random()*pool.length)];
+   const options=['Dar açı','Dik açı','Geniş açı','Doğru açı'];
+   return {question:`Bu açı kaç derecelik bir açı türüdür?`,answer:item.label,options,visual:angleSvg(item.deg),explain:`Açının ölçüsü ${item.deg}° olduğu için doğru cevap “${item.label}”dır.`}
+  }
+ },
+ shape:{
+  title:'Şekil Dedektifi',subtitle:'Özelliklerden doğru şekli bul.',
+  make(){
+   const pool=[
+    {q:'Dört kenarı eşit, dört açısı da 90° olan şekil hangisidir?',a:'Kare',o:['Kare','Dikdörtgen','Eşkenar dörtgen','Yamuk'],v:shapeSvg('square'),e:'Karede dört kenar eşit ve bütün açılar 90°dir.'},
+    {q:'Karşılıklı kenarları paralel ve eşit, bütün açıları 90° olan şekil hangisidir?',a:'Dikdörtgen',o:['Paralelkenar','Dikdörtgen','Kare','Yamuk'],v:shapeSvg('rect'),e:'Dikdörtgende karşılıklı kenarlar eşit ve tüm açılar 90°dir.'},
+    {q:'Üç kenarı da eşit olan üçgene ne ad verilir?',a:'Eşkenar üçgen',o:['İkizkenar üçgen','Dik üçgen','Eşkenar üçgen','Çeşitkenar üçgen'],v:shapeSvg('equilateral'),e:'Üç kenarı eşit olan üçgen eşkenar üçgendir.'},
+    {q:'Yalnızca bir çift karşılıklı kenarı paralel olan dörtgen hangisidir?',a:'Yamuk',o:['Kare','Yamuk','Dikdörtgen','Eşkenar dörtgen'],v:shapeSvg('trapezoid'),e:'Yamukta en az bir çift karşılıklı kenar paraleldir.'}
+   ];
+   return pool[Math.floor(Math.random()*pool.length)];
+  }
+ },
+ triangle:{
+  title:'Üçgen Ustası',subtitle:'Eksik açı veya üçgen türünü tamamla.',
+  make(){
+   const pool=[
+    {q:'Bir üçgende iki açı 50° ve 60° ise üçüncü açı kaç derecedir?',a:'70°',o:['60°','70°','80°','90°'],v:triangleSvg(50,60,70),e:'Üçgenin iç açıları toplamı 180°dir. 180−50−60=70.'},
+    {q:'Açıları 90°, 35° ve 55° olan üçgenin türü nedir?',a:'Dik üçgen',o:['Dar açılı üçgen','Dik üçgen','Geniş açılı üçgen','Eşkenar üçgen'],v:triangleSvg(90,35,55),e:'Bir açısı 90° olduğu için bu bir dik üçgendir.'},
+    {q:'Kenarları 5, 5 ve 8 birim olan üçgenin kenarlarına göre türü nedir?',a:'İkizkenar üçgen',o:['Eşkenar üçgen','İkizkenar üçgen','Çeşitkenar üçgen','Dik üçgen'],v:triangleSvg(null,null,null,'5','5','8'),e:'İki kenarı eşit olduğu için ikizkenar üçgendir.'},
+    {q:'Bir eşkenar üçgende her bir iç açı kaç derecedir?',a:'60°',o:['45°','60°','90°','120°'],v:triangleSvg(60,60,60),e:'Eşkenar üçgende üç açı eşittir ve toplam 180° olduğundan her biri 60°dir.'}
+   ];
+   return pool[Math.floor(Math.random()*pool.length)];
+  }
+ }
+};
+
+let currentGame='angle',index=0,score=0,correct=0,streak=0,answered=false,current=null,total=10;
+const bestKey='e360_geometry_best';
+document.getElementById('best').textContent=localStorage.getItem(bestKey)||0;
+
+function angleSvg(deg){
+ const cx=110,cy=150,r=85,rad=-deg*Math.PI/180;
+ const x= cx+r*Math.cos(rad), y=cy+r*Math.sin(rad);
+ return `<svg viewBox="0 0 240 220" aria-label="${deg} derecelik açı">
+ <defs><linearGradient id="g" x1="0" x2="1"><stop stop-color="#a855f7"/><stop offset="1" stop-color="#38bdf8"/></linearGradient></defs>
+ <line x1="${cx}" y1="${cy}" x2="205" y2="${cy}" stroke="#e2e8f0" stroke-width="5" stroke-linecap="round"/>
+ <line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="url(#g)" stroke-width="5" stroke-linecap="round"/>
+ <circle cx="${cx}" cy="${cy}" r="7" fill="#f8fafc"/>
+ <path d="M ${cx+42} ${cy} A 42 42 0 0 0 ${cx+42*Math.cos(rad)} ${cy+42*Math.sin(rad)}" fill="none" stroke="#f0abfc" stroke-width="4"/>
+ <text x="${cx+46*Math.cos(rad/2)}" y="${cy+46*Math.sin(rad/2)-4}" fill="#fff" font-size="18" font-weight="900">${deg}°</text>
+ </svg>`;
+}
+function shapeSvg(type){
+ const common=`fill="rgba(168,85,247,.18)" stroke="#67e8f9" stroke-width="5"`;
+ if(type==='square')return `<svg viewBox="0 0 240 220"><rect x="55" y="40" width="130" height="130" rx="4" ${common}/></svg>`;
+ if(type==='rect')return `<svg viewBox="0 0 240 220"><rect x="35" y="60" width="170" height="100" rx="4" ${common}/></svg>`;
+ if(type==='equilateral')return `<svg viewBox="0 0 240 220"><polygon points="120,30 35,180 205,180" ${common}/></svg>`;
+ return `<svg viewBox="0 0 240 220"><polygon points="65,55 175,55 210,170 30,170" ${common}/></svg>`;
+}
+function triangleSvg(a,b,c,s1='',s2='',s3=''){
+ return `<svg viewBox="0 0 260 220">
+ <polygon points="130,25 35,185 225,185" fill="rgba(56,189,248,.14)" stroke="#c084fc" stroke-width="5"/>
+ ${a?`<text x="118" y="61" fill="#fff" font-size="16" font-weight="900">${a}°</text>`:''}
+ ${b?`<text x="52" y="174" fill="#fff" font-size="16" font-weight="900">${b}°</text>`:''}
+ ${c?`<text x="190" y="174" fill="#fff" font-size="16" font-weight="900">${c}°</text>`:''}
+ ${s1?`<text x="72" y="103" fill="#67e8f9" font-size="16" font-weight="900">${s1}</text>`:''}
+ ${s2?`<text x="179" y="103" fill="#67e8f9" font-size="16" font-weight="900">${s2}</text>`:''}
+ ${s3?`<text x="126" y="205" fill="#67e8f9" font-size="16" font-weight="900">${s3}</text>`:''}
+ </svg>`;
+}
+
+function selectGame(name,el){
+ currentGame=name;
+ document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+ el.classList.add('active');
+ resetGame();
+}
+function resetGame(){
+ index=0;score=0;correct=0;streak=0;answered=false;
+ document.getElementById('playArea').classList.remove('hidden');
+ document.getElementById('result').style.display='none';
+ document.getElementById('gameTitle').textContent=games[currentGame].title;
+ document.getElementById('gameSubtitle').textContent=games[currentGame].subtitle;
+ updateStats();renderQuestion();
+}
+function renderQuestion(){
+ answered=false;
+ document.getElementById('nextBtn').disabled=true;
+ current=games[currentGame].make();
+ document.getElementById('questionNo').textContent=`Soru ${index+1} / ${total}`;
+ document.getElementById('questionText').textContent=current.question||current.q;
+ document.getElementById('visual').innerHTML=current.visual||current.v;
+ document.getElementById('feedback').textContent='Cevabını seç ve geometri refleksini test et.';
+ document.getElementById('progressBar').style.width=`${(index/total)*100}%`;
+ const opts=[...(current.options||current.o)].sort(()=>Math.random()-.5);
+ const area=document.getElementById('answers');area.innerHTML='';
+ opts.forEach(opt=>{
+  const b=document.createElement('button');b.className='answer';b.textContent=opt;b.onclick=()=>answer(opt,b);area.appendChild(b);
+ });
+}
+function answer(opt,button){
+ if(answered)return;answered=true;
+ const correctAnswer=current.answer||current.a;
+ document.querySelectorAll('.answer').forEach(b=>{
+  b.disabled=true;
+  if(b.textContent===correctAnswer)b.classList.add('correct');
+ });
+ if(opt===correctAnswer){
+  button.classList.add('correct');correct++;streak++;
+  score+=100+(streak-1)*20;
+  document.getElementById('feedback').textContent=`Doğru! ${(current.explain||current.e)}`;
+ }else{
+  button.classList.add('wrong');streak=0;
+  document.getElementById('feedback').textContent=`Henüz değil. ${(current.explain||current.e)}`;
+ }
+ updateStats();document.getElementById('nextBtn').disabled=false;
+}
+function nextQuestion(){
+ if(!answered)return;
+ index++;
+ if(index>=total){finishGame();return}
+ renderQuestion();
+}
+function finishGame(){
+ document.getElementById('playArea').classList.add('hidden');
+ document.getElementById('result').style.display='block';
+ document.getElementById('progressBar').style.width='100%';
+ const best=Math.max(Number(localStorage.getItem(bestKey)||0),score);
+ localStorage.setItem(bestKey,best);document.getElementById('best').textContent=best;
+ const pct=Math.round(correct/total*100);
+ document.getElementById('resultTitle').textContent=pct>=80?'Geometri Refleksin Harika!':pct>=60?'İyi Gidiyorsun!':'Bir Tur Daha!';
+ document.getElementById('resultText').textContent=`${total} soruda ${correct} doğru yaptın ve ${score} puan topladın.`;
+ const badges=[];
+ if(correct===10)badges.push('🏆 Kusursuz Tur');
+ if(correct>=8)badges.push('🎯 Açı Ustası');
+ if(score>=900)badges.push('⚡ Hızlı Zihin');
+ if(!badges.length)badges.push('📐 Gelişim Yolunda');
+ document.getElementById('badges').innerHTML=badges.map(x=>`<span class="badge">${x}</span>`).join('');
+}
+function updateStats(){
+ document.getElementById('score').textContent=score;
+ document.getElementById('streak').textContent=streak;
+ document.getElementById('correct').textContent=correct;
+}
+function openContact(){document.getElementById('contactPanel').classList.remove('hidden');document.getElementById('contactPanel').setAttribute('aria-hidden','false')}
+function closeContact(){document.getElementById('contactPanel').classList.add('hidden');document.getElementById('contactPanel').setAttribute('aria-hidden','true')}
+resetGame();
+</script>
+</body>
+</html>
