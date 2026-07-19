@@ -3,224 +3,465 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>ENGİN360 Grafik Dönüştürme Laboratuvarı</title>
+<meta name="theme-color" content="#080614">
+<title>ENGİN360 | Grafik Dönüştürme Laboratuvarı</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',Arial,sans-serif}
+:root{
+  --bg:#06050f;--bg2:#130d30;--panel:rgba(255,255,255,.065);
+  --line:rgba(255,255,255,.14);--text:#f8fafc;--muted:#cbd5e1;
+  --purple:#a855f7;--blue:#38bdf8;--pink:#ec4899;--yellow:#fde047;
+  --green:#22c55e;--red:#fb7185;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
 body{
-  min-height:100vh;color:#fff;padding:16px;
-  background:radial-gradient(circle at top left,rgba(168,85,247,.38),transparent 35%),
-  radial-gradient(circle at bottom right,rgba(14,165,233,.30),transparent 35%),
-  linear-gradient(135deg,#05010d,#130023,#061631)
+  min-height:100vh;font-family:Inter,"Segoe UI",Arial,sans-serif;color:var(--text);
+  background:
+    radial-gradient(circle at 10% 8%,rgba(168,85,247,.30),transparent 29%),
+    radial-gradient(circle at 90% 10%,rgba(56,189,248,.21),transparent 28%),
+    radial-gradient(circle at 50% 102%,rgba(236,72,153,.17),transparent 36%),
+    linear-gradient(145deg,var(--bg),var(--bg2));
+  padding:16px 0 42px;overflow-x:hidden
 }
-.container{max-width:1160px;margin:auto}
-.hero{text-align:center;padding:28px 16px;border-radius:28px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);box-shadow:0 0 35px rgba(124,58,237,.34);margin-bottom:16px}
-.logo{font-size:35px;font-weight:900;letter-spacing:1px;background:linear-gradient(90deg,#a855f7,#38bdf8,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.subtitle{margin-top:8px;color:#ded9ff;font-size:15px;line-height:1.5}
-.panel{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.13);border-radius:24px;padding:17px;margin-top:14px;box-shadow:0 12px 26px rgba(0,0,0,.25)}
-h2{font-size:20px;color:#f5d0fe;margin-bottom:12px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:13px}
-label{display:block;color:#f5d0fe;font-size:14px;margin-bottom:7px}
-input,textarea,select{
-  width:100%;border:none;outline:none;border-radius:14px;padding:12px 13px;
-  background:rgba(255,255,255,.12);color:white;border:1px solid rgba(255,255,255,.16);font-size:15px
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;opacity:.22;
+  background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+  linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+  background-size:34px 34px
 }
-textarea{min-height:84px;resize:vertical}
+.page{width:min(1220px,94%);margin:auto;position:relative;z-index:1}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}
+.back,.ghost{
+  color:white;text-decoration:none;font-weight:900;padding:11px 14px;border-radius:15px;
+  border:1px solid var(--line);background:rgba(255,255,255,.07);backdrop-filter:blur(14px)
+}
+.hero{
+  border:1px solid var(--line);border-radius:30px;padding:25px;position:relative;overflow:hidden;
+  background:linear-gradient(145deg,rgba(255,255,255,.085),rgba(255,255,255,.035));
+  box-shadow:0 24px 72px rgba(0,0,0,.32),inset 0 0 52px rgba(139,92,246,.055)
+}
+.hero::after{
+  content:"";position:absolute;width:310px;height:310px;border-radius:50%;right:-115px;top:-155px;
+  background:radial-gradient(circle,rgba(56,189,248,.26),transparent 68%)
+}
+.brand{display:flex;align-items:center;gap:12px;margin-bottom:14px;position:relative;z-index:2}
+.logo{
+  width:58px;height:58px;border-radius:18px;display:grid;place-items:center;font-weight:1000;
+  background:linear-gradient(135deg,#7c3aed,#2563eb);box-shadow:0 0 30px rgba(99,102,241,.37)
+}
+.brand small{display:block;color:#c4b5fd;font-weight:900;letter-spacing:1.4px}
+.hero h1{
+  font-size:clamp(31px,6vw,62px);font-weight:1000;font-style:italic;line-height:.98;
+  background:linear-gradient(90deg,#f0abfc,#c084fc,#38bdf8,#67e8f9);
+  -webkit-background-clip:text;color:transparent;filter:drop-shadow(0 0 14px rgba(168,85,247,.42));
+  position:relative;z-index:2;margin-bottom:12px
+}
+.hero p{max-width:900px;color:#dbeafe;line-height:1.65;font-size:15px;position:relative;z-index:2}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:18px;position:relative;z-index:2}
+.stat{padding:13px;border:1px solid var(--line);border-radius:17px;background:rgba(2,6,23,.38)}
+.stat b{display:block;font-size:24px}.stat span{font-size:11px;color:var(--muted)}
+
+.progress-shell{margin:18px 0;border:1px solid var(--line);border-radius:22px;padding:14px;background:rgba(2,6,23,.35)}
+.progress-head{display:flex;justify-content:space-between;gap:12px;margin-bottom:9px;font-size:13px}
+.progress{height:10px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden}
+.progress span{display:block;height:100%;width:14%;background:linear-gradient(90deg,#a855f7,#38bdf8);transition:.25s}
+
+.steps-nav{display:grid;grid-template-columns:repeat(6,1fr);gap:9px;margin:16px 0}
+.step-tab{
+  border:1px solid var(--line);border-radius:16px;padding:12px 10px;background:var(--panel);color:white;
+  font-weight:900;font-size:12px;cursor:pointer;transition:.2s
+}
+.step-tab.active,.step-tab:hover{border-color:rgba(103,232,249,.5);box-shadow:0 0 22px rgba(56,189,248,.13);transform:translateY(-2px)}
+
+.panel{
+  border:1px solid var(--line);border-radius:26px;padding:18px;margin-top:14px;
+  background:linear-gradient(145deg,rgba(255,255,255,.07),rgba(255,255,255,.03));
+  box-shadow:0 18px 55px rgba(0,0,0,.26)
+}
+.panel h2{font-size:22px;margin-bottom:6px}
+.panel .lead{color:var(--muted);font-size:13px;line-height:1.55;margin-bottom:14px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.field{border:1px solid var(--line);border-radius:18px;padding:13px;background:rgba(2,6,23,.28)}
+label{display:block;color:#f5d0fe;font-size:13px;font-weight:900;margin-bottom:7px}
+input,select{
+  width:100%;border:1px solid rgba(255,255,255,.16);outline:none;border-radius:13px;padding:11px 12px;
+  background:rgba(255,255,255,.09);color:white;font-size:14px
+}
 select option{color:#111}
-button{width:100%;padding:13px;border:none;border-radius:16px;margin-top:11px;color:white;font-weight:800;font-size:15px;background:linear-gradient(90deg,#7c3aed,#0ea5e9,#ec4899);box-shadow:0 0 22px rgba(236,72,153,.25);cursor:pointer}
-.secondary{background:linear-gradient(90deg,#334155,#475569)}
-.result{background:rgba(0,0,0,.24);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:13px;margin-top:10px;line-height:1.65;overflow:auto}
-canvas{width:100%;background:white;border-radius:18px;border:1px solid rgba(255,255,255,.15);display:block;margin:auto}
-.badge{display:inline-block;margin:4px;padding:7px 10px;border-radius:999px;background:rgba(14,165,233,.15);border:1px solid rgba(56,189,248,.28)}
-.ok{color:#86efac;font-weight:800}.warn{color:#fde68a;font-weight:800}.pink{color:#f0abfc;font-weight:800}
-.footer{text-align:center;color:#aaa;font-size:12px;margin:26px 0 10px}
-@media(max-width:600px){body{padding:12px}.logo{font-size:30px}.grid{grid-template-columns:1fr}}
+.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:13px}
+.btn{
+  border:0;border-radius:14px;padding:11px 14px;color:white;font-weight:900;cursor:pointer;
+  background:linear-gradient(135deg,#7c3aed,#2563eb)
+}
+.btn.secondary{background:rgba(255,255,255,.08);border:1px solid var(--line)}
+.btn.good{background:linear-gradient(135deg,#16a34a,#059669)}
+.visual-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.chart-box{border:1px solid var(--line);border-radius:22px;padding:14px;background:rgba(2,6,23,.34)}
+.chart-box h3{font-size:16px;margin-bottom:10px}
+canvas{width:100%;display:block;background:white;border-radius:16px}
+
+.lesson-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:14px}
+.explain,.table-wrap{border:1px solid var(--line);border-radius:20px;padding:15px;background:rgba(2,6,23,.32)}
+.explain h3,.table-wrap h3{font-size:16px;margin-bottom:9px}
+.rule{
+  border:1px solid rgba(253,224,71,.28);background:rgba(253,224,71,.075);
+  border-radius:16px;padding:12px;margin-bottom:10px;line-height:1.55;color:#fff7ae;font-size:13px
+}
+.process{display:grid;gap:9px}
+.process div{border:1px solid var(--line);border-radius:15px;padding:11px;background:rgba(255,255,255,.045);font-size:13px;line-height:1.5;color:var(--muted)}
+.process b{color:white}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{padding:10px;border-bottom:1px solid rgba(255,255,255,.10);text-align:center}
+th{color:#e9d5ff;background:rgba(168,85,247,.10)}
+td:first-child,th:first-child{text-align:left}
+.frac{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1;margin:0 2px}
+.frac .top{border-bottom:1.5px solid currentColor;padding:0 3px 2px}
+.frac .bottom{padding:2px 3px 0}
+
+.question{
+  border:1px solid var(--line);border-radius:21px;padding:15px;background:rgba(2,6,23,.34)
+}
+.question h3{font-size:17px;margin-bottom:10px}
+.answers{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.answer{
+  border:1px solid var(--line);border-radius:13px;padding:11px;background:rgba(255,255,255,.055);
+  color:white;text-align:left;font-weight:800;cursor:pointer
+}
+.answer.correct{background:rgba(34,197,94,.18);border-color:rgba(34,197,94,.58)}
+.answer.wrong{background:rgba(251,113,133,.18);border-color:rgba(251,113,133,.60)}
+.feedback{margin-top:10px;min-height:48px;border-radius:14px;padding:11px;background:rgba(255,255,255,.045);color:#dbeafe;font-size:13px;line-height:1.45}
+
+.challenge-list{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.challenge-card{border:1px solid var(--line);border-radius:18px;padding:13px;background:rgba(255,255,255,.045)}
+.challenge-card b{display:block;margin-bottom:5px}.challenge-card span{font-size:12px;color:var(--muted)}
+
+.contact-trigger{
+  position:fixed;left:12px;bottom:12px;z-index:80;border:1px solid rgba(139,92,246,.5);
+  border-radius:14px;padding:8px 10px;color:white;font-weight:900;font-size:11px;
+  background:linear-gradient(135deg,#6d28d9,#2563eb);box-shadow:0 12px 30px rgba(0,0,0,.38);cursor:pointer
+}
+.contact-panel{
+  position:fixed;left:12px;bottom:58px;z-index:81;width:min(335px,calc(100vw - 24px));
+  padding:16px;border-radius:21px;background:linear-gradient(145deg,rgba(15,22,48,.97),rgba(7,13,30,.98));
+  border:1px solid rgba(99,102,241,.38);box-shadow:0 24px 60px rgba(0,0,0,.5);backdrop-filter:blur(18px);transition:.22s
+}
+.contact-panel.hidden{opacity:0;transform:translateY(15px);visibility:hidden;pointer-events:none}
+.contact-close{position:absolute;right:9px;top:9px;width:28px;height:28px;border-radius:9px;border:1px solid var(--line);background:rgba(255,255,255,.06);color:white}
+.contact-panel h3{font-size:15px;margin:0 30px 7px 0}.contact-panel p{font-size:11px;color:var(--muted);line-height:1.55}
+.contact-buttons{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}.contact-buttons a{text-align:center;text-decoration:none;color:white;font-weight:900;font-size:11px;padding:11px;border-radius:12px}
+.wa{background:linear-gradient(135deg,#16a34a,#059669)}.ig{background:linear-gradient(135deg,#7c3aed,#d946ef,#f97316)}
+footer{text-align:center;color:#94a3b8;font-size:12px;margin-top:20px}
+
+@media(max-width:980px){
+  .steps-nav{grid-template-columns:repeat(3,1fr)}
+  .visual-grid,.lesson-grid{grid-template-columns:1fr}
+  .challenge-list{grid-template-columns:1fr}
+}
+@media(max-width:680px){
+  .page{width:95%}.hero,.panel{padding:15px;border-radius:22px}.topbar .ghost{display:none}
+  .stats,.grid,.grid3,.answers{grid-template-columns:1fr}.steps-nav{grid-template-columns:repeat(2,1fr)}
+  .contact-trigger{left:8px;bottom:8px}.contact-panel{left:8px;bottom:52px;width:calc(100vw - 16px)}
+}
 </style>
 </head>
 <body>
-<div class="container">
-  <div class="hero">
-    <div class="logo">ENGİN360</div>
-    <div class="subtitle">Grafik Dönüştürme Laboratuvarı<br>Sütun grafiğinden daire grafiğine geçiş, yüzde, merkez açı ve yorumlama.</div>
+<main class="page">
+  <div class="topbar">
+    <a class="back" href="maarif_guncel.html">← Maarif Model Laboratuvarı</a>
+    <a class="ghost" href="engin360_dogrusal_modelleme_laboratuvari.html">Sonraki: Doğrusal Modelleme →</a>
   </div>
 
-  <div class="panel">
-    <h2>1) Veriyi Gir</h2>
+  <section class="hero">
+    <div class="brand"><div class="logo">E360</div><div><small>ENGİN360</small><strong>Maarif Model Laboratuvarı</strong></div></div>
+    <h1>Grafiği Dönüştür, Veriyi Anla</h1>
+    <p>Bir veri grubunu sütun grafiği, frekans tablosu, oran, yüzde, merkez açı ve daire grafiği arasında adım adım dönüştür. Öğrenci yalnızca grafiği görmez; her parçanın neden o büyüklükte olduğunu öğrenir.</p>
+    <div class="stats">
+      <div class="stat"><b id="answered">0</b><span>Cevaplanan</span></div>
+      <div class="stat"><b id="correct">0</b><span>Doğru</span></div>
+      <div class="stat"><b id="streak">0</b><span>Doğru Seri</span></div>
+      <div class="stat"><b id="best">0%</b><span>En İyi Başarı</span></div>
+    </div>
+  </section>
+
+  <div class="progress-shell">
+    <div class="progress-head"><strong>Öğrenme yolu</strong><span id="progressText">1 / 6</span></div>
+    <div class="progress"><span id="progressBar"></span></div>
+  </div>
+
+  <nav class="steps-nav">
+    <button class="step-tab active" onclick="jumpTo('data',this,1)">1. Veriyi Tanı</button>
+    <button class="step-tab" onclick="jumpTo('graphs',this,2)">2. Grafikleri Gör</button>
+    <button class="step-tab" onclick="jumpTo('convert',this,3)">3. Dönüştür</button>
+    <button class="step-tab" onclick="jumpTo('reason',this,4)">4. Mantığı Öğren</button>
+    <button class="step-tab" onclick="jumpTo('practice',this,5)">5. Kontrol Et</button>
+    <button class="step-tab" onclick="jumpTo('challenge',this,6)">6. Ustalık</button>
+  </nav>
+
+  <section class="panel" id="data">
+    <h2>1. Veriyi Tanı</h2>
+    <p class="lead">Önce veri grubunun ne anlattığını, kategorileri ve frekansları belirle. Grafik dönüşümü başlamadan toplam veri sayısı mutlaka bulunmalıdır.</p>
     <div class="grid">
-      <div>
-        <label>Başlık</label>
-        <input id="title" value="Sınıfın Sevdiği Dersler">
-      </div>
-      <div>
-        <label>Kategoriler</label>
-        <input id="labels" value="Matematik,Fen,Türkçe,Sosyal">
-      </div>
-      <div>
-        <label>Değerler</label>
-        <input id="values" value="12,8,6,4">
-      </div>
-      <div>
-        <label>Yorum sorusu</label>
+      <div class="field"><label>Grafik başlığı</label><input id="title" value="Sınıfın Sevdiği Dersler"></div>
+      <div class="field"><label>Kategoriler</label><input id="labels" value="Matematik,Fen,Türkçe,Sosyal"></div>
+      <div class="field"><label>Frekanslar / değerler</label><input id="values" value="12,8,6,4"></div>
+      <div class="field"><label>Soru türü</label>
         <select id="questionType">
-          <option value="max">En büyük kategori hangisi?</option>
-          <option value="min">En küçük kategori hangisi?</option>
-          <option value="percent">Bir kategorinin yüzdesini bul</option>
-          <option value="angle">Bir kategorinin merkez açısını bul</option>
+          <option value="max">En büyük kategoriyi bul</option>
+          <option value="min">En küçük kategoriyi bul</option>
+          <option value="percent">Yüzdeyi bul</option>
+          <option value="angle">Merkez açıyı bul</option>
           <option value="compare">İki kategoriyi karşılaştır</option>
         </select>
       </div>
     </div>
-    <button onclick="updateAll()">Grafikleri Oluştur</button>
-    <button class="secondary" onclick="sampleData()">Örnek Veri Yükle</button>
-  </div>
-
-  <div class="grid">
-    <div class="panel">
-      <h2>2) Sütun Grafiği</h2>
-      <canvas id="barCanvas" width="680" height="430"></canvas>
+    <div class="actions">
+      <button class="btn" onclick="updateAll()">Veriyi Dönüştür</button>
+      <button class="btn secondary" onclick="sampleData()">Yeni Örnek Getir</button>
+      <button class="btn secondary" onclick="resetAll()">Başlangıca Dön</button>
     </div>
-    <div class="panel">
-      <h2>3) Daire Grafiği</h2>
-      <canvas id="pieCanvas" width="680" height="430"></canvas>
+  </section>
+
+  <section class="panel" id="graphs">
+    <h2>2. Aynı Veriyi İki Farklı Grafikte Gör</h2>
+    <p class="lead">Sütun grafiği değerleri doğrudan karşılaştırır. Daire grafiği ise her kategorinin bütün içindeki payını gösterir.</p>
+    <div class="visual-grid">
+      <div class="chart-box"><h3>📊 Sütun Grafiği: “Kaç tane?”</h3><canvas id="barCanvas" width="720" height="440"></canvas></div>
+      <div class="chart-box"><h3>⭕ Daire Grafiği: “Bütünün ne kadarı?”</h3><canvas id="pieCanvas" width="720" height="440"></canvas></div>
     </div>
-  </div>
+  </section>
 
-  <div class="panel">
-    <h2>4) Dönüştürme Tablosu</h2>
-    <div id="tableBox" class="result"></div>
-  </div>
-
-  <div class="panel">
-    <h2>5) Daire Grafiğine Nasıl Geçilir?</h2>
-    <div id="stepsBox" class="result"></div>
-  </div>
-
-  <div class="panel">
-    <h2>6) Yorumlama Dedektifi</h2>
-    <div id="questionBox" class="result"></div>
-    <div class="grid">
-      <div><label>Cevabın</label><input id="studentAnswer" placeholder="Cevabı yaz"></div>
-      <div><label>Kontrol</label><button onclick="checkAnswer()">Cevabı Kontrol Et</button></div>
+  <section class="panel" id="convert">
+    <h2>3. Dönüştürme Tablosu</h2>
+    <p class="lead">Her satırda frekanstan kesre, kesirden yüzdeye ve merkez açıya geçişi birlikte izle.</p>
+    <div class="table-wrap">
+      <h3 id="totalText">Toplam veri: —</h3>
+      <div style="overflow:auto"><table id="convertTable"></table></div>
     </div>
-    <div id="answerBox" class="result"></div>
-  </div>
+  </section>
 
-  <div class="panel">
-    <h2>7) Altın Kural</h2>
-    <div class="result">
-      <span class="pink">Sütun grafiği değeri gösterir.</span><br>
-      <span class="pink">Daire grafiği oranı gösterir.</span><br><br>
-      Merkez açı = Kategori değeri / Toplam × 360°<br>
-      Yüzde = Kategori değeri / Toplam × 100
+  <section class="panel" id="reason">
+    <h2>4. Daire Grafiğine Geçiş Mantığı</h2>
+    <p class="lead">Formülü ezberlemek yerine 360 derecenin neden kullanıldığını ve payın nasıl dönüştüğünü öğren.</p>
+    <div class="lesson-grid">
+      <div class="explain">
+        <h3>Adım Adım</h3>
+        <div class="process" id="processBox"></div>
+      </div>
+      <div class="explain">
+        <h3>Altın Kurallar</h3>
+        <div class="rule">Sütun grafiği <b>frekansı</b> gösterir. Daire grafiği <b>oranı</b> gösterir.</div>
+        <div class="rule">Yüzde = <span class="frac"><span class="top">kategori değeri</span><span class="bottom">toplam</span></span> × 100</div>
+        <div class="rule">Merkez açı = <span class="frac"><span class="top">kategori değeri</span><span class="bottom">toplam</span></span> × 360°</div>
+        <div class="rule">Bütün kategorilerin yüzdeleri toplamı %100, merkez açıları toplamı 360° olmalıdır.</div>
+      </div>
     </div>
-  </div>
+  </section>
 
-  <div class="footer">ENGİN360 © 2026 · Matematik Laboratuvarı</div>
-</div>
+  <section class="panel" id="practice">
+    <h2>5. Yorumlama Dedektifi</h2>
+    <p class="lead">Grafiği yalnızca okumak değil, veriye dayanarak sonuç çıkarmak hedeflenir.</p>
+    <div class="question">
+      <h3 id="questionText">Soru hazırlanıyor…</h3>
+      <div class="answers" id="answers"></div>
+      <div class="feedback" id="feedback">Grafikleri ve tabloyu inceleyerek cevapla.</div>
+      <div class="actions"><button class="btn secondary" onclick="makeQuestion()">Yeni Soru</button></div>
+    </div>
+  </section>
+
+  <section class="panel" id="challenge">
+    <h2>6. Ustalık Kontrolü</h2>
+    <p class="lead">Bir grafik dönüşümünde öğrencinin yalnızca işlem değil, yorumlama becerisi de gelişmelidir.</p>
+    <div class="challenge-list">
+      <div class="challenge-card"><b>✓ Frekans</b><span>Her kategoride kaç veri bulunduğunu belirle.</span></div>
+      <div class="challenge-card"><b>✓ Oran ve yüzde</b><span>Kategorinin bütün içindeki payını hesapla.</span></div>
+      <div class="challenge-card"><b>✓ Merkez açı</b><span>Payı 360° üzerinden daire dilimine dönüştür.</span></div>
+      <div class="challenge-card"><b>✓ Grafik karşılaştırma</b><span>Sütun ve daire grafiklerinin aynı veriyi farklı biçimde gösterdiğini fark et.</span></div>
+      <div class="challenge-card"><b>✓ Kontrol</b><span>Yüzdelerin %100, açıların 360° ettiğini doğrula.</span></div>
+      <div class="challenge-card"><b>✓ Yorum</b><span>En büyük, en küçük ve kategoriler arası farkı veriye dayanarak açıkla.</span></div>
+    </div>
+  </section>
+
+  <footer>ENGİN360 • Grafik Dönüştürme Laboratuvarı • Engin Özcan</footer>
+</main>
+
+<button class="contact-trigger" onclick="openContact()">E360 Koçluk</button>
+<aside class="contact-panel hidden" id="contactPanel">
+  <button class="contact-close" onclick="closeContact()">×</button>
+  <h3>Veri ve grafiklerde güçlü temel ister misin?</h3>
+  <p>Sana özel çalışma planı, takip ve eğitim koçluğu desteği için iletişime geçebilirsin.</p>
+  <div class="contact-buttons">
+    <a class="wa" href="https://wa.me/905348165015" target="_blank" rel="noopener">WhatsApp</a>
+    <a class="ig" href="https://www.instagram.com/www_engin360_com/" target="_blank" rel="noopener">Instagram</a>
+  </div>
+</aside>
 
 <script>
-let data=[], labels=[], currentAnswer="", currentSolution="";
+const $=id=>document.getElementById(id);
+let labels=[],data=[],current=null,answered=0,correct=0,streak=0;
+const bestKey='e360_graph_transform_best';
+$('best').textContent=(localStorage.getItem(bestKey)||0)+'%';
 const colors=["#7c3aed","#0ea5e9","#ec4899","#22c55e","#f59e0b","#ef4444","#14b8a6","#6366f1"];
 
-function parse(){
-  labels=document.getElementById("labels").value.split(",").map(x=>x.trim()).filter(Boolean);
-  data=document.getElementById("values").value.split(",").map(x=>Number(x.trim())).filter(x=>!isNaN(x)&&x>=0);
-  let n=Math.min(labels.length,data.length);
-  labels=labels.slice(0,n); data=data.slice(0,n);
+function gcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){[a,b]=[b,a%b]}return a||1}
+function frac(n,d){
+  if(d===0)return {n:0,d:1};
+  const g=gcd(n,d);return {n:n/g,d:d/g}
 }
-function total(){return data.reduce((a,b)=>a+b,0);}
-function updateAll(){parse();drawBar();drawPie();makeTable();makeSteps();makeQuestion();}
+function fracText(n,d){
+  const f=frac(n,d);return f.d===1?String(f.n):`${f.n}/${f.d}`
+}
+function fracHTML(n,d){
+  const f=frac(n,d);
+  if(f.d===1)return String(f.n);
+  return `<span class="frac"><span class="top">${f.n}</span><span class="bottom">${f.d}</span></span>`
+}
+function exactPercent(v,T){
+  const f=frac(v*100,T);
+  return f.d===1?`${f.n}%`:`${fracText(f.n,f.d)}%`
+}
+function exactAngle(v,T){
+  const f=frac(v*360,T);
+  return f.d===1?`${f.n}°`:`${fracText(f.n,f.d)}°`
+}
+function parse(){
+  labels=$('labels').value.split(',').map(x=>x.trim()).filter(Boolean);
+  data=$('values').value.split(',').map(x=>Number(x.trim())).filter(x=>Number.isFinite(x)&&x>=0);
+  const n=Math.min(labels.length,data.length);
+  labels=labels.slice(0,n);data=data.slice(0,n);
+  if(!labels.length||!data.length||data.reduce((a,b)=>a+b,0)===0){
+    labels=['Matematik','Fen','Türkçe','Sosyal'];data=[12,8,6,4];
+    $('labels').value=labels.join(',');$('values').value=data.join(',');
+  }
+}
+function total(){return data.reduce((a,b)=>a+b,0)}
+function updateAll(){parse();drawBar();drawPie();makeTable();makeProcess();makeQuestion()}
 function drawBar(){
-  const c=document.getElementById("barCanvas"),ctx=c.getContext("2d"),W=c.width,H=c.height;
-  ctx.clearRect(0,0,W,H);ctx.fillStyle="#fff";ctx.fillRect(0,0,W,H);
-  ctx.fillStyle="#111827";ctx.font="800 20px Segoe UI";ctx.fillText(document.getElementById("title").value,30,34);
-  let max=Math.max(...data,1), left=65,bottom=360,top=70,width=560;
-  ctx.strokeStyle="#334155";ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(left,top);ctx.lineTo(left,bottom);ctx.lineTo(left+width,bottom);ctx.stroke();
-  ctx.fillStyle="#475569";ctx.font="13px Segoe UI";
-  for(let i=0;i<=5;i++){let v=Math.round(max*i/5), y=bottom-(bottom-top)*i/5;ctx.fillText(v,25,y+4);ctx.strokeStyle="#e2e8f0";ctx.beginPath();ctx.moveTo(left,y);ctx.lineTo(left+width,y);ctx.stroke();}
-  let gap=18, bw=(width-gap*(data.length+1))/Math.max(data.length,1);
+  const c=$('barCanvas'),ctx=c.getContext('2d'),W=c.width,H=c.height;
+  ctx.clearRect(0,0,W,H);ctx.fillStyle='#fff';ctx.fillRect(0,0,W,H);
+  ctx.fillStyle='#111827';ctx.font='800 21px Segoe UI';ctx.fillText($('title').value,28,34);
+  const max=Math.max(...data,1),left=65,bottom=365,top=65,width=610;
+  ctx.strokeStyle='#334155';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(left,top);ctx.lineTo(left,bottom);ctx.lineTo(left+width,bottom);ctx.stroke();
+  for(let i=0;i<=5;i++){
+    const v=max*i/5,y=bottom-(bottom-top)*i/5;
+    ctx.fillStyle='#475569';ctx.font='13px Segoe UI';ctx.fillText(Number.isInteger(v)?v:v.toFixed(1),20,y+4);
+    ctx.strokeStyle='#e2e8f0';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(left,y);ctx.lineTo(left+width,y);ctx.stroke()
+  }
+  const gap=18,bw=(width-gap*(data.length+1))/Math.max(data.length,1);
   data.forEach((v,i)=>{
-    let h=(bottom-top)*v/max, x=left+gap+i*(bw+gap), y=bottom-h;
+    const h=(bottom-top)*v/max,x=left+gap+i*(bw+gap),y=bottom-h;
     ctx.fillStyle=colors[i%colors.length];ctx.fillRect(x,y,bw,h);
-    ctx.fillStyle="#111827";ctx.font="800 14px Segoe UI";ctx.fillText(v,x+bw/2-8,y-8);
-    ctx.font="13px Segoe UI";ctx.save();ctx.translate(x+bw/2,bottom+18);ctx.rotate(-0.25);ctx.fillText(labels[i],-20,0);ctx.restore();
+    ctx.fillStyle='#111827';ctx.font='800 14px Segoe UI';ctx.textAlign='center';ctx.fillText(v,x+bw/2,y-8);
+    ctx.font='13px Segoe UI';ctx.save();ctx.translate(x+bw/2,bottom+20);ctx.rotate(-.22);ctx.fillText(labels[i],0,0);ctx.restore()
   });
+  ctx.textAlign='start'
 }
 function drawPie(){
-  const c=document.getElementById("pieCanvas"),ctx=c.getContext("2d"),W=c.width,H=c.height,T=total();
-  ctx.clearRect(0,0,W,H);ctx.fillStyle="#fff";ctx.fillRect(0,0,W,H);
-  ctx.fillStyle="#111827";ctx.font="800 20px Segoe UI";ctx.fillText(document.getElementById("title").value,30,34);
-  let cx=230,cy=230,r=135,start=-Math.PI/2;
+  const c=$('pieCanvas'),ctx=c.getContext('2d'),W=c.width,H=c.height,T=total();
+  ctx.clearRect(0,0,W,H);ctx.fillStyle='#fff';ctx.fillRect(0,0,W,H);
+  ctx.fillStyle='#111827';ctx.font='800 21px Segoe UI';ctx.fillText($('title').value,28,34);
+  const cx=235,cy=235,r=138;let start=-Math.PI/2;
   data.forEach((v,i)=>{
-    let angle=T?2*Math.PI*v/T:0;
+    const angle=2*Math.PI*v/T;
     ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,r,start,start+angle);ctx.closePath();
-    ctx.fillStyle=colors[i%colors.length];ctx.fill();
-    ctx.strokeStyle="#fff";ctx.lineWidth=3;ctx.stroke();
-    let mid=start+angle/2;
-    ctx.fillStyle="#111827";ctx.font="800 13px Segoe UI";
-    let pct=T?Math.round(v/T*1000)/10:0;
-    ctx.fillText(pct+"%",cx+Math.cos(mid)*85-16,cy+Math.sin(mid)*85+4);
-    start+=angle;
+    ctx.fillStyle=colors[i%colors.length];ctx.fill();ctx.strokeStyle='#fff';ctx.lineWidth=3;ctx.stroke();
+    const mid=start+angle/2;
+    ctx.fillStyle='#111827';ctx.font='800 13px Segoe UI';ctx.textAlign='center';
+    ctx.fillText(exactPercent(v,T),cx+Math.cos(mid)*88,cy+Math.sin(mid)*88+4);
+    start+=angle
   });
-  let lx=420,ly=95;
+  ctx.textAlign='start';
   labels.forEach((lab,i)=>{
-    ctx.fillStyle=colors[i%colors.length];ctx.fillRect(lx,ly+i*34,18,18);
-    ctx.fillStyle="#111827";ctx.font="14px Segoe UI";ctx.fillText(lab+" ("+data[i]+")",lx+28,ly+i*34+14);
-  });
+    const y=95+i*34;
+    ctx.fillStyle=colors[i%colors.length];ctx.fillRect(430,y,18,18);
+    ctx.fillStyle='#111827';ctx.font='14px Segoe UI';ctx.fillText(`${lab} (${data[i]})`,458,y+14)
+  })
 }
 function makeTable(){
-  let T=total(), html="<b>Toplam = "+T+"</b><br><br>";
-  html+="<table style='width:100%;border-collapse:collapse;color:white'><tr><th>Kategori</th><th>Değer</th><th>Yüzde</th><th>Merkez Açı</th></tr>";
+  const T=total();$('totalText').textContent=`Toplam veri = ${T}`;
+  let h='<tr><th>Kategori</th><th>Frekans</th><th>Oran</th><th>Yüzde</th><th>Merkez açı</th></tr>';
   labels.forEach((lab,i)=>{
-    let pct=T?data[i]/T*100:0, ang=T?data[i]/T*360:0;
-    html+="<tr><td>"+lab+"</td><td>"+data[i]+"</td><td>"+pct.toFixed(1)+"%</td><td>"+ang.toFixed(1)+"°</td></tr>";
+    h+=`<tr><td>${lab}</td><td>${data[i]}</td><td>${fracHTML(data[i],T)}</td><td>${exactPercent(data[i],T)}</td><td>${exactAngle(data[i],T)}</td></tr>`
   });
-  html+="</table>";
-  document.getElementById("tableBox").innerHTML=html;
+  h+=`<tr><th>TOPLAM</th><th>${T}</th><th>1</th><th>100%</th><th>360°</th></tr>`;
+  $('convertTable').innerHTML=h
 }
-function makeSteps(){
-  let T=total(), maxI=data.indexOf(Math.max(...data)), minI=data.indexOf(Math.min(...data));
-  let out="1) Önce bütün değerleri topla: <b>Toplam = "+T+"</b><br><br>";
-  out+="2) Her kategori için oranı bul:<br>Kategori / Toplam<br><br>";
-  out+="3) Daire grafiği için merkez açıyı hesapla:<br><b>Merkez açı = Kategori / Toplam × 360°</b><br><br>";
-  if(labels.length){
-    out+="Örnek: "+labels[0]+" için<br>";
-    out+=data[0]+" / "+T+" × 360° = <b>"+(T?data[0]/T*360:0).toFixed(1)+"°</b><br><br>";
-    out+="En büyük pay: <span class='ok'>"+labels[maxI]+"</span><br>";
-    out+="En küçük pay: <span class='warn'>"+labels[minI]+"</span>";
-  }
-  document.getElementById("stepsBox").innerHTML=out;
+function makeProcess(){
+  const T=total(),i=0;
+  $('processBox').innerHTML=`
+    <div><b>1. Toplamı bul:</b><br>${data.join(' + ')} = ${T}</div>
+    <div><b>2. İlk kategorinin oranını kur:</b><br>${labels[i]} = ${data[i]}/${T} = ${fracText(data[i],T)}</div>
+    <div><b>3. Yüzdeye dönüştür:</b><br>${fracText(data[i],T)} × 100 = ${exactPercent(data[i],T)}</div>
+    <div><b>4. Merkez açıya dönüştür:</b><br>${fracText(data[i],T)} × 360° = ${exactAngle(data[i],T)}</div>
+    <div><b>5. Kontrol et:</b><br>Tüm dilimlerin toplamı 360°, tüm yüzdelerin toplamı %100 olmalıdır.</div>`
 }
 function makeQuestion(){
-  let mode=document.getElementById("questionType").value,T=total();
-  let maxI=data.indexOf(Math.max(...data)), minI=data.indexOf(Math.min(...data));
-  let q="",ans="",sol="";
-  if(mode==="max"){q="Grafiğe göre en büyük kategori hangisidir?";ans=labels[maxI].toLowerCase();sol="En büyük değer "+data[maxI]+" olduğu için cevap "+labels[maxI]+".";}
-  else if(mode==="min"){q="Grafiğe göre en küçük kategori hangisidir?";ans=labels[minI].toLowerCase();sol="En küçük değer "+data[minI]+" olduğu için cevap "+labels[minI]+".";}
-  else if(mode==="percent"){let i=0;q=labels[i]+" kategorisinin yüzdesi kaçtır?";ans=(T?data[i]/T*100:0).toFixed(1);sol=data[i]+"/"+T+"×100 = "+ans+"%";}
-  else if(mode==="angle"){let i=0;q=labels[i]+" kategorisinin daire grafiğindeki merkez açısı kaç derecedir?";ans=(T?data[i]/T*360:0).toFixed(1);sol=data[i]+"/"+T+"×360 = "+ans+"°";}
-  else{let a=0,b=1;q=labels[a]+" ile "+labels[b]+" arasındaki fark kaçtır?";ans=String(Math.abs(data[a]-data[b]));sol="Fark = |"+data[a]+"-"+data[b]+"| = "+ans;}
-  currentAnswer=ans;currentSolution=sol;
-  document.getElementById("questionBox").innerHTML="<b>Soru:</b> "+q;
-  document.getElementById("answerBox").innerHTML="";
+  const T=total(),mode=$('questionType').value,maxI=data.indexOf(Math.max(...data)),minI=data.indexOf(Math.min(...data));
+  let q,a,opts,explain;
+  if(mode==='max'){
+    q='En büyük frekansa sahip kategori hangisidir?';a=labels[maxI];
+    opts=[a,...labels.filter((_,i)=>i!==maxI).slice(0,3)];
+    explain=`${labels[maxI]} kategorisinin frekansı ${data[maxI]} ile en büyüktür.`
+  }else if(mode==='min'){
+    q='En küçük frekansa sahip kategori hangisidir?';a=labels[minI];
+    opts=[a,...labels.filter((_,i)=>i!==minI).slice(0,3)];
+    explain=`${labels[minI]} kategorisinin frekansı ${data[minI]} ile en küçüktür.`
+  }else if(mode==='percent'){
+    const i=0;q=`${labels[i]} kategorisinin yüzdesi nedir?`;a=exactPercent(data[i],T);
+    opts=[a,exactPercent(data[Math.min(1,data.length-1)],T),`${data[i]}%`,`${fracText(data[i],T)}%`];
+    explain=`${data[i]}/${T} × 100 = ${a}`
+  }else if(mode==='angle'){
+    const i=0;q=`${labels[i]} kategorisinin merkez açısı nedir?`;a=exactAngle(data[i],T);
+    opts=[a,exactAngle(data[Math.min(1,data.length-1)],T),`${data[i]}°`,`${fracText(data[i],T)}°`];
+    explain=`${data[i]}/${T} × 360° = ${a}`
+  }else{
+    const aI=0,bI=Math.min(1,data.length-1),diff=Math.abs(data[aI]-data[bI]);
+    q=`${labels[aI]} ile ${labels[bI]} arasındaki frekans farkı kaçtır?`;a=String(diff);
+    opts=[a,String(data[aI]+data[bI]),String(Math.max(data[aI],data[bI])),String(Math.min(data[aI],data[bI]))];
+    explain=`|${data[aI]} − ${data[bI]}| = ${diff}`
+  }
+  current={a,explain};
+  $('questionText').textContent=q;$('feedback').textContent='Grafikleri ve tabloyu inceleyerek cevapla.';
+  const box=$('answers');box.innerHTML='';
+  [...new Set(opts)].sort(()=>Math.random()-.5).forEach(opt=>{
+    const b=document.createElement('button');b.className='answer';b.textContent=opt;b.onclick=()=>answer(opt,b);box.appendChild(b)
+  })
 }
-function normalize(x){return String(x).toLowerCase().replace(",",".").replace(" derece","").replace("°","").replace("%","").trim();}
-function checkAnswer(){
-  let s=normalize(document.getElementById("studentAnswer").value), a=normalize(currentAnswer);
-  let ok=false;
-  if(!isNaN(Number(a))&&!isNaN(Number(s))) ok=Math.abs(Number(s)-Number(a))<0.11;
-  else ok=s===a;
-  document.getElementById("answerBox").innerHTML=(ok?"<span class='ok'>✔ Doğru!</span>":"<span class='warn'>Tekrar kontrol et. Beklenen cevap: "+currentAnswer+"</span>")+"<br><br><b>Çözüm:</b><br>"+currentSolution;
+function answer(opt,btn){
+  const all=[...$('answers').children];if(all.some(x=>x.disabled))return;
+  all.forEach(x=>{x.disabled=true;if(x.textContent===current.a)x.classList.add('correct')});
+  answered++;
+  if(opt===current.a){correct++;streak++;btn.classList.add('correct');$('feedback').textContent='Doğru! '+current.explain}
+  else{streak=0;btn.classList.add('wrong');$('feedback').textContent='Henüz değil. '+current.explain}
+  updateStats()
+}
+function updateStats(){
+  $('answered').textContent=answered;$('correct').textContent=correct;$('streak').textContent=streak;
+  const pct=answered?Math.round(correct/answered*100):0;
+  const best=Math.max(Number(localStorage.getItem(bestKey)||0),pct);
+  localStorage.setItem(bestKey,best);$('best').textContent=best+'%'
 }
 function sampleData(){
   const samples=[
-    ["Spor Kulübü Tercihleri","Futbol,Basketbol,Voleybol,Yüzme","18,12,9,6"],
-    ["Kütüphane Kitap Türleri","Roman,Bilim,Şiir,Tarih","20,10,5,15"],
-    ["Ulaşım Tercihleri","Otobüs,Metro,Bisiklet,Yürüyüş","16,14,6,4"]
+    ['Spor Kulübü Tercihleri','Futbol,Basketbol,Voleybol,Yüzme','18,12,9,6'],
+    ['Kütüphane Kitap Türleri','Roman,Bilim,Şiir,Tarih','20,10,5,15'],
+    ['Ulaşım Tercihleri','Otobüs,Metro,Bisiklet,Yürüyüş','16,14,6,4'],
+    ['Bir Haftada Okunan Kitaplar','0 kitap,1 kitap,2 kitap,3+ kitap','6,12,8,4']
   ];
-  let s=samples[Math.floor(Math.random()*samples.length)];
-  document.getElementById("title").value=s[0];document.getElementById("labels").value=s[1];document.getElementById("values").value=s[2];updateAll();
+  const s=samples[Math.floor(Math.random()*samples.length)];
+  $('title').value=s[0];$('labels').value=s[1];$('values').value=s[2];updateAll()
 }
-updateAll();
+function resetAll(){
+  $('title').value='Sınıfın Sevdiği Dersler';$('labels').value='Matematik,Fen,Türkçe,Sosyal';$('values').value='12,8,6,4';$('questionType').value='max';updateAll()
+}
+function jumpTo(id,el,n){
+  document.querySelectorAll('.step-tab').forEach(x=>x.classList.remove('active'));el.classList.add('active');
+  $('progressText').textContent=`${n} / 6`;$('progressBar').style.width=(n/6*100)+'%';
+  $(id).scrollIntoView({behavior:'smooth',block:'start'})
+}
+function openContact(){$('contactPanel').classList.remove('hidden')}
+function closeContact(){$('contactPanel').classList.add('hidden')}
+updateAll();updateStats();
 </script>
 </body>
 </html>

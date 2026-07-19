@@ -1,359 +1,44 @@
-<!DOCTYPE html>
-<html lang="tr">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>ENGİN360 Akış Şeması Simülatörü PRO</title>
-<style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',Arial,sans-serif}
-body{
-  min-height:100vh;color:#fff;padding:16px;
-  background:radial-gradient(circle at top left,rgba(168,85,247,.38),transparent 35%),
-  radial-gradient(circle at bottom right,rgba(14,165,233,.30),transparent 35%),
-  linear-gradient(135deg,#05010d,#130023,#061631)
-}
-.container{max-width:1180px;margin:auto}
-.hero{text-align:center;padding:28px 16px;border-radius:28px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);box-shadow:0 0 35px rgba(124,58,237,.34);margin-bottom:16px}
-.logo{font-size:35px;font-weight:900;letter-spacing:1px;background:linear-gradient(90deg,#a855f7,#38bdf8,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.subtitle{margin-top:8px;color:#ded9ff;font-size:15px;line-height:1.5}
-.panel{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.13);border-radius:24px;padding:17px;margin-top:14px;box-shadow:0 12px 26px rgba(0,0,0,.25)}
-h2{font-size:20px;color:#f5d0fe;margin-bottom:12px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:13px}
-label{display:block;color:#f5d0fe;font-size:14px;margin-bottom:7px}
-input,select{
-  width:100%;border:none;outline:none;border-radius:14px;padding:12px 13px;
-  background:rgba(255,255,255,.12);color:white;border:1px solid rgba(255,255,255,.16);font-size:15px
-}
-select option{color:#111}
-button{width:100%;padding:13px;border:none;border-radius:16px;margin-top:11px;color:white;font-weight:800;font-size:15px;background:linear-gradient(90deg,#7c3aed,#0ea5e9,#ec4899);box-shadow:0 0 22px rgba(236,72,153,.25);cursor:pointer}
-.secondary{background:linear-gradient(90deg,#334155,#475569)}
-.result{background:rgba(0,0,0,.24);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:13px;margin-top:10px;line-height:1.7;overflow:auto}
-.flowWrap{display:flex;flex-direction:column;align-items:center;gap:8px;margin-top:8px}
-.node{min-width:250px;max-width:500px;text-align:center;padding:13px 16px;border:2px solid rgba(255,255,255,.18);background:rgba(15,23,42,.78);box-shadow:0 8px 18px rgba(0,0,0,.25);transition:.25s}
-.terminal{border-radius:999px}
-.process{border-radius:16px}
-.decision{width:190px;height:190px;display:flex;align-items:center;justify-content:center;transform:rotate(45deg);border-radius:18px}
-.decision span{transform:rotate(-45deg);display:block;padding:10px}
-.active{background:rgba(236,72,153,.32);border-color:#f0abfc;box-shadow:0 0 25px rgba(236,72,153,.45)}
-.done{background:rgba(34,197,94,.18);border-color:#86efac}
-.arrow{font-size:24px;color:#93c5fd}
-.badge{display:inline-block;margin:4px;padding:7px 10px;border-radius:999px;background:rgba(14,165,233,.15);border:1px solid rgba(56,189,248,.28)}
-.ok{color:#86efac;font-weight:800}.warn{color:#fde68a;font-weight:800}.pink{color:#f0abfc;font-weight:800}.bad{color:#fca5a5;font-weight:800}
-pre{white-space:pre-wrap;background:rgba(0,0,0,.30);padding:13px;border-radius:14px;border:1px solid rgba(255,255,255,.12);line-height:1.6;color:#dbeafe}
-.footer{text-align:center;color:#aaa;font-size:12px;margin:26px 0 10px}
-@media(max-width:600px){body{padding:12px}.logo{font-size:30px}.grid{grid-template-columns:1fr}.decision{width:160px;height:160px}.node{min-width:220px}}
-</style>
-</head>
-<body>
-<div class="container">
-  <div class="hero">
-    <div class="logo">ENGİN360</div>
-    <div class="subtitle">Akış Şeması Simülatörü PRO<br>Akışı seç, sayı gir, adımları çalıştır, sonucu ve sözde kodu gör.</div>
-  </div>
-
-  <div class="panel">
-    <h2>1) Simülasyonu Ayarla</h2>
-    <div class="grid">
-      <div>
-        <label>Akış türü</label>
-        <select id="flowType">
-          <option value="even">Çift / Tek Kontrolü</option>
-          <option value="positive">Pozitif / Negatif / Sıfır</option>
-          <option value="sum">1'den n'ye Toplam</option>
-          <option value="factorial">Faktöriyel</option>
-          <option value="prime">Asal Sayı Kontrolü</option>
-        </select>
-      </div>
-      <div><label>n değeri</label><input id="nValue" type="number" value="8"></div>
-      <div><label>Çalıştırma hızı</label><select id="speed"><option value="900">Normal</option><option value="450">Hızlı</option><option value="1400">Yavaş</option></select></div>
-    </div>
-    <button onclick="buildFlow()">Akışı Hazırla</button>
-    <button onclick="runFlow()">Adım Adım Çalıştır</button>
-    <button class="secondary" onclick="randomExample()">Rastgele Örnek</button>
-  </div>
-
-  <div class="grid">
-    <div class="panel">
-      <h2>2) Akış Şeması</h2>
-      <div id="flowBox" class="flowWrap"></div>
-    </div>
-    <div class="panel">
-      <h2>3) Çalışma Günlüğü</h2>
-      <div id="logBox" class="result">Akışı hazırla ve çalıştır.</div>
-    </div>
-  </div>
-
-  <div class="grid">
-    <div class="panel">
-      <h2>4) Sözde Kod</h2>
-      <pre id="pseudoBox"></pre>
-    </div>
-    <div class="panel">
-      <h2>5) Sonuç ve Rozet</h2>
-      <div id="resultBox" class="result"></div>
-    </div>
-  </div>
-
-  <div class="panel">
-    <h2>6) Hata Avcısı</h2>
-    <div id="bugQuestion" class="result"></div>
-    <div class="grid">
-      <button onclick="answerBug('condition')">Koşul hatalı</button>
-      <button onclick="answerBug('update')">Artırma / güncelleme eksik</button>
-      <button onclick="answerBug('output')">Çıktı hatalı</button>
-    </div>
-    <div id="bugAnswer" class="result"></div>
-  </div>
-
-  <div class="panel">
-    <h2>7) Altın Kural</h2>
-    <div class="result">
-      <span class="pink">Akış şeması bir çözüm yolunun haritasıdır.</span><br><br>
-      Oval: Başla / Bitir<br>
-      Dikdörtgen: İşlem yap<br>
-      Paralelkenar gibi düşünülen adım: Veri gir / çıktı yaz<br>
-      Elmas: Karar ver, evet-hayır yoluna ayrıl<br><br>
-      Öğrenci akış şemasını okuyabiliyorsa, algoritmanın mantığını da kurmaya başlamıştır.
-    </div>
-  </div>
-
-  <div class="footer">ENGİN360 © 2026 · Maarif Model Laboratuvarı</div>
-</div>
-
+<!DOCTYPE html><html lang="tr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><meta name="theme-color" content="#080614"><title>ENGİN360 | Akış Şeması Simülatörü PRO</title><style>
+:root{--bg:#06050f;--bg2:#130d30;--panel:rgba(255,255,255,.065);--line:rgba(255,255,255,.14);--text:#f8fafc;--muted:#cbd5e1;--purple:#a855f7;--blue:#38bdf8;--pink:#ec4899;--yellow:#fde047;--green:#22c55e;--red:#fb7185}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{min-height:100vh;font-family:Inter,"Segoe UI",Arial,sans-serif;color:var(--text);background:radial-gradient(circle at 10% 8%,rgba(168,85,247,.30),transparent 29%),radial-gradient(circle at 90% 10%,rgba(56,189,248,.21),transparent 28%),radial-gradient(circle at 50% 102%,rgba(236,72,153,.17),transparent 36%),linear-gradient(145deg,var(--bg),var(--bg2));padding:16px 0 42px;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.22;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:34px 34px}
+.page{width:min(1180px,94%);margin:auto;position:relative;z-index:1}.topbar{display:flex;justify-content:space-between;gap:10px;margin-bottom:14px}.back,.ghost{color:white;text-decoration:none;font-weight:900;padding:11px 14px;border-radius:15px;border:1px solid var(--line);background:rgba(255,255,255,.07)}
+.hero,.panel{border:1px solid var(--line);background:linear-gradient(145deg,rgba(255,255,255,.08),rgba(255,255,255,.03));box-shadow:0 22px 60px rgba(0,0,0,.28)}
+.hero{border-radius:30px;padding:24px;position:relative;overflow:hidden}.hero:after{content:"";position:absolute;width:300px;height:300px;border-radius:50%;right:-115px;top:-155px;background:radial-gradient(circle,rgba(56,189,248,.24),transparent 68%)}
+.brand{display:flex;align-items:center;gap:12px;margin-bottom:13px;position:relative;z-index:2}.logo{width:58px;height:58px;border-radius:18px;display:grid;place-items:center;font-weight:1000;background:linear-gradient(135deg,#7c3aed,#2563eb);box-shadow:0 0 28px rgba(99,102,241,.35)}.brand small{display:block;color:#c4b5fd;font-weight:900;letter-spacing:1.3px}
+.hero h1{font-size:clamp(31px,5.8vw,60px);font-weight:1000;font-style:italic;line-height:1;background:linear-gradient(90deg,#f0abfc,#c084fc,#38bdf8,#67e8f9);-webkit-background-clip:text;color:transparent;filter:drop-shadow(0 0 13px rgba(168,85,247,.4));position:relative;z-index:2}.hero p{max-width:900px;color:#dbeafe;line-height:1.65;font-size:15px;margin-top:11px;position:relative;z-index:2}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:17px;position:relative;z-index:2}.stat{padding:13px;border:1px solid var(--line);border-radius:17px;background:rgba(2,6,23,.38)}.stat b{display:block;font-size:23px}.stat span{font-size:11px;color:var(--muted)}
+.panel{border-radius:25px;padding:18px;margin-top:15px}.panel h2{font-size:22px;margin-bottom:6px}.lead{color:var(--muted);font-size:13px;line-height:1.55;margin-bottom:13px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:13px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.field,.card,.result,.question{border:1px solid var(--line);border-radius:18px;padding:13px;background:rgba(2,6,23,.3)}label{display:block;color:#f5d0fe;font-size:13px;font-weight:900;margin-bottom:7px}
+input,select,textarea{width:100%;border:1px solid rgba(255,255,255,.16);outline:none;border-radius:13px;padding:11px 12px;background:rgba(255,255,255,.09);color:white;font-size:14px}select option{color:#111}textarea{min-height:100px;resize:vertical}
+.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}.btn{border:0;border-radius:14px;padding:11px 14px;color:white;font-weight:900;cursor:pointer;background:linear-gradient(135deg,#7c3aed,#2563eb)}.btn.secondary{background:rgba(255,255,255,.08);border:1px solid var(--line)}.btn.good{background:linear-gradient(135deg,#16a34a,#059669)}
+.rule{border:1px solid rgba(253,224,71,.28);background:rgba(253,224,71,.075);border-radius:16px;padding:12px;margin:9px 0;color:#fff7ae;font-size:13px;line-height:1.5}.process{display:grid;gap:9px}.process div{border:1px solid var(--line);border-radius:15px;padding:11px;background:rgba(255,255,255,.045);font-size:13px;line-height:1.5;color:var(--muted)}.process b{color:white}
+canvas{width:100%;display:block;background:white;border-radius:16px}.answers{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.answer{border:1px solid var(--line);border-radius:13px;padding:11px;background:rgba(255,255,255,.055);color:white;text-align:left;font-weight:800;cursor:pointer}.answer.correct{background:rgba(34,197,94,.18);border-color:rgba(34,197,94,.58)}.answer.wrong{background:rgba(251,113,133,.18);border-color:rgba(251,113,133,.60)}.feedback{margin-top:10px;min-height:48px;border-radius:14px;padding:11px;background:rgba(255,255,255,.045);color:#dbeafe;font-size:13px;line-height:1.45}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:10px;border-bottom:1px solid rgba(255,255,255,.10);text-align:center}th{color:#e9d5ff;background:rgba(168,85,247,.10)}td:first-child,th:first-child{text-align:left}.big{font-size:27px;font-weight:1000;color:#fde68a}.hidden{display:none!important}
+.contact-trigger{position:fixed;left:12px;bottom:12px;z-index:80;border:1px solid rgba(139,92,246,.5);border-radius:14px;padding:8px 10px;color:white;font-weight:900;font-size:11px;background:linear-gradient(135deg,#6d28d9,#2563eb);box-shadow:0 12px 30px rgba(0,0,0,.38);cursor:pointer}.contact-panel{position:fixed;left:12px;bottom:58px;z-index:81;width:min(335px,calc(100vw - 24px));padding:16px;border-radius:21px;background:linear-gradient(145deg,rgba(15,22,48,.97),rgba(7,13,30,.98));border:1px solid rgba(99,102,241,.38);box-shadow:0 24px 60px rgba(0,0,0,.5)}.contact-panel.hide{display:none}.contact-panel a{display:inline-block;margin-top:10px;margin-right:6px;text-decoration:none;color:white;font-weight:900;padding:10px 12px;border-radius:12px}.wa{background:#159447}.ig{background:linear-gradient(135deg,#7c3aed,#d946ef,#f97316)}
+footer{text-align:center;color:#94a3b8;font-size:12px;margin-top:20px}
+@media(max-width:850px){.grid,.grid3{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}}@media(max-width:600px){.page{width:95%}.hero,.panel{padding:15px;border-radius:22px}.topbar .ghost{display:none}.answers{grid-template-columns:1fr}}
+</style></head><body><main class="page"><div class="topbar"><a class="back" href="maarif_guncel.html">← Maarif Model Laboratuvarı</a></div>
+<section class="hero"><div class="brand"><div class="logo">E360</div><div><small>ENGİN360</small><strong>Maarif Model Laboratuvarı</strong></div></div><h1>Akış Şeması Simülatörü PRO</h1><p>Algoritmanın her adımını gör, karar noktalarını izle ve çıktının nasıl oluştuğunu öğren.</p>
+<div class="stats"><div class="stat"><b id="answered">0</b><span>Cevaplanan</span></div><div class="stat"><b id="correct">0</b><span>Doğru</span></div><div class="stat"><b id="streak">0</b><span>Doğru Seri</span></div><div class="stat"><b id="best">0%</b><span>En İyi Başarı</span></div></div></section>
+<section class="panel"><h2>1. Algoritmayı Seç</h2><div class="grid"><div class="field"><label>Girdi n</label><input id="n" type="number" value="7"></div><div class="field"><label>Akış türü</label><select id="type"><option value="even">Çift–Tek</option><option value="positive">Pozitif–Negatif</option><option value="sum">1'den n'ye toplam</option><option value="factorial">Faktöriyel</option><option value="prime">Asal sayı</option></select></div></div><div class="actions"><button class="btn" onclick="run()">Akışı Çalıştır</button><button class="btn secondary" onclick="stepRun()">Adım Adım</button></div></section>
+<section class="panel"><h2>2. Akış Şeması</h2><div id="flow" class="process"></div></section>
+<section class="panel"><h2>3. Çalışma Günlüğü</h2><div class="result" id="log">Akış henüz çalıştırılmadı.</div></section>
+<section class="panel"><h2>4. Sembolleri Öğren</h2><div class="grid3"><div class="card"><b>Oval</b><p class="lead">Başla / Bitir</p></div><div class="card"><b>Dikdörtgen</b><p class="lead">İşlem yap</p></div><div class="card"><b>Elmas</b><p class="lead">Karar ver</p></div></div></section>
+<section class="panel"><h2>5. Soruyla Kontrol Et</h2><div class="question"><h3 id="q"></h3><div id="answers" class="answers"></div><div id="fb" class="feedback"></div><div class="actions"><button class="btn secondary" onclick="newQ()">Yeni Soru</button></div></div></section>
+<footer>ENGİN360 • Maarif Model Laboratuvarı • Engin Özcan</footer></main>
+<button class="contact-trigger" onclick="document.getElementById('cp').classList.toggle('hide')">E360 Koçluk</button>
+<aside class="contact-panel hide" id="cp"><h3>ENGİN360 Eğitim Koçluğu</h3><p style="color:#cbd5e1;font-size:12px;line-height:1.5;margin-top:6px">Kişiye özel takip ve çalışma planı için iletişime geçebilirsin.</p><a class="wa" href="https://wa.me/905348165015" target="_blank">WhatsApp</a><a class="ig" href="https://www.instagram.com/www_engin360_com/" target="_blank">Instagram</a></aside>
 <script>
-let steps=[], logs=[], currentBug="update";
+let answered=0,correct=0,streak=0;const bestKey='e360_akis';
+document.getElementById('best').textContent=(localStorage.getItem(bestKey)||0)+'%';
+function ask(q,a,opts,exp){document.getElementById('q').textContent=q;const box=document.getElementById('answers');box.innerHTML='';document.getElementById('fb').textContent='İncele ve cevapla.';[...new Set(opts)].sort(()=>Math.random()-.5).forEach(o=>{const b=document.createElement('button');b.className='answer';b.textContent=o;b.onclick=()=>{if([...box.children].some(x=>x.disabled))return;[...box.children].forEach(x=>{x.disabled=true;if(x.textContent===a)x.classList.add('correct')});answered++;if(o===a){correct++;streak++;b.classList.add('correct');document.getElementById('fb').textContent='Doğru! '+exp}else{streak=0;b.classList.add('wrong');document.getElementById('fb').textContent='Henüz değil. '+exp}sync()};box.appendChild(b)})}
+function sync(){document.getElementById('answered').textContent=answered;document.getElementById('correct').textContent=correct;document.getElementById('streak').textContent=streak;const p=answered?Math.round(correct/answered*100):0,b=Math.max(Number(localStorage.getItem(bestKey)||0),p);localStorage.setItem(bestKey,b);document.getElementById('best').textContent=b+'%'}
 
-function n(){return Number(document.getElementById("nValue").value);}
-function flowType(){return document.getElementById("flowType").value;}
-function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
-
-function nodeHtml(step,i){
-  let cls="node "+(step.kind||"process");
-  if(step.kind==="decision") return `<div id="step${i}" class="${cls}"><span>${step.text}</span></div>`;
-  return `<div id="step${i}" class="${cls}">${step.text}</div>`;
-}
-function renderFlow(){
-  let html="";
-  steps.forEach((s,i)=>{
-    html+=nodeHtml(s,i);
-    if(i<steps.length-1) html+=`<div class="arrow">↓</div>`;
-  });
-  document.getElementById("flowBox").innerHTML=html;
-}
-function clearMarks(){
-  steps.forEach((_,i)=>{
-    let el=document.getElementById("step"+i);
-    if(el){el.classList.remove("active");el.classList.remove("done");}
-  });
-}
-function mark(i,cls){
-  let el=document.getElementById("step"+i);
-  if(el) el.classList.add(cls);
-}
-function setLog(text){document.getElementById("logBox").innerHTML=text;}
-function addLog(line){
-  logs.push(line);
-  setLog(logs.map(x=>"• "+x).join("<br>"));
-}
-function buildFlow(){
-  let t=flowType(), value=n();
-  logs=[];
-  if(t==="even"){
-    steps=[
-      {text:"Başla",kind:"terminal"},
-      {text:"n sayısını oku",kind:"process"},
-      {text:"n mod 2 = 0 mı?",kind:"decision"},
-      {text:value%2===0?"Çifttir yaz":"Tektir yaz",kind:"process"},
-      {text:"Bitir",kind:"terminal"}
-    ];
-    document.getElementById("pseudoBox").textContent=`Başla
-Oku n
-Eğer n mod 2 = 0 ise
-  Yaz "Çifttir"
-Değilse
-  Yaz "Tektir"
-Bitir`;
-  }else if(t==="positive"){
-    let out=value>0?"Pozitif":value<0?"Negatif":"Sıfır";
-    steps=[
-      {text:"Başla",kind:"terminal"},
-      {text:"n sayısını oku",kind:"process"},
-      {text:"n > 0 mı?",kind:"decision"},
-      {text:value>0?"Pozitif yaz":"n < 0 mı? kontrol et",kind:"process"},
-      {text:value===0?"Sıfır yaz":out+" yaz",kind:"process"},
-      {text:"Bitir",kind:"terminal"}
-    ];
-    document.getElementById("pseudoBox").textContent=`Başla
-Oku n
-Eğer n > 0 ise
-  Yaz "Pozitif"
-Değilse eğer n < 0 ise
-  Yaz "Negatif"
-Değilse
-  Yaz "Sıfır"
-Bitir`;
-  }else if(t==="sum"){
-    steps=[
-      {text:"Başla",kind:"terminal"},
-      {text:"n oku, toplam=0, i=1",kind:"process"},
-      {text:"i ≤ n mi?",kind:"decision"},
-      {text:"toplam = toplam + i",kind:"process"},
-      {text:"i = i + 1",kind:"process"},
-      {text:"toplamı yaz",kind:"process"},
-      {text:"Bitir",kind:"terminal"}
-    ];
-    document.getElementById("pseudoBox").textContent=`Başla
-Oku n
-toplam = 0
-i = 1
-i ≤ n olduğu sürece
-  toplam = toplam + i
-  i = i + 1
-Yaz toplam
-Bitir`;
-  }else if(t==="factorial"){
-    steps=[
-      {text:"Başla",kind:"terminal"},
-      {text:"n oku, sonuc=1, i=1",kind:"process"},
-      {text:"i ≤ n mi?",kind:"decision"},
-      {text:"sonuc = sonuc × i",kind:"process"},
-      {text:"i = i + 1",kind:"process"},
-      {text:"sonucu yaz",kind:"process"},
-      {text:"Bitir",kind:"terminal"}
-    ];
-    document.getElementById("pseudoBox").textContent=`Başla
-Oku n
-sonuc = 1
-i = 1
-i ≤ n olduğu sürece
-  sonuc = sonuc × i
-  i = i + 1
-Yaz sonuc
-Bitir`;
-  }else{
-    steps=[
-      {text:"Başla",kind:"terminal"},
-      {text:"n oku, bölen=2",kind:"process"},
-      {text:"n < 2 mi?",kind:"decision"},
-      {text:"bölen × bölen ≤ n mi?",kind:"decision"},
-      {text:"n mod bölen = 0 mı?",kind:"decision"},
-      {text:"bölen = bölen + 1",kind:"process"},
-      {text:"Asal / asal değil yaz",kind:"process"},
-      {text:"Bitir",kind:"terminal"}
-    ];
-    document.getElementById("pseudoBox").textContent=`Başla
-Oku n
-Eğer n < 2 ise
-  Yaz "Asal değildir"
-Değilse
-  bölen = 2
-  bölen × bölen ≤ n olduğu sürece
-    Eğer n mod bölen = 0 ise
-      Yaz "Asal değildir"
-      Bitir
-    bölen = bölen + 1
-  Yaz "Asaldır"
-Bitir`;
-  }
-  renderFlow();
-  setLog("Akış hazır. Şimdi adım adım çalıştırabilirsin.");
-  document.getElementById("resultBox").innerHTML="";
-  makeBug();
-}
-async function runFlow(){
-  buildFlow();
-  clearMarks();
-  let sp=Number(document.getElementById("speed").value);
-  for(let i=0;i<steps.length;i++){
-    mark(i,"active");
-    await sleep(sp);
-    explainStep(i);
-    mark(i,"done");
-    await sleep(180);
-  }
-  finalResult();
-}
-function explainStep(i){
-  let t=flowType(), value=n();
-  if(i===0) addLog("Başlangıç yapıldı.");
-  if(t==="even"){
-    if(i===1) addLog("n = "+value+" okundu.");
-    if(i===2) addLog(value+" mod 2 = "+(value%2)+".");
-    if(i===3) addLog(value%2===0?"Sonuç: Çifttir.":"Sonuç: Tektir.");
-    if(i===4) addLog("Akış bitti.");
-  }else if(t==="positive"){
-    if(i===1) addLog("n = "+value+" okundu.");
-    if(i===2) addLog(value+" > 0 sonucu: "+(value>0?"Evet":"Hayır")+".");
-    if(i===3) addLog(value>0?"Pozitif yolu seçildi.":"Pozitif değil, diğer durumlar kontrol edilir.");
-    if(i===4) addLog(value>0?"Çıktı: Pozitif":value<0?"Çıktı: Negatif":"Çıktı: Sıfır");
-    if(i===5) addLog("Akış bitti.");
-  }else if(t==="sum"){
-    if(i===1) addLog("toplam=0, i=1 olarak başlandı.");
-    if(i===2) addLog("i değeri n'e kadar artırılarak devam eder.");
-    if(i===3 || i===4){
-      let total=value*(value+1)/2;
-      addLog("Döngü tamamlandığında toplam = "+total+" olur.");
-    }
-    if(i===5) addLog("Toplam yazılır: "+(value*(value+1)/2));
-    if(i===6) addLog("Akış bitti.");
-  }else if(t==="factorial"){
-    if(i===1) addLog("sonuc=1, i=1 olarak başlandı.");
-    if(i===2) addLog("i değeri n'e kadar çarpılarak ilerler.");
-    if(i===3 || i===4) addLog("Her adımda sonuc = sonuc × i yapılır.");
-    if(i===5) addLog("Faktöriyel yazılır: "+factorial(value));
-    if(i===6) addLog("Akış bitti.");
-  }else{
-    if(i===1) addLog("n = "+value+" okundu, bölen=2 seçildi.");
-    if(i===2) addLog(value+" < 2 kontrol edilir.");
-    if(i===3) addLog("Bölenin karesi n'i geçene kadar kontrol yapılır.");
-    if(i===4) addLog("Her bölen için n mod bölen = 0 mı bakılır.");
-    if(i===5) addLog("Bölmezse bölen 1 artırılır.");
-    if(i===6) addLog("Sonuç: "+(isPrime(value)?"Asaldır":"Asal değildir")+".");
-    if(i===7) addLog("Akış bitti.");
-  }
-}
-function factorial(x){
-  if(x<0) return "Tanımsız";
-  let r=1; for(let i=2;i<=x;i++) r*=i; return r;
-}
-function isPrime(x){
-  if(x<2) return false;
-  for(let i=2;i*i<=x;i++) if(x%i===0) return false;
-  return true;
-}
-function finalResult(){
-  let t=flowType(), value=n(), msg="";
-  if(t==="even") msg=value+" sayısı "+(value%2===0?"çifttir.":"tektir.");
-  else if(t==="positive") msg=value>0?"Pozitif":value<0?"Negatif":"Sıfır";
-  else if(t==="sum") msg="1'den "+value+"'e kadar toplam = "+(value*(value+1)/2);
-  else if(t==="factorial") msg=value+"! = "+factorial(value);
-  else msg=value+" sayısı "+(isPrime(value)?"asaldır.":"asal değildir.");
-  document.getElementById("resultBox").innerHTML="<span class='ok'>Sonuç:</span> "+msg+"<br><br><span class='warn'>Rozet:</span> Akış Şeması Dedektifi";
-}
-function randomExample(){
-  let types=["even","positive","sum","factorial","prime"];
-  document.getElementById("flowType").value=types[Math.floor(Math.random()*types.length)];
-  document.getElementById("nValue").value=Math.floor(Math.random()*14)+2;
-  buildFlow();
-}
-function makeBug(){
-  let bugs=[
-    {type:"condition",q:"Bir akışta 'n çift mi?' yerine yanlışlıkla 'n > 2 mi?' yazılmış. Hata türü nedir?",a:"Koşul hatalıdır. Karar kutusundaki soru problemi çözmüyor."},
-    {type:"update",q:"1'den n'ye toplam algoritmasında i = i + 1 adımı unutulmuş. Hata türü nedir?",a:"Artırma / güncelleme eksiktir. Döngü sonsuza gidebilir."},
-    {type:"output",q:"Çift çıkan sayıya 'Tektir' yazdırılıyor. Hata türü nedir?",a:"Çıktı hatalıdır. İşlem doğru olsa bile yazdırılan sonuç yanlıştır."}
-  ];
-  let b=bugs[Math.floor(Math.random()*bugs.length)];
-  currentBug=b.type;
-  document.getElementById("bugQuestion").innerHTML="<b>Hata Avcısı:</b><br>"+b.q;
-  document.getElementById("bugAnswer").innerHTML="";
-}
-function answerBug(ans){
-  let correct=ans===currentBug;
-  document.getElementById("bugAnswer").innerHTML=correct?"<span class='ok'>✔ Doğru!</span>":"<span class='bad'>✘ Tekrar düşün.</span>";
-  if(correct) setTimeout(makeBug,1000);
-}
-document.getElementById("flowType").addEventListener("change",buildFlow);
-buildFlow();
-</script>
-</body>
-</html>
+let steps=[],logs=[];
+function build(){const v=+n.value,t=type.value;if(t==='even')steps=['Başla','n değerini oku',`n mod 2 = ${v%2}`,'Kalan 0 mı?',v%2===0?'Çift yaz':'Tek yaz','Bitir'];else if(t==='positive')steps=['Başla','n değerini oku','n > 0 mı?',v>0?'Pozitif yaz':v<0?'Negatif yaz':'Sıfır yaz','Bitir'];else if(t==='sum'){steps=['Başla','toplam=0, i=1',`i ≤ ${v} mi?`,`toplam = ${v*(v+1)/2}`,'i artır','Sonucu yaz','Bitir']}else if(t==='factorial'){let f=1;for(let i=1;i<=Math.max(0,v);i++)f*=i;steps=['Başla','f=1, i=1',`i ≤ ${v} mi?`,`f = ${f}`,'i artır','Sonucu yaz','Bitir']}else{let p=v>1;for(let i=2;i*i<=v;i++)if(v%i===0)p=false;steps=['Başla','n değerini oku','2’den küçük mü?','Bölen ara',p?'Asal yaz':'Asal değil yaz','Bitir']}flow.innerHTML=steps.map((s,i)=>`<div id="s${i}"><b>${i+1}. adım</b><br>${s}</div>`).join('')}
+function run(){build();logs=steps.map((s,i)=>`${i+1}. ${s}`);log.innerHTML=logs.join('<br>');newQ()}
+async function stepRun(){build();log.innerHTML='';for(let i=0;i<steps.length;i++){document.querySelectorAll('#flow div').forEach(x=>x.style.borderColor='rgba(255,255,255,.14)');document.getElementById('s'+i).style.borderColor='#38bdf8';log.innerHTML+=`${i+1}. ${steps[i]}<br>`;await new Promise(r=>setTimeout(r,550))}newQ()}
+function newQ(){ask('Akış şemasında karar verme adımı hangi şekille gösterilir?','Elmas',['Elmas','Oval','Dikdörtgen','Daire'],'Elmas, evet–hayır gibi karar dallanmalarını gösterir.')}build();newQ();
+</script></body></html>
