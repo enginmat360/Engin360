@@ -1,68 +1,36 @@
-<!DOCTYPE html>
-<html lang="tr">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>ENGİN360 | Mod 10 Akış Şeması</title>
-<style>
-  *{box-sizing:border-box} body{margin:0;font-family:Arial,'DejaVu Sans',sans-serif;background:radial-gradient(circle at top,#18205a,#090912 65%);color:white;min-height:100vh;padding:18px}
-  .wrap{max-width:980px;margin:auto;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:24px;padding:22px;box-shadow:0 20px 60px rgba(0,0,0,.35)}
-  .top{display:flex;justify-content:space-between;gap:16px;align-items:center;margin-bottom:18px}.logo{font-weight:900;font-size:28px;letter-spacing:.5px;color:#fff}.tag{font-size:13px;color:#bfc6ff}
-  h1{font-size:28px;text-align:center;margin:8px 0 6px}.sub{text-align:center;color:#d8dcff;margin-bottom:20px}
-  .grid{display:grid;grid-template-columns:1fr 330px;gap:20px}@media(max-width:800px){.grid{grid-template-columns:1fr}.top{display:block;text-align:center}}
-  .flow{display:flex;flex-direction:column;align-items:center;gap:12px;padding:10px}.box{min-width:250px;text-align:center;padding:14px 18px;font-weight:800;border-radius:14px;position:relative}.start,.end{background:linear-gradient(135deg,#ff3d7f,#ff7aa8);border:2px solid #ff9abc;border-radius:999px}.input{background:linear-gradient(135deg,#59b8ff,#c8edff);color:#061633;border:2px solid #9ce2ff;transform:skew(-10deg)}.input span{display:block;transform:skew(10deg)}.process{background:linear-gradient(135deg,#58ffb1,#d5ffe9);color:#062d1e;border:2px solid #7affc0}.output{background:linear-gradient(135deg,#b682ff,#f0dcff);color:#261142;border:2px solid #d4b0ff;transform:skew(-10deg)}.output span{display:block;transform:skew(10deg)}
-  .diamond{width:210px;height:210px;background:linear-gradient(135deg,#ffe46a,#ff9d2e);color:#241000;border:3px solid #ffbd42;transform:rotate(45deg);display:flex;align-items:center;justify-content:center;text-align:center;font-weight:900;margin:14px}.diamond span{transform:rotate(-45deg);line-height:1.35}.arrow{font-size:28px;color:#8fe9ff;line-height:1}.panel{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.16);border-radius:20px;padding:18px}.rule{background:rgba(0,255,170,.08);border-color:rgba(0,255,170,.35);margin-bottom:16px}.try{background:rgba(125,90,255,.12)}
-  label{display:block;margin:12px 0 6px;color:#dfe4ff;font-weight:700}input{width:100%;padding:14px;border-radius:12px;border:1px solid #7f8cff;background:#0d1230;color:white;font-size:20px;text-align:center}button{width:100%;margin-top:12px;padding:14px;border:0;border-radius:14px;font-weight:900;font-size:16px;color:white;background:linear-gradient(135deg,#7b4dff,#00c2ff);cursor:pointer;box-shadow:0 10px 24px rgba(0,194,255,.25)}.result{margin-top:14px;padding:16px;border-radius:16px;background:#0b102b;border:1px solid #3945a8;font-size:18px;line-height:1.5}.code{font-family:Consolas,monospace;background:#080b1e;padding:2px 8px;border-radius:8px;color:#8fffd2}.small{font-size:13px;color:#c5caf5;margin-top:12px}.step{opacity:.35;transition:.25s}.active{opacity:1;filter:drop-shadow(0 0 14px rgba(80,210,255,.8));transform:scale(1.03)}.input.active{transform:skew(-10deg) scale(1.03)}.output.active{transform:skew(-10deg) scale(1.03)}.diamond.active{transform:rotate(45deg) scale(1.03)}
-</style>
-</head>
-<body>
-<div class="wrap">
-  <div class="top"><div class="logo">ENGİN360</div><div class="tag">Matematik Laboratuvarı • Algoritma ve Akış Şeması</div></div>
-  <h1>Bir Sayının 10 ile Bölümünden Kalanı</h1>
-  <div class="sub">Kural: Bir sayının 10 ile bölümünden kalan, o sayının son basamağıdır.</div>
-  <div class="grid">
-    <div class="flow">
-      <div id="s1" class="box start step">BAŞLA</div><div class="arrow">↓</div>
-      <div id="s2" class="box input step"><span>Sayıyı oku<br><b>n</b></span></div><div class="arrow">↓</div>
-      <div id="s3" class="box process step">r ← n % 10</div><div class="arrow">↓</div>
-      <div id="s4" class="diamond step"><span>r, kalan değeridir mi?</span></div><div class="arrow">↓</div>
-      <div id="s5" class="box output step"><span>Kalanı ekrana yazdır</span></div><div class="arrow">↓</div>
-      <div id="s6" class="box end step">BİTİR</div>
-    </div>
-    <div>
-      <div class="panel rule"><b>Matematiksel ifade:</b><br><br><span class="code">r = n % 10</span><br><br>% işareti, bölümden kalanı bulur.</div>
-      <div class="panel try">
-        <b>Şimdi dene</b>
-        <label>Bir sayı gir:</label><input id="num" type="number" value="4678" />
-        <button onclick="runFlow()">Akışı Çalıştır</button>
-        <div id="out" class="result">Hazır. Butona basınca akış sırayla çalışacak.</div>
-        <div class="small">Örnek: 4678 % 10 = 8. Çünkü 4678'in son basamağı 8'dir.</div>
-      </div>
-    </div>
-  </div>
-</div>
-<script>
-function sleep(ms){return new Promise(r=>setTimeout(r,ms))}
-async function runFlow(){
-  const steps=['s1','s2','s3','s4','s5','s6'];
-  steps.forEach(id=>document.getElementById(id).classList.remove('active'));
-  const n = Number(document.getElementById('num').value || 0);
-  const r = ((n % 10) + 10) % 10;
-  const out=document.getElementById('out');
-  const messages=[
-    'Akış başladı.',
-    'Sayı okundu: n = '+n,
-    'İşlem yapıldı: r = '+n+' % 10 = '+r,
-    'Karar: r artık bölümden kalan değerdir.',
-    'Ekrana yazdırılan kalan: '+r,
-    'Akış bitti. Sonuç: '+n+' sayısının 10 ile bölümünden kalan '+r+'.'
-  ];
-  for(let i=0;i<steps.length;i++){
-    document.getElementById(steps[i]).classList.add('active');
-    out.innerHTML=messages[i];
-    await sleep(750);
-  }
-}
-</script>
-</body>
-</html>
+<!DOCTYPE html><html lang="tr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><meta name="theme-color" content="#080614"><title>ENGİN360 | MOD 10 Akış Şeması</title><style>
+:root{--bg:#06050f;--bg2:#11152f;--panel:rgba(255,255,255,.065);--line:rgba(255,255,255,.14);--text:#f8fafc;--muted:#cbd5e1;--purple:#a855f7;--blue:#38bdf8;--pink:#ec4899;--yellow:#fde047;--green:#22c55e;--red:#fb7185}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{min-height:100vh;font-family:Inter,"Segoe UI",Arial,sans-serif;color:var(--text);background:radial-gradient(circle at 12% 10%,rgba(56,189,248,.26),transparent 28%),radial-gradient(circle at 88% 8%,rgba(168,85,247,.26),transparent 30%),radial-gradient(circle at 50% 100%,rgba(34,197,94,.12),transparent 36%),linear-gradient(145deg,var(--bg),var(--bg2));padding:16px 0 44px;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.23;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:34px 34px}
+.page{width:min(1180px,94%);margin:auto;position:relative;z-index:1}.topbar{display:flex;justify-content:space-between;gap:10px;margin-bottom:14px}.back,.ghost{color:white;text-decoration:none;font-weight:900;padding:11px 14px;border-radius:15px;border:1px solid var(--line);background:rgba(255,255,255,.07)}
+.hero,.panel{border:1px solid var(--line);background:linear-gradient(145deg,rgba(255,255,255,.08),rgba(255,255,255,.03));box-shadow:0 22px 60px rgba(0,0,0,.28)}
+.hero{border-radius:30px;padding:24px;position:relative;overflow:hidden}.hero:after{content:"";position:absolute;width:320px;height:320px;border-radius:50%;right:-125px;top:-160px;background:radial-gradient(circle,rgba(56,189,248,.24),transparent 68%)}
+.brand{display:flex;align-items:center;gap:12px;margin-bottom:13px;position:relative;z-index:2}.logo{width:58px;height:58px;border-radius:18px;display:grid;place-items:center;font-weight:1000;background:linear-gradient(135deg,#0ea5e9,#7c3aed);box-shadow:0 0 28px rgba(14,165,233,.35)}.brand small{display:block;color:#67e8f9;font-weight:900;letter-spacing:1.3px}
+.hero h1{font-size:clamp(31px,5.8vw,60px);font-weight:1000;font-style:italic;line-height:1;background:linear-gradient(90deg,#67e8f9,#38bdf8,#c084fc,#f0abfc);-webkit-background-clip:text;color:transparent;filter:drop-shadow(0 0 13px rgba(56,189,248,.35));position:relative;z-index:2}.hero p{max-width:900px;color:#dbeafe;line-height:1.65;font-size:15px;margin-top:11px;position:relative;z-index:2}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:17px;position:relative;z-index:2}.stat{padding:13px;border:1px solid var(--line);border-radius:17px;background:rgba(2,6,23,.38)}.stat b{display:block;font-size:23px}.stat span{font-size:11px;color:var(--muted)}
+.panel{border-radius:25px;padding:18px;margin-top:15px}.panel h2{font-size:22px;margin-bottom:6px}.lead{color:var(--muted);font-size:13px;line-height:1.55;margin-bottom:13px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:13px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.field,.card,.result,.question{border:1px solid var(--line);border-radius:18px;padding:13px;background:rgba(2,6,23,.3)}label{display:block;color:#bae6fd;font-size:13px;font-weight:900;margin-bottom:7px}
+input,select,textarea{width:100%;border:1px solid rgba(255,255,255,.16);outline:none;border-radius:13px;padding:11px 12px;background:rgba(255,255,255,.09);color:white;font-size:14px}select option{color:#111}textarea{min-height:100px;resize:vertical}
+.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}.btn{border:0;border-radius:14px;padding:11px 14px;color:white;font-weight:900;cursor:pointer;background:linear-gradient(135deg,#0284c7,#7c3aed)}.btn.secondary{background:rgba(255,255,255,.08);border:1px solid var(--line)}.btn.good{background:linear-gradient(135deg,#16a34a,#059669)}
+.rule{border:1px solid rgba(103,232,249,.28);background:rgba(56,189,248,.075);border-radius:16px;padding:12px;margin:9px 0;color:#cffafe;font-size:13px;line-height:1.5}.process{display:grid;gap:9px}.process div{border:1px solid var(--line);border-radius:15px;padding:11px;background:rgba(255,255,255,.045);font-size:13px;line-height:1.5;color:var(--muted)}.process b{color:white}
+.flow{display:grid;gap:11px}.node{position:relative;border:1px solid var(--line);border-radius:18px;padding:14px;background:rgba(2,6,23,.35);text-align:center}.node.active{border-color:#67e8f9;box-shadow:0 0 24px rgba(56,189,248,.28);transform:scale(1.01)}.node.start{border-radius:999px}.node.decision{clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%);padding:36px 70px}.arrow{text-align:center;color:#67e8f9;font-weight:1000;font-size:22px}.code{font-family:Consolas,monospace;white-space:pre-wrap;background:#020617;border:1px solid var(--line);border-radius:18px;padding:14px;line-height:1.7;color:#a7f3d0}
+.answers{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.answer{border:1px solid var(--line);border-radius:13px;padding:11px;background:rgba(255,255,255,.055);color:white;text-align:left;font-weight:800;cursor:pointer}.answer.correct{background:rgba(34,197,94,.18);border-color:rgba(34,197,94,.58)}.answer.wrong{background:rgba(251,113,133,.18);border-color:rgba(251,113,133,.60)}.feedback{margin-top:10px;min-height:48px;border-radius:14px;padding:11px;background:rgba(255,255,255,.045);color:#dbeafe;font-size:13px;line-height:1.45}
+.big{font-size:27px;font-weight:1000;color:#67e8f9}.contact-trigger{position:fixed;left:12px;bottom:12px;z-index:80;border:1px solid rgba(56,189,248,.5);border-radius:14px;padding:8px 10px;color:white;font-weight:900;font-size:11px;background:linear-gradient(135deg,#0284c7,#7c3aed);box-shadow:0 12px 30px rgba(0,0,0,.38);cursor:pointer}.contact-panel{position:fixed;left:12px;bottom:58px;z-index:81;width:min(335px,calc(100vw - 24px));padding:16px;border-radius:21px;background:linear-gradient(145deg,rgba(15,22,48,.97),rgba(7,13,30,.98));border:1px solid rgba(56,189,248,.38);box-shadow:0 24px 60px rgba(0,0,0,.5)}.contact-panel.hide{display:none}.contact-panel a{display:inline-block;margin-top:10px;margin-right:6px;text-decoration:none;color:white;font-weight:900;padding:10px 12px;border-radius:12px}.wa{background:#159447}.ig{background:linear-gradient(135deg,#7c3aed,#d946ef,#f97316)}
+footer{text-align:center;color:#94a3b8;font-size:12px;margin-top:20px}
+@media(max-width:850px){.grid,.grid3{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}}@media(max-width:600px){.page{width:95%}.hero,.panel{padding:15px;border-radius:22px}.topbar .ghost{display:none}.answers{grid-template-columns:1fr}.node.decision{padding:34px 40px}}
+</style></head><body><main class="page"><div class="topbar"><a class="back" href="algoritma_guncel.html">← Algoritma ve Kodlama</a></div><section class="hero"><div class="brand"><div class="logo">E360</div><div><small>ENGİN360</small><strong>Algoritma ve Kodlama Laboratuvarı</strong></div></div><h1>MOD 10 Akış Şeması</h1><p>MOD işlemi, bölünebilme kuralı ve karar akışını birlikte öğren.</p><div class="stats"><div class="stat"><b id="answered">0</b><span>Cevaplanan</span></div><div class="stat"><b id="correct">0</b><span>Doğru</span></div><div class="stat"><b id="streak">0</b><span>Doğru Seri</span></div><div class="stat"><b id="best">0%</b><span>En İyi Başarı</span></div></div></section>
+<section class="panel"><h2>1. Sayıyı Gir</h2><div class="field"><label>n sayısı</label><input id="n" type="number" value="4380"></div><div class="actions"><button class="btn" onclick="run()">Akışı Çalıştır</button><button class="btn secondary" onclick="randomN()">Rastgele Sayı</button></div></section>
+<section class="panel"><h2>2. Akış Şeması</h2><div id="flow" class="flow"></div></section>
+<section class="panel"><h2>3. Sonuç ve Kural</h2><div class="grid"><div class="result"><span>Kalan</span><div class="big" id="rem">—</div></div><div class="result"><span>Karar</span><div class="big" id="decision">—</div></div></div><div class="rule" id="rule"></div></section>
+<section class="panel"><h2>4. Soruyla Kontrol Et</h2><div class="question"><h3 id="q"></h3><div id="answers" class="answers"></div><div id="fb" class="feedback"></div><div class="actions"><button class="btn secondary" onclick="newQ()">Yeni Soru</button></div></div></section><footer>ENGİN360 • Algoritma ve Kodlama • Engin Özcan</footer></main><button class="contact-trigger" onclick="cp.classList.toggle('hide')">E360 Koçluk</button><aside class="contact-panel hide" id="cp"><h3>ENGİN360 Eğitim Koçluğu</h3><p style="color:#cbd5e1;font-size:12px;line-height:1.5;margin-top:6px">Kişiye özel takip ve çalışma planı için iletişime geçebilirsin.</p><a class="wa" href="https://wa.me/905348165015" target="_blank">WhatsApp</a><a class="ig" href="https://www.instagram.com/www_engin360_com/" target="_blank">Instagram</a></aside><script>
+let answered=0,correct=0,streak=0;const bestKey='e360_mod10';
+document.getElementById('best').textContent=(localStorage.getItem(bestKey)||0)+'%';
+function ask(q,a,opts,exp){document.getElementById('q').textContent=q;const box=document.getElementById('answers');box.innerHTML='';document.getElementById('fb').textContent='Akışı inceleyip cevapla.';[...new Set(opts)].sort(()=>Math.random()-.5).forEach(o=>{const b=document.createElement('button');b.className='answer';b.textContent=o;b.onclick=()=>{if([...box.children].some(x=>x.disabled))return;[...box.children].forEach(x=>{x.disabled=true;if(x.textContent===a)x.classList.add('correct')});answered++;if(o===a){correct++;streak++;b.classList.add('correct');fb.textContent='Doğru! '+exp}else{streak=0;b.classList.add('wrong');fb.textContent='Henüz değil. '+exp}sync()};box.appendChild(b)})}
+function sync(){document.getElementById('answered').textContent=answered;document.getElementById('correct').textContent=correct;document.getElementById('streak').textContent=streak;const p=answered?Math.round(correct/answered*100):0,b=Math.max(Number(localStorage.getItem(bestKey)||0),p);localStorage.setItem(bestKey,b);document.getElementById('best').textContent=b+'%'}
+
+const MOD=10;
+function run(){const v=Math.floor(+n.value),r=((v%MOD)+MOD)%MOD;rem.textContent=r;decision.textContent=r===0?`${MOD}'e TAM BÖLÜNÜR`:`${MOD}'e BÖLÜNMEZ`;flow.innerHTML=`<div class="node start">Başla</div><div class="arrow">↓</div><div class="node">n = ${v} değerini oku</div><div class="arrow">↓</div><div class="node decision">n MOD ${MOD} = 0 mı?</div><div class="arrow">↓</div><div class="node">${r===0?'Tam bölünür yaz':'Kalan '+r+' yaz'}</div><div class="arrow">↓</div><div class="node start">Bitir</div>`;const last=Math.abs(v)%10;rule.textContent=`Son basamak ${last}. Son basamak 0 ise sayı 10'a tam bölünür.`;newQ()}
+function newQ(){const v=Math.floor(+n.value),r=((v%MOD)+MOD)%MOD,a=String(r);ask(`${v} sayısının ${MOD} ile bölümünden kalan kaçtır?`,a,[a,String(MOD),String(v%10),String(Math.floor(v/MOD))],`MOD işlemi bölümden kalanı verir: ${v} MOD ${MOD} = ${r}.`)}
+function randomN(){n.value=Math.floor(Math.random()*9999);run()}run();
+</script></body></html>
