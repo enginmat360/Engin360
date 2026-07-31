@@ -184,7 +184,7 @@ function checkLogin(){const saved=localStorage.getItem(LOGIN_KEY);if(!saved)retu
 function setMessage(type,text){const el=document.getElementById("statusMessage");el.className="status-message "+(type==="success"?"status-success":"status-error");el.textContent=text}
 
 async function sendToGoogleSheets(record){
-  await fetch(WEB_APP_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({
+  await fetch(WEB_APP_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"application/json"},body:JSON.stringify({
     action:"save",tarih:record.date,ogrenci:record.name,kod:record.code,
     tytMatematik:record.tytMatematik,aytMatematik:record.aytMatematik,problemler:record.problemler,
     geometri:record.geometri,paragraf:record.paragraf,turkce:record.turkce,
