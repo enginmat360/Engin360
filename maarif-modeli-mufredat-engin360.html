@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ENGİN360 — Lise Müfredat Rehberi | 9, 10, 11 ve 12. Sınıf</title>
+<style>
+  :root{
+    --bg:#020106;
+    --bg2:#080313;
+    --card:rgba(10,8,24,.82);
+    --card2:rgba(17,10,36,.78);
+    --text:#f8fafc;
+    --muted:#a8b0c3;
+    --purple:#a855f7;
+    --pink:#e94dff;
+    --blue:#3b82f6;
+    --cyan:#22d3ee;
+    --green:#34d399;
+    --red:#fb7185;
+    --line:rgba(168,85,247,.28);
+    --line2:rgba(34,211,238,.28);
+    --shadow:0 18px 55px rgba(0,0,0,.38);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    min-height:100vh;
+    font-family:"Segoe UI",Inter,Arial,sans-serif;
+    color:var(--text);
+    line-height:1.65;
+    background:
+      radial-gradient(circle at 12% 0%,rgba(168,85,247,.19),transparent 30%),
+      radial-gradient(circle at 88% 8%,rgba(59,130,246,.17),transparent 28%),
+      radial-gradient(circle at 52% 36%,rgba(233,77,255,.08),transparent 34%),
+      linear-gradient(180deg,#020106 0%,#05020c 45%,#020106 100%);
+  }
+  body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    opacity:.18;
+    background-image:
+      linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+    background-size:32px 32px;
+    mask-image:linear-gradient(to bottom,black,transparent 88%);
+  }
+  a{color:var(--cyan)}
+
+  header{
+    position:relative;
+    overflow:hidden;
+    text-align:center;
+    padding:48px 20px 42px;
+    border-bottom:1px solid rgba(168,85,247,.22);
+  }
+  header::before,
+  header::after{
+    content:"";
+    position:absolute;
+    width:320px;height:320px;
+    border-radius:50%;
+    filter:blur(65px);
+    opacity:.24;
+    pointer-events:none;
+  }
+  header::before{background:var(--pink);left:-130px;top:-170px}
+  header::after{background:var(--blue);right:-120px;top:-160px}
+  .brand{
+    display:inline-block;
+    margin:0 0 8px;
+    font-size:clamp(2.5rem,8vw,5.4rem);
+    line-height:1;
+    font-weight:900;
+    letter-spacing:.035em;
+    background:linear-gradient(90deg,#ff83f7 0%,var(--pink) 28%,#8b5cf6 50%,var(--cyan) 72%,#60a5fa 100%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    filter:drop-shadow(0 0 12px rgba(233,77,255,.45)) drop-shadow(0 0 22px rgba(59,130,246,.28));
+  }
+  .brand-sub{
+    margin:0 0 20px;
+    color:#d6d9e3;
+    font-weight:600;
+    letter-spacing:.16em;
+    font-size:.82rem;
+    text-transform:uppercase;
+  }
+  .brand-sub .p1{color:#d8b4fe}.brand-sub .p2{color:var(--cyan)}.brand-sub .p3{color:#f9a8d4}
+  header h1{
+    position:relative;
+    z-index:1;
+    margin:0 0 8px;
+    font-size:clamp(1.55rem,4.7vw,2.6rem);
+    line-height:1.2;
+    color:#fff;
+    text-shadow:0 0 20px rgba(255,255,255,.08);
+  }
+  header p{
+    position:relative;
+    z-index:1;
+    max-width:920px;
+    margin:5px auto;
+    color:#c8cedb;
+    font-size:.94rem;
+  }
+
+  .status-banner{
+    max-width:1040px;
+    margin:-22px auto 0;
+    padding:14px 16px;
+    position:relative;
+    z-index:3;
+    border:1px solid rgba(168,85,247,.42);
+    border-radius:18px;
+    background:linear-gradient(135deg,rgba(20,10,42,.92),rgba(5,15,31,.90));
+    box-shadow:var(--shadow),0 0 28px rgba(168,85,247,.14),inset 0 0 26px rgba(34,211,238,.03);
+    backdrop-filter:blur(18px);
+  }
+  .grade-status-grid{
+    display:grid;
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:10px;
+  }
+  .grade-status-item{
+    min-height:112px;
+    padding:13px 8px 12px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    border-radius:14px;
+    border:1px solid rgba(148,163,184,.12);
+    background:rgba(255,255,255,.025);
+  }
+  .grade-status-number{
+    width:38px;height:38px;
+    display:grid;place-items:center;
+    margin-bottom:5px;
+    border-radius:50%;
+    border:1px solid rgba(34,211,238,.55);
+    color:var(--cyan);
+    font-weight:900;
+    font-size:1rem;
+    box-shadow:0 0 16px rgba(34,211,238,.10);
+  }
+  .grade-status-number.old-number{border-color:rgba(251,113,133,.6);color:#fda4af;box-shadow:0 0 16px rgba(244,63,94,.10)}
+  .grade-status-title{margin-bottom:8px;color:#f8fafc;font-weight:800;font-size:.92rem}
+  .pill{
+    display:inline-block;
+    padding:4px 11px;
+    border-radius:999px;
+    font-size:.73rem;
+    font-weight:800;
+    letter-spacing:.01em;
+  }
+  .pill.new{background:rgba(16,185,129,.13);color:#6ee7b7;border:1px solid rgba(52,211,153,.52);box-shadow:0 0 16px rgba(16,185,129,.12)}
+  .pill.old{background:rgba(244,63,94,.12);color:#fda4af;border:1px solid rgba(251,113,133,.45);box-shadow:0 0 16px rgba(244,63,94,.10)}
+
+  main{max-width:1040px;margin:30px auto 64px;padding:0 20px}
+  .note{
+    position:relative;
+    overflow:hidden;
+    margin-bottom:26px;
+    padding:18px 20px;
+    border-radius:16px;
+    border:1px solid rgba(34,211,238,.36);
+    background:linear-gradient(135deg,rgba(4,22,36,.80),rgba(13,8,32,.80));
+    color:#dbe8f2;
+    font-size:.9rem;
+    box-shadow:0 12px 32px rgba(0,0,0,.25),0 0 24px rgba(34,211,238,.07);
+  }
+  .note::before{content:"";position:absolute;inset:0 auto 0 0;width:3px;background:linear-gradient(var(--cyan),var(--purple),var(--pink))}
+  .note b,.note strong{color:#fff}
+  .note-title{margin-bottom:6px;color:var(--cyan);font-size:1.03rem;font-weight:900}
+  .note p{margin:7px 0}
+  .hero-text{font-size:1rem!important;max-width:760px!important}
+  .hero-year{color:#a5b4fc!important;font-weight:700}
+
+  .section-heading{
+    margin:2px 0 14px;
+    color:#e9d5ff;
+    font-size:1.02rem;
+    font-weight:900;
+    letter-spacing:.01em;
+  }
+
+  details.grade{
+    position:relative;
+    overflow:hidden;
+    margin-bottom:16px;
+    border-radius:18px;
+    border:1px solid rgba(59,130,246,.26);
+    background:linear-gradient(145deg,rgba(8,14,29,.91),rgba(11,6,25,.91));
+    box-shadow:0 12px 36px rgba(0,0,0,.28);
+  }
+  details.grade:nth-of-type(2n){border-color:rgba(168,85,247,.32)}
+  details.grade[open]{
+    border-color:rgba(34,211,238,.42);
+    box-shadow:0 16px 44px rgba(0,0,0,.36),0 0 22px rgba(34,211,238,.08);
+  }
+  details.grade > summary{
+    list-style:none;
+    cursor:pointer;
+    padding:18px 20px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:14px;
+    font-size:1.18rem;
+    font-weight:900;
+    color:#fff;
+    background:linear-gradient(90deg,rgba(34,211,238,.08),rgba(168,85,247,.06),transparent);
+  }
+  details.grade > summary::-webkit-details-marker{display:none}
+  details.grade > summary:hover{background:linear-gradient(90deg,rgba(34,211,238,.12),rgba(168,85,247,.09),transparent)}
+  details.grade > summary .arrow{transition:transform .22s ease;color:var(--cyan);font-size:1.05rem;text-shadow:0 0 10px rgba(34,211,238,.75)}
+  details.grade[open] > summary .arrow{transform:rotate(90deg)}
+  .grade-body{padding:0 18px 18px}
+  .grade-intro{
+    margin:0 0 14px;
+    padding:13px 4px 14px;
+    border-top:1px solid rgba(148,163,184,.15);
+    color:#aeb8ca;
+    font-size:.89rem;
+  }
+
+  details.subject{
+    margin-bottom:10px;
+    border-radius:13px;
+    border:1px solid rgba(148,163,184,.15);
+    background:linear-gradient(135deg,rgba(12,18,35,.82),rgba(12,8,26,.82));
+    transition:.18s ease;
+  }
+  details.subject:hover{border-color:rgba(168,85,247,.28);transform:translateY(-1px)}
+  details.subject[open]{border-color:rgba(168,85,247,.36);box-shadow:inset 0 0 28px rgba(168,85,247,.035)}
+  details.subject > summary{
+    list-style:none;
+    cursor:pointer;
+    padding:13px 14px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:.98rem;
+    font-weight:800;
+    color:#e9d5ff;
+  }
+  details.subject > summary::-webkit-details-marker{display:none}
+  details.subject > summary .meta{margin-left:auto;color:#8fa3bb;font-size:.76rem;font-weight:500;text-align:right}
+  details.subject > summary .arrow2{color:var(--pink);transition:transform .2s ease;text-shadow:0 0 9px rgba(233,77,255,.5)}
+  details.subject[open] > summary .arrow2{transform:rotate(90deg)}
+  .subject-body{padding:3px 16px 15px;color:#d7deea;font-size:.88rem}
+  .subject-body h4{margin:10px 0 4px;color:#fff;font-size:.87rem}
+  .subject-body ul{margin:4px 0 9px;padding-left:19px}
+  .subject-body li{margin-bottom:4px}
+  .subject-body li::marker{color:var(--cyan)}
+  .theme-block{
+    margin-bottom:10px;
+    padding:8px 0 8px 12px;
+    border-left:3px solid var(--cyan);
+    border-radius:2px;
+    background:linear-gradient(90deg,rgba(34,211,238,.05),transparent 72%);
+  }
+  .theme-block:nth-of-type(even){border-left-color:var(--purple);background:linear-gradient(90deg,rgba(168,85,247,.055),transparent 72%)}
+  .theme-title{font-weight:800;font-size:.91rem;color:#fff}
+  .theme-hours{color:#8fa3bb;font-size:.77rem}
+  .badge-old,.badge-approved{display:inline-block;padding:2px 8px;border-radius:999px;font-size:.68rem;font-weight:800;vertical-align:middle}
+  .badge-old{background:rgba(244,63,94,.12);color:#fda4af;border:1px solid rgba(251,113,133,.35)}
+  .badge-approved{background:rgba(139,92,246,.13);color:#c4b5fd;border:1px solid rgba(168,85,247,.35)}
+
+  footer{
+    max-width:1040px;
+    margin:0 auto 42px;
+    padding:20px;
+    border-top:1px solid rgba(168,85,247,.18);
+    color:#7f8aa0;
+    font-size:.8rem;
+    text-align:center;
+  }
+
+  .promo-banner{
+    position:relative;
+    overflow:hidden;
+    margin:28px 0 8px;
+    padding:24px 22px;
+    border-radius:22px;
+    border:1px solid rgba(168,85,247,.36);
+    background:linear-gradient(135deg,rgba(18,10,40,.92),rgba(4,20,34,.9));
+    box-shadow:0 18px 50px rgba(0,0,0,.28),0 0 28px rgba(168,85,247,.10);
+    text-align:center;
+  }
+  .promo-banner::before,
+  .promo-banner::after{
+    content:"";
+    position:absolute;
+    border-radius:50%;
+    filter:blur(55px);
+    opacity:.28;
+    pointer-events:none;
+  }
+  .promo-banner::before{width:210px;height:210px;background:rgba(233,77,255,.34);left:-70px;top:-90px}
+  .promo-banner::after{width:230px;height:230px;background:rgba(34,211,238,.24);right:-80px;bottom:-110px}
+  .promo-kicker{
+    position:relative;
+    z-index:1;
+    display:inline-block;
+    margin-bottom:10px;
+    padding:6px 12px;
+    border-radius:999px;
+    border:1px solid rgba(34,211,238,.34);
+    background:rgba(255,255,255,.03);
+    color:var(--cyan);
+    font-size:.77rem;
+    font-weight:900;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+  }
+  .promo-title{
+    position:relative;
+    z-index:1;
+    margin:0 0 10px;
+    color:#fff;
+    font-size:clamp(1.3rem,3.5vw,2rem);
+    line-height:1.3;
+    font-weight:900;
+  }
+  .promo-title .accent1{color:#f5d0fe}
+  .promo-title .accent2{color:#67e8f9}
+  .promo-text{
+    position:relative;
+    z-index:1;
+    max-width:780px;
+    margin:0 auto 14px;
+    color:#d6dded;
+    font-size:.96rem;
+  }
+  .promo-points{
+    position:relative;
+    z-index:1;
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:10px;
+  }
+  .promo-pill{
+    display:inline-block;
+    padding:8px 14px;
+    border-radius:999px;
+    font-size:.82rem;
+    font-weight:800;
+    color:#eef2ff;
+    background:rgba(255,255,255,.05);
+    border:1px solid rgba(148,163,184,.18);
+  }
+
+  .footer-brand{
+    display:block;
+    margin-bottom:8px;
+    font-weight:900;
+    font-size:1.25rem;
+    letter-spacing:.08em;
+    background:linear-gradient(90deg,var(--pink),var(--purple),var(--cyan),var(--blue));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .footer-title{color:#dbeafe;font-weight:800;margin-bottom:4px}
+  .footer-text{max-width:820px;margin:0 auto;color:#7f8aa0}
+
+
+  /* ENGİN360 iletişim butonları */
+  .social-contact{
+    position:fixed;
+    right:18px;
+    bottom:18px;
+    z-index:50;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  .social-contact a{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    min-height:48px;
+    padding:10px 14px;
+    border-radius:16px;
+    color:#fff;
+    text-decoration:none;
+    font-size:.82rem;
+    font-weight:850;
+    letter-spacing:.01em;
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    box-shadow:0 12px 34px rgba(0,0,0,.34);
+    transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;
+  }
+  .social-contact a:hover{
+    transform:translateY(-2px);
+    box-shadow:0 16px 38px rgba(0,0,0,.42);
+  }
+  .social-contact svg{width:23px;height:23px;flex:0 0 23px}
+  .social-contact .whatsapp{
+    background:linear-gradient(135deg,rgba(18,140,74,.94),rgba(37,211,102,.78));
+    border:1px solid rgba(134,239,172,.45);
+  }
+  .social-contact .instagram{
+    background:linear-gradient(135deg,rgba(131,58,180,.94),rgba(225,48,108,.9) 55%,rgba(252,175,69,.82));
+    border:1px solid rgba(244,114,182,.42);
+  }
+  .social-contact .contact-label small{
+    display:block;
+    margin-top:1px;
+    color:rgba(255,255,255,.78);
+    font-size:.65rem;
+    font-weight:650;
+  }
+
+  @media(max-width:720px){
+    header{padding:38px 16px 35px}
+    .brand{font-size:2.7rem}
+    .brand-sub{font-size:.7rem;letter-spacing:.1em}
+    .status-banner{margin:-18px 12px 0;padding:10px 8px;border-radius:15px}
+    .grade-status-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+    .grade-status-item{min-height:102px;padding:10px 5px}
+    .grade-status-number{width:34px;height:34px;font-size:.9rem}
+    .grade-status-title{font-size:.8rem;margin-bottom:6px}
+    .pill{padding:3px 6px;font-size:.62rem}
+    main{padding:0 12px;margin-top:22px}
+    .note{padding:15px 15px;font-size:.84rem}
+    details.grade > summary{padding:16px 15px;font-size:1.05rem}
+    .grade-body{padding:0 10px 12px}
+    details.subject > summary{padding:12px 11px;font-size:.91rem;flex-wrap:wrap}
+    details.subject > summary .meta{width:100%;margin-left:0;text-align:left;font-size:.7rem}
+    .subject-body{padding:2px 12px 13px;font-size:.84rem}
+
+    .social-contact{right:10px;bottom:10px;gap:8px}
+    .social-contact a{min-height:44px;padding:9px 11px;border-radius:14px}
+    .social-contact .contact-label{display:none}
+    .social-contact svg{width:24px;height:24px}
+  }
+
+  @media(max-width:470px){
+    .brand{font-size:2.35rem}
+    .grade-status-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .pill{font-size:.61rem}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">ENGİN360</div>
+  <div class="brand-sub"><span class="p1">Hedef</span> • <span class="p2">Plan</span> • <span class="p3">Başarı</span></div>
+  <h1>Lise Müfredat Rehberi</h1>
+  <p class="hero-text">9, 10, 11 ve 12. sınıfta hangi derslerde hangi konuların yer aldığını tek sayfada inceleyin.</p>
+  <p class="hero-year">2026-2027 Eğitim Öğretim Yılı</p>
+</header>
+
+<div class="status-banner" aria-label="Sınıflara göre müfredat durumu">
+  <div class="grade-status-grid">
+    <div class="grade-status-item">
+      <div class="grade-status-number">9</div>
+      <div class="grade-status-title">9. Sınıf</div>
+      <span class="pill new">Maarif Modeli</span>
+    </div>
+    <div class="grade-status-item">
+      <div class="grade-status-number">10</div>
+      <div class="grade-status-title">10. Sınıf</div>
+      <span class="pill new">Maarif Modeli</span>
+    </div>
+    <div class="grade-status-item">
+      <div class="grade-status-number">11</div>
+      <div class="grade-status-title">11. Sınıf</div>
+      <span class="pill new">Maarif Modeli</span>
+    </div>
+    <div class="grade-status-item">
+      <div class="grade-status-number old-number">12</div>
+      <div class="grade-status-title">12. Sınıf</div>
+      <span class="pill old">Mevcut Müfredat</span>
+    </div>
+  </div>
+</div>
+
+<main>
+  <div class="note">
+    <div class="note-title">Sınıfını seç, dersini aç, konularını incele.</div>
+    <p>Aşağıdan sınıf seviyeni seçebilirsin. Sınıf başlığı açıldığında dersler görünür; bir derse dokunduğunda o yıl karşılaşacağın ana tema, ünite ve konu başlıklarını görebilirsin.</p>
+    <p><strong>12. sınıf için önemli not:</strong> 2026-2027 eğitim öğretim yılında mevcut program uygulanmaya devam ediyor. MEB tarafından onaylanan yeni Maarif Modeli 12. sınıf programı ise 2027-2028 eğitim öğretim yılında uygulanacak.</p>
+  </div>
+
+  <div class="section-heading">Sınıfına göre müfredatı incele</div>
+
+  <!-- 9. SINIF -->
+  <details class="grade">
+    <summary>9. Sınıf <span class="arrow">▶</span></summary>
+    <div class="grade-body">
+      <div class="grade-intro">9. sınıfta göreceğiniz temel dersleri ve bu derslerde işlenecek ana konu başlıklarını aşağıda bulabilirsiniz. Matematik programı 7 ana tema üzerinden ilerler.</div>
+
+      <details class="subject">
+        <summary>Matematik <span class="meta">7 tema · 216 ders saati</span><span class="arrow2">▶</span></summary>
+        <div class="subject-body">
+          <div class="theme-block"><div class="theme-title">1. Sayılar</div><div class="theme-hours">38 saat</div>
+            <p>Üslü ve köklü ifadeler, gerçek sayılar, sayı kümeleri ve aralıklarla yapılan işlemler ele alınır.</p></div>
+          <div class="theme-block"><div class="theme-title">2. Nicelikler ve Değişimler</div><div class="theme-hours">38 saat</div>
+            <p>Doğrusal fonksiyonlar üzerinden grafik okuma, fonksiyonların temel özellikleri, denklem ve eşitsizlikler çalışılır.</p></div>
+          <div class="theme-block"><div class="theme-title">3. Geometrik Şekiller</div><div class="theme-hours">12 saat</div>
+            <p>Üçgenin temel elemanları, açı ve kenar ilişkileri ile üçgen eşitsizliği incelenir.</p></div>
+          <div class="theme-block"><div class="theme-title">4. Eşlik ve Benzerlik</div><div class="theme-hours">36 saat</div>
+            <p>Dönüşümler, üçgenlerde eşlik ve benzerlik ile Tales, Öklid ve Pisagor teoremleri üzerinde çalışılır.</p></div>
+          <div class="theme-block"><div class="theme-title">5. Algoritma ve Bilişim</div><div class="theme-hours">30 saat</div>
+            <p>Mantık, önermeler ve algoritmik düşünmenin matematikte nasıl kullanıldığı ele alınır.</p></div>
+          <div class="theme-block"><div class="theme-title">6. İstatistiksel Araştırma Süreci</div><div class="theme-hours">34 saat</div>
+            <p>Veri dağılımları, histogram ve standart sapma gibi temel istatistik konuları işlenir.</p></div>
+          <div class="theme-block"><div class="theme-title">7. Veriden Olasılığa</div><div class="theme-hours">18 saat</div>
+            <p>Birden fazla olay içeren durumlarda deneysel ve teorik olasılık karşılaştırılır.</p></div>
+        </div>
+      </details>
+
+      <details class="subject">
+        <summary>Fizik <span class="meta">4 ünite</span><span class="arrow2">▶</span></summary>
+        <div class="subject-body">
+          <ul>
+            <li><b>1. Ünite — Fizik Bilimi ve Kariyer Keşfi:</b> Fiziğin neyi incelediği, ölçme, bilimsel yöntem ve fizik ile ilişkili meslekler tanıtılır.</li>
+            <li><b>2. Ünite — Kuvvet ve Hareket:</b> Hareket ve kuvvet kavramları öğrenilir; Newton yasalarının temel mantığına giriş yapılır.</li>
+            <li><b>3. Ünite — Akışkanlar:</b> Basınç, kaldırma kuvveti ve akışkanların temel davranışları incelenir.</li>
+            <li><b>4. Ünite — Enerji:</b> İş, güç, enerji türleri ve enerjinin bir türden başka bir türe dönüşümü ele alınır.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="subject">
+        <summary>Kimya <span class="meta">3 ana tema</span><span class="arrow2">▶</span></summary>
+        <div class="subject-body">
+          <div class="theme-block"><div class="theme-title">1. Etkileşim</div><div class="theme-hours">22 saat</div>
+            <p><b>Kimya Hayattır:</b> Kimyanın günlük yaşamdaki yeri, güvenli madde kullanımı, kimyanın alt alanları ve mesleklerle bağlantısı ele alınır.<br>
+            <b>Atomdan Periyodik Tabloya:</b> Atom modelleri, orbitaller, elektron dizilimi, periyodik tablo ve temel periyodik özellikler incelenir.</p></div>
+          <div class="theme-block"><div class="theme-title">2. Çeşitlilik</div>
+            <p>Kimyasal türler arasındaki etkileşimler, bileşik çeşitleri ve adlandırma kuralları öğrenilir.</p></div>
+          <div class="theme-block"><div class="theme-title">3. Sürdürülebilirlik</div>
+            <p>Kimyanın çevre, kaynak kullanımı ve sürdürülebilirlikle ilişkisi üzerinde durulur.</p></div>
+        </div>
+      </details>
+
+      <details class="subject">
+        <summary>Biyoloji <span class="meta">2 tema</span><span class="arrow2">▶</span></summary>
+        <div class="subject-body">
+          <ul>
+            <li><b>Yaşam Bilimi Biyoloji:</b> Biyolojinin çalışma alanı, canlıların ortak özellikleri ve bilimsel araştırma süreci ele alınır.</li>
+            <li><b>Hücre ve Canlılar Dünyası:</b> Hücrenin yapısı ve organizasyonu ile canlıların sınıflandırılması incelenir.</li>
+          </ul>
+        </div>
+      </details>
+    </div>
+  </details>
+
+  <!-- 10. SINIF -->
+  <details class="grade">
+    <summary>10. Sınıf <span class="arrow">▶</span></summary>
+    <div class="grade-body">
+      <div class="grade-intro">10. sınıfta konular daha kapsamlı hâle gelir. Matematikte trigonometri ve analitik inceleme; fizikte elektrik ve dalgalar öne çıkan başlıklardandır.</div>
+
+      <details class="subject">
+        <summary>Matematik <span class="meta">7 tema · 216 ders saati</span><span class="arrow2">▶</span></summary>
+        <div class="subject-body">
+          <div class="theme-block"><div class="theme-title">1. Geometrik Şekiller</div><div class="theme-hours">36 saat</div>
+            <p>Üçgende yardımcı elemanlar, çember ilişkileri, trigonometrik oranlar ile sinüs ve kosinüs teoremleri ele alınır.</p></div>
+          <div class="theme-block"><div class="theme-title">2. İstatistiksel Araştırma Süreci</div><div class="theme-hours">28 saat</div>
+            <p>İki kategorik değişken içeren veriler, iki yönlü tablolar ve koşullu göreli sıklıklar incelenir.</p></div>
+          <div class="theme-block"><div class="theme-title">3. Sayılar</div><div class="theme-hours">20 saat</div>
+            <p>Asal çarpanlar, bölenler, EBOB-EKOK ve kalanlı bölme konuları çalışılır.</p></div>
+          <div class="theme-block"><div class="theme-title">4. Nicelikler ve Değişimler</div><div class="theme-hours">54 saat</div>
+            <p>Karesel, karekök ve rasyonel fonksiyonlar; ters fonksiyonlar ile denklem ve eşitsizlikler ele alınır.</p></div>
+          <div class="theme-block"><div class="theme-title">5. Sayma, Algoritma ve Bilişim</div><div class="theme-hours">28 saat</div>
+            <p>Faktöriyel, sıralama ve seçme konularının yanında işlemleri algoritmik olarak ifade etme becerisi geliştirilir.</p></div>
+          <div class="theme-block"><div class="theme-title">6. Analitik İnceleme <i>(yeni)</i></div><div class="theme-hours">22 saat</div>
+            <p>Koordinat düzleminde uzaklık ve doğruların birbirine göre konumları incelenir.</p></div>
+          <div class="theme-block"><div class="theme-title">7. Veriden Olasılığa</div><div class="theme-hours">18 saat</div>
+            <p>Bağımlı ve bağımsız olaylar, koşullu olasılık ve Bayes teoremi ele alınır.</p></div>
+        </div>
+      </details>
+
+      <details class="subject">
+        <summary>Fizik <span class="meta">4 ünite</span><span class="arrow2">▶</span></summary>
+        <div class="subject-body">
+          <ul>
+            <li><b>1. Ünite — Kuvvet ve Hareket:</b> İki boyutlu hareket ve Newton yasalarının problem çözümündeki uygulamaları çalışılır.</li>
+            <li><b>2. Ünite — Enerji:</b> Enerjinin korunumu ve iş-enerji ilişkisi üzerinde durulur.</li>
+            <li><b>3. Ünite — Elektrik <i>(yeni ünite)</i>:</b> Elektrik yükü, elektrik alan ve temel elektrik devreleri incelenir.</li>
+            <li><b>4. Ünite — Dalgalar <i>(yeni ünite)</i>:</b> Dalgaların temel özellikleri ve ses dalgaları ele alınır.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="subject">
+        <summary>Kimya <span class="meta">3 ana tema</span><span class="arrow2">▶</span></summary>
+        <div class="subject-body">
+          <p>10. sınıf kimyada Etkileşim, Çeşitlilik ve Sürdürülebilirlik temaları devam eder. Kimyasal hesaplamalar, karışımlar ve asit-baz-tuz konuları daha ayrıntılı ele alınır.</p>
+        </div>
+      </details>
+
+      <details class="subject">
+        <summary>Biyoloji <span class="meta">2 tema</span><span class="arrow2">▶</span></summary>
+        <div class="subject-body">
+          <ul>
+            <li><b>Ekosistem Ekolojisi:</b> Ekosistemin yapısı, madde döngüleri ve enerji akışı incelenir.</li>
+            <li><b>Canlılarda Üreme, Büyüme ve Gelişme:</b> Canlılarda üreme çeşitleri, büyüme ve gelişme süreçleri ele alınır.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="subject">
+        <summary>Türk Dili ve Edebiyatı <span class="meta">4 tema</span><span class="arrow2">▶</span></summary>
+        <div class="subject-body"><p>Şiir, hikâye, roman ve deneme gibi metin türleri okuma, anlama ve yorumlama becerileri üzerinden işlenir.</p></div>
+      </details>
+
+      <details class="subject">
+        <summary>Tarih <span class="meta">3 ünite</span><span class="arrow2">▶</span></summary>
+        <div class="subject-body"><p>İslam medeniyeti, Türk-İslam devletleri ve beylikten devlete geçiş süreci ele alınır.</p></div>
+      </details>
+
+      <details class="subject">
+        <summary>Coğrafya <span class="meta">7 ünite</span><span class="arrow2">▶</span></summary>
+        <div class="subject-body"><p>Doğal sistemler, beşerî sistemler ve insanlar ile mekân arasındaki etkileşimler incelenir.</p></div>
+      </details>
+    </div>
+  </details>
+
+  <!-- 11. SINIF -->
+  <details class="grade">
+    <summary>11. Sınıf <span class="arrow">▶</span></summary>
+    <div class="grade-body">
+      <div class="grade-intro">11. sınıfta alan dersleri daha belirgin hâle gelir. Bu bölümde matematik, fizik ve felsefe derslerinde öne çıkan başlıkları inceleyebilirsiniz.</div>
+
+      <details class="subject">
+        <summary>Matematik <span class="meta">3 ana tema · 216 ders saati</span><span class="arrow2">▶</span></summary>
+        <div class="subject-body">
+          <div class="theme-block"><div class="theme-title">1. İstatistiksel Araştırma Süreci</div><div class="theme-hours">36 saat</div>
+            <p>İki nicel değişken arasındaki ilişki, serpme diyagramı ve korelasyon üzerinden incelenir.</p></div>
+          <div class="theme-block"><div class="theme-title">2. Geometrik Şekiller</div><div class="theme-hours">62 saat</div>
+            <p>Çokgenler, düzgün çokgenler ve özel dörtgenlerin temel özellikleri ele alınır.</p></div>
+          <div class="theme-block"><div class="theme-title">3. Nicelikler ve Değişimler</div><div class="theme-hours">108 saat (3 alt bölüm)</div>
+            <p>Trigonometrik, üstel ve logaritmik fonksiyonlar; bu fonksiyonların özellikleri ve birbirleriyle ilişkileri çalışılır.</p></div>
+        </div>
+      </details>
+
+      <details class="subject">
+        <summary>Fizik <span class="meta">3 ünite</span><span class="arrow2">▶</span></summary>
+        <div class="subject-body">
+          <ul>
+            <li><b>1. Ünite — Kuvvet ve Hareket:</b> İki boyutta sabit ivmeli hareket ve atış hareketleri ele alınır.</li>
+            <li><b>2. Ünite — Elektrik ve Manyetizma:</b> Manyetik alan ve elektromanyetik indüksiyonun temel kavramları incelenir.</li>
+            <li><b>3. Ünite — Optik <i>(bu sınıfa taşındı)</i>:</b> Işığın yansıması, kırılması ve mercekler üzerinde çalışılır.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="subject">
+        <summary>Felsefe <span class="arrow2">▶</span></summary>
+        <div class="subject-body"><p>Felsefe dersinde sorgulama, kavramları doğru kullanma, görüşleri karşılaştırma ve gerekçeli düşünce oluşturma becerileri öne çıkar.</p></div>
+      </details>
+    </div>
+  </details>
+
+  <!-- 12. SINIF -->
+  <details class="grade">
+    <summary>12. Sınıf <span class="arrow">▶</span></summary>
+    <div class="grade-body">
+      <div class="grade-intro">
+        <strong>2026-2027'de 12. sınıfta mevcut müfredat uygulanıyor.</strong> Yeni Maarif Modeli 12. sınıf programı MEB tarafından onaylandı ancak 2027-2028 eğitim öğretim yılında yürürlüğe girecek. Bu nedenle aşağıda hem bugün okutulan programı hem de gelecek programı ayrı başlıklar altında görebilirsiniz.
+      </div>
+
+      <details class="subject">
+        <summary>Matematik — 2026-2027'de okutulan program <span class="badge-old">mevcut program</span><span class="arrow2">▶</span></summary>
+        <div class="subject-body">
+          <ul>
+            <li>Fonksiyonlarda uygulamalar</li>
+            <li>Limit ve süreklilik</li>
+            <li>Türev</li>
+            <li>İntegral</li>
+            <li>Diziler ve seriler</li>
+            <li>Uzayda vektörler ve olasılık</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="subject">
+        <summary>Matematik — Yeni Maarif Modeli <span class="badge-approved">2027-2028'de başlayacak</span><span class="arrow2">▶</span></summary>
+        <div class="subject-body">
+          <div class="theme-block"><div class="theme-title">1. Nicelikler ve Değişimler</div><div class="theme-hours">36 saat (2 alt bölüm)</div>
+            <p>Polinom ve rasyonel fonksiyonlar ile aritmetik ve geometrik diziler ele alınır.</p></div>
+          <div class="theme-block"><div class="theme-title">2. Değişimin Matematiği</div><div class="theme-hours">84 saat (3 alt bölüm)</div>
+            <p>Limit, süreklilik, türev, türev uygulamaları, diferansiyel ve ortalama değer teoremi ele alınır. <b>Yeni programda integral yer almıyor.</b></p></div>
+          <div class="theme-block"><div class="theme-title">3. Geometrik Şekiller</div><div class="theme-hours">26 saat</div>
+            <p>Çember; kesen, kiriş, teğet, çap ve yay gibi temel elemanlarıyla birlikte incelenir.</p></div>
+          <div class="theme-block"><div class="theme-title">4. Geometrik Cisimler</div><div class="theme-hours">30 saat</div>
+            <p>Prizma, silindir, piramit, koni ve kürede yüzey alanı ile hacim ilişkileri ele alınır.</p></div>
+          <div class="theme-block"><div class="theme-title">5. Hazır Veriler Üzerinde Çalışma</div><div class="theme-hours">30 saat</div>
+            <p>Hazır verileri okuma, yorumlama ve veriye dayalı karar verme becerileri geliştirilir.</p></div>
+        </div>
+      </details>
+
+      <details class="subject">
+        <summary>Fizik — Yeni Maarif Modeli <span class="badge-approved">2027-2028'de başlayacak</span><span class="arrow2">▶</span></summary>
+        <div class="subject-body">
+          <ul>
+            <li><b>1. Ünite — Kuvvet ve Hareket</b></li>
+            <li><b>2. Ünite — Enerji</b></li>
+            <li><b>3. Ünite — Dalgalar</b></li>
+            <li><b>4. Ünite — Madde ve Doğası</b></li>
+          </ul>
+        </div>
+      </details>
+    </div>
+  </details>
+
+
+  <section class="promo-banner" aria-label="ENGİN360 tanıtım bannerı">
+    <div class="promo-kicker">ENGİN360 ile daha anlaşılır</div>
+    <h2 class="promo-title">
+      <span class="accent1">Maarif Modeli gözünüzde büyümesin.</span><br>
+      <span class="accent2">Ezberleme. Mantığını kavra, adım adım öğren.</span>
+    </h2>
+    <p class="promo-text">Müfredat ilk bakışta uzun ve karmaşık görünebilir. ENGİN360, konuları sade bir düzene ayırarak ne öğreneceğini, hangi sırayla ilerleyeceğini ve konuların birbiriyle nasıl bağlantı kurduğunu daha kolay görmeni sağlar.</p>
+    <div class="promo-points">
+      <span class="promo-pill">Konuyu tanı</span>
+      <span class="promo-pill">Mantığını anla</span>
+      <span class="promo-pill">Planlı ilerle</span>
+      <span class="promo-pill">Kalıcı öğren</span>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <span class="footer-brand">ENGİN360</span>
+  <div class="footer-title">Müfredatı daha kolay takip etmek için hazırlandı.</div>
+  <div class="footer-text">Bu sayfadaki konu ve tema başlıkları Millî Eğitim Bakanlığı öğretim programları temel alınarak özetlenmiştir. Resmî programlarda yapılabilecek güncellemelerde MEB kaynakları esas alınır.</div>
+</footer>
+
+
+<div class="social-contact" aria-label="ENGİN360 sosyal medya bağlantıları">
+  <a class="whatsapp" href="https://wa.me/905348165015?text=Merhaba%20ENG%C4%B0N360%2C%20bilgi%20almak%20istiyorum." target="_blank" rel="noopener noreferrer" aria-label="ENGİN360 WhatsApp: 0534 816 50 15">
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M20.3 11.7a8.3 8.3 0 0 1-12.2 7.35L4 20l1.05-3.95A8.3 8.3 0 1 1 20.3 11.7Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+      <path d="M8.25 7.75c.35-.4.8-.3 1.05.1l1 1.65c.2.35.15.7-.15 1l-.65.65c.6 1.2 1.55 2.15 2.75 2.75l.65-.65c.3-.3.65-.35 1-.15l1.65 1c.4.25.5.7.1 1.05-.7.65-1.55.95-2.45.8-3.2-.5-6.15-3.45-6.65-6.65-.15-.9.15-1.75.8-2.45Z" fill="currentColor"/>
+    </svg>
+    <span class="contact-label">WhatsApp<small>0534 816 50 15</small></span>
+  </a>
+  <a class="instagram" href="https://www.instagram.com/www_engin360_com/" target="_blank" rel="noopener noreferrer" aria-label="ENGİN360 Instagram: @www_engin360_com">
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.8"/>
+      <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.8"/>
+      <circle cx="17.4" cy="6.7" r="1.1" fill="currentColor"/>
+    </svg>
+    <span class="contact-label">Instagram<small>@www_engin360_com</small></span>
+  </a>
+</div>
+
+</body>
+</html>

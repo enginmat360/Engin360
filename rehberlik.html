@@ -122,29 +122,6 @@ button{font:inherit}
   font-size:14px;
   line-height:1.6;
 }
-.hero-stats{display:flex;flex-wrap:wrap;gap:8px;margin-top:17px}
-.stat{
-  padding:8px 11px;
-  border-radius:12px;
-  background:rgba(5,9,28,.42);
-  border:1px solid var(--line);
-  font-size:10.5px;
-  font-weight:850;
-  color:#e6ecff;
-}
-.info-note{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  padding:13px 15px;
-  margin:12px 0 15px;
-  border:1px solid rgba(255,99,183,.20);
-  border-radius:18px;
-  background:linear-gradient(90deg,rgba(255,78,174,.07),rgba(92,111,255,.07));
-}
-.info-note strong{font-size:12px}
-.info-note span{color:#b9c3de;font-size:10.5px}
 .accordion{display:grid;gap:10px}
 .group{
   --c1:255,78,174;
@@ -194,6 +171,7 @@ button{font:inherit}
 .group:nth-child(2){--c1:255,76,181;--c2:153,83,255}
 .group:nth-child(3){--c1:69,147,255;--c2:48,222,255}
 .group:nth-child(4){--c1:85,224,155;--c2:39,187,255}
+
 .group-head{
   width:100%;
   border:0;
@@ -307,7 +285,84 @@ button{font:inherit}
   .group-head{padding:13px 12px}
   .group-icon{width:44px;height:44px;font-size:22px}
   .group-copy small{font-size:9.5px}
-  .info-note{align-items:flex-start;flex-direction:column}
+}
+
+
+.mufredat-track{
+  position:relative;
+  z-index:2;
+  display:inline-flex;
+  align-items:center;
+  gap:11px;
+  margin-top:20px;
+  padding:11px 16px;
+  border-radius:999px;
+  color:#fff;
+  font-size:13px;
+  font-weight:950;
+  letter-spacing:.2px;
+  border:1px solid rgba(109,235,255,.72);
+  background:linear-gradient(90deg,rgba(233,77,255,.14),rgba(112,80,255,.18),rgba(34,211,238,.13));
+  box-shadow:
+    0 0 8px rgba(34,211,238,.48),
+    0 0 18px rgba(168,85,247,.32),
+    0 0 32px rgba(233,77,255,.16),
+    inset 0 0 16px rgba(255,255,255,.035);
+  overflow:hidden;
+  transition:.2s ease;
+}
+.mufredat-track::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(105deg,transparent 20%,rgba(255,255,255,.20) 45%,transparent 67%);
+  transform:translateX(-120%);
+  animation:mufredatShine 3.4s ease-in-out infinite;
+  pointer-events:none;
+}
+.mufredat-track:hover{
+  transform:translateY(-1px) scale(1.01);
+  box-shadow:
+    0 0 11px rgba(34,211,238,.62),
+    0 0 25px rgba(168,85,247,.42),
+    0 0 40px rgba(233,77,255,.22);
+}
+.mufredat-track .track-icon{
+  font-size:18px;
+  filter:drop-shadow(0 0 7px rgba(34,211,238,.55));
+}
+.mufredat-track .track-title{
+  background:linear-gradient(90deg,#ffd6f2,#d8c4ff,#91f2ff);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+.mufredat-track .track-grades{
+  padding-left:10px;
+  margin-left:1px;
+  border-left:1px solid rgba(255,255,255,.16);
+  color:#aebee0;
+  font-size:10px;
+  font-weight:850;
+  letter-spacing:.8px;
+}
+.mufredat-track .track-arrow{
+  color:#7beaff;
+  font-size:17px;
+  text-shadow:0 0 8px rgba(34,211,238,.7);
+}
+@keyframes mufredatShine{
+  0%,58%{transform:translateX(-120%)}
+  82%,100%{transform:translateX(120%)}
+}
+@media(max-width:650px){
+  .mufredat-track{
+    margin-top:17px;
+    padding:10px 13px;
+    gap:8px;
+    font-size:12px;
+  }
+  .mufredat-track .track-grades{font-size:9px;padding-left:8px}
 }
 </style>
 </head>
@@ -325,23 +380,20 @@ button{font:inherit}
     <div class="eyebrow">🧭 PLANLA · UYGULA · GELİŞİMİNİ TAKİP ET</div>
     <h1>Çalışmanı <span>planla, eksiklerini bul, netlerini artır.</span></h1>
     <p>Haftalık programını oluştur, ders ve konu eksiklerini belirle, tekrarlarını planla ve sınav sürecini daha bilinçli yönet.</p>
-    <div class="hero-stats">
-      <span class="stat">🗓️ Planlama</span>
-      <span class="stat">🎯 Eksik analizi</span>
-      <span class="stat">📊 Net takibi</span>
-      <span class="stat">🧭 Sınav stratejisi</span>
-    </div>
+    <a class="mufredat-track" href="maarif-modeli-mufredat-engin360.html">
+      <span class="track-icon">📘</span>
+      <span class="track-title">Müfredat Takibi</span>
+      <span class="track-grades">9 · 10 · 11 · 12</span>
+      <span class="track-arrow">›</span>
+    </a>
+
   </section>
 
-  <div class="info-note">
-    <strong>Rehberlik araçları kategorilere ayrıldı.</strong>
-    <span>Bir kategori açıldığında diğerleri otomatik kapanır.</span>
-  </div>
 
   <section class="accordion">
 
-    <article class="group open">
-      <button class="group-head" type="button" aria-expanded="true">
+    <article class="group">
+      <button class="group-head" type="button" aria-expanded="false">
         <span class="group-icon">🗓️</span>
         <span class="group-copy">
           <span class="group-title"><strong>Haftalık Planlama ve Takip</strong><span class="count">3 araç</span></span>
