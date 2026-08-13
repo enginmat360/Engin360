@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#07101f">
+<title>ENGİN360 — MEB Resmî Kaynak Merkezi</title>
+<style>
+:root{
+  --bg:#06101f;
+  --bg2:#08172a;
+  --card:rgba(11,24,45,.80);
+  --text:#f7fbff;
+  --muted:#8fa2bd;
+  --line:rgba(255,255,255,.09);
+  --blue:#3b82f6;
+  --cyan:#22d3ee;
+  --red:#ef4444;
+  --green:#34d399;
+  --violet:#8b5cf6;
+  --amber:#f59e0b;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  min-height:100vh;
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(circle at 9% 0%,rgba(59,130,246,.15),transparent 28rem),
+    radial-gradient(circle at 91% 5%,rgba(239,68,68,.10),transparent 25rem),
+    radial-gradient(circle at 52% 30%,rgba(34,211,238,.07),transparent 31rem),
+    linear-gradient(180deg,#07111f,#040a13 76%);
+}
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  opacity:.22;
+  background-image:
+    linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+  background-size:38px 38px;
+  mask-image:linear-gradient(#000,transparent 86%);
+}
+a{color:inherit;text-decoration:none}
+.shell{
+  position:relative;
+  width:min(1100px,calc(100% - 22px));
+  margin:auto;
+  padding:14px 0 38px;
+}
+.topbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:12px;
+}
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.brand-logo{
+  width:50px;height:50px;
+  display:grid;place-items:center;
+  border-radius:16px;
+  font-size:13px;
+  font-weight:950;
+  background:linear-gradient(135deg,#2563eb,#0ea5e9 56%,#ef4444);
+  box-shadow:0 0 22px rgba(59,130,246,.22);
+}
+.brand strong{display:block;font-size:18px}
+.brand small{
+  display:block;
+  margin-top:3px;
+  color:#7285a5;
+  font-size:8px;
+  font-weight:850;
+  letter-spacing:1.25px;
+}
+.home{
+  padding:9px 11px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:rgba(255,255,255,.025);
+  color:#c3cee0;
+  font-size:9px;
+  font-weight:850;
+}
+.hero{
+  position:relative;
+  overflow:hidden;
+  padding:25px 23px;
+  border-radius:27px;
+  border:1px solid rgba(255,255,255,.11);
+  background:
+    radial-gradient(circle at 10% 14%,rgba(59,130,246,.22),transparent 38%),
+    radial-gradient(circle at 94% 7%,rgba(239,68,68,.12),transparent 36%),
+    linear-gradient(132deg,rgba(19,43,79,.92),rgba(8,20,40,.96));
+  box-shadow:0 18px 48px rgba(0,0,0,.27);
+}
+.hero::before{
+  content:"";
+  position:absolute;
+  left:7%;right:7%;top:0;height:2px;
+  background:linear-gradient(90deg,transparent,#3b82f6,#22d3ee,#ef4444,transparent);
+  box-shadow:0 0 16px rgba(34,211,238,.22);
+}
+.kicker{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  padding:6px 10px;
+  border-radius:999px;
+  border:1px solid rgba(34,211,238,.20);
+  background:rgba(34,211,238,.055);
+  color:#a7efff;
+  font-size:8px;
+  font-weight:950;
+  letter-spacing:1px;
+}
+.hero h1{
+  margin:12px 0 7px;
+  font-size:clamp(28px,6vw,48px);
+  line-height:1.02;
+  letter-spacing:-1.2px;
+}
+.hero h1 span{
+  background:linear-gradient(90deg,#8ec5ff,#77efff,#ffd0d0);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+.hero p{
+  margin:0;
+  max-width:760px;
+  color:#a8b6cb;
+  font-size:11.5px;
+  line-height:1.6;
+}
+.official-note{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-top:14px;
+  color:#7f93b2;
+  font-size:8.5px;
+  font-weight:800;
+}
+.official-note i{
+  width:8px;height:8px;
+  border-radius:50%;
+  background:#34d399;
+  box-shadow:0 0 9px rgba(52,211,153,.60);
+}
+
+.featured{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px;
+  margin-top:12px;
+}
+.feature{
+  --c:59,130,246;
+  position:relative;
+  overflow:hidden;
+  min-height:150px;
+  padding:17px;
+  border-radius:21px;
+  border:1px solid rgba(var(--c),.27);
+  background:
+    radial-gradient(circle at 90% 10%,rgba(var(--c),.12),transparent 38%),
+    linear-gradient(135deg,rgba(var(--c),.06),rgba(8,16,34,.88));
+  box-shadow:0 11px 30px rgba(0,0,0,.17);
+  transition:.2s ease;
+}
+.feature:nth-child(2){--c:34,211,238}
+.feature:nth-child(3){--c:239,68,68}
+.feature:hover{
+  transform:translateY(-3px);
+  border-color:rgba(var(--c),.48);
+  box-shadow:0 16px 34px rgba(0,0,0,.22),0 0 22px rgba(var(--c),.09);
+}
+.feature-icon{
+  width:44px;height:44px;
+  display:grid;place-items:center;
+  border-radius:14px;
+  font-size:21px;
+  background:rgba(var(--c),.10);
+  border:1px solid rgba(var(--c),.19);
+}
+.feature strong{
+  display:block;
+  margin-top:12px;
+  font-size:14px;
+}
+.feature p{
+  margin:5px 0 0;
+  color:#889ab6;
+  font-size:9px;
+  line-height:1.48;
+}
+.open-arrow{
+  position:absolute;
+  right:14px;
+  top:14px;
+  color:rgb(var(--c));
+  font-size:17px;
+}
+
+.section-title{
+  display:flex;
+  align-items:end;
+  justify-content:space-between;
+  gap:12px;
+  margin:24px 2px 10px;
+}
+.section-title strong{font-size:14px}
+.section-title span{color:#647795;font-size:8px}
+.cards{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:9px;
+}
+.card{
+  --c:59,130,246;
+  display:flex;
+  align-items:center;
+  gap:13px;
+  min-height:102px;
+  padding:14px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:18px;
+  background:
+    radial-gradient(circle at 94% 4%,rgba(var(--c),.07),transparent 34%),
+    rgba(10,21,40,.72);
+  transition:.18s ease;
+}
+.card:hover{
+  transform:translateY(-2px);
+  border-color:rgba(var(--c),.30);
+  box-shadow:0 0 20px rgba(var(--c),.06);
+}
+.card-icon{
+  width:48px;height:48px;
+  flex:none;
+  display:grid;place-items:center;
+  border-radius:15px;
+  font-size:22px;
+  background:rgba(var(--c),.09);
+  border:1px solid rgba(var(--c),.17);
+}
+.card-copy{min-width:0;flex:1}
+.card-copy strong{display:block;font-size:11px}
+.card-copy p{
+  margin:5px 0 0;
+  color:#8192ae;
+  font-size:8.5px;
+  line-height:1.45;
+}
+.tag{
+  display:inline-block;
+  margin-top:7px;
+  padding:3px 6px;
+  border-radius:999px;
+  background:rgba(var(--c),.075);
+  border:1px solid rgba(var(--c),.15);
+  color:rgb(var(--c));
+  font-size:6.8px;
+  font-weight:950;
+  letter-spacing:.5px;
+}
+.card .go{
+  flex:none;
+  color:#7890b5;
+  font-size:17px;
+}
+.card:nth-child(2n){--c:34,211,238}
+.card:nth-child(3n){--c:139,92,246}
+.card:nth-child(4n){--c:52,211,153}
+.card:nth-child(5n){--c:245,158,11}
+.card:nth-child(6n){--c:239,68,68}
+
+.footer-note{
+  margin-top:18px;
+  padding:12px 14px;
+  border-radius:15px;
+  border:1px solid rgba(255,255,255,.06);
+  background:rgba(255,255,255,.018);
+  color:#7183a0;
+  font-size:8px;
+  line-height:1.5;
+}
+.footer{
+  margin:18px 0 0;
+  text-align:center;
+  color:#4f607d;
+  font-size:7px;
+  letter-spacing:.7px;
+}
+
+@media(max-width:760px){
+  .featured{grid-template-columns:1fr}
+  .feature{min-height:120px}
+}
+@media(max-width:620px){
+  .shell{width:min(100% - 14px,1100px);padding-top:9px}
+  .hero{padding:20px 16px;border-radius:22px}
+  .cards{grid-template-columns:1fr}
+  .section-title{align-items:flex-start;flex-direction:column;gap:3px}
+  .brand strong{font-size:16px}
+  .brand-logo{width:45px;height:45px}
+}
+</style>
+</head>
+<body>
+<main class="shell">
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-logo">E360</div>
+      <div>
+        <strong>ENGİN360</strong>
+        <small>MEB RESMÎ KAYNAK MERKEZİ</small>
+      </div>
+    </div>
+    <a class="home" href="index.html">← Ana Sayfa</a>
+  </header>
+
+  <section class="hero">
+    <div class="kicker">✓ RESMÎ MEB / EBA KAYNAKLARI</div>
+    <h1>Kaynak arama. <span>Doğru kaynağa git.</span></h1>
+    <p>Ders kitapları, MEBİ, YKS denemeleri, soru bankaları ve MEB'in ücretsiz çalışma materyallerine tek ekrandan ulaş.</p>
+    <div class="official-note"><i></i> Kartlar Millî Eğitim Bakanlığı ve EBA'nın resmî sayfalarına yönlendirir.</div>
+  </section>
+
+  <section class="featured">
+    <a class="feature" href="https://mebi.eba.gov.tr/" target="_blank" rel="noopener noreferrer">
+      <span class="open-arrow">↗</span>
+      <div class="feature-icon">🧠</div>
+      <strong>MEBİ</strong>
+      <p>Okul dersleri, YKS hazırlık, deneme, çalışma planı, video çözümler ve kişisel öğrenme araçları.</p>
+    </a>
+
+    <a class="feature" href="https://ogmmateryal.eba.gov.tr/etkilesimli-kitaplar" target="_blank" rel="noopener noreferrer">
+      <span class="open-arrow">↗</span>
+      <div class="feature-icon">📚</div>
+      <strong>MEB Ders Kitapları</strong>
+      <p>9, 10, 11 ve 12. sınıf için MEB tarafından hazırlanan etkileşimli ders kitaplarına ulaş.</p>
+    </a>
+
+    <a class="feature" href="https://ogmmateryal.eba.gov.tr/mebi-yks-denemeleri" target="_blank" rel="noopener noreferrer">
+      <span class="open-arrow">↗</span>
+      <div class="feature-icon">📝</div>
+      <strong>MEBİ YKS Denemeleri</strong>
+      <p>TYT, AYT ve YDT için MEBİ'nin yayımladığı resmî YKS denemelerine git.</p>
+    </a>
+  </section>
+
+  <div class="section-title">
+    <strong>YKS Hazırlık</strong>
+    <span>Deneme · test · çıkmış soru · pekiştirme</span>
+  </div>
+
+  <section class="cards">
+    <a class="card" href="https://ogmmateryal.eba.gov.tr/YKSHazirlik" target="_blank" rel="noopener noreferrer">
+      <div class="card-icon">🎯</div>
+      <div class="card-copy">
+        <strong>YKS Hazırlık Merkezi</strong>
+        <p>OGM Materyal üzerindeki tüm YKS kaynaklarının ana merkezi.</p>
+        <span class="tag">OGM MATERYAL</span>
+      </div>
+      <span class="go">›</span>
+    </a>
+
+    <a class="card" href="https://ogmmateryal.eba.gov.tr/mebi-tarama-testi-kitaplari" target="_blank" rel="noopener noreferrer">
+      <div class="card-icon">🔎</div>
+      <div class="card-copy">
+        <strong>MEBİ Tarama Testi Kitapları</strong>
+        <p>TYT, AYT ve YDT tarama testleriyle konu durumunu kontrol et.</p>
+        <span class="tag">YENİ</span>
+      </div>
+      <span class="go">›</span>
+    </a>
+
+    <a class="card" href="https://ogmmateryal.eba.gov.tr/yks-cikmis-soru-kitaplari" target="_blank" rel="noopener noreferrer">
+      <div class="card-icon">📖</div>
+      <div class="card-copy">
+        <strong>YKS Çıkmış Soru Kitapları</strong>
+        <p>Geçmiş YKS sorularını kitap düzeninde incele ve çöz.</p>
+        <span class="tag">ÇIKMIŞ SORULAR</span>
+      </div>
+      <span class="go">›</span>
+    </a>
+
+    <a class="card" href="https://ogmmateryal.eba.gov.tr/yks-konu-pekistirme" target="_blank" rel="noopener noreferrer">
+      <div class="card-icon">✅</div>
+      <div class="card-copy">
+        <strong>Dört Dörtlük Konu Pekiştirme</strong>
+        <p>Konu çalışmasından sonra MEB'in pekiştirme testleriyle kontrol yap.</p>
+        <span class="tag">PEKİŞTİRME</span>
+      </div>
+      <span class="go">›</span>
+    </a>
+
+    <a class="card" href="https://ogmmateryal.eba.gov.tr/yks-uc-adim-deneme" target="_blank" rel="noopener noreferrer">
+      <div class="card-icon">⏱️</div>
+      <div class="card-copy">
+        <strong>3 Adım Deneme Sınavları</strong>
+        <p>OGM Materyal'in güncel 3 Adım YKS deneme sınavlarına ulaş.</p>
+        <span class="tag">DENEME</span>
+      </div>
+      <span class="go">›</span>
+    </a>
+
+    <a class="card" href="https://ogmmateryal.eba.gov.tr/yks-uc-adim" target="_blank" rel="noopener noreferrer">
+      <div class="card-icon">🧩</div>
+      <div class="card-copy">
+        <strong>3 Adım Soru Bankası</strong>
+        <p>Konuları kademeli soru setleriyle tekrar et ve güçlendir.</p>
+        <span class="tag">SORU BANKASI</span>
+      </div>
+      <span class="go">›</span>
+    </a>
+  </section>
+
+  <div class="section-title">
+    <strong>Okul Dersleri ve Günlük Çalışma</strong>
+    <span>Kitap · soru bankası · özet · yazılı</span>
+  </div>
+
+  <section class="cards">
+    <a class="card" href="https://ogmmateryal.eba.gov.tr/soru-bankasi" target="_blank" rel="noopener noreferrer">
+      <div class="card-icon">❓</div>
+      <div class="card-copy">
+        <strong>MEB Soru Bankası</strong>
+        <p>Ders, sınıf, ünite ve konuya göre düzenlenmiş resmî soru bankası.</p>
+        <span class="tag">SORU ÇÖZ</span>
+      </div>
+      <span class="go">›</span>
+    </a>
+
+    <a class="card" href="https://ogmmateryal.eba.gov.tr/konu-ozetleri" target="_blank" rel="noopener noreferrer">
+      <div class="card-icon">🗒️</div>
+      <div class="card-copy">
+        <strong>Konu Özetleri</strong>
+        <p>Ortaöğretim derslerine ait kısa konu özetleri ve içindeki sorular.</p>
+        <span class="tag">HIZLI TEKRAR</span>
+      </div>
+      <span class="go">›</span>
+    </a>
+
+    <a class="card" href="https://ogmmateryal.eba.gov.tr/kazanim-kavrama-etkinlikleri" target="_blank" rel="noopener noreferrer">
+      <div class="card-icon">🧠</div>
+      <div class="card-copy">
+        <strong>Kazanım Kavrama Etkinlikleri</strong>
+        <p>Öğretim programı kazanımlarını pekiştirmeye yönelik MEB etkinlikleri.</p>
+        <span class="tag">KAZANIM</span>
+      </div>
+      <span class="go">›</span>
+    </a>
+
+    <a class="card" href="https://ogmmateryal.eba.gov.tr/yaziliya-hazirlaniyorum" target="_blank" rel="noopener noreferrer">
+      <div class="card-icon">✍️</div>
+      <div class="card-copy">
+        <strong>Yazılıya Hazırlanıyorum</strong>
+        <p>Okul yazılılarına hazırlık için örnek soru, video ve PDF içerikleri.</p>
+        <span class="tag">OKUL SINAVI</span>
+      </div>
+      <span class="go">›</span>
+    </a>
+
+    <a class="card" href="https://ogmmateryal.eba.gov.tr/beceri-temelli-kitaplar" target="_blank" rel="noopener noreferrer">
+      <div class="card-icon">📘</div>
+      <div class="card-copy">
+        <strong>Beceri Temelli Kitaplar</strong>
+        <p>Dersleri yeni nesil ve bağlamlı etkinliklerle destekleyen resmî kitaplar.</p>
+        <span class="tag">BECERİ TEMELLİ</span>
+      </div>
+      <span class="go">›</span>
+    </a>
+
+    <a class="card" href="https://ogmmateryal.eba.gov.tr/yks-deneme-sinavlari" target="_blank" rel="noopener noreferrer">
+      <div class="card-icon">💻</div>
+      <div class="card-copy">
+        <strong>Çevrim İçi YKS Denemeleri</strong>
+        <p>TYT, AYT ve YDT denemelerine, soru dosyalarına ve çözümlere ulaş.</p>
+        <span class="tag">ÇEVRİM İÇİ</span>
+      </div>
+      <span class="go">›</span>
+    </a>
+  </section>
+
+  <div class="footer-note">
+    ENGİN360 bu içerikleri barındırmaz; yalnızca öğrenciyi Millî Eğitim Bakanlığı / EBA / OGM Materyal'in resmî sayfalarına yönlendirir. Dış bağlantılar yeni sekmede açılır.
+  </div>
+
+  <footer class="footer">ENGİN360 © 2026 · MEB Resmî Kaynak Merkezi</footer>
+</main>
+</body>
+</html>

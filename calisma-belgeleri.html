@@ -132,19 +132,6 @@ button{font:inherit}
   font-weight:850;
   color:#e6ecff;
 }
-.info-note{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  padding:13px 15px;
-  margin:12px 0 15px;
-  border:1px solid rgba(255,99,183,.20);
-  border-radius:18px;
-  background:linear-gradient(90deg,rgba(255,78,174,.07),rgba(92,111,255,.07));
-}
-.info-note strong{font-size:12px}
-.info-note span{color:#b9c3de;font-size:10.5px}
 .accordion{display:grid;gap:10px}
 .group{
   --c1:255,78,174;
@@ -308,8 +295,101 @@ button{font:inherit}
   .group-head{padding:13px 12px}
   .group-icon{width:44px;height:44px;font-size:22px}
   .group-copy small{font-size:9.5px}
-  .info-note{align-items:flex-start;flex-direction:column}
 }
+
+/* ===== ENGİN360 MEB KAYNAKLARI ÜST KARTI ===== */
+.meb-feature-card{
+  position:relative;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  gap:15px;
+  margin:0 0 14px;
+  padding:16px 18px;
+  min-height:94px;
+  border-radius:22px;
+  border:1.5px solid rgba(63,180,255,.58);
+  background:
+    radial-gradient(circle at 10% 20%,rgba(59,130,246,.19),transparent 36%),
+    radial-gradient(circle at 94% 8%,rgba(239,68,68,.12),transparent 38%),
+    linear-gradient(135deg,rgba(12,28,59,.96),rgba(8,16,36,.97));
+  box-shadow:
+    0 0 7px rgba(34,211,238,.24),
+    0 0 18px rgba(59,130,246,.13),
+    0 14px 34px rgba(0,0,0,.24);
+  transition:.22s ease;
+}
+.meb-feature-card::before{
+  content:"";
+  position:absolute;
+  left:7%;right:7%;top:0;height:2px;
+  background:linear-gradient(90deg,transparent,#3b82f6,#22d3ee,#ef4444,transparent);
+  box-shadow:0 0 13px rgba(34,211,238,.28);
+}
+.meb-feature-card:hover{
+  transform:translateY(-2px);
+  border-color:rgba(76,201,255,.78);
+  box-shadow:
+    0 0 10px rgba(34,211,238,.34),
+    0 0 24px rgba(59,130,246,.17),
+    0 17px 38px rgba(0,0,0,.28);
+}
+.meb-feature-icon{
+  width:58px;height:58px;
+  flex:none;
+  display:grid;place-items:center;
+  border-radius:18px;
+  font-size:27px;
+  background:
+    radial-gradient(circle at 30% 20%,rgba(255,255,255,.17),transparent 35%),
+    linear-gradient(135deg,rgba(59,130,246,.46),rgba(34,211,238,.17));
+  border:1px solid rgba(83,208,255,.35);
+  box-shadow:0 0 16px rgba(59,130,246,.16);
+}
+.meb-feature-copy{min-width:0;flex:1}
+.meb-feature-kicker{
+  display:inline-block;
+  margin-bottom:4px;
+  color:#78eaff;
+  font-size:8px;
+  font-weight:950;
+  letter-spacing:1.05px;
+}
+.meb-feature-copy strong{
+  display:block;
+  font-size:15px;
+  color:#f7fbff;
+}
+.meb-feature-copy p{
+  margin:5px 0 0;
+  color:#9aacc8;
+  font-size:10px;
+  line-height:1.45;
+}
+.meb-feature-go{
+  width:38px;height:38px;
+  flex:none;
+  display:grid;place-items:center;
+  border-radius:12px;
+  color:#7cecff;
+  font-size:21px;
+  border:1px solid rgba(34,211,238,.27);
+  background:rgba(34,211,238,.06);
+  box-shadow:0 0 10px rgba(34,211,238,.10);
+}
+@media(max-width:650px){
+  .meb-feature-card{
+    padding:14px;
+    min-height:86px;
+    border-radius:19px;
+    gap:12px;
+  }
+  .meb-feature-icon{width:50px;height:50px;font-size:23px;border-radius:16px}
+  .meb-feature-copy strong{font-size:13px}
+  .meb-feature-copy p{font-size:9px}
+  .meb-feature-go{width:34px;height:34px}
+}
+
 </style>
 </head>
 <body>
@@ -334,15 +414,20 @@ button{font:inherit}
     </div>
   </section>
 
-  <div class="info-note">
-    <strong>Çalışma kaynakları kategorilere ayrıldı.</strong>
-    <span>Bir kategori açıldığında diğerleri otomatik kapanır.</span>
-  </div>
 
-  <section class="accordion">
+  <a class="meb-feature-card" href="meb-kaynak-merkezi.html">
+    <div class="meb-feature-icon">🏛️</div>
+    <div class="meb-feature-copy">
+      <span class="meb-feature-kicker">RESMÎ MEB / EBA KAYNAKLARI</span>
+      <strong>MEB Kaynakları & MEB Denemeleri</strong>
+      <p>Ders kitapları, MEBİ, YKS denemeleri, soru bankaları, çıkmış sorular ve resmî çalışma materyallerine ulaş.</p>
+    </div>
+    <div class="meb-feature-go">›</div>
+  </a>
+<section class="accordion">
 
-    <article class="group open">
-      <button class="group-head" type="button" aria-expanded="true">
+    <article class="group">
+      <button class="group-head" type="button" aria-expanded="false">
         <span class="group-icon">🎯</span>
         <span class="group-copy">
           <span class="group-title"><strong>Ders Bazlı Çalışma Rehberleri</strong><span class="count">1 merkez</span></span>
